@@ -1347,10 +1347,7 @@ namespace Balya_Yerleştirme
             }
         }
 
-        private void PlaceHolder()
-        {
 
-        }
 
         private void txt_Width_TextChanged(object sender, EventArgs e)
         {
