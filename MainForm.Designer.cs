@@ -174,6 +174,7 @@
             btn_PLC_Connection = new ToolStripButton();
             toolStripButtonShowCellTag = new ToolStripButton();
             toolStripBTN_ExportToExcel = new ToolStripButton();
+            toolStripButton1 = new ToolStripButton();
             Balya_Context_Menu_Strip = new ContextMenuStrip(components);
             depodakiNesneleriGörüntüleToolStripMenuItem = new ToolStripMenuItem();
             errorProvider = new ErrorProvider(components);
@@ -192,6 +193,7 @@
             btn_PLC_ConnectionPanel_Kapat = new Button();
             btn_PLC_Barkod_Oku = new Krypton.Toolkit.KryptonButton();
             PLC_Timer = new System.Windows.Forms.Timer(components);
+            balyayıAlToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)Nesne_Yerlestirme_First_Panel).BeginInit();
             Nesne_Yerlestirme_First_Panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)combo_Tur_Kodu).BeginInit();
@@ -240,7 +242,7 @@
             Nesne_Yerlestirme_First_Panel.Controls.Add(Line_Mal_2);
             Nesne_Yerlestirme_First_Panel.Controls.Add(txt_Item_Agirligi);
             Nesne_Yerlestirme_First_Panel.Controls.Add(btn_Nesne_Yerlestirme_First_Panel_Kapat);
-            Nesne_Yerlestirme_First_Panel.Location = new Point(216, 6);
+            Nesne_Yerlestirme_First_Panel.Location = new Point(708, 1006);
             Nesne_Yerlestirme_First_Panel.Name = "Nesne_Yerlestirme_First_Panel";
             Nesne_Yerlestirme_First_Panel.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
             Nesne_Yerlestirme_First_Panel.Size = new Size(364, 909);
@@ -656,10 +658,6 @@
             // 
             DrawingPanel.BackColor = Color.Azure;
             DrawingPanel.Controls.Add(infopanel);
-            DrawingPanel.Controls.Add(Nesne_Yerlestirme_First_Panel);
-            DrawingPanel.Controls.Add(PLC_Sim_Panel);
-            DrawingPanel.Controls.Add(Nesne_Al_First_Panel);
-            DrawingPanel.Controls.Add(PLC_DB_AdressPanel);
             DrawingPanel.Location = new Point(12, 91);
             DrawingPanel.Name = "DrawingPanel";
             DrawingPanel.Size = new Size(1880, 909);
@@ -993,7 +991,7 @@
             PLC_Sim_Panel.Controls.Add(kryptonBorderEdge24);
             PLC_Sim_Panel.Controls.Add(BorderEdge_BarkodOku_Bottom);
             PLC_Sim_Panel.Controls.Add(btn_PLC_Sim_Panel_Kapat);
-            PLC_Sim_Panel.Location = new Point(586, 3);
+            PLC_Sim_Panel.Location = new Point(1078, 1006);
             PLC_Sim_Panel.Name = "PLC_Sim_Panel";
             PLC_Sim_Panel.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
             PLC_Sim_Panel.Size = new Size(364, 909);
@@ -1283,7 +1281,7 @@
             Nesne_Al_First_Panel.Controls.Add(btn_Nesne_Bul_Vazgec);
             Nesne_Al_First_Panel.Controls.Add(btn_Nesne_Bul);
             Nesne_Al_First_Panel.Controls.Add(btn_Nesne_Al_First_Panel_Kapat);
-            Nesne_Al_First_Panel.Location = new Point(973, 3);
+            Nesne_Al_First_Panel.Location = new Point(1448, 1006);
             Nesne_Al_First_Panel.Name = "Nesne_Al_First_Panel";
             Nesne_Al_First_Panel.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
             Nesne_Al_First_Panel.Size = new Size(364, 909);
@@ -1744,7 +1742,7 @@
             PLC_DB_AdressPanel.Controls.Add(btn_DB_Onayla);
             PLC_DB_AdressPanel.Controls.Add(btn_PLC_DB_AddressPanel_Kapat);
             PLC_DB_AdressPanel.Controls.Add(txt_Nesne_Etiketi_DB_Address);
-            PLC_DB_AdressPanel.Location = new Point(1343, 6);
+            PLC_DB_AdressPanel.Location = new Point(1818, 1006);
             PLC_DB_AdressPanel.Name = "PLC_DB_AdressPanel";
             PLC_DB_AdressPanel.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
             PLC_DB_AdressPanel.Size = new Size(364, 909);
@@ -2028,7 +2026,7 @@
             ToolStrip.Dock = DockStyle.None;
             ToolStrip.Font = new Font("Segoe UI", 9F);
             ToolStrip.ImageScalingSize = new Size(30, 30);
-            ToolStrip.Items.AddRange(new ToolStripItem[] { toolStripSeparator, toolStripBTN_Layout_Sec, toolStripSeparator1, btn_PLC_Connection, toolStripButtonShowCellTag, toolStripBTN_ExportToExcel });
+            ToolStrip.Items.AddRange(new ToolStripItem[] { toolStripSeparator, toolStripBTN_Layout_Sec, toolStripSeparator1, btn_PLC_Connection, toolStripButtonShowCellTag, toolStripBTN_ExportToExcel, toolStripButton1 });
             ToolStrip.Location = new Point(12, 12);
             ToolStrip.Name = "ToolStrip";
             ToolStrip.Size = new Size(364, 73);
@@ -2089,19 +2087,30 @@
             toolStripBTN_ExportToExcel.ToolTipText = "Excel Çıktısı Al";
             toolStripBTN_ExportToExcel.Click += toolStripBTN_ExportToExcel_Click;
             // 
+            // toolStripButton1
+            // 
+            toolStripButton1.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripButton1.Image = (Image)resources.GetObject("toolStripButton1.Image");
+            toolStripButton1.ImageTransparentColor = Color.Magenta;
+            toolStripButton1.Name = "toolStripButton1";
+            toolStripButton1.Size = new Size(59, 70);
+            toolStripButton1.Text = "addDepo";
+            toolStripButton1.TextImageRelation = TextImageRelation.TextBeforeImage;
+            toolStripButton1.Click += toolStripButton1_Click;
+            // 
             // Balya_Context_Menu_Strip
             // 
             Balya_Context_Menu_Strip.Font = new Font("Segoe UI", 9F);
-            Balya_Context_Menu_Strip.Items.AddRange(new ToolStripItem[] { depodakiNesneleriGörüntüleToolStripMenuItem });
+            Balya_Context_Menu_Strip.Items.AddRange(new ToolStripItem[] { depodakiNesneleriGörüntüleToolStripMenuItem, balyayıAlToolStripMenuItem });
             Balya_Context_Menu_Strip.Name = "contextMenuStrip1";
-            Balya_Context_Menu_Strip.Size = new Size(233, 26);
+            Balya_Context_Menu_Strip.Size = new Size(182, 70);
             // 
             // depodakiNesneleriGörüntüleToolStripMenuItem
             // 
             depodakiNesneleriGörüntüleToolStripMenuItem.Image = Resources.Resource1.Question_Mark;
             depodakiNesneleriGörüntüleToolStripMenuItem.Name = "depodakiNesneleriGörüntüleToolStripMenuItem";
-            depodakiNesneleriGörüntüleToolStripMenuItem.Size = new Size(232, 22);
-            depodakiNesneleriGörüntüleToolStripMenuItem.Text = "Depodaki Nesneleri Görüntüle";
+            depodakiNesneleriGörüntüleToolStripMenuItem.Size = new Size(181, 22);
+            depodakiNesneleriGörüntüleToolStripMenuItem.Text = "Özellikleri Görüntüle";
             depodakiNesneleriGörüntüleToolStripMenuItem.Click += depodakiNesneleriGörüntüleToolStripMenuItem_Click;
             // 
             // errorProvider
@@ -2119,7 +2128,7 @@
             lbl_Main_Title.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Bold, GraphicsUnit.Point, 162);
             lbl_Main_Title.ForeColor = Color.Red;
             lbl_Main_Title.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Main_Title.Location = new Point(840, 12);
+            lbl_Main_Title.Location = new Point(870, 12);
             lbl_Main_Title.Name = "lbl_Main_Title";
             lbl_Main_Title.Size = new Size(569, 73);
             lbl_Main_Title.StateCommon.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Bold, GraphicsUnit.Point, 162);
@@ -2169,7 +2178,7 @@
             // 
             ProgressBarPanel.Controls.Add(ProgressBar_Title);
             ProgressBarPanel.Controls.Add(progressBar);
-            ProgressBarPanel.Location = new Point(697, 12);
+            ProgressBarPanel.Location = new Point(1423, 8);
             ProgressBarPanel.Name = "ProgressBarPanel";
             ProgressBarPanel.Size = new Size(189, 73);
             ProgressBarPanel.TabIndex = 20;
@@ -2286,15 +2295,26 @@
             // 
             PLC_Timer.Tick += PLC_Timer_Tick;
             // 
+            // balyayıAlToolStripMenuItem
+            // 
+            balyayıAlToolStripMenuItem.Name = "balyayıAlToolStripMenuItem";
+            balyayıAlToolStripMenuItem.Size = new Size(181, 22);
+            balyayıAlToolStripMenuItem.Text = "balyayı al";
+            balyayıAlToolStripMenuItem.Click += balyayıAlToolStripMenuItem_Click_1;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightGray;
             ClientSize = new Size(1904, 1041);
+            Controls.Add(Nesne_Yerlestirme_First_Panel);
             Controls.Add(btn_PLC_Barkod_Oku);
+            Controls.Add(PLC_Sim_Panel);
             Controls.Add(PLC_Connection_Panel);
+            Controls.Add(Nesne_Al_First_Panel);
             Controls.Add(ProgressBarPanel);
+            Controls.Add(PLC_DB_AdressPanel);
             Controls.Add(btn_Layout_Olustur);
             Controls.Add(lbl_Main_Title);
             Controls.Add(ToolStrip);
@@ -2515,5 +2535,7 @@
         public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge15;
         public Krypton.Toolkit.KryptonBorderEdge BorderEdge_NesneAl;
         private Krypton.Toolkit.KryptonComboBox combo_Tur_Kodu;
+        private ToolStripButton toolStripButton1;
+        private ToolStripMenuItem balyayıAlToolStripMenuItem;
     }
 }

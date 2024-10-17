@@ -1,4 +1,5 @@
 ﻿using Balya_Yerleştirme.Models;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Krypton.Toolkit;
 using Microsoft.Identity.Client;
 using System;
@@ -114,7 +115,7 @@ namespace Balya_Yerleştirme.Utilities
             return char.ToUpper(str[0], CultureInfo.CurrentCulture) + str.Substring(1).ToLower(CultureInfo.CurrentCulture);
         }
 
-        public static Point MoveControlInsidePanel(Control control, Panel panel, 
+        public static Point MoveControlInsidePanel(System.Windows.Forms.Control control, Panel panel, 
             string SolAlt_SolÜst_SağAlt_SağÜst_Merkez)
         {
             if (SolAlt_SolÜst_SağAlt_SağÜst_Merkez == "Sol Alt")
@@ -143,13 +144,13 @@ namespace Balya_Yerleştirme.Utilities
             }
         }
 
-        public static Point CenterControlInsidePanelX(Control control, Panel panel)
+        public static Point CenterControlInsidePanelX(System.Windows.Forms.Control control, Panel panel)
         {
             return new Point(panel.Width / 2 - control.Width / 2, control.Location.Y);
         }
 
-        public static Point MoveControltoSidesofAnotherControl(Control movedControl, 
-            Control referenceControl, int paddingBetweenControls, string Sol_Sağ_Alt_Üst)
+        public static Point MoveControltoSidesofAnotherControl(System.Windows.Forms.Control movedControl,
+            System.Windows.Forms.Control referenceControl, int paddingBetweenControls, string Sol_Sağ_Alt_Üst)
         {
             if (Sol_Sağ_Alt_Üst == "Sol")
             {
@@ -177,22 +178,22 @@ namespace Balya_Yerleştirme.Utilities
             }
         }
 
-        public static void CenterTwoControlInsidePanel(Control control, Control secondControl, 
+        public static void CenterTwoControlInsidePanel(System.Windows.Forms.Control control, System.Windows.Forms.Control secondControl, 
             int Padding, Panel panel)
         {
             control.Location = new Point((panel.Width / 2 - control.Width) - Padding, (panel.Height / 2 - control.Height / 2));
             secondControl.Location = new Point(control.Right + Padding, control.Location.Y);
         }
 
-        public static void CenterTwoControlHorizontallyInsidePanel(Control control, 
-            Control secondControl, int Padding, Panel panel, int LocationY)
+        public static void CenterTwoControlHorizontallyInsidePanel(System.Windows.Forms.Control control,
+            System.Windows.Forms.Control secondControl, int Padding, Panel panel, int LocationY)
         {
             control.Location = new Point((panel.Width / 2 - control.Width - Padding), LocationY);
             secondControl.Location = new Point((panel.Width / 2 + Padding), LocationY);
         }
 
-        public static void CenterThreeControlHorizontallyInsidePanel(Control control, 
-            Control secondControl, Control thirdControl, int padding, Panel panel, 
+        public static void CenterThreeControlHorizontallyInsidePanel(System.Windows.Forms.Control control,
+            System.Windows.Forms.Control secondControl, System.Windows.Forms.Control thirdControl, int padding, Panel panel, 
             int LocationY)
         {
             int sidepadding = panel.Width - (control.Width + padding * 2 + secondControl.Width + thirdControl.Width);
@@ -204,15 +205,15 @@ namespace Balya_Yerleştirme.Utilities
             }
         }
 
-        public static void CenterTwoControlVerticallyInsidePanel(Control control, 
-            Control secondControl, int Padding, Panel panel, int LocationX)
+        public static void CenterTwoControlVerticallyInsidePanel(System.Windows.Forms.Control control,
+            System.Windows.Forms.Control secondControl, int Padding, Panel panel, int LocationX)
         {
             control.Location = new Point(LocationX - Padding, panel.Height / 2 - control.Height / 2);
             secondControl.Location = new Point(control.Right + Padding, control.Location.Y);
         }
 
-        public static void CenterTwoControlVerticallyStackedInsidePanel(Control control, 
-            Control secondControl, int Padding, Panel panel, int LocationX)
+        public static void CenterTwoControlVerticallyStackedInsidePanel(System.Windows.Forms.Control control,
+            System.Windows.Forms.Control secondControl, int Padding, Panel panel, int LocationX)
         {
             control.Location = 
                 new Point(LocationX, panel.Height / 2 - control.Height - Padding);
@@ -220,8 +221,8 @@ namespace Balya_Yerleştirme.Utilities
             secondControl.Location = new Point(LocationX, panel.Height / 2 + Padding);
         }
 
-        public static void CenterThreeControlVerticallyStackedInsidePanel(Control control, 
-            Control secondControl, Control thirdControl, int Padding, Panel panel, 
+        public static void CenterThreeControlVerticallyStackedInsidePanel(System.Windows.Forms.Control control,
+            System.Windows.Forms.Control secondControl, System.Windows.Forms.Control thirdControl, int Padding, Panel panel, 
             int LocationX)
         {
             control.Location = new Point(LocationX, panel.Height / 2 - control.Height * 3 - Padding);
@@ -254,7 +255,7 @@ namespace Balya_Yerleştirme.Utilities
             panel.Location = new Point(12, 91);
         }
 
-        public static void ShowSidePanel(Control ShowControl, Control ParentControl)
+        public static void ShowSidePanel(System.Windows.Forms.Control ShowControl, System.Windows.Forms.Control ParentControl)
         {
             ShowControl.Visible = true;
             ShowControl.Enabled = true;
@@ -263,7 +264,7 @@ namespace Balya_Yerleştirme.Utilities
             ShowControl.Location = new Point(12, 108);
         }
 
-        public static void HideSingleSidePanel(Control SidePanel, Control ParentPanel)
+        public static void HideSingleSidePanel(System.Windows.Forms.Control SidePanel, System.Windows.Forms.Control ParentPanel)
         {
             SidePanel.Hide();
             SidePanel.Enabled = false;
@@ -271,7 +272,7 @@ namespace Balya_Yerleştirme.Utilities
             ParentPanel.Controls.Remove(SidePanel);
         }
 
-        public static void RemoveControlfromPanelAddItToAnotherPanel(Control control, 
+        public static void RemoveControlfromPanelAddItToAnotherPanel(System.Windows.Forms.Control control, 
             Panel removepanel, Panel addpanel)
         {
             removepanel.Controls.Remove(control);
@@ -281,12 +282,12 @@ namespace Balya_Yerleştirme.Utilities
             control.Show();
         }
 
-        public static void CenterVertically(Control control, Panel panel)
+        public static void CenterVertically(System.Windows.Forms.Control control, Panel panel)
         {
             control.Location = new Point(control.Location.X, panel.Height / 2 - control.Height / 2);
         }
 
-        public static void CenterHorizontally(Control control, Panel panel)
+        public static void CenterHorizontally(System.Windows.Forms.Control control, Panel panel)
         {
             control.Location = new Point(panel.Width / 2 - control.Width / 2, control.Location.Y);
         }
@@ -309,7 +310,7 @@ namespace Balya_Yerleştirme.Utilities
         }
 
         public static void DrawVerticalStringRepeated
-            (Graphics g, string text, RectangleF rect, Font font, Brush brush, int spacing)
+            (Graphics g, string text, RectangleF rect, System.Drawing.Font font, Brush brush, int spacing)
         {
             GraphicsState state = g.Save();
 
@@ -341,7 +342,7 @@ namespace Balya_Yerleştirme.Utilities
         }
 
         public static void DrawHorizontalStringRepeated
-            (Graphics g, string text, RectangleF rect, Font font, Brush brush, int spacing)
+            (Graphics g, string text, RectangleF rect, System.Drawing.Font font, Brush brush, int spacing)
         {
             GraphicsState state = g.Save();
 
@@ -368,7 +369,7 @@ namespace Balya_Yerleştirme.Utilities
 
         public static void PaintwithDashedPen(Rectangle zoomedRect, Graphics g)
         {
-            using (Pen dashedPen = new Pen(Color.Green, 2))
+            using (Pen dashedPen = new Pen(System.Drawing.Color.Green, 2))
             {
                 dashedPen.DashStyle = DashStyle.Dash;
 
@@ -376,10 +377,10 @@ namespace Balya_Yerleştirme.Utilities
             }
         }
 
-        public static void SetDoubleBuffered(Control control)
+        public static void SetDoubleBuffered(System.Windows.Forms.Control control)
         {
             System.Reflection.PropertyInfo doubleBufferPropertyInfo =
-                typeof(Control).GetProperty("DoubleBuffered",
+                typeof(System.Windows.Forms.Control).GetProperty("DoubleBuffered",
                 System.Reflection.BindingFlags.NonPublic |
                 System.Reflection.BindingFlags.Instance);
 
@@ -394,11 +395,11 @@ namespace Balya_Yerleştirme.Utilities
             }
         }
 
-        public static void ClearTextBoxes(Control control)
+        public static void ClearTextBoxes(System.Windows.Forms.Control control)
         {
             List<KryptonTextBox> list = new List<KryptonTextBox>();
 
-            foreach (Control textbox in control.Controls)
+            foreach (System.Windows.Forms.Control textbox in control.Controls)
             {
                 if (textbox is KryptonTextBox)
                 {
@@ -508,11 +509,11 @@ namespace Balya_Yerleştirme.Utilities
             return (Rectangle, OriginalRectangle, LocationofRect);
         }
 
-        public static Color AdjustToGrayShade(int value)
+        public static System.Drawing.Color AdjustToGrayShade(int value)
         {
             value = Math.Clamp(value, 0, 255);
 
-            return Color.FromArgb(value, value, value);
+            return System.Drawing.Color.FromArgb(value, value, value);
         }
 
         public static (float, float) ConvertRectanglesLocationtoCMInsideParentRectangle(
@@ -562,6 +563,548 @@ namespace Balya_Yerleştirme.Utilities
 
             return new PointF((parentRectangle.X + CmX - (childRectangle.Width / 2)), 
                 (parentRectangle.Y + CmY - (childRectangle.Height / 2)));
+        }
+
+
+
+
+
+        public static bool BotofDepoisFull(Depo depo)
+        {
+            bool isfull = false;
+            for (int i = ((depo.RowCount + 2) / 2); i < depo.RowCount + 2; i++)
+            {
+                foreach (var cell in depo.gridmaps)
+                {
+                    if (cell.Row == i && i >= ((depo.RowCount + 2) / 2))
+                    {
+                        if (cell.items.Count < depo.asama1_ItemSayisi)
+                        {
+                            isfull = true;
+                        }
+                    }
+                }
+            }
+            if (isfull)
+            {
+                return false;
+            }
+            return true;
+
+        }
+        public static bool TopofDepoisFull(Depo depo)
+        {
+            bool isfull = false;
+            for (int i = depo.RowCount / 2; i > 0; i--)
+            {
+                foreach (var cell in depo.gridmaps)
+                {
+                    if (cell.Row == i && i <= depo.RowCount / 2)
+                    {
+                        if (cell.items.Count < depo.asama1_ItemSayisi)
+                        {
+                            isfull = true;
+                        }
+                    }
+                }
+            }
+            if (isfull)
+            {
+                return false;
+            }
+            return true;
+        }
+        public static bool TopofDepoisFull2(Depo depo)
+        {
+            bool isfull = false;
+            for (int i = depo.RowCount / 2; i > 0; i--)
+            {
+                foreach (var cell in depo.gridmaps)
+                {
+                    if (cell.Row == i && i <= depo.RowCount / 2)
+                    {
+                        if (cell.items.Count < depo.asama2_ToplamItemSayisi)
+                        {
+                            isfull = true;
+                        }
+                    }
+                }
+            }
+            if (isfull)
+            {
+                return false;
+            }
+            return true;
+        }
+        public static bool BotofDepoisFull2(Depo depo)
+        {
+            bool isfull = false;
+            for (int i = ((depo.RowCount + 2) / 2); i < depo.RowCount + 2; i++)
+            {
+                foreach (var cell in depo.gridmaps)
+                {
+                    if (cell.Row == i && i >= ((depo.RowCount + 2) / 2))
+                    {
+                        if (cell.items.Count < depo.asama2_ToplamItemSayisi)
+                        {
+                            isfull = true;
+                        }
+                    }
+                }
+            }
+            if (isfull)
+            {
+                return false;
+            }
+            return true;
+
+        }
+        public static string CheckDepoParameters(Depo depo)
+        {
+            bool botStage1Full = BotofDepoisFull(depo);
+            bool botStage2Full = BotofDepoisFull2(depo);
+            bool topStage1Full = TopofDepoisFull(depo);
+            bool topStage2Full = TopofDepoisFull2(depo);
+
+            if (depo.itemDrop_StartLocation == "Ortadan")
+            {
+                if (botStage1Full && !topStage1Full && depo.currentStage == 1)
+                {
+                    if (depo.itemDrop_LeftRight == "Sağa Doğru")
+                    {
+                        return "Middle Up Right";
+                    }
+                    else if (depo.itemDrop_LeftRight == "Sola Doğru")
+                    {
+                        return "Middle Up Left";
+                    }
+                }
+                else if (!botStage1Full && topStage1Full && depo.currentStage == 1)
+                {
+                    if (depo.itemDrop_LeftRight == "Sağa Doğru")
+                    {
+                        return "Middle Down Right";
+                    }
+                    else if (depo.itemDrop_LeftRight == "Sola Doğru")
+                    {
+                        return "Middle Down Left";
+                    }
+                }
+                else if (botStage2Full && !topStage2Full && depo.currentStage == 2)
+                {
+                    if (depo.itemDrop_LeftRight == "Sağa Doğru")
+                    {
+                        return "Middle Up Right";
+                    }
+                    else if (depo.itemDrop_LeftRight == "Sola Doğru")
+                    {
+                        return "Middle Up Left";
+                    }
+                }
+                else if (!botStage2Full && topStage2Full && depo.currentStage == 2)
+                {
+                    if (depo.itemDrop_LeftRight == "Sağa Doğru")
+                    {
+                        return "Middle Down Right";
+                    }
+                    else if (depo.itemDrop_LeftRight == "Sola Doğru")
+                    {
+                        return "Middle Down Left";
+                    }
+                }
+                else if (!botStage1Full && !topStage1Full && depo.currentStage == 1)
+                {
+                    if (depo.itemDrop_UpDown == "Yukarı Doğru")
+                    {
+                        if (depo.itemDrop_LeftRight == "Sağa Doğru")
+                        {
+                            return "Middle Up Right";
+                        }
+                        else if (depo.itemDrop_LeftRight == "Sola Doğru")
+                        {
+                            return "Middle Up Left";
+                        }
+                    }
+                    else
+                    {
+                        if (depo.itemDrop_LeftRight == "Sağa Doğru")
+                        {
+                            return "Middle Down Right";
+                        }
+                        else if (depo.itemDrop_LeftRight == "Sola Doğru")
+                        {
+                            return "Middle Down Left";
+                        }
+                    }
+                }
+                else if (!botStage2Full && !topStage2Full && depo.currentStage == 2)
+                {
+                    if (depo.itemDrop_UpDown == "Yukarı Doğru")
+                    {
+                        if (depo.itemDrop_LeftRight == "Sağa Doğru")
+                        {
+                            return "Middle Up Right";
+                        }
+                        else if (depo.itemDrop_LeftRight == "Sola Doğru")
+                        {
+                            return "Middle Up Left";
+                        }
+                    }
+                    else
+                    {
+                        if (depo.itemDrop_LeftRight == "Sağa Doğru")
+                        {
+                            return "Middle Down Right";
+                        }
+                        else if (depo.itemDrop_LeftRight == "Sola Doğru")
+                        {
+                            return "Middle Down Left";
+                        }
+                    }
+                }
+            }
+            else if (depo.itemDrop_StartLocation == "Aşağıdan")
+            {
+                if (depo.itemDrop_LeftRight == "Sağa Doğru")
+                {
+                    return "Down Up Right";
+                }
+                else if (depo.itemDrop_LeftRight == "Sola Doğru")
+                {
+                    return "Down Up Left";
+                }
+            }
+            else if (depo.itemDrop_StartLocation == "Yukarıdan")
+            {
+                if (depo.itemDrop_LeftRight == "Sağa Doğru")
+                {
+                    return "Up Down Right";
+                }
+                else if (depo.itemDrop_LeftRight == "Sola Doğru")
+                {
+                    return "Up Down Left";
+                }
+            }
+            return "Sorun";
+        }
+        public static string CheckDepoStage(Depo depo)
+        {
+            bool isStage1 = false;
+            bool isStage2 = false;
+            bool isfull = false;
+
+            foreach (var cell in depo.gridmaps)
+            {
+                if (cell.items.Count < depo.asama1_ItemSayisi &&
+                    cell.items.Count >= 0)
+                {
+                    isStage1 = true;
+                }
+                else if (cell.items.Count >= depo.asama1_ItemSayisi &&
+                    cell.items.Count < depo.asama2_ToplamItemSayisi)
+                {
+                    isStage2 = true;
+                }
+            }
+            if (isStage1)
+            {
+                return "stage1";
+            }
+            else if (isStage2)
+            {
+                return "stage2";
+            }
+            else if (!isStage1 && !isStage2)
+            {
+                return "full";
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+        public static void SearchForPlace(Depo depo)
+        {
+            string param = CheckDepoParameters(depo);
+            string stage = CheckDepoStage(depo);
+            if (stage == "stage1")
+            {
+                depo.currentStage = 1;
+            }
+            else if (stage == "stage2")
+            {
+                depo.currentStage = 2;
+            }
+
+            if (param == "Down Up Right")
+            {
+                SearchThroughRight(false, true, depo);
+            }
+            else if (param == "Up Down Right")
+            {
+                SearchThroughRight(false, false, depo);
+            }
+            else if (param == "Middle Up Right")
+            {
+                SearchThroughRight(true, true, depo);
+            }
+            else if (param == "Middle Down Right")
+            {
+                SearchThroughRight(true, false, depo);
+            }
+
+            else if (param == "Down Up Left")
+            {
+                SearchThroughLeft(false, true, depo);
+            }
+            else if (param == "Middle Down Left")
+            {
+                SearchThroughLeft(true, false, depo);
+            }
+            else if (param == "Middle Up Left")
+            {
+                SearchThroughLeft(true, true, depo);
+            }
+            else if (param == "Up Down Left")
+            {
+                SearchThroughLeft(false, false, depo);
+            }
+        }
+        public static void SearchThroughRight(bool isMiddle, bool toUp, Depo depo)
+        {
+            List<Models.Cell> cells = new List<Models.Cell>();
+            int RowCount = 0;
+
+            if (depo.RowCount % 2 == 0)
+            {
+                if (isMiddle && toUp)
+                {
+                    RowCount = depo.RowCount / 2;
+                }
+                else if (isMiddle && !toUp)
+                {
+                    RowCount = depo.RowCount / 2 + 1;
+                }
+            }
+            else
+            {
+                RowCount = depo.RowCount / 2 + 1;
+            }
+
+            if (isMiddle && toUp)
+            {
+                for (int row = RowCount; row > 0; row--)
+                {
+                    for (int column = 1; column < depo.ColumnCount + 1; column++)
+                    {
+                        foreach (var cell in depo.gridmaps)
+                        {
+                            if (cell.Row == row && cell.Column == column)
+                            {
+                                cells.Add(cell);
+                            }
+                        }
+                    }
+                }
+            }
+            else if (isMiddle && !toUp)
+            {
+                for (int row = RowCount; row < depo.RowCount + 1; row++)
+                {
+                    for (int column = 1; column < depo.ColumnCount + 1; column++)
+                    {
+                        foreach (var cell in depo.gridmaps.AsEnumerable().Reverse())
+                        {
+                            if (cell.Row == row && cell.Column == column)
+                            {
+                                cells.Add(cell);
+                            }
+                        }
+                    }
+                }
+            }
+            else if (!isMiddle && toUp)
+            {
+                for (int row = depo.RowCount; row > 0; row--)
+                {
+                    for (int column = 1; column < depo.ColumnCount + 1; column++)
+                    {
+                        foreach (var cell in depo.gridmaps.AsEnumerable().Reverse())
+                        {
+                            if (cell.Row == row && cell.Column == column)
+                            {
+                                cells.Add(cell);
+                            }
+                        }
+                    }
+                }
+            }
+            else if (!isMiddle && !toUp)
+            {
+                for (int row = 0; row < depo.RowCount + 1; row++)
+                {
+                    for (int column = 1; column < depo.ColumnCount + 1; column++)
+                    {
+                        foreach (var cell in depo.gridmaps)
+                        {
+                            if (cell.Row == row && cell.Column == column)
+                            {
+                                cells.Add(cell);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (depo.currentStage == 1)
+            {
+                foreach (var addedCell in cells)
+                {
+                    if (addedCell.items.Count < depo.asama1_ItemSayisi && addedCell.items.Count > 0)
+                    {
+                        depo.currentColumn = addedCell.Column;
+                        depo.currentRow = addedCell.Row;
+                        break;
+                    }
+                    else if (addedCell.items.Count == 0)
+                    {
+                        depo.currentColumn = addedCell.Column;
+                        depo.currentRow = addedCell.Row;
+                        break;
+                    }
+                }
+            }
+            else if (depo.currentStage == 2)
+            {
+                foreach (var addedCell in cells)
+                {
+                    if (addedCell.items.Count >= depo.asama1_ItemSayisi &&
+                        addedCell.items.Count < depo.asama2_ToplamItemSayisi)
+                    {
+                        depo.currentColumn = addedCell.Column;
+                        depo.currentRow = addedCell.Row;
+                        break;
+                    }
+                }
+            }
+        }
+        public static void SearchThroughLeft(bool isMiddle, bool toUp, Depo depo)
+        {
+            List<Models.Cell> cells = new List<Models.Cell>();
+            int RowCount = 0;
+
+            if (depo.RowCount % 2 == 0)
+            {
+                if (isMiddle && toUp)
+                {
+                    RowCount = depo.RowCount / 2;
+                }
+                else if (isMiddle && !toUp)
+                {
+                    RowCount = depo.RowCount / 2 + 1;
+                }
+            }
+            else
+            {
+                RowCount = depo.RowCount / 2 + 1;
+            }
+
+            if (isMiddle && toUp)
+            {
+                for (int row = RowCount; row > 0; row--)
+                {
+                    for (int column = depo.ColumnCount; column > 0; column--)
+                    {
+                        foreach (var cell in depo.gridmaps)
+                        {
+                            if (cell.Row == row && cell.Column == column)
+                            {
+                                cells.Add(cell);
+                            }
+                        }
+                    }
+                }
+            }
+            else if (isMiddle && !toUp)
+            {
+                for (int row = RowCount; row < depo.RowCount + 1; row++)
+                {
+                    for (int column = depo.ColumnCount; column > 0; column--)
+                    {
+                        foreach (var cell in depo.gridmaps.AsEnumerable().Reverse())
+                        {
+                            if (cell.Row == row && cell.Column == column)
+                            {
+                                cells.Add(cell);
+                            }
+                        }
+                    }
+                }
+            }
+            else if (!isMiddle && toUp)
+            {
+                for (int row = depo.RowCount; row > 0; row--)
+                {
+                    for (int column = depo.ColumnCount; column > 0; column--)
+                    {
+                        foreach (var cell in depo.gridmaps.AsEnumerable().Reverse())
+                        {
+                            if (cell.Row == row && cell.Column == column)
+                            {
+                                cells.Add(cell);
+                            }
+                        }
+                    }
+                }
+            }
+            else if (!isMiddle && !toUp)
+            {
+                for (int row = 0; row < depo.RowCount + 1; row++)
+                {
+                    for (int column = depo.ColumnCount; column > 0; column--)
+                    {
+                        foreach (var cell in depo.gridmaps)
+                        {
+                            if (cell.Row == row && cell.Column == column)
+                            {
+                                cells.Add(cell);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (depo.currentStage == 1)
+            {
+                foreach (var addedCell in cells)
+                {
+                    if (addedCell.items.Count < depo.asama1_ItemSayisi && addedCell.items.Count > 0)
+                    {
+                        depo.currentColumn = addedCell.Column;
+                        depo.currentRow = addedCell.Row;
+                        break;
+                    }
+                    else if (addedCell.items.Count == 0)
+                    {
+                        depo.currentColumn = addedCell.Column;
+                        depo.currentRow = addedCell.Row;
+                        break;
+                    }
+                }
+            }
+            else if (depo.currentStage == 2)
+            {
+                foreach (var addedCell in cells)
+                {
+                    if (addedCell.items.Count >= depo.asama1_ItemSayisi &&
+                        addedCell.items.Count < depo.asama2_ToplamItemSayisi)
+                    {
+                        depo.currentColumn = addedCell.Column;
+                        depo.currentRow = addedCell.Row;
+                        break;
+                    }
+                }
+            }
         }
     }
 }

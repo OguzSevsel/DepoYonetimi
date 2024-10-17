@@ -3760,26 +3760,7 @@ namespace Balya_Yerleştirme
             GVisual.HideControl(txt_Top_Padding, PaddingPanel);
             GVisual.HideControl(txt_Bottom_Padding, PaddingPanel);
         }
-        //public void MoveTextboxes(float deltaX, float deltaY)
-        //{
-        //    txt_Width.Location = new Point((int)(txt_Width.Location.X + deltaX),
-        //        (int)(txt_Width.Location.Y + deltaY));
-
-        //    txt_Height.Location = new Point((int)(txt_Height.Location.X + deltaX),
-        //        (int)(txt_Height.Location.Y + deltaY));
-
-        //    txt_Left_Padding.Location = new Point((int)(txt_Left_Padding.Location.X + deltaX),
-        //        (int)(txt_Left_Padding.Location.Y + deltaY));
-
-        //    txt_Right_Padding.Location = new Point((int)(txt_Right_Padding.Location.X + deltaX),
-        //        (int)(txt_Right_Padding.Location.Y + deltaY));
-
-        //    txt_Top_Padding.Location = new Point((int)(txt_Top_Padding.Location.X + deltaX),
-        //        (int)(txt_Top_Padding.Location.Y + deltaY));
-
-        //    txt_Bottom_Padding.Location = new Point((int)(txt_Bottom_Padding.Location.X + deltaX),
-        //        (int)(txt_Bottom_Padding.Location.Y + deltaY));
-        //}
+        
         public void AdjustTextboxesText(string? txt_width, string? txt_height, string? txt_left_padding,
             string? txt_right_padding, string? txt_top_padding, string? txt_bottom_padding)
         {

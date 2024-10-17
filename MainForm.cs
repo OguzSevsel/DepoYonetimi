@@ -93,7 +93,7 @@ namespace Balya_Yerleştirme
         private const float minZoom = 1f;
 
         Point ProgressBarPoint = new Point(379, 12);
-        Point ProgressBarPointLayoutOlustur = new Point(1563, 8);
+        Point ProgressBarPointLayoutOlustur = new Point(1423, 8);
 
         public float opcount = 0;
         public bool yerBul = false;
@@ -121,6 +121,8 @@ namespace Balya_Yerleştirme
             DrawingPanel.MouseWheel += DrawingPanel_MouseWheel;
             btn_PLC_ConnectionPanel_Kapat_Click(this, EventArgs.Empty);
         }
+
+
 
         //Adding Items According to Parameters
         public void AddItemtoCell(Models.Cell? cell1, string item_etiketi, string item_aciklamasi,
@@ -224,618 +226,393 @@ namespace Balya_Yerleştirme
                 }
             }
         }
+        //public void MoveRightOneColumn(Depo depo)
+        //{
+        //    if (depo.currentColumn != depo.ColumnCount)
+        //    {
+        //        depo.currentColumn++;
+        //    }
+        //    else
+        //    {
+        //        depo.currentColumn = 1;
+        //    }
+        //}
+        //public void MoveLeftOneColumn(Depo depo)
+        //{
+        //    if (depo.currentColumn != 1)
+        //    {
+        //        depo.currentColumn--;
+        //    }
+        //    else
+        //    {
+        //        depo.currentColumn = depo.ColumnCount;
+        //    }
+        //}
+        //public void MoveDownOneRow(Depo depo, bool isMiddle)
+        //{
+        //    string param = CheckDepoParameters(depo);
+        //    if (isMiddle && depo.currentRow == depo.RowCount)
+        //    {
+        //        if (depo.RowCount % 2 == 0)
+        //        {
+        //            if (param == "Middle Up Right")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2;
+        //            }
+        //            else if (param == "Middle Up Left")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2;
+        //            }
+        //            else if (param == "Middle Down Right")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2 + 1;
+        //            }
+        //            else if (param == "Middle Down Left")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2 + 1;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (param == "Middle Up Right")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2;
+        //            }
+        //            else if (param == "Middle Up Left")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2;
+        //            }
+        //            else if (param == "Middle Down Right")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2 + 1;
+        //            }
+        //            else if (param == "Middle Down Left")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2 + 1;
+        //            }
+        //        }
+        //    }
+        //    else if (isMiddle && depo.currentRow == 1)
+        //    {
+        //        if (depo.RowCount % 2 == 0)
+        //        {
+        //            if (param == "Middle Up Right")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2;
+        //            }
+        //            else if (param == "Middle Up Left")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2;
+        //            }
+        //            else if (param == "Middle Down Right")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2 + 1;
+        //            }
+        //            else if (param == "Middle Down Left")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2 + 1;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (param == "Middle Up Right")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2;
+        //            }
+        //            else if (param == "Middle Up Left")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2;
+        //            }
+        //            else if (param == "Middle Down Right")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2 + 2;
+        //            }
+        //            else if (param == "Middle Down Left")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2 + 2;
+        //            }
+        //        }
+        //    }
+        //    else if (isMiddle && depo.currentRow != 1 && depo.currentRow != depo.RowCount)
+        //    {
+        //        depo.currentRow++;
+        //    }
+        //    else
+        //    {
+        //        if (depo.currentRow != depo.RowCount)
+        //        {
+        //            depo.currentRow++;
+        //        }
+        //        else
+        //        {
+        //            depo.currentRow = 1;
+        //        }
+        //    }
+        //}
+        //public void MoveUpOneRow(Depo depo, bool isMiddle)
+        //{
+        //    string param = CheckDepoParameters(depo);
+        //    if (isMiddle && depo.currentRow == depo.RowCount)
+        //    {
+        //        if (depo.RowCount % 2 == 0)
+        //        {
+        //            if (param == "Middle Up Right")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2;
+        //            }
+        //            else if (param == "Middle Up Left")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2;
+        //            }
+        //            else if (param == "Middle Down Right")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2 + 1;
+        //            }
+        //            else if (param == "Middle Down Left")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2 + 1;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (param == "Middle Up Right")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2;
+        //            }
+        //            else if (param == "Middle Up Left")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2;
+        //            }
+        //            else if (param == "Middle Down Right")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2 + 2;
+        //            }
+        //            else if (param == "Middle Down Left")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2 + 2;
+        //            }
+        //        }
+        //    }
+        //    else if (isMiddle && depo.currentRow == 1)
+        //    {
+        //        if (depo.RowCount % 2 == 0)
+        //        {
+        //            if (param == "Middle Up Right")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2;
+        //            }
+        //            else if (param == "Middle Up Left")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2;
+        //            }
+        //            else if (param == "Middle Down Right")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2 + 1;
+        //            }
+        //            else if (param == "Middle Down Left")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2 + 1;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (param == "Middle Up Right")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2;
+        //            }
+        //            else if (param == "Middle Up Left")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2;
+        //            }
+        //            else if (param == "Middle Down Right")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2 + 2;
+        //            }
+        //            else if (param == "Middle Down Left")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2 + 2;
+        //            }
+        //        }
+        //    }
+        //    else if (isMiddle && depo.currentRow != 1 && depo.currentRow != depo.RowCount)
+        //    {
+        //        depo.currentRow--;
+        //    }
+        //    else
+        //    {
+        //        if (depo.currentRow != 0)
+        //        {
+        //            depo.currentRow--;
+        //        }
+        //        else
+        //        {
+        //            depo.currentRow = depo.RowCount;
+        //        }
+        //    }
+        //}
+        //public void SetColumnStartPosition(Depo depo)
+        //{
+        //    string param = CheckDepoParameters(depo);
 
-        public void MoveRightOneColumn(Depo depo)
-        {
-            if (depo.currentColumn != depo.ColumnCount)
-            {
-                depo.currentColumn++;
-            }
-            else
-            {
-                depo.currentColumn = 1;
-            }
-        }
-        public void MoveLeftOneColumn(Depo depo)
-        {
-            if (depo.currentColumn != 1)
-            {
-                depo.currentColumn--;
-            }
-            else
-            {
-                depo.currentColumn = depo.ColumnCount;
-            }
-        }
-        public void MoveDownOneRow(Depo depo, bool isMiddle)
-        {
-            string param = CheckDepoParameters(depo);
-            if (isMiddle && depo.currentRow == depo.RowCount)
-            {
-                if (depo.RowCount % 2 == 0)
-                {
-                    if (param == "Middle Up Right")
-                    {
-                        depo.currentRow = depo.RowCount / 2;
-                    }
-                    else if (param == "Middle Up Left")
-                    {
-                        depo.currentRow = depo.RowCount / 2;
-                    }
-                    else if (param == "Middle Down Right")
-                    {
-                        depo.currentRow = depo.RowCount / 2 + 1;
-                    }
-                    else if (param == "Middle Down Left")
-                    {
-                        depo.currentRow = depo.RowCount / 2 + 1;
-                    }
-                }
-                else
-                {
-                    if (param == "Middle Up Right")
-                    {
-                        depo.currentRow = depo.RowCount / 2;
-                    }
-                    else if (param == "Middle Up Left")
-                    {
-                        depo.currentRow = depo.RowCount / 2;
-                    }
-                    else if (param == "Middle Down Right")
-                    {
-                        depo.currentRow = depo.RowCount / 2 + 1;
-                    }
-                    else if (param == "Middle Down Left")
-                    {
-                        depo.currentRow = depo.RowCount / 2 + 1;
-                    }
-                }
-            }
-            else if (isMiddle && depo.currentRow == 1)
-            {
-                if (depo.RowCount % 2 == 0)
-                {
-                    if (param == "Middle Up Right")
-                    {
-                        depo.currentRow = depo.RowCount / 2;
-                    }
-                    else if (param == "Middle Up Left")
-                    {
-                        depo.currentRow = depo.RowCount / 2;
-                    }
-                    else if (param == "Middle Down Right")
-                    {
-                        depo.currentRow = depo.RowCount / 2 + 1;
-                    }
-                    else if (param == "Middle Down Left")
-                    {
-                        depo.currentRow = depo.RowCount / 2 + 1;
-                    }
-                }
-                else
-                {
-                    if (param == "Middle Up Right")
-                    {
-                        depo.currentRow = depo.RowCount / 2;
-                    }
-                    else if (param == "Middle Up Left")
-                    {
-                        depo.currentRow = depo.RowCount / 2;
-                    }
-                    else if (param == "Middle Down Right")
-                    {
-                        depo.currentRow = depo.RowCount / 2 + 2;
-                    }
-                    else if (param == "Middle Down Left")
-                    {
-                        depo.currentRow = depo.RowCount / 2 + 2;
-                    }
-                }
-            }
-            else if (isMiddle && depo.currentRow != 1 && depo.currentRow != depo.RowCount)
-            {
-                depo.currentRow++;
-            }
-            else
-            {
-                if (depo.currentRow != depo.RowCount)
-                {
-                    depo.currentRow++;
-                }
-                else
-                {
-                    depo.currentRow = 1;
-                }
-            }
-        }
-        public void MoveUpOneRow(Depo depo, bool isMiddle)
-        {
-            string param = CheckDepoParameters(depo);
-            if (isMiddle && depo.currentRow == depo.RowCount)
-            {
-                if (depo.RowCount % 2 == 0)
-                {
-                    if (param == "Middle Up Right")
-                    {
-                        depo.currentRow = depo.RowCount / 2;
-                    }
-                    else if (param == "Middle Up Left")
-                    {
-                        depo.currentRow = depo.RowCount / 2;
-                    }
-                    else if (param == "Middle Down Right")
-                    {
-                        depo.currentRow = depo.RowCount / 2 + 1;
-                    }
-                    else if (param == "Middle Down Left")
-                    {
-                        depo.currentRow = depo.RowCount / 2 + 1;
-                    }
-                }
-                else
-                {
-                    if (param == "Middle Up Right")
-                    {
-                        depo.currentRow = depo.RowCount / 2;
-                    }
-                    else if (param == "Middle Up Left")
-                    {
-                        depo.currentRow = depo.RowCount / 2;
-                    }
-                    else if (param == "Middle Down Right")
-                    {
-                        depo.currentRow = depo.RowCount / 2 + 2;
-                    }
-                    else if (param == "Middle Down Left")
-                    {
-                        depo.currentRow = depo.RowCount / 2 + 2;
-                    }
-                }
-            }
-            else if (isMiddle && depo.currentRow == 1)
-            {
-                if (depo.RowCount % 2 == 0)
-                {
-                    if (param == "Middle Up Right")
-                    {
-                        depo.currentRow = depo.RowCount / 2;
-                    }
-                    else if (param == "Middle Up Left")
-                    {
-                        depo.currentRow = depo.RowCount / 2;
-                    }
-                    else if (param == "Middle Down Right")
-                    {
-                        depo.currentRow = depo.RowCount / 2 + 1;
-                    }
-                    else if (param == "Middle Down Left")
-                    {
-                        depo.currentRow = depo.RowCount / 2 + 1;
-                    }
-                }
-                else
-                {
-                    if (param == "Middle Up Right")
-                    {
-                        depo.currentRow = depo.RowCount / 2;
-                    }
-                    else if (param == "Middle Up Left")
-                    {
-                        depo.currentRow = depo.RowCount / 2;
-                    }
-                    else if (param == "Middle Down Right")
-                    {
-                        depo.currentRow = depo.RowCount / 2 + 2;
-                    }
-                    else if (param == "Middle Down Left")
-                    {
-                        depo.currentRow = depo.RowCount / 2 + 2;
-                    }
-                }
-            }
-            else if (isMiddle && depo.currentRow != 1 && depo.currentRow != depo.RowCount)
-            {
-                depo.currentRow--;
-            }
-            else
-            {
-                if (depo.currentRow != 0)
-                {
-                    depo.currentRow--;
-                }
-                else
-                {
-                    depo.currentRow = depo.RowCount;
-                }
-            }
-        }
-        public void SetColumnStartPosition(Depo depo)
-        {
-            string param = CheckDepoParameters(depo);
+        //    if (param == "Middle Down Right")
+        //    {
+        //        depo.currentColumn = 1;
+        //    }
+        //    else if (param == "Middle Down Left")
+        //    {
+        //        depo.currentColumn = depo.ColumnCount;
+        //    }
+        //    else if (param == "Middle Up Right")
+        //    {
+        //        depo.currentColumn = 1;
+        //    }
+        //    else if (param == "Middle Up Left")
+        //    {
+        //        depo.currentColumn = depo.ColumnCount;
+        //    }
+        //    else if (param == "Down Up Right")
+        //    {
+        //        depo.currentColumn = 1;
+        //    }
+        //    else if (param == "Down Up Left")
+        //    {
+        //        depo.currentColumn = depo.ColumnCount;
+        //    }
+        //    else if (param == "Up Down Right")
+        //    {
+        //        depo.currentColumn = 1;
+        //    }
+        //    else if (param == "Up Down Left")
+        //    {
+        //        depo.currentColumn = depo.ColumnCount;
+        //    }
+        //}
+        //public void SetRowStartPosition(Depo depo)
+        //{
+        //    string param = CheckDepoParameters(depo);
+        //    if (param == "Middle Down Right")
+        //    {
+        //        if (depo.RowCount % 2 == 0)
+        //        {
+        //            depo.currentRow = depo.RowCount / 2 + 1;
+        //        }
+        //        else
+        //        {
+        //            if (param == "Middle Up Right")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2;
+        //            }
+        //            else if (param == "Middle Up Left")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2;
+        //            }
+        //            else if (param == "Middle Down Right")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2 + 2;
+        //            }
+        //            else if (param == "Middle Down Left")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2 + 2;
+        //            }
+        //        }
+        //    }
+        //    else if (param == "Middle Down Left")
+        //    {
+        //        if (depo.RowCount % 2 == 0)
+        //        {
+        //            depo.currentRow = depo.RowCount / 2 + 1;
+        //        }
+        //        else
+        //        {
+        //            if (param == "Middle Up Right")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2;
+        //            }
+        //            else if (param == "Middle Up Left")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2;
+        //            }
+        //            else if (param == "Middle Down Right")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2 + 2;
+        //            }
+        //            else if (param == "Middle Down Left")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2 + 2;
+        //            }
+        //        }
+        //    }
+        //    else if (param == "Middle Up Left")
+        //    {
+        //        if (depo.RowCount % 2 == 0)
+        //        {
+        //            depo.currentRow = depo.RowCount / 2;
+        //        }
+        //        else
+        //        {
+        //            if (param == "Middle Up Right")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2;
+        //            }
+        //            else if (param == "Middle Up Left")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2;
+        //            }
+        //            else if (param == "Middle Down Right")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2 + 2;
+        //            }
+        //            else if (param == "Middle Down Left")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2 + 2;
+        //            }
+        //        }
+        //    }
+        //    else if (param == "Middle Up Right")
+        //    {
+        //        if (depo.RowCount % 2 == 0)
+        //        {
+        //            depo.currentRow = depo.RowCount / 2;
+        //        }
+        //        else
+        //        {
+        //            if (param == "Middle Up Right")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2;
+        //            }
+        //            else if (param == "Middle Up Left")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2;
+        //            }
+        //            else if (param == "Middle Down Right")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2 + 2;
+        //            }
+        //            else if (param == "Middle Down Left")
+        //            {
+        //                depo.currentRow = depo.RowCount / 2 + 2;
+        //            }
+        //        }
+        //    }
+        //    else if (param == "Down Up Right")
+        //    {
+        //        depo.currentRow = depo.RowCount;
+        //    }
+        //    else if (param == "Down Up Left")
+        //    {
+        //        depo.currentRow = depo.RowCount;
+        //    }
+        //    else if (param == "Up Down Right")
+        //    {
+        //        depo.currentRow = 1;
+        //    }
+        //    else if (param == "Up Down Left")
+        //    {
+        //        depo.currentRow = 1;
+        //    }
 
-            if (param == "Middle Down Right")
-            {
-                depo.currentColumn = 1;
-            }
-            else if (param == "Middle Down Left")
-            {
-                depo.currentColumn = depo.ColumnCount;
-            }
-            else if (param == "Middle Up Right")
-            {
-                depo.currentColumn = 1;
-            }
-            else if (param == "Middle Up Left")
-            {
-                depo.currentColumn = depo.ColumnCount;
-            }
-            else if (param == "Down Up Right")
-            {
-                depo.currentColumn = 1;
-            }
-            else if (param == "Down Up Left")
-            {
-                depo.currentColumn = depo.ColumnCount;
-            }
-            else if (param == "Up Down Right")
-            {
-                depo.currentColumn = 1;
-            }
-            else if (param == "Up Down Left")
-            {
-                depo.currentColumn = depo.ColumnCount;
-            }
-        }
-        public void SetRowStartPosition(Depo depo)
-        {
-            string param = CheckDepoParameters(depo);
-            if (param == "Middle Down Right")
-            {
-                if (depo.RowCount % 2 == 0)
-                {
-                    depo.currentRow = depo.RowCount / 2 + 1;
-                }
-                else
-                {
-                    if (param == "Middle Up Right")
-                    {
-                        depo.currentRow = depo.RowCount / 2;
-                    }
-                    else if (param == "Middle Up Left")
-                    {
-                        depo.currentRow = depo.RowCount / 2;
-                    }
-                    else if (param == "Middle Down Right")
-                    {
-                        depo.currentRow = depo.RowCount / 2 + 2;
-                    }
-                    else if (param == "Middle Down Left")
-                    {
-                        depo.currentRow = depo.RowCount / 2 + 2;
-                    }
-                }
-            }
-            else if (param == "Middle Down Left")
-            {
-                if (depo.RowCount % 2 == 0)
-                {
-                    depo.currentRow = depo.RowCount / 2 + 1;
-                }
-                else
-                {
-                    if (param == "Middle Up Right")
-                    {
-                        depo.currentRow = depo.RowCount / 2;
-                    }
-                    else if (param == "Middle Up Left")
-                    {
-                        depo.currentRow = depo.RowCount / 2;
-                    }
-                    else if (param == "Middle Down Right")
-                    {
-                        depo.currentRow = depo.RowCount / 2 + 2;
-                    }
-                    else if (param == "Middle Down Left")
-                    {
-                        depo.currentRow = depo.RowCount / 2 + 2;
-                    }
-                }
-            }
-            else if (param == "Middle Up Left")
-            {
-                if (depo.RowCount % 2 == 0)
-                {
-                    depo.currentRow = depo.RowCount / 2;
-                }
-                else
-                {
-                    if (param == "Middle Up Right")
-                    {
-                        depo.currentRow = depo.RowCount / 2;
-                    }
-                    else if (param == "Middle Up Left")
-                    {
-                        depo.currentRow = depo.RowCount / 2;
-                    }
-                    else if (param == "Middle Down Right")
-                    {
-                        depo.currentRow = depo.RowCount / 2 + 2;
-                    }
-                    else if (param == "Middle Down Left")
-                    {
-                        depo.currentRow = depo.RowCount / 2 + 2;
-                    }
-                }
-            }
-            else if (param == "Middle Up Right")
-            {
-                if (depo.RowCount % 2 == 0)
-                {
-                    depo.currentRow = depo.RowCount / 2;
-                }
-                else
-                {
-                    if (param == "Middle Up Right")
-                    {
-                        depo.currentRow = depo.RowCount / 2;
-                    }
-                    else if (param == "Middle Up Left")
-                    {
-                        depo.currentRow = depo.RowCount / 2;
-                    }
-                    else if (param == "Middle Down Right")
-                    {
-                        depo.currentRow = depo.RowCount / 2 + 2;
-                    }
-                    else if (param == "Middle Down Left")
-                    {
-                        depo.currentRow = depo.RowCount / 2 + 2;
-                    }
-                }
-            }
-            else if (param == "Down Up Right")
-            {
-                depo.currentRow = depo.RowCount;
-            }
-            else if (param == "Down Up Left")
-            {
-                depo.currentRow = depo.RowCount;
-            }
-            else if (param == "Up Down Right")
-            {
-                depo.currentRow = 1;
-            }
-            else if (param == "Up Down Left")
-            {
-                depo.currentRow = 1;
-            }
-
-        }
-        public bool BotofDepoisFull(Depo depo)
-        {
-            bool isfull = false;
-            int item_yuksekligi = (int)(depo.asama1_Yuksekligi / depo.nesneYuksekligi);
-            for (int i = ((depo.RowCount + 2) / 2); i < depo.RowCount + 2; i++)
-            {
-                foreach (var cell in depo.gridmaps)
-                {
-                    if (cell.Row == i && i >= ((depo.RowCount + 2) / 2))
-                    {
-                        if (cell.items.Count < item_yuksekligi)
-                        {
-                            isfull = true;
-                        }
-                    }
-                }
-            }
-            if (isfull)
-            {
-                return false;
-            }
-            return true;
-
-        }
-        public bool TopofDepoisFull(Depo depo)
-        {
-            bool isfull = false;
-            int item_yuksekligi = (int)(depo.asama1_Yuksekligi / depo.nesneYuksekligi);
-            for (int i = depo.RowCount / 2; i > 0; i--)
-            {
-                foreach (var cell in depo.gridmaps)
-                {
-                    if (cell.Row + 1 == i && i <= depo.RowCount / 2)
-                    {
-                        if (cell.items.Count < item_yuksekligi)
-                        {
-                            isfull = true;
-                        }
-                    }
-                }
-            }
-            if (isfull)
-            {
-                return false;
-            }
-            return true;
-        }
-        public bool TopofDepoisFull2(Depo depo)
-        {
-            bool isfull = false;
-            //int item_yuksekligi = (int)(depo.asama2_Yuksekligi / depo.nesneYuksekligi);
-            float item_yuksekligi = depo.asama2_Yuksekligi / depo.nesneYuksekligi;
-            for (int i = depo.RowCount / 2; i > 0; i--)
-            {
-                foreach (var cell in depo.gridmaps)
-                {
-                    if (cell.Row + 1 == i && i <= depo.RowCount / 2)
-                    {
-                        if (cell.items.Count < item_yuksekligi)
-                        {
-                            isfull = true;
-                        }
-                    }
-                }
-            }
-            if (isfull)
-            {
-                return false;
-            }
-            return true;
-        }
-        public bool BotofDepoisFull2(Depo depo)
-        {
-            bool isfull = false;
-            //int item_yuksekligi = (int)(depo.asama2_Yuksekligi / depo.nesneYuksekligi);
-            float item_yuksekligi = depo.asama2_Yuksekligi / depo.nesneYuksekligi;
-
-            for (int i = ((depo.RowCount + 2) / 2); i < depo.RowCount + 2; i++)
-            {
-                foreach (var cell in depo.gridmaps)
-                {
-                    if (cell.Row == i && i >= ((depo.RowCount + 2) / 2))
-                    {
-                        if (cell.items.Count < item_yuksekligi)
-                        {
-                            isfull = true;
-                        }
-                    }
-                }
-            }
-            if (isfull)
-            {
-                return false;
-            }
-            return true;
-
-        }
-        public string CheckDepoParameters(Depo depo)
-        {
-            bool botStage1Full = BotofDepoisFull(depo);
-            bool botStage2Full = BotofDepoisFull2(depo);
-            bool topStage1Full = TopofDepoisFull(depo);
-            bool topStage2Full = TopofDepoisFull2(depo);
-
-            if (depo.itemDrop_StartLocation == "Ortadan")
-            {
-                if (botStage1Full && !topStage1Full && depo.currentStage == 1)
-                {
-                    if (depo.itemDrop_LeftRight == "Sağa Doğru")
-                    {
-                        return "Middle Up Right";
-                    }
-                    else if (depo.itemDrop_LeftRight == "Sola Doğru")
-                    {
-                        return "Middle Up Left";
-                    }
-                }
-                else if (!botStage1Full && topStage1Full && depo.currentStage == 1)
-                {
-                    if (depo.itemDrop_LeftRight == "Sağa Doğru")
-                    {
-                        return "Middle Down Right";
-                    }
-                    else if (depo.itemDrop_LeftRight == "Sola Doğru")
-                    {
-                        return "Middle Down Left";
-                    }
-                }
-                else if (botStage2Full && !topStage2Full && depo.currentStage == 2)
-                {
-                    if (depo.itemDrop_LeftRight == "Sağa Doğru")
-                    {
-                        return "Middle Up Right";
-                    }
-                    else if (depo.itemDrop_LeftRight == "Sola Doğru")
-                    {
-                        return "Middle Up Left";
-                    }
-                }
-                else if (!botStage2Full && topStage2Full && depo.currentStage == 2)
-                {
-                    if (depo.itemDrop_LeftRight == "Sağa Doğru")
-                    {
-                        return "Middle Down Right";
-                    }
-                    else if (depo.itemDrop_LeftRight == "Sola Doğru")
-                    {
-                        return "Middle Down Left";
-                    }
-                }
-                else if (!botStage1Full && !topStage1Full && depo.currentStage == 1)
-                {
-                    if (depo.itemDrop_UpDown == "Yukarı Doğru")
-                    {
-                        if (depo.itemDrop_LeftRight == "Sağa Doğru")
-                        {
-                            return "Middle Up Right";
-                        }
-                        else if (depo.itemDrop_LeftRight == "Sola Doğru")
-                        {
-                            return "Middle Up Left";
-                        }
-                    }
-                    else
-                    {
-                        if (depo.itemDrop_LeftRight == "Sağa Doğru")
-                        {
-                            return "Middle Down Right";
-                        }
-                        else if (depo.itemDrop_LeftRight == "Sola Doğru")
-                        {
-                            return "Middle Down Left";
-                        }
-                    }
-                }
-                else if (!botStage2Full && !topStage2Full && depo.currentStage == 2)
-                {
-                    if (depo.itemDrop_UpDown == "Yukarı Doğru")
-                    {
-                        if (depo.itemDrop_LeftRight == "Sağa Doğru")
-                        {
-                            return "Middle Up Right";
-                        }
-                        else if (depo.itemDrop_LeftRight == "Sola Doğru")
-                        {
-                            return "Middle Up Left";
-                        }
-                    }
-                    else
-                    {
-                        if (depo.itemDrop_LeftRight == "Sağa Doğru")
-                        {
-                            return "Middle Down Right";
-                        }
-                        else if (depo.itemDrop_LeftRight == "Sola Doğru")
-                        {
-                            return "Middle Down Left";
-                        }
-                    }
-                }
-            }
-            else if (depo.itemDrop_StartLocation == "Aşağıdan")
-            {
-                if (depo.itemDrop_LeftRight == "Sağa Doğru")
-                {
-                    return "Down Up Right";
-                }
-                else if (depo.itemDrop_LeftRight == "Sola Doğru")
-                {
-                    return "Down Up Left";
-                }
-            }
-            else if (depo.itemDrop_StartLocation == "Yukarıdan")
-            {
-                if (depo.itemDrop_LeftRight == "Sağa Doğru")
-                {
-                    return "Up Down Right";
-                }
-                else if (depo.itemDrop_LeftRight == "Sola Doğru")
-                {
-                    return "Up Down Left";
-                }
-            }
-            return "Sorun";
-        }
+        //}
+        
         public void PlaceItem(Depo depo)
         {
             bool isStageChanged = CheckifDepoStageChanged(depo);
@@ -844,6 +621,7 @@ namespace Balya_Yerleştirme
             if (param == "Down Up Right")
             {
                 bool placeOnce = true;
+                SearchForPlace(depo);
                 foreach (var cell in depo.gridmaps)
                 {
                     if (cell.Row == depo.currentRow &&
@@ -858,7 +636,7 @@ namespace Balya_Yerleştirme
                             nesneTimer.Stop();
                             yerBul = false;
                         }
-                        else
+                        else if (yerBul)
                         {
                             BlinkingCell = cell;
                             lbl_Nesne_Yerlestir_Value_X.Text = $"{cell.cell_Cm_X} cm";
@@ -866,38 +644,6 @@ namespace Balya_Yerleştirme
                             lbl_Nesne_Yerlestir_Value_Z.Text = $"{cell.toplam_Nesne_Yuksekligi} cm";
                             nesneTimer.Start();
                             yerBul = false;
-                        }
-
-                        if (!yerBul && !placeOnce)
-                        {
-                            if (cell.items.Count == depo.asama1_ItemSayisi && isStageChanged == false)
-                            {
-                                if (depo.currentColumn != depo.ColumnCount)
-                                {
-                                    MoveRightOneColumn(depo);
-                                    break;
-                                }
-                                else
-                                {
-                                    MoveRightOneColumn(depo);
-                                    MoveUpOneRow(depo, false);
-                                    break;
-                                }
-                            }
-                            else if (cell.items.Count == depo.asama2_ToplamItemSayisi)
-                            {
-                                if (depo.currentColumn != depo.ColumnCount)
-                                {
-                                    MoveRightOneColumn(depo);
-                                    break;
-                                }
-                                else
-                                {
-                                    MoveRightOneColumn(depo);
-                                    MoveUpOneRow(depo, false);
-                                    break;
-                                }
-                            }
                         }
                     }
                 }
@@ -905,8 +651,10 @@ namespace Balya_Yerleştirme
             else if (param == "Down Up Left")
             {
                 bool placeOnce = true;
+                SearchForPlace(depo);
                 foreach (var cell in depo.gridmaps)
                 {
+                    SearchForPlace(depo);
                     if (cell.Row == depo.currentRow &&
                         cell.Column == depo.currentColumn)
                     {
@@ -927,37 +675,6 @@ namespace Balya_Yerleştirme
                             lbl_Nesne_Yerlestir_Value_Z.Text = $"{cell.toplam_Nesne_Yuksekligi} cm";
                             nesneTimer.Start();
                             yerBul = false;
-                        }
-                        if (!yerBul && !placeOnce)
-                        {
-                            if (cell.items.Count == depo.asama1_ItemSayisi && isStageChanged == false)
-                            {
-                                if (depo.currentColumn != 1)
-                                {
-                                    MoveLeftOneColumn(depo);
-                                    break;
-                                }
-                                else
-                                {
-                                    MoveLeftOneColumn(depo);
-                                    MoveUpOneRow(depo, false);
-                                    break;
-                                }
-                            }
-                            else if (cell.items.Count == depo.asama2_ToplamItemSayisi)
-                            {
-                                if (depo.currentColumn != 1)
-                                {
-                                    MoveLeftOneColumn(depo);
-                                    break;
-                                }
-                                else
-                                {
-                                    MoveLeftOneColumn(depo);
-                                    MoveUpOneRow(depo, false);
-                                    break;
-                                }
-                            }
                         }
                     }
                 }
@@ -965,6 +682,7 @@ namespace Balya_Yerleştirme
             else if (param == "Up Down Right")
             {
                 bool placeOnce = true;
+                SearchForPlace(depo);
                 foreach (var cell in depo.gridmaps)
                 {
                     if (cell.Row == depo.currentRow &&
@@ -987,37 +705,6 @@ namespace Balya_Yerleştirme
                             lbl_Nesne_Yerlestir_Value_Z.Text = $"{cell.toplam_Nesne_Yuksekligi} cm";
                             nesneTimer.Start();
                             yerBul = false;
-                        }
-                        if (!yerBul && !placeOnce)
-                        {
-                            if (cell.items.Count == depo.asama1_ItemSayisi && isStageChanged == false)
-                            {
-                                if (depo.currentColumn != depo.ColumnCount)
-                                {
-                                    MoveRightOneColumn(depo);
-                                    break;
-                                }
-                                else
-                                {
-                                    MoveRightOneColumn(depo);
-                                    MoveDownOneRow(depo, false);
-                                    break;
-                                }
-                            }
-                            else if (cell.items.Count == depo.asama2_ToplamItemSayisi)
-                            {
-                                if (depo.currentColumn != depo.ColumnCount)
-                                {
-                                    MoveRightOneColumn(depo);
-                                    break;
-                                }
-                                else
-                                {
-                                    MoveRightOneColumn(depo);
-                                    MoveDownOneRow(depo, false);
-                                    break;
-                                }
-                            }
                         }
                     }
                 }
@@ -1025,6 +712,7 @@ namespace Balya_Yerleştirme
             else if (param == "Up Down Left")
             {
                 bool placeOnce = true;
+                SearchForPlace(depo);
                 foreach (var cell in depo.gridmaps)
                 {
                     if (cell.Row == depo.currentRow &&
@@ -1047,38 +735,6 @@ namespace Balya_Yerleştirme
                             lbl_Nesne_Yerlestir_Value_Z.Text = $"{cell.toplam_Nesne_Yuksekligi} cm";
                             nesneTimer.Start();
                             yerBul = false;
-                        }
-
-                        if (!yerBul && !placeOnce)
-                        {
-                            if (cell.items.Count == depo.asama1_ItemSayisi && isStageChanged == false)
-                            {
-                                if (depo.currentColumn != 1)
-                                {
-                                    MoveLeftOneColumn(depo);
-                                    break;
-                                }
-                                else
-                                {
-                                    MoveLeftOneColumn(depo);
-                                    MoveDownOneRow(depo, false);
-                                    break;
-                                }
-                            }
-                            else if (cell.items.Count == depo.asama2_ToplamItemSayisi)
-                            {
-                                if (depo.currentColumn != 1)
-                                {
-                                    MoveLeftOneColumn(depo);
-                                    break;
-                                }
-                                else
-                                {
-                                    MoveLeftOneColumn(depo);
-                                    MoveDownOneRow(depo, false);
-                                    break;
-                                }
-                            }
                         }
                     }
                 }
@@ -1086,6 +742,7 @@ namespace Balya_Yerleştirme
             else if (param == "Middle Up Left")
             {
                 bool placeOnce = true;
+                SearchForPlace(depo);
                 foreach (var cell in depo.gridmaps)
                 {
                     if (cell.Row == depo.currentRow &&
@@ -1108,38 +765,6 @@ namespace Balya_Yerleştirme
                             lbl_Nesne_Yerlestir_Value_Z.Text = $"{cell.toplam_Nesne_Yuksekligi} cm";
                             nesneTimer.Start();
                             yerBul = false;
-                        }
-
-                        if (!yerBul && !placeOnce)
-                        {
-                            if (cell.items.Count == depo.asama1_ItemSayisi && isStageChanged == false)
-                            {
-                                if (depo.currentColumn != 1)
-                                {
-                                    MoveLeftOneColumn(depo);
-                                    break;
-                                }
-                                else
-                                {
-                                    MoveLeftOneColumn(depo);
-                                    MoveUpOneRow(depo, true);
-                                    break;
-                                }
-                            }
-                            else if (cell.items.Count == depo.asama2_ToplamItemSayisi)
-                            {
-                                if (depo.currentColumn != 1)
-                                {
-                                    MoveLeftOneColumn(depo);
-                                    break;
-                                }
-                                else
-                                {
-                                    MoveLeftOneColumn(depo);
-                                    MoveUpOneRow(depo, true);
-                                    break;
-                                }
-                            }
                         }
                     }
                 }
@@ -1147,6 +772,7 @@ namespace Balya_Yerleştirme
             else if (param == "Middle Up Right")
             {
                 bool placeOnce = true;
+                SearchForPlace(depo);
                 foreach (var cell in depo.gridmaps)
                 {
                     if (cell.Row == depo.currentRow &&
@@ -1169,38 +795,6 @@ namespace Balya_Yerleştirme
                             lbl_Nesne_Yerlestir_Value_Z.Text = $"{cell.toplam_Nesne_Yuksekligi} cm";
                             nesneTimer.Start();
                             yerBul = false;
-                        }
-
-                        if (!yerBul && !placeOnce)
-                        {
-                            if (cell.items.Count == depo.asama1_ItemSayisi && isStageChanged == false)
-                            {
-                                if (depo.currentColumn != depo.ColumnCount)
-                                {
-                                    MoveRightOneColumn(depo);
-                                    break;
-                                }
-                                else
-                                {
-                                    MoveRightOneColumn(depo);
-                                    MoveUpOneRow(depo, true);
-                                    break;
-                                }
-                            }
-                            else if (cell.items.Count == depo.asama2_ToplamItemSayisi)
-                            {
-                                if (depo.currentColumn != depo.ColumnCount)
-                                {
-                                    MoveRightOneColumn(depo);
-                                    break;
-                                }
-                                else
-                                {
-                                    MoveRightOneColumn(depo);
-                                    MoveUpOneRow(depo, true);
-                                    break;
-                                }
-                            }
                         }
                     }
                 }
@@ -1208,6 +802,7 @@ namespace Balya_Yerleştirme
             else if (param == "Middle Down Left")
             {
                 bool placeOnce = true;
+                SearchForPlace(depo);
                 foreach (var cell in depo.gridmaps)
                 {
                     if (cell.Row == depo.currentRow &&
@@ -1230,38 +825,6 @@ namespace Balya_Yerleştirme
                             lbl_Nesne_Yerlestir_Value_Z.Text = $"{cell.toplam_Nesne_Yuksekligi} cm";
                             nesneTimer.Start();
                             yerBul = false;
-                        }
-
-                        if (!yerBul && !placeOnce)
-                        {
-                            if (cell.items.Count == depo.asama1_ItemSayisi && isStageChanged == false)
-                            {
-                                if (depo.currentColumn != 1)
-                                {
-                                    MoveLeftOneColumn(depo);
-                                    break;
-                                }
-                                else
-                                {
-                                    MoveLeftOneColumn(depo);
-                                    MoveDownOneRow(depo, true);
-                                    break;
-                                }
-                            }
-                            else if (cell.items.Count == depo.asama2_ToplamItemSayisi)
-                            {
-                                if (depo.currentColumn != 1)
-                                {
-                                    MoveLeftOneColumn(depo);
-                                    break;
-                                }
-                                else
-                                {
-                                    MoveLeftOneColumn(depo);
-                                    MoveDownOneRow(depo, true);
-                                    break;
-                                }
-                            }
                         }
                     }
                 }
@@ -1269,6 +832,7 @@ namespace Balya_Yerleştirme
             else if (param == "Middle Down Right")
             {
                 bool placeOnce = true;
+                SearchForPlace(depo);
                 foreach (var cell in depo.gridmaps)
                 {
                     if (cell.Row == depo.currentRow &&
@@ -1291,38 +855,6 @@ namespace Balya_Yerleştirme
                             lbl_Nesne_Yerlestir_Value_Z.Text = $"{cell.toplam_Nesne_Yuksekligi} cm";
                             nesneTimer.Start();
                             yerBul = false;
-                        }
-
-                        if (!yerBul && !placeOnce)
-                        {
-                            if (cell.items.Count == depo.asama1_ItemSayisi && isStageChanged == false)
-                            {
-                                if (depo.currentColumn != depo.ColumnCount)
-                                {
-                                    MoveRightOneColumn(depo);
-                                    break;
-                                }
-                                else
-                                {
-                                    MoveRightOneColumn(depo);
-                                    MoveDownOneRow(depo, true);
-                                    break;
-                                }
-                            }
-                            else if (cell.items.Count == depo.asama2_ToplamItemSayisi)
-                            {
-                                if (depo.currentColumn != depo.ColumnCount)
-                                {
-                                    MoveRightOneColumn(depo);
-                                    break;
-                                }
-                                else
-                                {
-                                    MoveRightOneColumn(depo);
-                                    MoveDownOneRow(depo, true);
-                                    break;
-                                }
-                            }
                         }
                     }
                 }
@@ -1366,42 +898,6 @@ namespace Balya_Yerleştirme
             else
             {
                 return false;
-            }
-        }
-        public string CheckDepoStage(Depo depo)
-        {
-            bool isStage1 = false;
-            bool isStage2 = false;
-            bool isfull = false;
-
-            foreach (var cell in depo.gridmaps)
-            {
-                if (cell.items.Count < depo.asama1_ItemSayisi &&
-                    cell.items.Count >= 0)
-                {
-                    isStage1 = true;
-                }
-                else if (cell.items.Count >= depo.asama1_ItemSayisi &&
-                    cell.items.Count < depo.asama2_ToplamItemSayisi)
-                {
-                    isStage2 = true;
-                }
-            }
-            if (isStage1)
-            {
-                return "stage1";
-            }
-            else if (isStage2)
-            {
-                return "stage2";
-            }
-            else if (!isStage1 && !isStage2)
-            {
-                return "full";
-            }
-            else
-            {
-                return string.Empty;
             }
         }
         public Depo? GetDepotoPlaceItem(string item_turu)
@@ -1470,6 +966,32 @@ namespace Balya_Yerleştirme
                 }
             }
             return result;
+        }
+        
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            if (ambar != null)
+            {
+                if (ambar.depolar.Count > 0)
+                {
+                    Depo newDepo = GetDepotoPlaceItem("depo");
+
+                    if (newDepo != null)
+                    {
+                        bool StageChanged = CheckifDepoStageChanged(newDepo);
+                        bool isDepoEmpty = CheckifDepoisEmpty(newDepo);
+
+                        if (StageChanged || isDepoEmpty)
+                        {
+                            //SetColumnStartPosition(newDepo);
+                            //SetRowStartPosition(newDepo);
+                        }
+                        yerBul = false;
+                        PlaceItem(newDepo);
+                    }
+                }
+            }
+            DrawingPanel.Invalidate();
         }
 
 
@@ -2162,8 +1684,6 @@ namespace Balya_Yerleştirme
 
 
 
-
-
         private void HideEverything()
         {
             GVisual.HideControl(Nesne_Yerlestirme_First_Panel, this);
@@ -2186,7 +1706,6 @@ namespace Balya_Yerleştirme
         {
             GVisual.HideControl(Nesne_Al_Second_Panel, this);
         }
-
 
 
 
@@ -3349,6 +2868,34 @@ namespace Balya_Yerleştirme
         }
         private async void toolStripBTN_Layout_Sec_Click(object sender, EventArgs e)
         {
+            if (ambar != null)
+            {
+                DrawingPanel.AutoScrollMinSize = new Size(0, 0);
+                ambar.ApplyZoom(1f);
+                foreach (var depo in ambar.depolar)
+                {
+                    depo.ApplyZoom(1f);
+                    foreach (var cell in depo.gridmaps)
+                    {
+                        cell.ApplyZoom(1f);
+                        foreach (var item in cell.items)
+                        {
+                            item.ApplyZoom(1f);
+
+                        }
+                    }
+                }
+
+                foreach (var conveyor in ambar.conveyors)
+                {
+                    conveyor.ApplyZoom(1f);
+                    foreach (var reff in conveyor.ConveyorReferencePoints)
+                    {
+                        reff.ApplyZoom(1f);
+                    }
+                }
+            }
+
             ProgressBar_Title.Text = "Layout Yükleniyor...";
             toolStripBTN_ExportToExcel.Enabled = false;
             toolStripBTN_Layout_Sec.Enabled = false;
@@ -4013,8 +3560,8 @@ namespace Balya_Yerleştirme
 
                             if (StageChanged || isDepoEmpty)
                             {
-                                SetColumnStartPosition(newDepo);
-                                SetRowStartPosition(newDepo);
+                                //SetColumnStartPosition(newDepo);
+                                //SetRowStartPosition(newDepo);
                             }
                             yerBul = false;
                             PlaceItem(newDepo);
@@ -4256,8 +3803,8 @@ namespace Balya_Yerleştirme
 
                             if (StageChanged || isDepoEmpty)
                             {
-                                SetColumnStartPosition(newDepo);
-                                SetRowStartPosition(newDepo);
+                                //SetColumnStartPosition(newDepo);
+                                //SetRowStartPosition(newDepo);
                             }
                             yerBul = true;
                             PlaceItem(newDepo);
@@ -4456,6 +4003,8 @@ namespace Balya_Yerleştirme
             DrawingPanel.Invalidate();
         }
 
+
+
         private void Focus_EnterToTXTs(object sender, EventArgs e)
         {
             Krypton.Toolkit.KryptonTextBox textBox = sender as Krypton.Toolkit.KryptonTextBox;
@@ -4464,6 +4013,22 @@ namespace Balya_Yerleştirme
             {
                 textBox.Clear();
             }
+        }
+
+        private void balyayıAlToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            Models.Item deleteItem = new Models.Item();
+            foreach (var item in RightClickCell.items)
+            {
+                if (item == RightClickCell.items.Last())
+                {
+                    deleteItem = item;
+                }
+            }
+            selectedDepo.currentRow = RightClickCell.Row;
+            selectedDepo.currentColumn = RightClickCell.Column;
+            RightClickCell.items.Remove(deleteItem);
+            DrawingPanel.Invalidate();
         }
     }
 }

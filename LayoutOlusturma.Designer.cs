@@ -1352,7 +1352,7 @@
             Depo_Bilgi_Panel.Controls.Add(txt_Depo_Aciklamasi);
             Depo_Bilgi_Panel.Controls.Add(btn_Depo_Bilgi_Panel_Vazgec);
             Depo_Bilgi_Panel.Controls.Add(btn_Depo_Bilgi_Panel_Sonraki_Sayfa);
-            Depo_Bilgi_Panel.Location = new Point(225, 795);
+            Depo_Bilgi_Panel.Location = new Point(227, 795);
             Depo_Bilgi_Panel.Name = "Depo_Bilgi_Panel";
             Depo_Bilgi_Panel.Size = new Size(305, 690);
             Depo_Bilgi_Panel.TabIndex = 33;
@@ -1365,8 +1365,8 @@
             txt_Depo_Item_Turu.StateCommon.Content.Color1 = SystemColors.GrayText;
             txt_Depo_Item_Turu.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
             txt_Depo_Item_Turu.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            txt_Depo_Item_Turu.TabIndex = 11;
-            txt_Depo_Item_Turu.Text = "Tür kodu girin";
+            txt_Depo_Item_Turu.TabIndex = 1;
+            txt_Depo_Item_Turu.Text = "depo";
             txt_Depo_Item_Turu.ToolTipValues.Description = "Depoya konulacak nesnelerin tür kodu";
             txt_Depo_Item_Turu.ToolTipValues.EnableToolTips = true;
             txt_Depo_Item_Turu.ToolTipValues.Heading = "";
@@ -1451,7 +1451,7 @@
             txt_Depo_Adi.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
             txt_Depo_Adi.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
             txt_Depo_Adi.TabIndex = 0;
-            txt_Depo_Adi.Text = "Depo adı girin";
+            txt_Depo_Adi.Text = "depo";
             txt_Depo_Adi.TextChanged += TextChangedTXTs;
             txt_Depo_Adi.Enter += FocusEntertoTXTs;
             // 
@@ -1464,8 +1464,8 @@
             txt_Depo_Aciklamasi.StateCommon.Content.Color1 = SystemColors.GrayText;
             txt_Depo_Aciklamasi.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
             txt_Depo_Aciklamasi.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            txt_Depo_Aciklamasi.TabIndex = 1;
-            txt_Depo_Aciklamasi.Text = "Açıklama girin";
+            txt_Depo_Aciklamasi.TabIndex = 2;
+            txt_Depo_Aciklamasi.Text = "depo";
             txt_Depo_Aciklamasi.TextChanged += TextChangedTXTs;
             txt_Depo_Aciklamasi.Enter += FocusEntertoTXTs;
             // 
@@ -1529,7 +1529,7 @@
             Conveyor_Olusturma_Paneli.Controls.Add(txt_Conveyor_Boyu);
             Conveyor_Olusturma_Paneli.Controls.Add(btn_Conveyor_Olustur_Vazgec);
             Conveyor_Olusturma_Paneli.Controls.Add(btn_Conveyor_Olustur);
-            Conveyor_Olusturma_Paneli.Location = new Point(1773, 795);
+            Conveyor_Olusturma_Paneli.Location = new Point(1776, 795);
             Conveyor_Olusturma_Paneli.Name = "Conveyor_Olusturma_Paneli";
             Conveyor_Olusturma_Paneli.Size = new Size(305, 690);
             Conveyor_Olusturma_Paneli.TabIndex = 8;
@@ -1742,7 +1742,7 @@
             txt_Alan_Eni.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
             txt_Alan_Eni.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
             txt_Alan_Eni.TabIndex = 0;
-            txt_Alan_Eni.Text = "metre girin";
+            txt_Alan_Eni.Text = "20";
             txt_Alan_Eni.TextChanged += textBoxFloat_TextChanged;
             txt_Alan_Eni.Enter += FocusEntertoTXTs;
             txt_Alan_Eni.KeyPress += textBoxFloat_KeyPress;
@@ -1756,7 +1756,7 @@
             txt_Alan_Boyu.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
             txt_Alan_Boyu.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
             txt_Alan_Boyu.TabIndex = 1;
-            txt_Alan_Boyu.Text = "metre girin";
+            txt_Alan_Boyu.Text = "40";
             txt_Alan_Boyu.TextChanged += textBoxFloat_TextChanged;
             txt_Alan_Boyu.Enter += FocusEntertoTXTs;
             txt_Alan_Boyu.KeyPress += textBoxFloat_KeyPress;
@@ -1823,7 +1823,7 @@
             Depo_Olusturma_Paneli.Controls.Add(txt_Depo_Boyu);
             Depo_Olusturma_Paneli.Controls.Add(btn_Depo_Olustur_Vazgec);
             Depo_Olusturma_Paneli.Controls.Add(btn_Depo_Olustur);
-            Depo_Olusturma_Paneli.Location = new Point(536, 795);
+            Depo_Olusturma_Paneli.Location = new Point(535, 795);
             Depo_Olusturma_Paneli.Name = "Depo_Olusturma_Paneli";
             Depo_Olusturma_Paneli.Size = new Size(305, 690);
             Depo_Olusturma_Paneli.TabIndex = 9;
@@ -1837,7 +1837,7 @@
             txt_Depo_Yuksekligi.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
             txt_Depo_Yuksekligi.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
             txt_Depo_Yuksekligi.TabIndex = 2;
-            txt_Depo_Yuksekligi.Text = "cm girin";
+            txt_Depo_Yuksekligi.Text = "500";
             txt_Depo_Yuksekligi.TextChanged += TextChangedTXTs;
             txt_Depo_Yuksekligi.Enter += FocusEntertoTXTs;
             // 
@@ -1918,7 +1918,7 @@
             txt_Depo_Eni.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
             txt_Depo_Eni.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
             txt_Depo_Eni.TabIndex = 0;
-            txt_Depo_Eni.Text = "metre girin";
+            txt_Depo_Eni.Text = "6";
             txt_Depo_Eni.TextChanged += textBoxFloat_TextChanged;
             txt_Depo_Eni.Enter += FocusEntertoTXTs;
             txt_Depo_Eni.KeyPress += textBoxFloat_KeyPress;
@@ -1932,7 +1932,7 @@
             txt_Depo_Boyu.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
             txt_Depo_Boyu.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
             txt_Depo_Boyu.TabIndex = 1;
-            txt_Depo_Boyu.Text = "metre girin";
+            txt_Depo_Boyu.Text = "12";
             txt_Depo_Boyu.TextChanged += textBoxFloat_TextChanged;
             txt_Depo_Boyu.Enter += FocusEntertoTXTs;
             txt_Depo_Boyu.KeyPress += textBoxFloat_KeyPress;
@@ -1999,7 +1999,7 @@
             Izgara_Mal_Paneli.Controls.Add(txt_Nesnenin_Boyu);
             Izgara_Mal_Paneli.Controls.Add(btn_Izgara_Mal_Vazgec);
             Izgara_Mal_Paneli.Controls.Add(btn_Izgara_Mal_Devam_Et);
-            Izgara_Mal_Paneli.Location = new Point(845, 795);
+            Izgara_Mal_Paneli.Location = new Point(846, 795);
             Izgara_Mal_Paneli.Name = "Izgara_Mal_Paneli";
             Izgara_Mal_Paneli.Size = new Size(305, 690);
             Izgara_Mal_Paneli.TabIndex = 10;
@@ -2027,7 +2027,7 @@
             txt_Nesnenin_Yuksekligi.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
             txt_Nesnenin_Yuksekligi.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
             txt_Nesnenin_Yuksekligi.TabIndex = 2;
-            txt_Nesnenin_Yuksekligi.Text = "cm girin";
+            txt_Nesnenin_Yuksekligi.Text = "100";
             txt_Nesnenin_Yuksekligi.TextChanged += TextChangedTXTs;
             txt_Nesnenin_Yuksekligi.Enter += FocusEntertoTXTs;
             // 
@@ -2094,7 +2094,7 @@
             txt_Nesnenin_Eni.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
             txt_Nesnenin_Eni.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
             txt_Nesnenin_Eni.TabIndex = 0;
-            txt_Nesnenin_Eni.Text = "cm girin";
+            txt_Nesnenin_Eni.Text = "180";
             txt_Nesnenin_Eni.TextChanged += textBoxFloat_TextChanged;
             txt_Nesnenin_Eni.Enter += FocusEntertoTXTs;
             txt_Nesnenin_Eni.KeyPress += textBoxFloat_KeyPress;
@@ -2108,7 +2108,7 @@
             txt_Nesnenin_Boyu.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
             txt_Nesnenin_Boyu.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
             txt_Nesnenin_Boyu.TabIndex = 1;
-            txt_Nesnenin_Boyu.Text = "cm girin";
+            txt_Nesnenin_Boyu.Text = "180";
             txt_Nesnenin_Boyu.TextChanged += textBoxFloat_TextChanged;
             txt_Nesnenin_Boyu.Enter += FocusEntertoTXTs;
             txt_Nesnenin_Boyu.KeyPress += textBoxFloat_KeyPress;
@@ -2520,7 +2520,7 @@
             Izgara_Olusturma_Paneli.Controls.Add(txt_Yatay_Kenar_Boslugu);
             Izgara_Olusturma_Paneli.Controls.Add(btn_Izgara_Olustur_Iptal_Et);
             Izgara_Olusturma_Paneli.Controls.Add(btn_Izgara_Olustur);
-            Izgara_Olusturma_Paneli.Location = new Point(1155, 795);
+            Izgara_Olusturma_Paneli.Location = new Point(1154, 795);
             Izgara_Olusturma_Paneli.Name = "Izgara_Olusturma_Paneli";
             Izgara_Olusturma_Paneli.Size = new Size(305, 690);
             Izgara_Olusturma_Paneli.TabIndex = 11;
@@ -2588,7 +2588,7 @@
             txt_Dikey_Kenar_Boslugu.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
             txt_Dikey_Kenar_Boslugu.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
             txt_Dikey_Kenar_Boslugu.TabIndex = 0;
-            txt_Dikey_Kenar_Boslugu.Text = "cm girin";
+            txt_Dikey_Kenar_Boslugu.Text = "20";
             txt_Dikey_Kenar_Boslugu.ToolTipValues.Description = "Az önce girdiğiniz nesnenin en ve boy değerine göre ve \r\nburaya girdiğiniz değere göre ızgara haritasındaki \r\nher bir hücrenin boyutu ortaya çıkacaktır.";
             txt_Dikey_Kenar_Boslugu.ToolTipValues.EnableToolTips = true;
             txt_Dikey_Kenar_Boslugu.ToolTipValues.Heading = "";
@@ -2605,7 +2605,7 @@
             txt_Yatay_Kenar_Boslugu.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
             txt_Yatay_Kenar_Boslugu.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
             txt_Yatay_Kenar_Boslugu.TabIndex = 1;
-            txt_Yatay_Kenar_Boslugu.Text = "cm girin";
+            txt_Yatay_Kenar_Boslugu.Text = "20";
             txt_Yatay_Kenar_Boslugu.ToolTipValues.Description = "Az önce girdiğiniz nesnenin en ve boy değerine göre ve \r\nburaya girdiğiniz değere göre ızgara haritasındaki \r\nher bir hücrenin boyutu ortaya çıkacaktır.";
             txt_Yatay_Kenar_Boslugu.ToolTipValues.EnableToolTips = true;
             txt_Yatay_Kenar_Boslugu.ToolTipValues.Heading = "";
@@ -2730,6 +2730,7 @@
             btn_Alan.Name = "btn_Alan";
             btn_Alan.Size = new Size(58, 54);
             btn_Alan.TabIndex = 10;
+            btn_Alan.TabStop = false;
             btn_Alan.TextAlign = ContentAlignment.MiddleRight;
             btn_Alan.UseVisualStyleBackColor = true;
             btn_Alan.Click += btn_Alan_Click;
@@ -2745,6 +2746,7 @@
             btn_Izgara_Haritasi.Padding = new Padding(5);
             btn_Izgara_Haritasi.Size = new Size(45, 45);
             btn_Izgara_Haritasi.TabIndex = 13;
+            btn_Izgara_Haritasi.TabStop = false;
             btn_Izgara_Haritasi.UseVisualStyleBackColor = true;
             btn_Izgara_Haritasi.Click += btn_Izgara_Haritasi_Click;
             // 
@@ -2759,6 +2761,7 @@
             btn_Depo.Padding = new Padding(5);
             btn_Depo.Size = new Size(50, 50);
             btn_Depo.TabIndex = 11;
+            btn_Depo.TabStop = false;
             btn_Depo.TextAlign = ContentAlignment.MiddleRight;
             btn_Depo.UseVisualStyleBackColor = true;
             btn_Depo.Click += btn_Depo_Click;
@@ -2773,6 +2776,7 @@
             btn_Conveyor.Name = "btn_Conveyor";
             btn_Conveyor.Size = new Size(61, 54);
             btn_Conveyor.TabIndex = 12;
+            btn_Conveyor.TabStop = false;
             btn_Conveyor.TextAlign = ContentAlignment.MiddleRight;
             btn_Conveyor.UseVisualStyleBackColor = true;
             btn_Conveyor.Click += btn_Conveyor_Click;
@@ -3260,6 +3264,7 @@
             btn_Layout_Kaydet.StateCommon.Content.ShortText.Font = new Font("Sylfaen", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_Layout_Kaydet.StateCommon.Content.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Far;
             btn_Layout_Kaydet.TabIndex = 14;
+            btn_Layout_Kaydet.TabStop = false;
             btn_Layout_Kaydet.Values.Text = "Layout \r\nKaydet";
             btn_Layout_Kaydet.Click += btn_Layout_Kaydet_Click;
             // 
