@@ -1,5 +1,6 @@
 ﻿using Balya_Yerleştirme.Models;
 using DocumentFormat.OpenXml.Spreadsheet;
+using GUI_Library;
 using Krypton.Toolkit;
 using Microsoft.Identity.Client;
 using System;
@@ -568,7 +569,7 @@ namespace Balya_Yerleştirme.Utilities
 
 
 
-
+        //Algorithm for Adding Items
         public static bool BotofDepoisFull(Depo depo)
         {
             bool isfull = false;
@@ -1104,6 +1105,33 @@ namespace Balya_Yerleştirme.Utilities
                         break;
                     }
                 }
+            }
+        }
+
+
+        //UI Operations
+        public static void MoveOpenCloseLayoutPanelButton()
+        {
+            
+        }
+        
+
+        public static void AddtoLayoutPanel(FlowLayoutPanel LayoutPanel, System.Windows.Forms.Control control)
+        {
+            if (!LayoutPanel.Controls.Contains(control))
+            {
+                LayoutPanel.Controls.Add(control);
+                control.Show();
+                control.Visible = true;
+            }
+        }
+        public static void RemoveFromLayoutPanel(FlowLayoutPanel LayoutPanel, System.Windows.Forms.Control control)
+        {
+            if (LayoutPanel.Controls.Contains(control))
+            {
+                LayoutPanel.Controls.Remove(control);
+                control.Hide();
+                control.Visible = false;
             }
         }
     }

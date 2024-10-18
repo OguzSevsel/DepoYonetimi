@@ -1105,6 +1105,7 @@ namespace Balya_Yerleştirme
             {
                 ambar.OnMouseMove(e);
             }
+            
         }
         private void DrawingPanel_MouseDown(object sender, MouseEventArgs e)
         {
@@ -1142,37 +1143,25 @@ namespace Balya_Yerleştirme
                     scrollStartPoint = new PointF(-DrawingPanel.AutoScrollPosition.X, -DrawingPanel.AutoScrollPosition.Y);
                 }
                 DrawingPanel.Invalidate();
-                if (ambar.Rectangle.Contains(scaledPoint))
-                {
-                    contains = true;
-                }
 
                 foreach (var depo in ambar.depolar)
                 {
-                    if (depo.Rectangle.Contains(scaledPoint))
-                    {
-                        contains = true;
-                    }
                     foreach (var cell in depo.gridmaps)
                     {
-                        if (cell.Rectangle.Contains(scaledPoint))
+                        if (cell.items.Count > 0)
                         {
-                            contains = true;
-                        }
-                        foreach (var item in cell.items)
-                        {
-                            if (item.Rectangle.Contains(scaledPoint))
+                            if (cell.Rectangle.Contains(scaledPoint))
                             {
                                 contains = true;
                             }
+                            foreach (var item in cell.items)
+                            {
+                                if (item.Rectangle.Contains(scaledPoint))
+                                {
+                                    contains = true;
+                                }
+                            }
                         }
-                    }
-                }
-                foreach (var conveyor in ambar.conveyors)
-                {
-                    if (conveyor.Rectangle.Contains(scaledPoint))
-                    {
-                        contains = true;
                     }
                 }
 

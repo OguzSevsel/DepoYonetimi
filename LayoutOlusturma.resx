@@ -118,48 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="btn_Depo_Bilgi_Panel_Vazgec.StateCommon.Back.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABGdBTUEAALGPC/xhBQAAA4JJREFUaEPt
-        Wkto1FAU7cofCoKfhSuXoq7zUkdhIC9TZ9FShBE3Qt1Zqgi6KdSFRRcVobgqggtd1nUVXBZE0IUgiOBG
-        CxYUBF2YSaaDbZ73pndwyNyXZGZeMhXmwGFocj/n5OXz8tKRIYYYolh4Y6VTnrSu1aX1DH5X2xltc8UM
-        xlD4zkJDirN1x3oKQn/Ar8rEKFY8CVy7RGUGAzU+vg+O8nXPsT6xQrsg1sBaWJPKFwOvIi7BEf3KieqL
-        UNOT9kVqkx9UrbYLTwdWhElKaxF7UVuzUI5zCE6B12zjHOhJ8UqNlw9TezNoVkZPwEiscQ3zJBy4z01H
-        nCQZ/UFNlA7AUH/gGhVD8RY1kJze4TniEd+gOKIGktMbYCTGuMKDoF+xqySrO6hqdbeJZ4RBfkRNJC87
-        6lLMMsUGS9BE8rJBTZX3QOL3jkIJDGauqI378+w+jhiLOdw+LaX1TdVG95LMdNRde4otpGFwa1qFQaDC
-        rS218eAuG9NOjMFYzMFcLkZL0EYy0wHOX7JFGDbuzamw2VQtpJlpmWgBcxtzN9lYlqCNZCZDTZYPQsJG
-        RwENG/OzKtz8Q7K2oTMTN4HAXKwRj9VTNPDUJ7l6+I41yRfQMzITFxgzY8bENmFiWSa5esB0+g6XnEZW
-        KPyNQk2aQKJGkqsHDN0yl5yFOjMmTWxTLJNcPeBe/YZPzkbOTDv6NxGNyCrJ1QMC38cTu2VkJgxJ+j+E
-        m5t9m4gIB5vk6gGBZowwoxJuGTICGkmuHv/DqZV1RFY6EjNSe7HHTjMDZlZIrh4QtBBLykSdCdzO7uvP
-        zALJ1aPuistMYiKTTCTG9GgmcK0aydWjcd4+ziXriELSTLRoyEyI0yiSmwx44LxjCrDECV+hk0Z4hyeZ
-        6fBd6ypfhGeR03jURjLTQcuhP7lCOhbxYuVJ8aurFysEJPZ098qZ6XerOFT13BHPEb+ZYgMhaul55RFu
-        xTe4ooOgL+1pktUb4NXyOVe4WGaYtqdB1cr7wcxgl0xNfTfx3dIxXFDmG+VHXCDErwAkwwzwQsOlfq5h
-        HsRPGMZNtIAfX6DBY66xWYqHuX3oaUcg7QvQcL1TQN9c9117gtoUA7wAfWnNmXjWYA2sVfjH0HZ4lTNH
-        UQTc2b5wIpMp1uD5cBtrULmdARB0OvqHAGktwevoC1ztaCdtW4piIJbShhhiiNwxMvIXSts2MhAu07YA
-        AAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="btn_Conveyor_Olustur_Vazgec.StateCommon.Back.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABGdBTUEAALGPC/xhBQAAA4JJREFUaEPt
-        Wkto1FAU7cofCoKfhSuXoq7zUkdhIC9TZ9FShBE3Qt1Zqgi6KdSFRRcVobgqggtd1nUVXBZE0IUgiOBG
-        CxYUBF2YSaaDbZ73pndwyNyXZGZeMhXmwGFocj/n5OXz8tKRIYYYolh4Y6VTnrSu1aX1DH5X2xltc8UM
-        xlD4zkJDirN1x3oKQn/Ar8rEKFY8CVy7RGUGAzU+vg+O8nXPsT6xQrsg1sBaWJPKFwOvIi7BEf3KieqL
-        UNOT9kVqkx9UrbYLTwdWhElKaxF7UVuzUI5zCE6B12zjHOhJ8UqNlw9TezNoVkZPwEiscQ3zJBy4z01H
-        nCQZ/UFNlA7AUH/gGhVD8RY1kJze4TniEd+gOKIGktMbYCTGuMKDoF+xqySrO6hqdbeJZ4RBfkRNJC87
-        6lLMMsUGS9BE8rJBTZX3QOL3jkIJDGauqI378+w+jhiLOdw+LaX1TdVG95LMdNRde4otpGFwa1qFQaDC
-        rS218eAuG9NOjMFYzMFcLkZL0EYy0wHOX7JFGDbuzamw2VQtpJlpmWgBcxtzN9lYlqCNZCZDTZYPQsJG
-        RwENG/OzKtz8Q7K2oTMTN4HAXKwRj9VTNPDUJ7l6+I41yRfQMzITFxgzY8bENmFiWSa5esB0+g6XnEZW
-        KPyNQk2aQKJGkqsHDN0yl5yFOjMmTWxTLJNcPeBe/YZPzkbOTDv6NxGNyCrJ1QMC38cTu2VkJgxJ+j+E
-        m5t9m4gIB5vk6gGBZowwoxJuGTICGkmuHv/DqZV1RFY6EjNSe7HHTjMDZlZIrh4QtBBLykSdCdzO7uvP
-        zALJ1aPuistMYiKTTCTG9GgmcK0aydWjcd4+ziXriELSTLRoyEyI0yiSmwx44LxjCrDECV+hk0Z4hyeZ
-        6fBd6ypfhGeR03jURjLTQcuhP7lCOhbxYuVJ8aurFysEJPZ098qZ6XerOFT13BHPEb+ZYgMhaul55RFu
-        xTe4ooOgL+1pktUb4NXyOVe4WGaYtqdB1cr7wcxgl0xNfTfx3dIxXFDmG+VHXCDErwAkwwzwQsOlfq5h
-        HsRPGMZNtIAfX6DBY66xWYqHuX3oaUcg7QvQcL1TQN9c9117gtoUA7wAfWnNmXjWYA2sVfjH0HZ4lTNH
-        UQTc2b5wIpMp1uD5cBtrULmdARB0OvqHAGktwevoC1ztaCdtW4piIJbShhhiiNwxMvIXSts2MhAu07YA
-        AAAASUVORK5CYII=
-</value>
-  </data>
   <data name="btn_Alan_Olustur_Vazgec.StateCommon.Back.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABGdBTUEAALGPC/xhBQAAA4JJREFUaEPt
@@ -202,7 +160,7 @@
         AAAASUVORK5CYII=
 </value>
   </data>
-  <data name="btn_Izgara_Mal_Vazgec.StateCommon.Back.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btn_Conveyor_Olustur_Vazgec.StateCommon.Back.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABGdBTUEAALGPC/xhBQAAA4JJREFUaEPt
         Wkto1FAU7cofCoKfhSuXoq7zUkdhIC9TZ9FShBE3Qt1Zqgi6KdSFRRcVobgqggtd1nUVXBZE0IUgiOBG
@@ -258,8 +216,5 @@
   </metadata>
   <metadata name="ambarMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>140, 17</value>
-  </metadata>
-  <metadata name="kryptonIntegratedToolBarManager1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>574, 15</value>
   </metadata>
 </root>

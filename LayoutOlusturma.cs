@@ -20,6 +20,8 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.Linq;
+using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -30,7 +32,7 @@ namespace Balya_Yerleştirme
 {
     public partial class LayoutOlusturma : Form
     {
-        public float drawingPanelMoveConstant = 152.5f;
+        public float drawingPanelMoveConstant = 330 / 2;
         public float Cm_Degeri { get; set; } = 0f;
         public float pxX { get; set; } = 0f;
         public float txt_left { get; set; } = 0f;
@@ -59,11 +61,13 @@ namespace Balya_Yerleştirme
         public List<Panel> SidePanels;
         public System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
 
-        public System.Drawing.Point drawingPanelLargeLocation { get; set; } = new System.Drawing.Point(12, 102);
-        public System.Drawing.Point drawingPanelSmallLocation { get; set; } = new System.Drawing.Point(323, 102);
-        public System.Drawing.Point leftSidePanelLocation { get; set; } = new System.Drawing.Point(12, 102);
-        public System.Drawing.Size drawingPanelSmallSize { get; set; } = new System.Drawing.Size(1462, 690);
-        public System.Drawing.Size drawingPanelLargeSize { get; set; } = new System.Drawing.Size(1771, 690);
+        public System.Drawing.Point drawingPanelLeftLocation { get; set; } = new System.Drawing.Point(10, 102);
+        public System.Drawing.Point drawingPanelMiddleLocation { get; set; } = new System.Drawing.Point(343, 102);
+        public System.Drawing.Point leftSidePanelLocation { get; set; } = new System.Drawing.Point(10, 102);
+        public System.Drawing.Point rightSidePanelLocation { get; set; } = new System.Drawing.Point(1569, 102);
+        public System.Drawing.Size drawingPanelSmallSize { get; set; } = new System.Drawing.Size(1220, 909);
+        public System.Drawing.Size drawingPanelMiddleSize { get; set; } = new System.Drawing.Size(1550, 909);
+        public System.Drawing.Size drawingPanelLargeSize { get; set; } = new System.Drawing.Size(1880, 909);
 
 
         public Depo? selDepo { get; set; }
@@ -137,8 +141,6 @@ namespace Balya_Yerleştirme
             toolTip.SetToolTip(this.btn_Conveyor, "Conveyor oluştur.");
             toolTip.SetToolTip(this.btn_Depo, "Depo oluştur.");
             toolTip.SetToolTip(this.btn_Izgara_Haritasi, "Tüm Depolara ızgara haritası ekle.");
-
-
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.KeyPreview = true;
@@ -148,17 +150,11 @@ namespace Balya_Yerleştirme
             CopyDepo = new Depo();
             CopyConveyor = new Conveyor();
             GVisual.SetDoubleBuffered(drawingPanel);
-            izgaraHaritasiOlustur += izgaraHaritasiOlusturEventHandler;
             Main = main;
-            SidePanels = new List<Panel>();
-            SidePanels.Add(Alan_Olusturma_Paneli);
-            SidePanels.Add(Izgara_Mal_Paneli);
-            SidePanels.Add(Izgara_Olusturma_Paneli);
-            SidePanels.Add(Depo_Olusturma_Paneli);
-            SidePanels.Add(Conveyor_Olusturma_Paneli);
-            HideEverything();
-            DrawingPanelShrink(Alan_Olusturma_Paneli, this, leftSidePanelLocation);
             timer.Tick += Timer_Tick;
+
+
+            HideEverything();
         }
 
         private void KeyDownEventHandler(object? sender, KeyEventArgs e)
@@ -550,32 +546,6 @@ namespace Balya_Yerleştirme
 
             if (e.KeyCode == Keys.Delete)
             {
-                //List<Depo> depos = new List<Depo>();
-                //List<Conveyor> conveyors = new List<Conveyor>();
-
-                //if (selectedDepo != null)
-                //    depos.Add(selectedDepo);
-                //}
-                //if (Ambar != null)
-                //{
-                //    foreach (var depo in depos)
-                //    {
-                //        Ambar.depolar.Remove(depo);
-                //    }
-                //}
-
-                //if (selectedConveyor != null)
-                //{
-                //    conveyors.Add(selectedConveyor);
-                //}
-
-                //if (Ambar != null)
-                //{
-                //    foreach (var conv in conveyors)
-                //    {
-                //        Ambar.conveyors.Remove(conv);
-                //    }
-                //}
                 if (Ambar != null)
                 {
                     if (selectedDepo != null)
@@ -769,7 +739,6 @@ namespace Balya_Yerleştirme
                     {
                         g.DrawRectangle(SelectedConveyorPen, conv.Rectangle);
 
-
                         //g.FillRectangle(new SolidBrush(System.Drawing.Color.AliceBlue),
                         //    conv.Rectangle);
                         SelectedConveyorEdgePen.DashStyle = DashStyle.Dash;
@@ -796,7 +765,6 @@ namespace Balya_Yerleştirme
                 foreach (var depo in Ambar.depolar)
                 {
                     g.DrawRectangle(TransparentPen, depo.Rectangle);
-                    g.DrawRectangle(TransparentPen, depo.OriginalRectangle);
 
                     string textDepoAdi = $"{depo.DepoName}";
 
@@ -1346,9 +1314,209 @@ namespace Balya_Yerleştirme
                 drawingPanel.Invalidate();
             }
         }
+        public RectangleF SnapRectangles(RectangleF rectangle, RectangleF refRectangle)
+        {
+            System.Drawing.Point rectangleRightMiddle = GVisual.GetMiddleOfRightEdge(rectangle);
+            System.Drawing.Point rectangleLeftMiddle = GVisual.GetMiddleOfLeftEdge(rectangle);
+            System.Drawing.Point rectangleTopMiddle = GVisual.GetMiddleOfTopEdge(rectangle);
+            System.Drawing.Point rectangleBotMiddle = GVisual.GetMiddleOfBottomEdge(rectangle);
+            System.Drawing.Point rectangleTopLeftCorner = GVisual.GetTopLeftCorner(rectangle);
+            System.Drawing.Point rectangleTopRightCorner = GVisual.GetTopRightCorner(rectangle);
+            System.Drawing.Point rectangleBotLeftCorner = GVisual.GetBottomLeftCorner(rectangle);
+            System.Drawing.Point rectangleBotRightCorner = GVisual.GetBottomRightCorner(rectangle);
+
+
+            System.Drawing.Point refRectangleRightMiddle = GVisual.GetMiddleOfRightEdge(refRectangle);
+            System.Drawing.Point refRectangleLeftMiddle = GVisual.GetMiddleOfLeftEdge(refRectangle);
+            System.Drawing.Point refRectangleTopMiddle = GVisual.GetMiddleOfTopEdge(refRectangle);
+            System.Drawing.Point refRectangleBotMiddle = GVisual.GetMiddleOfBottomEdge(refRectangle);
+            System.Drawing.Point refRectangleTopLeftCorner = GVisual.GetTopLeftCorner(refRectangle);
+            System.Drawing.Point refRectangleTopRightCorner = GVisual.GetTopRightCorner(refRectangle);
+            System.Drawing.Point refRectangleBotLeftCorner = GVisual.GetBottomLeftCorner(refRectangle);
+            System.Drawing.Point refRectangleBotRightCorner = GVisual.GetBottomRightCorner(refRectangle);
+
+            int snapping = 12;
+
+            double TopLeftCornerSnapDistance = GVisual.CalculateDistance(rectangleBotLeftCorner.X,
+                rectangleBotLeftCorner.Y, refRectangleTopLeftCorner.X,
+                refRectangleTopLeftCorner.Y);
+            double LeftSideSnapDistance = GVisual.CalculateDistance(rectangleRightMiddle.X,
+                rectangleRightMiddle.Y, refRectangleLeftMiddle.X, refRectangleLeftMiddle.Y);
+            double BotLeftCornerSnapDistance = GVisual.CalculateDistance(rectangleTopLeftCorner.X,
+                rectangleTopLeftCorner.Y, refRectangleBotLeftCorner.X,
+                refRectangleBotLeftCorner.Y);
+
+
+            double TopRightCornerSnapDistance = GVisual.CalculateDistance(rectangleBotRightCorner.X,
+                rectangleBotRightCorner.Y, refRectangleTopRightCorner.X, refRectangleTopRightCorner.Y);
+            double RightSideSnapDistance = GVisual.CalculateDistance(rectangleLeftMiddle.X,
+                rectangleLeftMiddle.Y, refRectangleRightMiddle.X, refRectangleRightMiddle.Y);
+            double BotRightCornerSnapDistance = GVisual.CalculateDistance(rectangleTopRightCorner.X,
+                rectangleTopRightCorner.Y, refRectangleBotRightCorner.X, refRectangleBotRightCorner.Y);
+
+
+            double TopSideSnapDistance = GVisual.CalculateDistance(rectangleBotMiddle.X,
+                rectangleBotMiddle.Y, refRectangleTopMiddle.X, refRectangleTopMiddle.Y);
+            double BotSideSnapDistance = GVisual.CalculateDistance(rectangleTopMiddle.X,
+                rectangleTopMiddle.Y, refRectangleBotMiddle.X, refRectangleBotMiddle.Y);
+
+            double RightBotSnapDistance = GVisual.CalculateDistance(rectangleBotLeftCorner.X,
+                rectangleBotLeftCorner.Y, refRectangleBotRightCorner.X, refRectangleBotRightCorner.Y);
+            double RightTopSnapDistance = GVisual.CalculateDistance(rectangleTopLeftCorner.X,
+                rectangleTopLeftCorner.Y, refRectangleTopRightCorner.X, refRectangleTopRightCorner.Y);
+
+            double LeftBotSnapDistance = GVisual.CalculateDistance(rectangleBotRightCorner.X,
+                rectangleBotRightCorner.Y, refRectangleBotLeftCorner.X, refRectangleBotLeftCorner.Y);
+            double LeftTopSnapDistance = GVisual.CalculateDistance(rectangleTopRightCorner.X,
+                rectangleTopRightCorner.Y, refRectangleTopLeftCorner.X, refRectangleTopLeftCorner.Y);
+
+            if (TopSideSnapDistance < snapping)
+            {
+                rectangle = GVisual.MoveRectangleToPoint(rectangle,
+               refRectangle.X + (refRectangle.Width / 2 - rectangle.Width / 2),
+               refRectangle.Y - rectangle.Height);
+                snapped = true;
+                return rectangle;
+            }
+            else if (BotSideSnapDistance < snapping)
+            {
+                rectangle = GVisual.MoveRectangleToPoint(rectangle,
+               refRectangle.X + (refRectangle.Width / 2 - rectangle.Width / 2),
+               refRectangle.Bottom);
+                snapped = true;
+                return rectangle;
+            }
+            else if (LeftSideSnapDistance < snapping)
+            {
+                rectangle = GVisual.MoveRectangleToPoint(rectangle,
+               refRectangle.X - rectangle.Width,
+               refRectangle.Y + (refRectangle.Height / 2 - rectangle.Height / 2));
+                snapped = true;
+                return rectangle;
+            }
+            else if (RightSideSnapDistance < snapping)
+            {
+                rectangle = GVisual.MoveRectangleToPoint(rectangle,
+               refRectangle.X + refRectangle.Width,
+               refRectangle.Y + (refRectangle.Height / 2 - rectangle.Height / 2));
+                snapped = true;
+                return rectangle;
+            }
+            else if (TopRightCornerSnapDistance < snapping)
+            {
+                rectangle = GVisual.MoveRectangleToPoint(rectangle,
+               refRectangle.X + refRectangle.Width - rectangle.Width,
+               refRectangle.Y - rectangle.Height);
+                snapped = true;
+                return rectangle;
+            }
+            else if (BotRightCornerSnapDistance < snapping)
+            {
+                rectangle = GVisual.MoveRectangleToPoint(rectangle,
+               refRectangle.X + refRectangle.Width - rectangle.Width,
+               refRectangle.Y + refRectangle.Height);
+                snapped = true;
+                return rectangle;
+            }
+            else if (TopLeftCornerSnapDistance < snapping)
+            {
+                rectangle = GVisual.MoveRectangleToPoint(rectangle,
+               refRectangle.X,
+               refRectangle.Y - rectangle.Height);
+                snapped = true;
+                return rectangle;
+            }
+            else if (BotLeftCornerSnapDistance < snapping)
+            {
+                rectangle = GVisual.MoveRectangleToPoint(rectangle,
+               refRectangle.X,
+               refRectangle.Y + refRectangle.Height);
+                snapped = true;
+                return rectangle;
+            }
+            else if (RightBotSnapDistance < snapping)
+            {
+                rectangle = GVisual.MoveRectangleToPoint(rectangle,
+               refRectangle.X + refRectangle.Width,
+               refRectangle.Y + refRectangle.Height - rectangle.Height);
+                snapped = true;
+                return rectangle;
+            }
+            else if (RightTopSnapDistance < snapping)
+            {
+                rectangle = GVisual.MoveRectangleToPoint(rectangle,
+               refRectangle.X + refRectangle.Width,
+               refRectangle.Y);
+                snapped = true;
+                return rectangle;
+            }
+            else if (LeftTopSnapDistance < snapping)
+            {
+                rectangle = GVisual.MoveRectangleToPoint(rectangle,
+               refRectangle.X - rectangle.Width,
+               refRectangle.Y);
+                snapped = true;
+                return rectangle;
+            }
+            else if (LeftBotSnapDistance < snapping)
+            {
+                rectangle = GVisual.MoveRectangleToPoint(rectangle,
+               refRectangle.X - rectangle.Width,
+               refRectangle.Y + refRectangle.Height - rectangle.Height);
+                snapped = true;
+                return rectangle;
+            }
+            else
+            {
+                if (LeftSideSnapDistance < RightSideSnapDistance &&
+                   LeftSideSnapDistance < TopSideSnapDistance &&
+                   LeftSideSnapDistance < BotSideSnapDistance)
+                {
+                    rectangle = GVisual.MoveRectangleToPoint(rectangle,
+                       refRectangle.X - rectangle.Width,
+                       rectangle.Y);
+                }
+                else if (RightSideSnapDistance < LeftSideSnapDistance &&
+                   RightSideSnapDistance < TopSideSnapDistance &&
+                   RightSideSnapDistance < BotSideSnapDistance)
+                {
+                    rectangle = GVisual.MoveRectangleToPoint(rectangle,
+                       refRectangle.X + refRectangle.Width,
+                       rectangle.Y);
+                }
+                else if (TopSideSnapDistance < LeftSideSnapDistance &&
+                   TopSideSnapDistance < RightSideSnapDistance &&
+                   TopSideSnapDistance < BotSideSnapDistance)
+                {
+                    rectangle = GVisual.MoveRectangleToPoint(rectangle,
+                       rectangle.X,
+                       refRectangle.Y - rectangle.Height);
+                }
+                else if (BotSideSnapDistance < LeftSideSnapDistance &&
+                   BotSideSnapDistance < RightSideSnapDistance &&
+                   BotSideSnapDistance < TopSideSnapDistance)
+                {
+                    rectangle = GVisual.MoveRectangleToPoint(rectangle,
+                       rectangle.X,
+                       refRectangle.Y + refRectangle.Height);
+                }
+                else if (LeftSideSnapDistance < RightSideSnapDistance &&
+                   LeftSideSnapDistance < TopSideSnapDistance &&
+                   LeftSideSnapDistance < BotSideSnapDistance)
+                {
+                    rectangle = GVisual.MoveRectangleToPoint(rectangle,
+                       refRectangle.X - rectangle.Width,
+                       rectangle.Y);
+                }
+                return rectangle;
+            }
+        }
 
 
 
+
+
+        //Yerini ve Boyutunu Değiştir Algorithm
         private void txt_Width_TextChanged(object sender, EventArgs e)
         {
             errorProvider.Clear();
@@ -2025,7 +2193,6 @@ namespace Balya_Yerleştirme
                     SelectedDepoPen.Width = 1;
                     SelectedDepoEdgePen.Width = 1;
                     Manuel_Move = false;
-                    GVisual.HideControl(btn_Manuel_Move, drawingPanel);
                     GVisual.HideControl(PaddingPanel, drawingPanel);
                     DrawingPanelEnlarge(PaddingPanel, this);
                     drawingPanel.Invalidate();
@@ -2052,7 +2219,6 @@ namespace Balya_Yerleştirme
                     SelectedDepoPen.Width = 1;
                     SelectedDepoEdgePen.Width = 1;
                     Manuel_Move = false;
-                    GVisual.HideControl(btn_Manuel_Move, drawingPanel);
                     GVisual.HideControl(PaddingPanel, drawingPanel);
                     DrawingPanelEnlarge(PaddingPanel, this);
                     selectedDepo = null;
@@ -2077,7 +2243,6 @@ namespace Balya_Yerleştirme
                     SelectedConveyorPen.Width = 1;
                     SelectedConveyorEdgePen.Width = 1;
                     Manuel_Move = false;
-                    GVisual.HideControl(btn_Manuel_Move, drawingPanel);
                     GVisual.HideControl(PaddingPanel, drawingPanel);
                     DrawingPanelEnlarge(PaddingPanel, this);
                     drawingPanel.Invalidate();
@@ -2100,7 +2265,6 @@ namespace Balya_Yerleştirme
                     SelectedConveyorPen.Color = System.Drawing.Color.Black;
                     SelectedConveyorPen.Width = 1;
                     SelectedConveyorEdgePen.Width = 1;
-                    GVisual.HideControl(btn_Manuel_Move, drawingPanel);
                     GVisual.HideControl(PaddingPanel, drawingPanel);
                     DrawingPanelEnlarge(PaddingPanel, this);
                     drawingPanel.Invalidate();
@@ -2119,7 +2283,6 @@ namespace Balya_Yerleştirme
                 SelectedDepoPen.Width = 1;
                 SelectedDepoEdgePen.Width = 1;
                 Manuel_Move = false;
-                GVisual.HideControl(btn_Manuel_Move, drawingPanel);
                 GVisual.HideControl(PaddingPanel, drawingPanel);
                 drawingPanel.Invalidate();
             }
@@ -2142,7 +2305,6 @@ namespace Balya_Yerleştirme
                 AdjustFixedConveyorReferencePoints(selectedConveyor);
                 selectedConveyor = null;
                 Manuel_Move = false;
-                GVisual.HideControl(btn_Manuel_Move, drawingPanel);
                 GVisual.HideControl(PaddingPanel, drawingPanel);
                 drawingPanel.Invalidate();
             }
@@ -2194,7 +2356,6 @@ namespace Balya_Yerleştirme
                 return false;
             }
         }
-
         public bool CheckifIntersectsWithArea(RectangleF rect)
         {
             if (Ambar != null)
@@ -2217,21 +2378,14 @@ namespace Balya_Yerleştirme
             return false;
         }
 
+
+
+
+
         //Alan Button Events
         private void btn_Alan_Click(object sender, EventArgs e)
         {
-            if (!CheckPanelVisible(Alan_Olusturma_Paneli))
-            {
-                HideEverything();
-                DrawingPanelShrink(Alan_Olusturma_Paneli, this, leftSidePanelLocation);
-            }
-            else
-            {
-                HideEverything();
-                GVisual.ShowControl(Alan_Olusturma_Paneli, this, leftSidePanelLocation);
-                GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelSmallSize);
-                GVisual.Move_RightSide_of_AnotherControl(drawingPanel, Alan_Olusturma_Paneli, 7);
-            }
+            ShowControlOnLayoutPanel(Alan_Olusturma_Paneli);
         }
         private void btn_Alan_Olustur_Click(object sender, EventArgs e)
         {
@@ -2258,7 +2412,7 @@ namespace Balya_Yerleştirme
                     Ambar.LocationofRect = new System.Drawing.Point((int)Ambar.Rectangle.X, (int)Ambar.Rectangle.Y);
                     Ambar = Ambar;
                     drawingPanel.Invalidate();
-                    DrawingPanelEnlarge(Alan_Olusturma_Paneli, this);
+                    DrawingPanelEnlarge(Alan_Olusturma_Paneli, LeftSide_LayoutPanel);
                     ambar_Boyut_Degistir = false;
                 }
             }
@@ -2299,12 +2453,12 @@ namespace Balya_Yerleştirme
                             selDepo = new Depo(10, 10, 10, 10, 1f, Main, this, Ambar);
                             selConveyor = new Conveyor(10, 10, 10, 10, Main, this, Ambar);
                             drawingPanel.Invalidate();
-                            DrawingPanelEnlarge(Alan_Olusturma_Paneli, this);
+                            DrawingPanelEnlarge(Alan_Olusturma_Paneli, LeftSide_LayoutPanel);
                         }
                     }
                     else
                     {
-                        DrawingPanelEnlarge(Alan_Olusturma_Paneli, this);
+                        DrawingPanelEnlarge(Alan_Olusturma_Paneli, LeftSide_LayoutPanel);
                     }
                 }
                 else
@@ -2332,7 +2486,7 @@ namespace Balya_Yerleştirme
                         ambar.LocationofRect = new System.Drawing.Point((int)ambar.Rectangle.X, (int)ambar.Rectangle.Y);
                         Ambar = ambar;
                         drawingPanel.Invalidate();
-                        DrawingPanelEnlarge(Alan_Olusturma_Paneli, this);
+                        DrawingPanelEnlarge(Alan_Olusturma_Paneli, LeftSide_LayoutPanel);
                     }
                 }
             }
@@ -2356,7 +2510,7 @@ namespace Balya_Yerleştirme
                 {
                     HideEverything();
                     GVisual.ShowControl(Alan_Olusturma_Paneli, this, leftSidePanelLocation);
-                    GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelSmallSize);
+                    GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelMiddleSize);
                     GVisual.Move_RightSide_of_AnotherControl(drawingPanel, Alan_Olusturma_Paneli, 7);
                 }
             }
@@ -2366,6 +2520,13 @@ namespace Balya_Yerleştirme
                     MessageBoxIcon.Warning);
             }
         }
+        private void btn_Alan_Olusturma_Panelini_Kapat_Click(object sender, EventArgs e)
+        {
+            DrawingPanelEnlarge(Alan_Olusturma_Paneli, this);
+            ambar_Boyut_Degistir = false;
+        }
+
+
 
 
 
@@ -2374,18 +2535,7 @@ namespace Balya_Yerleştirme
         {
             if (Ambar != null)
             {
-                if (!CheckPanelVisible(Conveyor_Olusturma_Paneli))
-                {
-                    HideEverything();
-                    DrawingPanelShrink(Conveyor_Olusturma_Paneli, this, leftSidePanelLocation);
-                }
-                else
-                {
-                    HideEverything();
-                    GVisual.ShowControl(Conveyor_Olusturma_Paneli, this, leftSidePanelLocation);
-                    GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelSmallSize);
-                    GVisual.Move_RightSide_of_AnotherControl(drawingPanel, Conveyor_Olusturma_Paneli, 7);
-                }
+                ShowControlOnLayoutPanel(Conveyor_Olusturma_Paneli);
             }
             else
             {
@@ -2440,86 +2590,7 @@ namespace Balya_Yerleştirme
         }
 
 
-        public bool CheckPanelVisible(Panel panel)
-        {
-            bool isVisible = false;
-            foreach (var panel1 in this.Controls)
-            {
-                if (panel1 is Panel)
-                {
-                    Panel newPanel = (Panel)panel1;
 
-                    if (newPanel != drawingPanel && newPanel != ButtonPanel)
-                    {
-                        if (newPanel.Visible)
-                        {
-                            isVisible = true;
-                        }
-                    }
-                }
-            }
-            if (isVisible)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-
-
-        private void SearchForLocationtoPlace(RectangleF rectangle,
-            Conveyor? conveyor, Depo? depo,
-            Ambar Ambar)
-        {
-            Random random = new Random();
-            bool foundEmptySpace = false;
-            int maxAttempts = 1000;
-            int attempts = 0;
-            RectangleF newRectangle = new RectangleF();
-
-            float minY = Ambar.Rectangle.Top;
-            float minX = Ambar.Rectangle.Left;
-            float maxX = Ambar.Rectangle.Right - rectangle.Width;
-            float maxY = Ambar.Rectangle.Bottom - rectangle.Height;
-
-            while (!foundEmptySpace && attempts < maxAttempts)
-            {
-                attempts++;
-
-                float randomX = (float)(random.NextDouble() * (maxX - minX) + minX);
-                float randomY = (float)(random.NextDouble() * (maxY - minY) + minY);
-
-                newRectangle = new RectangleF(randomX, randomY, rectangle.Width, rectangle.Height);
-
-                bool isIntersecting = CheckifIntersectsWithArea(newRectangle);
-
-                if (!isIntersecting)
-                {
-                    foundEmptySpace = true;
-                    if (conveyor != null)
-                    {
-                        conveyor.Rectangle = newRectangle;
-                        conveyor.OriginalRectangle = conveyor.Rectangle;
-                        Ambar.conveyors.Add(conveyor);
-                    }
-
-                    if (depo != null)
-                    {
-                        depo.Rectangle = newRectangle;
-                        depo.OriginalRectangle = depo.Rectangle;
-                        Ambar.depolar.Add(depo);
-                    }
-                }
-            }
-            if (!foundEmptySpace)
-            {
-                CustomNotifyIcon notify = new CustomNotifyIcon();
-                notify.showAlert("Bu alanda yer kalmadı lütfen yer açıp tekrar deneyin.", CustomNotifyIcon.enmType.Error);
-            }
-        }
 
 
 
@@ -2528,18 +2599,7 @@ namespace Balya_Yerleştirme
         {
             if (Ambar != null)
             {
-                if (!CheckPanelVisible(Depo_Bilgi_Panel))
-                {
-                    HideEverything();
-                    DrawingPanelShrink(Depo_Bilgi_Panel, this, leftSidePanelLocation);
-                }
-                else
-                {
-                    HideEverything();
-                    GVisual.ShowControl(Depo_Bilgi_Panel, this, leftSidePanelLocation);
-                    GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelSmallSize);
-                    GVisual.Move_RightSide_of_AnotherControl(drawingPanel, Depo_Bilgi_Panel, 7);
-                }
+                ShowControlOnLayoutPanel(Depo_Olusturma_Paneli);
             }
             else
             {
@@ -2611,8 +2671,7 @@ namespace Balya_Yerleştirme
 
                     Ware_Counter++;
                     drawingPanel.Invalidate();
-                    DrawingPanelEnlarge(Depo_Olusturma_Paneli, this);
-
+                    HideEverythingOnLayoutPanel();
                     AdjustTextboxesText($"{depo.DepoAlaniEni}", $"{depo.DepoAlaniBoyu}",
                         null, null, null, null);
                 }
@@ -2626,71 +2685,13 @@ namespace Balya_Yerleştirme
         {
             DrawingPanelEnlarge(Depo_Olusturma_Paneli, this);
         }
-        private void btn_Depo_Bilgi_Panel_Sonraki_Sayfa_Click(object sender, EventArgs e)
-        {
-            errorProvider.Clear();
-
-            string depo_name = txt_Depo_Adi.Text;
-            string depo_description = txt_Depo_Aciklamasi.Text;
-            string depo_item_kind = txt_Depo_Item_Turu.Text;
-
-            if (Ambar != null)
-            {
-                foreach (var depo in Ambar.depolar)
-                {
-                    if (depo.DepoName == depo_name)
-                    {
-                        errorProvider.SetError(txt_Depo_Adi, "Bu ad ile bir depo zaten var, lütfen değiştirip tekrar deneyin.");
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("Lütfen önce alan oluşturun.", "Alan yok."
-                    , MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
 
 
-            if (string.IsNullOrWhiteSpace(depo_name))
-            {
-                errorProvider.SetError(txt_Depo_Adi, "Bu alan boş bırakılamaz.");
-            }
-
-            if (string.IsNullOrWhiteSpace(depo_description))
-            {
-                errorProvider.SetError(txt_Depo_Aciklamasi, "Bu alan boş bırakılamaz.");
-            }
-
-            if (depo_name.Length > 50)
-            {
-                errorProvider.SetError(txt_Depo_Adi, "Deponun 50 karakterden uzun bir isimi olamaz.");
-            }
-            if (depo_item_kind.Length > 50)
-            {
-                errorProvider.SetError(txt_Depo_Item_Turu, "Nesne türü 50 karakterden uzun olamaz.");
-            }
-
-            if (!errorProvider.HasErrors)
-            {
-                GVisual.HideControl(Depo_Bilgi_Panel, this);
-                GVisual.ShowControl(Depo_Olusturma_Paneli, this, leftSidePanelLocation);
-            }
-
-        }
-        private void btn_Depo_Bilgi_Panel_Vazgec_Click(object sender, EventArgs e)
-        {
-            DrawingPanelEnlarge(Depo_Bilgi_Panel, this);
-        }
-        private void btn_Depo_Bilgi_Panel_Kapat_Click(object sender, EventArgs e)
-        {
-            DrawingPanelEnlarge(Depo_Bilgi_Panel, this);
-        }
 
 
-        private void izgaraHaritasiOlusturEventHandler(object? sender, EventArgs e)
-        {
 
-        }
+
+        //Izgara Button Events
         private void btn_Izgara_Haritasi_Click(object sender, EventArgs e)
         {
             if (Ambar != null)
@@ -2698,17 +2699,17 @@ namespace Balya_Yerleştirme
                 if (Ambar.depolar.Count > 0)
                 {
                     ToolStripIzgara = true;
-                    if (!CheckPanelVisible(Izgara_Mal_Paneli))
+                    if (!CheckPanelVisible(Izgara_Olusturma_Paneli))
                     {
                         HideEverything();
-                        DrawingPanelShrink(Izgara_Mal_Paneli, this, leftSidePanelLocation);
+                        DrawingPanelShrink(Izgara_Olusturma_Paneli, this, leftSidePanelLocation);
                     }
                     else
                     {
                         HideEverything();
-                        GVisual.ShowControl(Izgara_Mal_Paneli, this, leftSidePanelLocation);
-                        GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelSmallSize);
-                        GVisual.Move_RightSide_of_AnotherControl(drawingPanel, Izgara_Mal_Paneli, 7);
+                        GVisual.ShowControl(Izgara_Olusturma_Paneli, this, leftSidePanelLocation);
+                        GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelMiddleSize);
+                        GVisual.Move_RightSide_of_AnotherControl(drawingPanel, Izgara_Olusturma_Paneli, 7);
                     }
                 }
                 else
@@ -2725,38 +2726,13 @@ namespace Balya_Yerleştirme
         }
         private void btn_Izgara_Mal_Kapat_Click(object sender, EventArgs e)
         {
-            DrawingPanelEnlarge(Izgara_Mal_Paneli, this);
-            GVisual.Clear_Krypton_TextBoxes(Izgara_Mal_Paneli, null);
-        }
-        private void btn_Izgara_Mal_Devam_Et_Click(object sender, EventArgs e)
-        {
-            errorProvider.SetError(txt_Nesnenin_Boyu, string.Empty);
-            errorProvider.SetError(txt_Nesnenin_Eni, string.Empty);
-            errorProvider.SetError(txt_Nesnenin_Yuksekligi, string.Empty);
-            errorProvider.Clear();
-
-            nesne_Yuksekligi = StrLib.CheckIntTextbox(txt_Nesnenin_Yuksekligi,
-                errorProvider, "Bu alan boş bırakılamaz.", "Buraya lütfen bir tam sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
-            nesne_Eni = StrLib.ReplaceDotWithCommaReturnFloat(txt_Nesnenin_Eni,
-                errorProvider, "Bu alan boş bırakılamaz.", "Buraya lütfen bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
-            nesne_Boyu = StrLib.ReplaceDotWithCommaReturnFloat(txt_Nesnenin_Boyu,
-                errorProvider, "Bu alan boş bırakılamaz.", "Buraya lütfen bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
-
-            if (!errorProvider.HasErrors)
-            {
-                GVisual.HideControl(Izgara_Mal_Paneli, this);
-                GVisual.ShowControl(Izgara_Olusturma_Paneli, this, leftSidePanelLocation);
-            }
-        }
-        private void btn_Izgara_Mal_Vazgec_Click(object sender, EventArgs e)
-        {
-            DrawingPanelEnlarge(Izgara_Mal_Paneli, this);
-            GVisual.Clear_Krypton_TextBoxes(Izgara_Mal_Paneli, null);
+            DrawingPanelEnlarge(Izgara_Olusturma_Paneli, this);
+            GVisual.Clear_Krypton_TextBoxes(Izgara_Olusturma_Paneli, null);
         }
         private void btn_Izgara_Olustur_Kapat_Click(object sender, EventArgs e)
         {
             DrawingPanelEnlarge(Izgara_Olusturma_Paneli, this);
-            GVisual.Clear_Krypton_TextBoxes(Izgara_Mal_Paneli, null);
+            GVisual.Clear_Krypton_TextBoxes(Izgara_Olusturma_Paneli, null);
             GVisual.Clear_Krypton_TextBoxes(Izgara_Olusturma_Paneli, null);
         }
         private void btn_Izgara_Olustur_Click(object sender, EventArgs e)
@@ -2817,44 +2793,13 @@ namespace Balya_Yerleştirme
         private void btn_Izgara_Olustur_Iptal_Et_Click(object sender, EventArgs e)
         {
             DrawingPanelEnlarge(Izgara_Olusturma_Paneli, this);
-            GVisual.Clear_Krypton_TextBoxes(Izgara_Mal_Paneli, null);
+            GVisual.Clear_Krypton_TextBoxes(Izgara_Olusturma_Paneli, null);
             GVisual.Clear_Krypton_TextBoxes(Izgara_Olusturma_Paneli, null);
         }
-        
 
 
-        private bool isPanelVisible(Panel depo_Panel, Panel izgara_Mal_Panel, Panel izgara_Panel,
-            Panel alan_Panel, Panel conveyor_Panel, Panel padding_Panel)
-        {
-            if (depo_Panel.Visible)
-            {
-                return true;
-            }
-            else if (izgara_Panel.Visible)
-            {
-                return true;
-            }
-            else if (izgara_Mal_Panel.Visible)
-            {
-                return true;
-            }
-            else if (alan_Panel.Visible)
-            {
-                return true;
-            }
-            else if (conveyor_Panel.Visible)
-            {
-                return true;
-            }
-            else if (padding_Panel.Visible)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+
+
         private void DrawLeftLines(Pen pen, Graphics g,
            List<RectangleF> ProximityRectangles, RectangleF rectangle,
            RectangleF ParentRectangle)
@@ -3393,138 +3338,9 @@ namespace Balya_Yerleştirme
                 }
             }
         }
-        //public void AdjustTextBoxLocations(RectangleF rectangle, RectangleF parentRectangle,
-        //    RectangleF RefRectangle, Point startPoint, Point endPoint, string side)
-        //{
-        //    if (!parentRectangle.IsEmpty && startPoint.IsEmpty && endPoint.IsEmpty)
-        //    {
-        //        Point topEdge = GVisual.GetMiddleOfTopEdge(rectangle);
-        //        Point leftEdge = GVisual.GetMiddleOfLeftEdge(rectangle);
-        //        Point leftPadding = GVisual.GetMiddleOfLeftEdge(parentRectangle);
-        //        Point rightPadding = GVisual.GetMiddleOfRightEdge(parentRectangle);
-        //        Point topPadding = GVisual.GetMiddleOfTopEdge(parentRectangle);
-        //        Point bottomPadding = GVisual.GetMiddleOfBottomEdge(parentRectangle);
-        //        Point rectangleRight = GVisual.GetMiddleOfRightEdge(rectangle);
-        //        Point rectangleLocation = new Point((int)rectangle.Location.X, (int)rectangle.Location.Y);
-        //        Point rectangleBottom = GVisual.GetBottomRightCorner(rectangle);
-        //        Point rectangleCenter = GVisual.GetCenter(rectangle);
-
-        //        //Point txt_width_loc = new Point(topEdge.X - txt_Width.Width / 2 + 20,
-        //        //    topEdge.Y);
-        //        //Point txt_height_loc = new Point(leftEdge.X,
-        //        //    leftEdge.Y - txt_Height.Height / 2);
-
-        //        Point txt_width_loc = new Point(rectangleCenter.X - txt_Width.Width / 2,
-        //            rectangleCenter.Y - txt_Width.Height - 5);
-        //        Point txt_height_loc =
-        //            GVisual.Point_Control_to_BottomSide_ofControl
-        //            (txt_Height, txt_Width, 10);
-
-        //        txt_Width.Location = txt_width_loc;
-        //        txt_Height.Location = txt_height_loc;
-
-        //        if (side == "Left")
-        //        {
-        //            txt_Left_Padding.Location =
-        //            GVisual.Center_Control_To_Horizontal_Padding(txt_Left_Padding, leftPadding,
-        //            rectangleLocation, rectangleLocation.Y + 3);
-        //        }
-        //        else if (side == "Right")
-        //        {
-        //            txt_Right_Padding.Location =
-        //            GVisual.Center_Control_To_Horizontal_Padding(txt_Right_Padding, rectangleRight,
-        //            rightPadding, (int)(rectangle.Location.Y +
-        //            rectangle.Height - txt_Right_Padding.Height - 3));
-        //        }
-        //        else if (side == "Top")
-        //        {
-        //            txt_Top_Padding.Location = GVisual.Center_Control_To_Vertical_Padding(txt_Top_Padding,
-        //                topPadding, rectangleLocation, rectangleLocation.X + 3);
-        //        }
-        //        else if (side == "Bottom")
-        //        {
-        //            txt_Bottom_Padding.Location = GVisual.Center_Control_To_Vertical_Padding(txt_Bottom_Padding,
-        //            rectangleBottom, bottomPadding, rectangleBottom.X - txt_Bottom_Padding.Width - 3);
-        //        }
-        //    }
-
-        //    if (!RefRectangle.IsEmpty && !startPoint.IsEmpty && !endPoint.IsEmpty)
-        //    {
-        //        Point topEdge = GVisual.GetMiddleOfTopEdge(rectangle);
-        //        Point leftEdge = GVisual.GetMiddleOfLeftEdge(rectangle);
-        //        Point leftPadding = GVisual.GetMiddleOfRightEdge(RefRectangle);
-        //        Point rightPadding = GVisual.GetMiddleOfLeftEdge(RefRectangle);
-        //        Point topPadding = GVisual.GetMiddleOfBottomEdge(RefRectangle);
-        //        Point bottomPadding = GVisual.GetMiddleOfTopEdge(RefRectangle);
-        //        Point rectangleRight = GVisual.GetMiddleOfRightEdge(rectangle);
-        //        Point rectangleLocation = new Point((int)rectangle.Location.X, (int)rectangle.Location.Y);
-        //        Point rectangleBottom = GVisual.GetBottomRightCorner(rectangle);
-        //        Point rectangleCenter = GVisual.GetCenter(rectangle);
-
-        //        //Point txt_width_loc = new Point(topEdge.X - txt_Width.Width / 2 + 20,
-        //        //    topEdge.Y);
-        //        //Point txt_height_loc = new Point(leftEdge.X,
-        //        //    leftEdge.Y - txt_Height.Height / 2);
-
-        //        Point txt_width_loc = new Point(rectangleCenter.X - txt_Width.Width / 2,
-        //           rectangleCenter.Y - txt_Width.Height - 5);
-        //        Point txt_height_loc =
-        //            GVisual.Point_Control_to_BottomSide_ofControl
-        //            (txt_Height, txt_Width, 10);
-
-        //        txt_Width.Location = txt_width_loc;
-        //        txt_Height.Location = txt_height_loc;
-
-        //        if (side == "Left")
-        //        {
-        //            txt_Left_Padding.Location =
-        //            GVisual.Center_Control_To_Horizontal_Padding(txt_Left_Padding, startPoint,
-        //            endPoint, endPoint.Y);
-        //        }
-        //        else if (side == "Right")
-        //        {
-        //            txt_Right_Padding.Location =
-        //                GVisual.Center_Control_To_Horizontal_Padding(txt_Right_Padding, startPoint,
-        //                endPoint, endPoint.Y);
-        //        }
-        //        else if (side == "Top")
-        //        {
-        //            txt_Top_Padding.Location = GVisual.Center_Control_To_Vertical_Padding(txt_Top_Padding,
-        //                startPoint, endPoint, endPoint.X + 3);
-        //        }
-        //        else if (side == "Bottom")
-        //        {
-        //            txt_Bottom_Padding.Location = GVisual.Center_Control_To_Vertical_Padding(txt_Bottom_Padding,
-        //                startPoint, endPoint, endPoint.X);
-        //        }
-        //        else
-        //        {
-        //            txt_Left_Padding.Location =
-        //            GVisual.Center_Control_To_Horizontal_Padding(txt_Left_Padding, leftPadding,
-        //            rectangleLocation, rectangleLocation.Y + 3);
-
-        //            txt_Right_Padding.Location =
-        //                GVisual.Center_Control_To_Horizontal_Padding(txt_Right_Padding, rectangleRight,
-        //                rightPadding, (int)(rectangle.Location.Y +
-        //                rectangle.Height - txt_Right_Padding.Height - 3));
-
-        //            txt_Top_Padding.Location = GVisual.Center_Control_To_Vertical_Padding(txt_Top_Padding,
-        //                topPadding, rectangleLocation, rectangleLocation.X + 3);
-
-        //            txt_Bottom_Padding.Location = GVisual.Center_Control_To_Vertical_Padding(txt_Bottom_Padding,
-        //                rectangleBottom, bottomPadding, rectangleBottom.X - txt_Bottom_Padding.Width - 3);
-        //        }
-        //    }
-
-        //    if (!txt_Width.Visible)
-        //    {
-        //        ShowTextboxes(txt_Width.Location, txt_Height.Location, txt_Left_Padding.Location,
-        //       txt_Right_Padding.Location, txt_Top_Padding.Location, txt_Bottom_Padding.Location);
-        //    }
-        //}
 
 
-
+        //Useful Methods
         public static float ConvertTwoRectanglesDistancetoCMVertically
             (float areaWidthMeters, float areaHeightMeters, RectangleF parentRectangle,
             RectangleF downRectangle, RectangleF upRectangle, bool inBetween)
@@ -3587,7 +3403,6 @@ namespace Balya_Yerleştirme
                 }
             }
         }
-
         public (float, float) ConvertPixelToCmGivenRectangle(RectangleF Rect,
             float rectAreaWidthMeters, float rectAreaHeightMeters)
         {
@@ -3599,9 +3414,6 @@ namespace Balya_Yerleştirme
 
             return (widthCmPx, heightCmPx);
         }
-
-
-
         public float ConvertTwoRectanglesDistancetoCMHorizontally(float areaWidthMeters,
             float areaHeightMeters, RectangleF parentRectangle, RectangleF leftRectangle,
             RectangleF rightRectangle, bool inBetween)
@@ -3667,6 +3479,34 @@ namespace Balya_Yerleştirme
 
 
 
+
+        //Ui Operations
+        private void HideEverything()
+        {
+            GVisual.HideControl(Alan_Olusturma_Paneli, this);
+            GVisual.HideControl(Conveyor_Olusturma_Paneli, this);
+            GVisual.HideControl(Depo_Olusturma_Paneli, this);
+            GVisual.HideControl(Izgara_Olusturma_Paneli, this);
+            GVisual.HideControl(Izgara_Olusturma_Paneli, this);
+            GVisual.HideControl(PaddingPanel, this);
+            GVisual.HideControl(Depo_Olusturma_Paneli, this);
+            GVisual.HideControl(LeftSide_LayoutPanel, this);
+            GVisual.HideControl(txt_Width, drawingPanel);
+            GVisual.HideControl(txt_Height, drawingPanel);
+            GVisual.HideControl(txt_Left_Padding, drawingPanel);
+            GVisual.HideControl(txt_Right_Padding, drawingPanel);
+            GVisual.HideControl(txt_Top_Padding, drawingPanel);
+            GVisual.HideControl(txt_Bottom_Padding, drawingPanel);
+            GVisual.HideControl(btn_Yer_Onayla, drawingPanel);
+            GVisual.HideControl(Placement_LeftRight_Panel, drawingPanel);
+            GVisual.HideControl(Placement_StartLocation_Panel, drawingPanel);
+            GVisual.HideControl(Placement_UpDown_Panel, drawingPanel);
+            GVisual.HideControl(Asama1_Yukseklik_Panel, drawingPanel);
+            GVisual.HideControl(Asama2_Yukseklik_Panel, drawingPanel);
+            GVisual.HideControl(Conveyor_Reference_Sayisi_Paneli, drawingPanel);
+            GVisual.HideControl(Conveyor_Reference_FixedorManuel_Panel, drawingPanel);
+            GVisual.HideControl(Conveyor_Reference_Fixed_Panel, drawingPanel);
+        }
         private void MoveLeft()
         {
             if (Ambar != null)
@@ -3737,140 +3577,177 @@ namespace Balya_Yerleştirme
                 drawingPanel.Invalidate();
             }
         }
-
-
-
-        private void ShowTextboxes(System.Drawing.Point txt_Width_Location, System.Drawing.Point txt_Height_Location,
-            System.Drawing.Point txt_Left_Padding_Location, System.Drawing.Point txt_Right_Padding_Location,
-            System.Drawing.Point txt_Top_Padding_Location, System.Drawing.Point txt_Bottom_Padding_Location)
+        public void ShowControlOnLayoutPanel(System.Windows.Forms.Control control)
         {
-            GVisual.ShowControl(txt_Width, PaddingPanel, txt_Width_Location);
-            GVisual.ShowControl(txt_Height, PaddingPanel, txt_Height_Location);
-            GVisual.ShowControl(txt_Left_Padding, PaddingPanel, txt_Left_Padding_Location);
-            GVisual.ShowControl(txt_Right_Padding, PaddingPanel, txt_Right_Padding_Location);
-            GVisual.ShowControl(txt_Top_Padding, PaddingPanel, txt_Top_Padding_Location);
-            GVisual.ShowControl(txt_Bottom_Padding, PaddingPanel, txt_Bottom_Padding_Location);
+            OpenCloseLayoutPanel(LeftSide_LayoutPanel, leftSidePanelLocation);
+            LeftSide_LayoutPanel.Controls.Clear();
+            GVisual.ShowControl(control, LeftSide_LayoutPanel, new System.Drawing.Point(0, 0));
         }
-        private void HideTextboxes()
+        public void HideEverythingOnLayoutPanel()
         {
-            GVisual.HideControl(txt_Width, PaddingPanel);
-            GVisual.HideControl(txt_Height, PaddingPanel);
-            GVisual.HideControl(txt_Left_Padding, PaddingPanel);
-            GVisual.HideControl(txt_Right_Padding, PaddingPanel);
-            GVisual.HideControl(txt_Top_Padding, PaddingPanel);
-            GVisual.HideControl(txt_Bottom_Padding, PaddingPanel);
+            OpenCloseLayoutPanel(LeftSide_LayoutPanel, leftSidePanelLocation);
+            LeftSide_LayoutPanel.Controls.Clear();
         }
-        
-        public void AdjustTextboxesText(string? txt_width, string? txt_height, string? txt_left_padding,
-            string? txt_right_padding, string? txt_top_padding, string? txt_bottom_padding)
+        public void OpenCloseLayoutPanel(FlowLayoutPanel LayoutPanel, System.Drawing.Point locationofPanel)
         {
-            if (isMoving == false)
+            if (LayoutPanel.Visible)
             {
-                if (txt_left_padding != null)
-                {
-                    txt_Left_Padding.Text = txt_left_padding;
-                }
-                if (txt_right_padding != null)
-                {
-                    txt_Right_Padding.Text = txt_right_padding;
-                }
-                if (txt_bottom_padding != null)
-                {
-                    txt_Bottom_Padding.Text = txt_bottom_padding;
-                }
-                if (txt_top_padding != null)
-                {
-                    txt_Top_Padding.Text = txt_top_padding;
-                }
-                if (txt_width != null)
-                {
-                    txt_Width.Text = txt_width;
-                }
-                if (txt_height != null)
-                {
-                    txt_Height.Text = txt_height;
-                }
+                DrawingPanelEnlarge(LayoutPanel, this);
+                btn_OpenClose_LeftSide.Image = Resources.Resource1.Chevron_Right;
+            }
+            else
+            {
+                DrawingPanelShrink(LayoutPanel, this, locationofPanel);
+                btn_OpenClose_LeftSide.Image = Resources.Resource1.Chevron_Left;
             }
         }
-
-
-
-        private void HideEverything()
+        private void btn_openClose_LeftSide_Click(object sender, EventArgs e)
         {
-            GVisual.HideControl(Alan_Olusturma_Paneli, this);
-            GVisual.HideControl(Conveyor_Olusturma_Paneli, this);
-            GVisual.HideControl(Depo_Olusturma_Paneli, this);
-            GVisual.HideControl(Izgara_Mal_Paneli, this);
-            GVisual.HideControl(Izgara_Olusturma_Paneli, this);
-            GVisual.HideControl(PaddingPanel, this);
-            GVisual.HideControl(Depo_Bilgi_Panel, this);
-            GVisual.HideControl(txt_Width, drawingPanel);
-            GVisual.HideControl(txt_Height, drawingPanel);
-            GVisual.HideControl(txt_Left_Padding, drawingPanel);
-            GVisual.HideControl(txt_Right_Padding, drawingPanel);
-            GVisual.HideControl(txt_Top_Padding, drawingPanel);
-            GVisual.HideControl(txt_Bottom_Padding, drawingPanel);
-            GVisual.HideControl(btn_Manuel_Move, drawingPanel);
-            GVisual.HideControl(btn_Yer_Onayla, drawingPanel);
-            GVisual.HideControl(Placement_LeftRight_Panel, drawingPanel);
-            GVisual.HideControl(Placement_StartLocation_Panel, drawingPanel);
-            GVisual.HideControl(Placement_UpDown_Panel, drawingPanel);
-            GVisual.HideControl(Asama1_Yukseklik_Panel, drawingPanel);
-            GVisual.HideControl(Asama2_Yukseklik_Panel, drawingPanel);
-            GVisual.HideControl(Conveyor_Reference_Sayisi_Paneli, drawingPanel);
-            GVisual.HideControl(Conveyor_Reference_FixedorManuel_Panel, drawingPanel);
-            GVisual.HideControl(Conveyor_Reference_Fixed_Panel, drawingPanel);
+            if (LeftSide_LayoutPanel.Visible)
+            {
+                MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
+            }
+            else
+            {
+                MainPanelOpenLeftSide(LeftSide_LayoutPanel, this, leftSidePanelLocation);
+            }
+        }
+        private void btn_openClose_RightSide_Click(object sender, EventArgs e)
+        {
+            if (RightSide_LayoutPanel.Visible)
+            {
+                MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+                
+            }
+            else
+            {
+                MainPanelOpenRightSide(RightSide_LayoutPanel, this, rightSidePanelLocation);
+                GVisual.Control_TopRightCorner(btn_openClose_RightSide, drawingPanel, 3);
+            }
         }
         private void DrawingPanelEnlarge(System.Windows.Forms.Control hideControl,
             System.Windows.Forms.Control parentControl)
         {
             GVisual.HideControl(hideControl, parentControl);
             GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelLargeSize);
-            drawingPanel.Location = drawingPanelLargeLocation;
+            drawingPanel.Location = drawingPanelLeftLocation;
             MoveRight();
         }
         private void DrawingPanelShrink(System.Windows.Forms.Control showControl,
             System.Windows.Forms.Control parentControl, System.Drawing.Point childControlLocation)
         {
             GVisual.ShowControl(showControl, parentControl, childControlLocation);
-            GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelSmallSize);
-            drawingPanel.Location = drawingPanelSmallLocation;
+            GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelMiddleSize);
+            drawingPanel.Location = drawingPanelMiddleLocation;
             MoveLeft();
         }
-
-
-
-        private void btn_Manuel_Move_Click(object sender, EventArgs e)
+        private void MainPanelOpenLeftSide(System.Windows.Forms.Control showControlLeft,
+            System.Windows.Forms.Control parentControl, System.Drawing.Point childControlLocationLeft)
         {
-            if (Manuel_Move)
+            if (RightSide_LayoutPanel.Visible)
             {
-                Manuel_Move = false;
+                GVisual.ShowControl(showControlLeft, parentControl, childControlLocationLeft);
+                GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelSmallSize);
+                drawingPanel.Location = drawingPanelMiddleLocation;
+                MoveLeft();
+                GVisual.Control_TopRightCorner(btn_openClose_RightSide, drawingPanel, 3);
             }
             else
             {
-                ShowTextboxes(txt_Width.Location, txt_Height.Location,
-                    txt_Left_Padding.Location, txt_Right_Padding.Location,
-                    txt_Top_Padding.Location, txt_Bottom_Padding.Location);
-                ShowMoveCheckButton();
-                Manuel_Move = true;
-                if (selectedDepo != null)
-                {
-                    ManuelDepoRectangle = selectedDepo.Rectangle;
-                    UnchangedDepoAlaniBoyu = selectedDepo.DepoAlaniBoyu;
-                    UnchangedDepoAlaniEni = selectedDepo.DepoAlaniEni;
-                    //txt_width.text = $"{unchangeddepoalanieni}";
-                    //txt_height.text = $"{unchangeddepoalaniboyu}";
-                }
-                if (selectedConveyor != null)
-                {
-                    ManuelConveyorRectangle = selectedConveyor.Rectangle;
-                    UnchangedConveyorEni = selectedConveyor.ConveyorEni;
-                    UnchangedConveyorBoyu = selectedConveyor.ConveyorBoyu;
-                    //txt_Width.Text = $"{UnchangedConveyorEni}";
-                    //txt_Height.Text = $"{UnchangedConveyorBoyu}";
-                }
+                GVisual.ShowControl(showControlLeft, parentControl, childControlLocationLeft);
+                GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelMiddleSize);
+                drawingPanel.Location = drawingPanelMiddleLocation;
+                MoveLeft();
+                GVisual.Control_TopRightCorner(btn_openClose_RightSide, drawingPanel, 3);
             }
         }
+        private void MainPanelOpenRightSide(System.Windows.Forms.Control showControlRight,
+            System.Windows.Forms.Control parentControl, System.Drawing.Point childControlLocationRight)
+        {
+            if (LeftSide_LayoutPanel.Visible)
+            {
+                GVisual.ShowControl(showControlRight, parentControl, childControlLocationRight);
+                GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelSmallSize);
+                drawingPanel.Location = drawingPanelMiddleLocation;
+                MoveRight();
+                GVisual.Control_TopRightCorner(btn_openClose_RightSide, drawingPanel, 3);
+            }
+            else
+            {
+                GVisual.ShowControl(showControlRight, parentControl, childControlLocationRight);
+                GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelMiddleSize);
+                drawingPanel.Location = drawingPanelLeftLocation;
+                MoveRight();
+                GVisual.Control_TopRightCorner(btn_openClose_RightSide, drawingPanel, 3);
+            }
+        }
+        private void MainPanelOpenBothSides(System.Windows.Forms.Control showControlLeft, System.Windows.Forms.Control showControlRight,
+            System.Windows.Forms.Control parentControl, System.Drawing.Point childControlLocationLeft, System.Drawing.Point childControlLocationRight)
+        {
+            GVisual.ShowControl(showControlLeft, parentControl, childControlLocationLeft);
+            GVisual.ShowControl(showControlRight, parentControl, childControlLocationRight);
+            GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelSmallSize);
+            drawingPanel.Location = drawingPanelMiddleLocation;
+            GVisual.Control_TopRightCorner(btn_openClose_RightSide, drawingPanel, 3);
+        }
+        private void MainPanelCloseLeftSide(System.Windows.Forms.Control hideControlLeft,
+            System.Windows.Forms.Control parentControl)
+        {
+            if (RightSide_LayoutPanel.Visible)
+            {
+                GVisual.HideControl(hideControlLeft, parentControl);
+                GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelMiddleSize);
+                drawingPanel.Location = drawingPanelLeftLocation;
+                MoveRight();
+                GVisual.Control_TopRightCorner(btn_openClose_RightSide, drawingPanel, 3);
+            }
+            else
+            {
+                GVisual.HideControl(hideControlLeft, parentControl);
+                GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelLargeSize);
+                drawingPanel.Location = drawingPanelLeftLocation;
+                MoveRight();
+                GVisual.Control_TopRightCorner(btn_openClose_RightSide, drawingPanel, 3);
+            }
+
+        }
+        private void MainPanelCloseRightSide(System.Windows.Forms.Control hideControlRight,
+            System.Windows.Forms.Control parentControl)
+        {
+            if (LeftSide_LayoutPanel.Visible)
+            {
+                GVisual.HideControl(hideControlRight, parentControl);
+                GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelMiddleSize);
+                drawingPanel.Location = drawingPanelMiddleLocation;
+                MoveLeft();
+                GVisual.Control_TopRightCorner(btn_openClose_RightSide, drawingPanel, 3);
+            }
+            else
+            {
+                GVisual.HideControl(hideControlRight, parentControl);
+                GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelLargeSize);
+                drawingPanel.Location = drawingPanelLeftLocation;
+                MoveLeft();
+                GVisual.Control_TopRightCorner(btn_openClose_RightSide, drawingPanel, 3);
+            }
+
+        }
+        private void MainPanelCloseBothSides(System.Windows.Forms.Control hideControlLeft, System.Windows.Forms.Control hideControlRight,
+            System.Windows.Forms.Control parentControl)
+        {
+            GVisual.HideControl(hideControlLeft, parentControl);
+            GVisual.HideControl(hideControlRight, parentControl);
+            GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelLargeSize);
+            drawingPanel.Location = drawingPanelLeftLocation;
+            GVisual.Control_TopRightCorner(btn_openClose_RightSide, drawingPanel, 3);
+        }
+
+
+
+
+
+
+        //Less Frequent Ui Operations
         private void ShowMoveCheckButton()
         {
             if (Ambar != null)
@@ -3880,9 +3757,6 @@ namespace Balya_Yerleştirme
                     btn_Padding_Vazgeç, 10);
             }
         }
-
-
-
         private void CenterControltoLeftSideofRectangleVertically(RectangleF rectangle,
             System.Windows.Forms.Control control,
             System.Windows.Forms.Control ParentControl)
@@ -3906,9 +3780,89 @@ namespace Balya_Yerleştirme
                     ParentControl.ClientRectangle.Bottom - control.Height);
             }
         }
+        public bool CheckPanelVisible(Panel panel)
+        {
+            bool isVisible = false;
+            foreach (var panel1 in this.Controls)
+            {
+                if (panel1 is Panel)
+                {
+                    Panel newPanel = (Panel)panel1;
+
+                    if (newPanel != drawingPanel && newPanel != ButtonPanel)
+                    {
+                        if (newPanel.Visible)
+                        {
+                            isVisible = true;
+                        }
+                    }
+                }
+            }
+            if (isVisible)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        private void SearchForLocationtoPlace(RectangleF rectangle,
+            Conveyor? conveyor, Depo? depo,
+            Ambar Ambar)
+        {
+            Random random = new Random();
+            bool foundEmptySpace = false;
+            int maxAttempts = 1000;
+            int attempts = 0;
+            RectangleF newRectangle = new RectangleF();
+
+            float minY = Ambar.Rectangle.Top;
+            float minX = Ambar.Rectangle.Left;
+            float maxX = Ambar.Rectangle.Right - rectangle.Width;
+            float maxY = Ambar.Rectangle.Bottom - rectangle.Height;
+
+            while (!foundEmptySpace && attempts < maxAttempts)
+            {
+                attempts++;
+
+                float randomX = (float)(random.NextDouble() * (maxX - minX) + minX);
+                float randomY = (float)(random.NextDouble() * (maxY - minY) + minY);
+
+                newRectangle = new RectangleF(randomX, randomY, rectangle.Width, rectangle.Height);
+
+                bool isIntersecting = CheckifIntersectsWithArea(newRectangle);
+
+                if (!isIntersecting)
+                {
+                    foundEmptySpace = true;
+                    if (conveyor != null)
+                    {
+                        conveyor.Rectangle = newRectangle;
+                        conveyor.OriginalRectangle = conveyor.Rectangle;
+                        Ambar.conveyors.Add(conveyor);
+                    }
+
+                    if (depo != null)
+                    {
+                        depo.Rectangle = newRectangle;
+                        depo.OriginalRectangle = depo.Rectangle;
+                        Ambar.depolar.Add(depo);
+                    }
+                }
+            }
+            if (!foundEmptySpace)
+            {
+                CustomNotifyIcon notify = new CustomNotifyIcon();
+                notify.showAlert("Bu alanda yer kalmadı lütfen yer açıp tekrar deneyin.", CustomNotifyIcon.enmType.Error);
+            }
+        }
 
 
 
+
+
+        //Nesne Koyulma Sıralamasını Ayarla Algorithm
         private void nesneKoyulmaSıralamasınıAyarlaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (selectedDepo != null)
@@ -4297,6 +4251,12 @@ namespace Balya_Yerleştirme
                 drawingPanel.Invalidate();
             }
         }
+
+
+
+
+
+        //TextBox Events
         private void textBoxFloat_TextChanged(object sender, EventArgs e)
         {
             Krypton.Toolkit.KryptonTextBox textBox = sender as Krypton.Toolkit.KryptonTextBox;
@@ -4375,15 +4335,13 @@ namespace Balya_Yerleştirme
                 }
             }
         }
-
-
         private void FocusEntertoTXTs(object sender, EventArgs eventArgs)
         {
             Krypton.Toolkit.KryptonTextBox textBox = sender as Krypton.Toolkit.KryptonTextBox;
 
             if (textBox != null)
             {
-                if (textBox.Text != "cm girin" && textBox.Text != "metre girin" && 
+                if (textBox.Text != "cm girin" && textBox.Text != "metre girin" &&
                     textBox.Text != "Açıklama girin" && textBox.Text != "Depo adı girin" &&
                     textBox.Text != "Tür kodu girin")
                 {
@@ -4414,212 +4372,288 @@ namespace Balya_Yerleştirme
                 }
             }
         }
-
-        private void btn_Alan_Olusturma_Panelini_Kapat_Click(object sender, EventArgs e)
+        private void ShowTextboxes(System.Drawing.Point txt_Width_Location, System.Drawing.Point txt_Height_Location,
+            System.Drawing.Point txt_Left_Padding_Location, System.Drawing.Point txt_Right_Padding_Location,
+            System.Drawing.Point txt_Top_Padding_Location, System.Drawing.Point txt_Bottom_Padding_Location)
         {
-            DrawingPanelEnlarge(Alan_Olusturma_Paneli, this);
-            ambar_Boyut_Degistir = false;
+            GVisual.ShowControl(txt_Width, PaddingPanel, txt_Width_Location);
+            GVisual.ShowControl(txt_Height, PaddingPanel, txt_Height_Location);
+            GVisual.ShowControl(txt_Left_Padding, PaddingPanel, txt_Left_Padding_Location);
+            GVisual.ShowControl(txt_Right_Padding, PaddingPanel, txt_Right_Padding_Location);
+            GVisual.ShowControl(txt_Top_Padding, PaddingPanel, txt_Top_Padding_Location);
+            GVisual.ShowControl(txt_Bottom_Padding, PaddingPanel, txt_Bottom_Padding_Location);
         }
-        public RectangleF SnapRectangles(RectangleF rectangle, RectangleF refRectangle)
+        private void HideTextboxes()
         {
-            System.Drawing.Point rectangleRightMiddle = GVisual.GetMiddleOfRightEdge(rectangle);
-            System.Drawing.Point rectangleLeftMiddle = GVisual.GetMiddleOfLeftEdge(rectangle);
-            System.Drawing.Point rectangleTopMiddle = GVisual.GetMiddleOfTopEdge(rectangle);
-            System.Drawing.Point rectangleBotMiddle = GVisual.GetMiddleOfBottomEdge(rectangle);
-            System.Drawing.Point rectangleTopLeftCorner = GVisual.GetTopLeftCorner(rectangle);
-            System.Drawing.Point rectangleTopRightCorner = GVisual.GetTopRightCorner(rectangle);
-            System.Drawing.Point rectangleBotLeftCorner = GVisual.GetBottomLeftCorner(rectangle);
-            System.Drawing.Point rectangleBotRightCorner = GVisual.GetBottomRightCorner(rectangle);
-
-
-            System.Drawing.Point refRectangleRightMiddle = GVisual.GetMiddleOfRightEdge(refRectangle);
-            System.Drawing.Point refRectangleLeftMiddle = GVisual.GetMiddleOfLeftEdge(refRectangle);
-            System.Drawing.Point refRectangleTopMiddle = GVisual.GetMiddleOfTopEdge(refRectangle);
-            System.Drawing.Point refRectangleBotMiddle = GVisual.GetMiddleOfBottomEdge(refRectangle);
-            System.Drawing.Point refRectangleTopLeftCorner = GVisual.GetTopLeftCorner(refRectangle);
-            System.Drawing.Point refRectangleTopRightCorner = GVisual.GetTopRightCorner(refRectangle);
-            System.Drawing.Point refRectangleBotLeftCorner = GVisual.GetBottomLeftCorner(refRectangle);
-            System.Drawing.Point refRectangleBotRightCorner = GVisual.GetBottomRightCorner(refRectangle);
-
-            int snapping = 12;
-
-            double TopLeftCornerSnapDistance = GVisual.CalculateDistance(rectangleBotLeftCorner.X,
-                rectangleBotLeftCorner.Y, refRectangleTopLeftCorner.X,
-                refRectangleTopLeftCorner.Y);
-            double LeftSideSnapDistance = GVisual.CalculateDistance(rectangleRightMiddle.X,
-                rectangleRightMiddle.Y, refRectangleLeftMiddle.X, refRectangleLeftMiddle.Y);
-            double BotLeftCornerSnapDistance = GVisual.CalculateDistance(rectangleTopLeftCorner.X,
-                rectangleTopLeftCorner.Y, refRectangleBotLeftCorner.X,
-                refRectangleBotLeftCorner.Y);
-
-
-            double TopRightCornerSnapDistance = GVisual.CalculateDistance(rectangleBotRightCorner.X,
-                rectangleBotRightCorner.Y, refRectangleTopRightCorner.X, refRectangleTopRightCorner.Y);
-            double RightSideSnapDistance = GVisual.CalculateDistance(rectangleLeftMiddle.X,
-                rectangleLeftMiddle.Y, refRectangleRightMiddle.X, refRectangleRightMiddle.Y);
-            double BotRightCornerSnapDistance = GVisual.CalculateDistance(rectangleTopRightCorner.X,
-                rectangleTopRightCorner.Y, refRectangleBotRightCorner.X, refRectangleBotRightCorner.Y);
-
-
-            double TopSideSnapDistance = GVisual.CalculateDistance(rectangleBotMiddle.X,
-                rectangleBotMiddle.Y, refRectangleTopMiddle.X, refRectangleTopMiddle.Y);
-            double BotSideSnapDistance = GVisual.CalculateDistance(rectangleTopMiddle.X,
-                rectangleTopMiddle.Y, refRectangleBotMiddle.X, refRectangleBotMiddle.Y);
-
-            double RightBotSnapDistance = GVisual.CalculateDistance(rectangleBotLeftCorner.X,
-                rectangleBotLeftCorner.Y, refRectangleBotRightCorner.X, refRectangleBotRightCorner.Y);
-            double RightTopSnapDistance = GVisual.CalculateDistance(rectangleTopLeftCorner.X,
-                rectangleTopLeftCorner.Y, refRectangleTopRightCorner.X, refRectangleTopRightCorner.Y);
-
-            double LeftBotSnapDistance = GVisual.CalculateDistance(rectangleBotRightCorner.X,
-                rectangleBotRightCorner.Y, refRectangleBotLeftCorner.X, refRectangleBotLeftCorner.Y);
-            double LeftTopSnapDistance = GVisual.CalculateDistance(rectangleTopRightCorner.X,
-                rectangleTopRightCorner.Y, refRectangleTopLeftCorner.X, refRectangleTopLeftCorner.Y);
-
-            if (TopSideSnapDistance < snapping)
+            GVisual.HideControl(txt_Width, PaddingPanel);
+            GVisual.HideControl(txt_Height, PaddingPanel);
+            GVisual.HideControl(txt_Left_Padding, PaddingPanel);
+            GVisual.HideControl(txt_Right_Padding, PaddingPanel);
+            GVisual.HideControl(txt_Top_Padding, PaddingPanel);
+            GVisual.HideControl(txt_Bottom_Padding, PaddingPanel);
+        }
+        public void AdjustTextboxesText(string? txt_width, string? txt_height, string? txt_left_padding,
+            string? txt_right_padding, string? txt_top_padding, string? txt_bottom_padding)
+        {
+            if (isMoving == false)
             {
-                rectangle = GVisual.MoveRectangleToPoint(rectangle,
-               refRectangle.X + (refRectangle.Width / 2 - rectangle.Width / 2),
-               refRectangle.Y - rectangle.Height);
-                snapped = true;
-                return rectangle;
-            }
-            else if (BotSideSnapDistance < snapping)
-            {
-                rectangle = GVisual.MoveRectangleToPoint(rectangle,
-               refRectangle.X + (refRectangle.Width / 2 - rectangle.Width / 2),
-               refRectangle.Bottom);
-                snapped = true;
-                return rectangle;
-            }
-            else if (LeftSideSnapDistance < snapping)
-            {
-                rectangle = GVisual.MoveRectangleToPoint(rectangle,
-               refRectangle.X - rectangle.Width,
-               refRectangle.Y + (refRectangle.Height / 2 - rectangle.Height / 2));
-                snapped = true;
-                return rectangle;
-            }
-            else if (RightSideSnapDistance < snapping)
-            {
-                rectangle = GVisual.MoveRectangleToPoint(rectangle,
-               refRectangle.X + refRectangle.Width,
-               refRectangle.Y + (refRectangle.Height / 2 - rectangle.Height / 2));
-                snapped = true;
-                return rectangle;
-            }
-            else if (TopRightCornerSnapDistance < snapping)
-            {
-                rectangle = GVisual.MoveRectangleToPoint(rectangle,
-               refRectangle.X + refRectangle.Width - rectangle.Width,
-               refRectangle.Y - rectangle.Height);
-                snapped = true;
-                return rectangle;
-            }
-            else if (BotRightCornerSnapDistance < snapping)
-            {
-                rectangle = GVisual.MoveRectangleToPoint(rectangle,
-               refRectangle.X + refRectangle.Width - rectangle.Width,
-               refRectangle.Y + refRectangle.Height);
-                snapped = true;
-                return rectangle;
-            }
-            else if (TopLeftCornerSnapDistance < snapping)
-            {
-                rectangle = GVisual.MoveRectangleToPoint(rectangle,
-               refRectangle.X,
-               refRectangle.Y - rectangle.Height);
-                snapped = true;
-                return rectangle;
-            }
-            else if (BotLeftCornerSnapDistance < snapping)
-            {
-                rectangle = GVisual.MoveRectangleToPoint(rectangle,
-               refRectangle.X,
-               refRectangle.Y + refRectangle.Height);
-                snapped = true;
-                return rectangle;
-            }
-            else if (RightBotSnapDistance < snapping)
-            {
-                rectangle = GVisual.MoveRectangleToPoint(rectangle,
-               refRectangle.X + refRectangle.Width,
-               refRectangle.Y + refRectangle.Height - rectangle.Height);
-                snapped = true;
-                return rectangle;
-            }
-            else if (RightTopSnapDistance < snapping)
-            {
-                rectangle = GVisual.MoveRectangleToPoint(rectangle,
-               refRectangle.X + refRectangle.Width,
-               refRectangle.Y);
-                snapped = true;
-                return rectangle;
-            }
-            else if (LeftTopSnapDistance < snapping)
-            {
-                rectangle = GVisual.MoveRectangleToPoint(rectangle,
-               refRectangle.X - rectangle.Width,
-               refRectangle.Y);
-                snapped = true;
-                return rectangle;
-            }
-            else if (LeftBotSnapDistance < snapping)
-            {
-                rectangle = GVisual.MoveRectangleToPoint(rectangle,
-               refRectangle.X - rectangle.Width,
-               refRectangle.Y + refRectangle.Height - rectangle.Height);
-                snapped = true;
-                return rectangle;
-            }
-            else
-            {
-                if (LeftSideSnapDistance < RightSideSnapDistance &&
-                   LeftSideSnapDistance < TopSideSnapDistance &&
-                   LeftSideSnapDistance < BotSideSnapDistance)
+                if (txt_left_padding != null)
                 {
-                    rectangle = GVisual.MoveRectangleToPoint(rectangle,
-                       refRectangle.X - rectangle.Width,
-                       rectangle.Y);
+                    txt_Left_Padding.Text = txt_left_padding;
                 }
-                else if (RightSideSnapDistance < LeftSideSnapDistance &&
-                   RightSideSnapDistance < TopSideSnapDistance &&
-                   RightSideSnapDistance < BotSideSnapDistance)
+                if (txt_right_padding != null)
                 {
-                    rectangle = GVisual.MoveRectangleToPoint(rectangle,
-                       refRectangle.X + refRectangle.Width,
-                       rectangle.Y);
+                    txt_Right_Padding.Text = txt_right_padding;
                 }
-                else if (TopSideSnapDistance < LeftSideSnapDistance &&
-                   TopSideSnapDistance < RightSideSnapDistance &&
-                   TopSideSnapDistance < BotSideSnapDistance)
+                if (txt_bottom_padding != null)
                 {
-                    rectangle = GVisual.MoveRectangleToPoint(rectangle,
-                       rectangle.X,
-                       refRectangle.Y - rectangle.Height);
+                    txt_Bottom_Padding.Text = txt_bottom_padding;
                 }
-                else if (BotSideSnapDistance < LeftSideSnapDistance &&
-                   BotSideSnapDistance < RightSideSnapDistance &&
-                   BotSideSnapDistance < TopSideSnapDistance)
+                if (txt_top_padding != null)
                 {
-                    rectangle = GVisual.MoveRectangleToPoint(rectangle,
-                       rectangle.X,
-                       refRectangle.Y + refRectangle.Height);
+                    txt_Top_Padding.Text = txt_top_padding;
                 }
-                else if (LeftSideSnapDistance < RightSideSnapDistance &&
-                   LeftSideSnapDistance < TopSideSnapDistance &&
-                   LeftSideSnapDistance < BotSideSnapDistance)
+                if (txt_width != null)
                 {
-                    rectangle = GVisual.MoveRectangleToPoint(rectangle,
-                       refRectangle.X - rectangle.Width,
-                       rectangle.Y);
+                    txt_Width.Text = txt_width;
                 }
-                return rectangle;
+                if (txt_height != null)
+                {
+                    txt_Height.Text = txt_height;
+                }
             }
         }
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //Alan ToolStripMenu Events
+        private void silToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Ambar != null)
+            {
+                Ambar = null;
+                drawingPanel.Invalidate();
+            }
+        }
+        private void boşaltToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Ambar != null)
+            {
+                List<Depo> Depos = new List<Depo>();
+                List<Conveyor> Conveyors = new List<Conveyor>();
+
+                foreach (var depo in Ambar.depolar)
+                {
+                    Depos.Add(depo);
+                }
+                foreach (var conveyor in Ambar.conveyors)
+                {
+                    Conveyors.Add(conveyor);
+                }
+
+                foreach (var depo in Depos)
+                {
+                    Ambar.depolar.Remove(depo);
+                }
+                foreach (var conveyor in Conveyors)
+                {
+                    Ambar.conveyors.Remove(conveyor);
+                }
+                drawingPanel.Invalidate();
+            }
+        }
+
+
+
+
+        //Depo ToolStripMenu Events
+        //Izgara Haritası ToolStripMenuItems Events
+        private void ızgaraHaritasıOluşturToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripIzgara = false;
+            DrawingPanelShrink(Izgara_Olusturma_Paneli, this, leftSidePanelLocation);
+        }
+        private void silToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            List<Balya_Yerleştirme.Models.Cell> cells = new List<Balya_Yerleştirme.Models.Cell>();
+            if (Ambar != null)
+            {
+                if (selectedDepo != null)
+                {
+                    foreach (var cell in selectedDepo.gridmaps)
+                    {
+                        cells.Add(cell);
+                    }
+
+                    foreach (var cell1 in cells)
+                    {
+                        selectedDepo.gridmaps.Remove(cell1);
+                    }
+                }
+            }
+            drawingPanel.Invalidate();
+        }
+
+        //Depo ToolStripMenuItems Events
+        private void deponunYeriniVeBoyutunuDeğiştirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DrawingPanelShrink(PaddingPanel, this, leftSidePanelLocation);
+            ShowTextboxes(txt_Width.Location, txt_Height.Location,
+                    txt_Left_Padding.Location, txt_Right_Padding.Location,
+                    txt_Top_Padding.Location, txt_Bottom_Padding.Location);
+            ShowMoveCheckButton();
+            Manuel_Move = true;
+            if (selectedDepo != null)
+            {
+                ManuelDepoRectangle = selectedDepo.Rectangle;
+                UnchangedDepoAlaniBoyu = selectedDepo.DepoAlaniBoyu;
+                UnchangedDepoAlaniEni = selectedDepo.DepoAlaniEni;
+                //txt_width.text = $"{unchangeddepoalanieni}";
+                //txt_height.text = $"{unchangeddepoalaniboyu}";
+            }
+        }
+        private void depoyuSilToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            List<Depo> depos = new List<Depo>();
+            if (Ambar != null)
+            {
+                if (selectedDepo != null)
+                {
+                    foreach (var depo in Ambar.depolar)
+                    {
+                        if (depo == selectedDepo)
+                        {
+                            depos.Add(depo);
+                        }
+                    }
+
+                    foreach (var depo1 in depos)
+                    {
+                        Ambar.depolar.Remove(depo1);
+                    }
+                }
+            }
+            selectedDepo = null;
+            CopyDepo = null;
+            drawingPanel.Invalidate();
+        }
+
+
+
+
+        //Conveyor ToolStripMenu Events
+        //Referans ToolStripMenuItems Events
+        private void Referans_ekleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (selectedConveyor != null)
+            {
+                AddReferencePoint = true;
+                CenterControltoLeftSideofRectangleVertically
+                    (selectedConveyor.Rectangle, Conveyor_Reference_FixedorManuel_Panel, drawingPanel);
+            }
+        }
+        private void Referans_silToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (selectedConveyor != null)
+            {
+                List<ConveyorReferencePoint> tempList = new List<ConveyorReferencePoint>();
+
+                foreach (var reff in selectedConveyor.ConveyorReferencePoints)
+                {
+                    tempList.Add(reff);
+                }
+
+                foreach (var ref1 in tempList)
+                {
+                    selectedConveyor.ConveyorReferencePoints.Remove(ref1);
+                }
+                drawingPanel.Invalidate();
+            }
+        }
+        private void Referans_yerleriniDeğiştirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (selectedConveyor != null)
+            {
+                float reffX = 0;
+                float reffY = 0;
+                using (var dialog = new ConveyorReffYerDegistir(selectedConveyor))
+                {
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        foreach (var reff in selectedConveyor.ConveyorReferencePoints)
+                        {
+                            foreach (Panel panel in dialog.Panel.Controls)
+                            {
+                                if (reff == (ConveyorReferencePoint)panel.Tag)
+                                {
+                                    foreach (var textbox in panel.Controls)
+                                    {
+                                        if (textbox is TextBox)
+                                        {
+                                            TextBox textBox = new TextBox();
+                                            textBox = (TextBox)textbox;
+
+                                            if (textBox.Name == "textBoxLocationX")
+                                            {
+                                                reffX = float.Parse(textBox.Text);
+                                            }
+                                            if (textBox.Name == "textBoxLocationY")
+                                            {
+                                                reffY = float.Parse(textBox.Text);
+                                            }
+                                        }
+
+                                        PointF newpoint = ResizeandMoveChildRectangleInsideParent(selectedConveyor.Rectangle,
+                                                 reffX, reffY, selectedConveyor.ConveyorEni * 100,
+                                                 selectedConveyor.ConveyorBoyu * 100, reff.Rectangle);
+
+                                        reff.MoveRectangleExact(newpoint.X, newpoint.Y);
+
+                                        var cm = ConvertRectanglesLocationtoCMInsideParentRectangle(reff.Rectangle,
+                                            selectedConveyor.Rectangle, selectedConveyor.ConveyorEni,
+                                            selectedConveyor.ConveyorBoyu, true);
+
+                                        reff.Pointsize = 4;
+                                        reff.LocationofRect = new System.Drawing.Point((int)reff.Rectangle.X, (int)reff.Rectangle.Y);
+                                        reff.KareX = reff.Rectangle.X;
+                                        reff.KareY = reff.Rectangle.Y;
+                                        reff.KareEni = reff.Rectangle.Width;
+                                        reff.KareBoyu = reff.Rectangle.Height;
+                                        reff.OriginalKareX = reff.OriginalRectangle.X;
+                                        reff.OriginalKareY = reff.OriginalRectangle.Y;
+                                        reff.OriginalKareEni = reff.OriginalRectangle.Width;
+                                        reff.OriginalKareBoyu = reff.OriginalRectangle.Height;
+                                        reff.LocationX = cm.Item1;
+                                        reff.LocationY = cm.Item2;
+                                        reff.FixedPointLocation = reff.FixedPointLocation;
+
+                                        float X = reff.Rectangle.X - selectedConveyor.Rectangle.X;
+                                        float Y = reff.Rectangle.Y - selectedConveyor.Rectangle.Y;
+
+                                        reff.OriginalLocationInsideParent = new PointF(X, Y);
+
+                                        drawingPanel.Invalidate();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         private void btn_Conveyor_Reference_Sayisi_Onayla_Click(object sender, EventArgs e)
         {
             if (selectedConveyor != null)
@@ -4897,453 +4931,7 @@ namespace Balya_Yerleştirme
             GVisual.HideControl(Conveyor_Reference_Fixed_Panel, drawingPanel);
             drawingPanel.Invalidate();
         }
-        private void btn_Layout_Kaydet_Click(object sender, EventArgs e)
-        {
-            using (var dialog = new LayoutNaming())
-            {
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    LayoutDescription = dialog.txt_Layout_Aciklama.Text;
-                    LayoutName = dialog.txt_Layout_Isim.Text;
 
-                    this.DialogResult = DialogResult.OK;
-                }
-            }
-        }
-
-
-
-
-        //Deleted Depo Events
-        private void alanınYeriniVeBoyutunuDeğiştirToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DrawingPanelShrink(PaddingPanel, this, leftSidePanelLocation);
-            ShowTextboxes(txt_Width.Location, txt_Height.Location,
-                    txt_Left_Padding.Location, txt_Right_Padding.Location,
-                    txt_Top_Padding.Location, txt_Bottom_Padding.Location);
-            ShowMoveCheckButton();
-            Manuel_Move = true;
-            if (selectedDepo != null)
-            {
-                ManuelDepoRectangle = selectedDepo.Rectangle;
-                UnchangedDepoAlaniBoyu = selectedDepo.DepoAlaniBoyu;
-                UnchangedDepoAlaniEni = selectedDepo.DepoAlaniEni;
-                //txt_width.text = $"{unchangeddepoalanieni}";
-                //txt_height.text = $"{unchangeddepoalaniboyu}";
-            }
-        }
-        private void depoyuSilToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            List<Depo> depos = new List<Depo>();
-            if (Ambar != null)
-            {
-                if (selectedDepo != null)
-                {
-                    foreach (var depo in Ambar.depolar)
-                    {
-                        if (depo == selectedDepo)
-                        {
-                            depos.Add(depo);
-                        }
-                    }
-
-                    foreach (var depo1 in depos)
-                    {
-                        Ambar.depolar.Remove(depo1);
-                    }
-                }
-            }
-            selectedDepo = null;
-            CopyDepo = null;
-            drawingPanel.Invalidate();
-        }
-        private void izgaraHaritasıOluşturToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DrawingPanelShrink(Izgara_Mal_Paneli, this, leftSidePanelLocation);
-        }
-        private void izgaraHaritasiniSilToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            List<Balya_Yerleştirme.Models.Cell> cells = new List<Balya_Yerleştirme.Models.Cell>();
-            if (Ambar != null)
-            {
-                if (selectedDepo != null)
-                {
-                    foreach (var cell in selectedDepo.gridmaps)
-                    {
-                        cells.Add(cell);
-                    }
-
-                    foreach (var cell1 in cells)
-                    {
-                        selectedDepo.gridmaps.Remove(cell1);
-                    }
-                }
-            }
-            drawingPanel.Invalidate();
-        }
-
-
-
-
-        //Deleted Conveyor Events
-        private void conveyorYerDegistirMenuStripItem_Click(object sender, EventArgs e)
-        {
-            DrawingPanelShrink(PaddingPanel, this, leftSidePanelLocation);
-            ShowTextboxes(txt_Width.Location, txt_Height.Location,
-                    txt_Left_Padding.Location, txt_Right_Padding.Location,
-                    txt_Top_Padding.Location, txt_Bottom_Padding.Location);
-            ShowMoveCheckButton();
-            Manuel_Move = true;
-            if (selectedConveyor != null)
-            {
-                ManuelConveyorRectangle = selectedConveyor.Rectangle;
-                UnchangedConveyorEni = selectedConveyor.ConveyorEni;
-                UnchangedConveyorBoyu = selectedConveyor.ConveyorBoyu;
-                //txt_Width.Text = $"{UnchangedConveyorEni}";
-                //txt_Height.Text = $"{UnchangedConveyorBoyu}";
-            }
-        }
-        private void conveyoruSilToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            List<Conveyor> conveyors = new List<Conveyor>();
-            if (Ambar != null)
-            {
-                if (selectedConveyor != null)
-                {
-                    foreach (var conveyor in Ambar.conveyors)
-                    {
-                        if (selectedConveyor == conveyor)
-                        {
-                            conveyors.Add(conveyor);
-                        }
-                    }
-
-                    foreach (var conv in conveyors)
-                    {
-                        Ambar.conveyors.Remove(conv);
-                    }
-                }
-            }
-            selectedConveyor = null;
-            CopyConveyor = null;
-            drawingPanel.Invalidate();
-        }
-        private void referansNoktasıEkleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (selectedConveyor != null)
-            {
-                AddReferencePoint = true;
-                CenterControltoLeftSideofRectangleVertically
-                    (selectedConveyor.Rectangle, Conveyor_Reference_FixedorManuel_Panel, drawingPanel);
-            }
-        }
-        private void referansNoktalarınıSilToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (selectedConveyor != null)
-            {
-                List<ConveyorReferencePoint> tempList = new List<ConveyorReferencePoint>();
-
-                foreach (var reff in selectedConveyor.ConveyorReferencePoints)
-                {
-                    tempList.Add(reff);
-                }
-
-                foreach (var ref1 in tempList)
-                {
-                    selectedConveyor.ConveyorReferencePoints.Remove(ref1);
-                }
-                drawingPanel.Invalidate();
-            }
-        }
-        private void referansNoktalarınınYerleriniDeğiştirToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (selectedConveyor != null)
-            {
-                float reffX = 0;
-                float reffY = 0;
-                using (var dialog = new ConveyorReffYerDegistir(selectedConveyor))
-                {
-                    if (dialog.ShowDialog() == DialogResult.OK)
-                    {
-                        foreach (var reff in selectedConveyor.ConveyorReferencePoints)
-                        {
-                            foreach (Panel panel in dialog.Panel.Controls)
-                            {
-                                if (reff == (ConveyorReferencePoint)panel.Tag)
-                                {
-                                    foreach (var textbox in panel.Controls)
-                                    {
-                                        if (textbox is TextBox)
-                                        {
-                                            TextBox textBox = new TextBox();
-                                            textBox = (TextBox)textbox;
-
-                                            if (textBox.Name == "textBoxLocationX")
-                                            {
-                                                reffX = float.Parse(textBox.Text);
-                                            }
-                                            if (textBox.Name == "textBoxLocationY")
-                                            {
-                                                reffY = float.Parse(textBox.Text);
-                                            }
-                                        }
-
-                                        PointF newpoint = ResizeandMoveChildRectangleInsideParent(selectedConveyor.Rectangle,
-                                                 reffX, reffY, selectedConveyor.ConveyorEni * 100,
-                                                 selectedConveyor.ConveyorBoyu * 100, reff.Rectangle);
-
-                                        reff.MoveRectangleExact(newpoint.X, newpoint.Y);
-
-                                        var cm = ConvertRectanglesLocationtoCMInsideParentRectangle(reff.Rectangle,
-                                            selectedConveyor.Rectangle, selectedConveyor.ConveyorEni,
-                                            selectedConveyor.ConveyorBoyu, true);
-
-                                        reff.Pointsize = 4;
-                                        reff.LocationofRect = new System.Drawing.Point((int)reff.Rectangle.X, (int)reff.Rectangle.Y);
-                                        reff.KareX = reff.Rectangle.X;
-                                        reff.KareY = reff.Rectangle.Y;
-                                        reff.KareEni = reff.Rectangle.Width;
-                                        reff.KareBoyu = reff.Rectangle.Height;
-                                        reff.OriginalKareX = reff.OriginalRectangle.X;
-                                        reff.OriginalKareY = reff.OriginalRectangle.Y;
-                                        reff.OriginalKareEni = reff.OriginalRectangle.Width;
-                                        reff.OriginalKareBoyu = reff.OriginalRectangle.Height;
-                                        reff.LocationX = cm.Item1;
-                                        reff.LocationY = cm.Item2;
-                                        reff.FixedPointLocation = reff.FixedPointLocation;
-
-                                        float X = reff.Rectangle.X - selectedConveyor.Rectangle.X;
-                                        float Y = reff.Rectangle.Y - selectedConveyor.Rectangle.Y;
-
-                                        reff.OriginalLocationInsideParent = new PointF(X, Y);
-
-                                        drawingPanel.Invalidate();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-
-
-
-        //Alan ToolStripMenu Events
-        private void silToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (Ambar != null)
-            {
-                Ambar = null;
-                drawingPanel.Invalidate();
-            }
-        }
-        private void boşaltToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (Ambar != null)
-            {
-                List<Depo> Depos = new List<Depo>();
-                List<Conveyor> Conveyors = new List<Conveyor>();
-
-                foreach (var depo in Ambar.depolar)
-                {
-                    Depos.Add(depo);
-                }
-                foreach (var conveyor in Ambar.conveyors)
-                {
-                    Conveyors.Add(conveyor);
-                }
-
-                foreach (var depo in Depos)
-                {
-                    Ambar.depolar.Remove(depo);
-                }
-                foreach (var conveyor in Conveyors)
-                {
-                    Ambar.conveyors.Remove(conveyor);
-                }
-                drawingPanel.Invalidate();
-            }
-        }
-
-
-
-
-        //Depo ToolStripMenu Events
-        //Izgara Haritası ToolStripMenuItems Events
-        private void ızgaraHaritasıOluşturToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ToolStripIzgara = false;
-            DrawingPanelShrink(Izgara_Mal_Paneli, this, leftSidePanelLocation);
-        }
-        private void silToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            List<Balya_Yerleştirme.Models.Cell> cells = new List<Balya_Yerleştirme.Models.Cell>();
-            if (Ambar != null)
-            {
-                if (selectedDepo != null)
-                {
-                    foreach (var cell in selectedDepo.gridmaps)
-                    {
-                        cells.Add(cell);
-                    }
-
-                    foreach (var cell1 in cells)
-                    {
-                        selectedDepo.gridmaps.Remove(cell1);
-                    }
-                }
-            }
-            drawingPanel.Invalidate();
-        }
-        //Depo ToolStripMenuItems Events
-        private void deponunYeriniVeBoyutunuDeğiştirToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DrawingPanelShrink(PaddingPanel, this, leftSidePanelLocation);
-            ShowTextboxes(txt_Width.Location, txt_Height.Location,
-                    txt_Left_Padding.Location, txt_Right_Padding.Location,
-                    txt_Top_Padding.Location, txt_Bottom_Padding.Location);
-            ShowMoveCheckButton();
-            Manuel_Move = true;
-            if (selectedDepo != null)
-            {
-                ManuelDepoRectangle = selectedDepo.Rectangle;
-                UnchangedDepoAlaniBoyu = selectedDepo.DepoAlaniBoyu;
-                UnchangedDepoAlaniEni = selectedDepo.DepoAlaniEni;
-                //txt_width.text = $"{unchangeddepoalanieni}";
-                //txt_height.text = $"{unchangeddepoalaniboyu}";
-            }
-        }
-        private void depoyuSilToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            List<Depo> depos = new List<Depo>();
-            if (Ambar != null)
-            {
-                if (selectedDepo != null)
-                {
-                    foreach (var depo in Ambar.depolar)
-                    {
-                        if (depo == selectedDepo)
-                        {
-                            depos.Add(depo);
-                        }
-                    }
-
-                    foreach (var depo1 in depos)
-                    {
-                        Ambar.depolar.Remove(depo1);
-                    }
-                }
-            }
-            selectedDepo = null;
-            CopyDepo = null;
-            drawingPanel.Invalidate();
-        }
-
-
-
-
-        //Conveyor ToolStripMenu Events
-        //Referans ToolStripMenuItems Events
-        private void Referans_ekleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (selectedConveyor != null)
-            {
-                AddReferencePoint = true;
-                CenterControltoLeftSideofRectangleVertically
-                    (selectedConveyor.Rectangle, Conveyor_Reference_FixedorManuel_Panel, drawingPanel);
-            }
-        }
-        private void Referans_silToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (selectedConveyor != null)
-            {
-                List<ConveyorReferencePoint> tempList = new List<ConveyorReferencePoint>();
-
-                foreach (var reff in selectedConveyor.ConveyorReferencePoints)
-                {
-                    tempList.Add(reff);
-                }
-
-                foreach (var ref1 in tempList)
-                {
-                    selectedConveyor.ConveyorReferencePoints.Remove(ref1);
-                }
-                drawingPanel.Invalidate();
-            }
-        }
-        private void Referans_yerleriniDeğiştirToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (selectedConveyor != null)
-            {
-                float reffX = 0;
-                float reffY = 0;
-                using (var dialog = new ConveyorReffYerDegistir(selectedConveyor))
-                {
-                    if (dialog.ShowDialog() == DialogResult.OK)
-                    {
-                        foreach (var reff in selectedConveyor.ConveyorReferencePoints)
-                        {
-                            foreach (Panel panel in dialog.Panel.Controls)
-                            {
-                                if (reff == (ConveyorReferencePoint)panel.Tag)
-                                {
-                                    foreach (var textbox in panel.Controls)
-                                    {
-                                        if (textbox is TextBox)
-                                        {
-                                            TextBox textBox = new TextBox();
-                                            textBox = (TextBox)textbox;
-
-                                            if (textBox.Name == "textBoxLocationX")
-                                            {
-                                                reffX = float.Parse(textBox.Text);
-                                            }
-                                            if (textBox.Name == "textBoxLocationY")
-                                            {
-                                                reffY = float.Parse(textBox.Text);
-                                            }
-                                        }
-
-                                        PointF newpoint = ResizeandMoveChildRectangleInsideParent(selectedConveyor.Rectangle,
-                                                 reffX, reffY, selectedConveyor.ConveyorEni * 100,
-                                                 selectedConveyor.ConveyorBoyu * 100, reff.Rectangle);
-
-                                        reff.MoveRectangleExact(newpoint.X, newpoint.Y);
-
-                                        var cm = ConvertRectanglesLocationtoCMInsideParentRectangle(reff.Rectangle,
-                                            selectedConveyor.Rectangle, selectedConveyor.ConveyorEni,
-                                            selectedConveyor.ConveyorBoyu, true);
-
-                                        reff.Pointsize = 4;
-                                        reff.LocationofRect = new System.Drawing.Point((int)reff.Rectangle.X, (int)reff.Rectangle.Y);
-                                        reff.KareX = reff.Rectangle.X;
-                                        reff.KareY = reff.Rectangle.Y;
-                                        reff.KareEni = reff.Rectangle.Width;
-                                        reff.KareBoyu = reff.Rectangle.Height;
-                                        reff.OriginalKareX = reff.OriginalRectangle.X;
-                                        reff.OriginalKareY = reff.OriginalRectangle.Y;
-                                        reff.OriginalKareEni = reff.OriginalRectangle.Width;
-                                        reff.OriginalKareBoyu = reff.OriginalRectangle.Height;
-                                        reff.LocationX = cm.Item1;
-                                        reff.LocationY = cm.Item2;
-                                        reff.FixedPointLocation = reff.FixedPointLocation;
-
-                                        float X = reff.Rectangle.X - selectedConveyor.Rectangle.X;
-                                        float Y = reff.Rectangle.Y - selectedConveyor.Rectangle.Y;
-
-                                        reff.OriginalLocationInsideParent = new PointF(X, Y);
-
-                                        drawingPanel.Invalidate();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
         //Conveyor ToolStripMenuItems Events
         private void Conveyor_yeriniVeBoyutunuDeğiştirToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -5387,17 +4975,33 @@ namespace Balya_Yerleştirme
             CopyConveyor = null;
             drawingPanel.Invalidate();
         }
-
         private void boyutunuDeğiştirToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ToolStripIzgara = false;
-            DrawingPanelShrink(Izgara_Mal_Paneli, this, leftSidePanelLocation);
+            DrawingPanelShrink(Izgara_Olusturma_Paneli, this, leftSidePanelLocation);
         }
 
 
 
 
 
+
+
+        private void btn_Layout_Kaydet_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new LayoutNaming())
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    LayoutDescription = dialog.txt_Layout_Aciklama.Text;
+                    LayoutName = dialog.txt_Layout_Isim.Text;
+
+                    this.DialogResult = DialogResult.OK;
+                }
+            }
+        }
+
+        
 
 
         //private void DrawParameters(Graphics g)
@@ -5415,5 +5019,134 @@ namespace Balya_Yerleştirme
         //        g.DrawString(selectedDepo.asama2_Yuksekligi.ToString(), font, brush, new Point(drawingPanel.Left, drawingPanel.Top + 120));
         //    }
         //}
+        /*//public void AdjustTextBoxLocations(RectangleF rectangle, RectangleF parentRectangle,
+        //    RectangleF RefRectangle, Point startPoint, Point endPoint, string side)
+        //{
+        //    if (!parentRectangle.IsEmpty && startPoint.IsEmpty && endPoint.IsEmpty)
+        //    {
+        //        Point topEdge = GVisual.GetMiddleOfTopEdge(rectangle);
+        //        Point leftEdge = GVisual.GetMiddleOfLeftEdge(rectangle);
+        //        Point leftPadding = GVisual.GetMiddleOfLeftEdge(parentRectangle);
+        //        Point rightPadding = GVisual.GetMiddleOfRightEdge(parentRectangle);
+        //        Point topPadding = GVisual.GetMiddleOfTopEdge(parentRectangle);
+        //        Point bottomPadding = GVisual.GetMiddleOfBottomEdge(parentRectangle);
+        //        Point rectangleRight = GVisual.GetMiddleOfRightEdge(rectangle);
+        //        Point rectangleLocation = new Point((int)rectangle.Location.X, (int)rectangle.Location.Y);
+        //        Point rectangleBottom = GVisual.GetBottomRightCorner(rectangle);
+        //        Point rectangleCenter = GVisual.GetCenter(rectangle);
+
+        //        //Point txt_width_loc = new Point(topEdge.X - txt_Width.Width / 2 + 20,
+        //        //    topEdge.Y);
+        //        //Point txt_height_loc = new Point(leftEdge.X,
+        //        //    leftEdge.Y - txt_Height.Height / 2);
+
+        //        Point txt_width_loc = new Point(rectangleCenter.X - txt_Width.Width / 2,
+        //            rectangleCenter.Y - txt_Width.Height - 5);
+        //        Point txt_height_loc =
+        //            GVisual.Point_Control_to_BottomSide_ofControl
+        //            (txt_Height, txt_Width, 10);
+
+        //        txt_Width.Location = txt_width_loc;
+        //        txt_Height.Location = txt_height_loc;
+
+        //        if (side == "Left")
+        //        {
+        //            txt_Left_Padding.Location =
+        //            GVisual.Center_Control_To_Horizontal_Padding(txt_Left_Padding, leftPadding,
+        //            rectangleLocation, rectangleLocation.Y + 3);
+        //        }
+        //        else if (side == "Right")
+        //        {
+        //            txt_Right_Padding.Location =
+        //            GVisual.Center_Control_To_Horizontal_Padding(txt_Right_Padding, rectangleRight,
+        //            rightPadding, (int)(rectangle.Location.Y +
+        //            rectangle.Height - txt_Right_Padding.Height - 3));
+        //        }
+        //        else if (side == "Top")
+        //        {
+        //            txt_Top_Padding.Location = GVisual.Center_Control_To_Vertical_Padding(txt_Top_Padding,
+        //                topPadding, rectangleLocation, rectangleLocation.X + 3);
+        //        }
+        //        else if (side == "Bottom")
+        //        {
+        //            txt_Bottom_Padding.Location = GVisual.Center_Control_To_Vertical_Padding(txt_Bottom_Padding,
+        //            rectangleBottom, bottomPadding, rectangleBottom.X - txt_Bottom_Padding.Width - 3);
+        //        }
+        //    }
+
+        //    if (!RefRectangle.IsEmpty && !startPoint.IsEmpty && !endPoint.IsEmpty)
+        //    {
+        //        Point topEdge = GVisual.GetMiddleOfTopEdge(rectangle);
+        //        Point leftEdge = GVisual.GetMiddleOfLeftEdge(rectangle);
+        //        Point leftPadding = GVisual.GetMiddleOfRightEdge(RefRectangle);
+        //        Point rightPadding = GVisual.GetMiddleOfLeftEdge(RefRectangle);
+        //        Point topPadding = GVisual.GetMiddleOfBottomEdge(RefRectangle);
+        //        Point bottomPadding = GVisual.GetMiddleOfTopEdge(RefRectangle);
+        //        Point rectangleRight = GVisual.GetMiddleOfRightEdge(rectangle);
+        //        Point rectangleLocation = new Point((int)rectangle.Location.X, (int)rectangle.Location.Y);
+        //        Point rectangleBottom = GVisual.GetBottomRightCorner(rectangle);
+        //        Point rectangleCenter = GVisual.GetCenter(rectangle);
+
+        //        //Point txt_width_loc = new Point(topEdge.X - txt_Width.Width / 2 + 20,
+        //        //    topEdge.Y);
+        //        //Point txt_height_loc = new Point(leftEdge.X,
+        //        //    leftEdge.Y - txt_Height.Height / 2);
+
+        //        Point txt_width_loc = new Point(rectangleCenter.X - txt_Width.Width / 2,
+        //           rectangleCenter.Y - txt_Width.Height - 5);
+        //        Point txt_height_loc =
+        //            GVisual.Point_Control_to_BottomSide_ofControl
+        //            (txt_Height, txt_Width, 10);
+
+        //        txt_Width.Location = txt_width_loc;
+        //        txt_Height.Location = txt_height_loc;
+
+        //        if (side == "Left")
+        //        {
+        //            txt_Left_Padding.Location =
+        //            GVisual.Center_Control_To_Horizontal_Padding(txt_Left_Padding, startPoint,
+        //            endPoint, endPoint.Y);
+        //        }
+        //        else if (side == "Right")
+        //        {
+        //            txt_Right_Padding.Location =
+        //                GVisual.Center_Control_To_Horizontal_Padding(txt_Right_Padding, startPoint,
+        //                endPoint, endPoint.Y);
+        //        }
+        //        else if (side == "Top")
+        //        {
+        //            txt_Top_Padding.Location = GVisual.Center_Control_To_Vertical_Padding(txt_Top_Padding,
+        //                startPoint, endPoint, endPoint.X + 3);
+        //        }
+        //        else if (side == "Bottom")
+        //        {
+        //            txt_Bottom_Padding.Location = GVisual.Center_Control_To_Vertical_Padding(txt_Bottom_Padding,
+        //                startPoint, endPoint, endPoint.X);
+        //        }
+        //        else
+        //        {
+        //            txt_Left_Padding.Location =
+        //            GVisual.Center_Control_To_Horizontal_Padding(txt_Left_Padding, leftPadding,
+        //            rectangleLocation, rectangleLocation.Y + 3);
+
+        //            txt_Right_Padding.Location =
+        //                GVisual.Center_Control_To_Horizontal_Padding(txt_Right_Padding, rectangleRight,
+        //                rightPadding, (int)(rectangle.Location.Y +
+        //                rectangle.Height - txt_Right_Padding.Height - 3));
+
+        //            txt_Top_Padding.Location = GVisual.Center_Control_To_Vertical_Padding(txt_Top_Padding,
+        //                topPadding, rectangleLocation, rectangleLocation.X + 3);
+
+        //            txt_Bottom_Padding.Location = GVisual.Center_Control_To_Vertical_Padding(txt_Bottom_Padding,
+        //                rectangleBottom, bottomPadding, rectangleBottom.X - txt_Bottom_Padding.Width - 3);
+        //        }
+        //    }
+
+        //    if (!txt_Width.Visible)
+        //    {
+        //        ShowTextboxes(txt_Width.Location, txt_Height.Location, txt_Left_Padding.Location,
+        //       txt_Right_Padding.Location, txt_Top_Padding.Location, txt_Bottom_Padding.Location);
+        //    }
+        //}*/
     }
 }
