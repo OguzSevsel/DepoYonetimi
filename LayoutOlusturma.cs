@@ -563,6 +563,7 @@ namespace Balya_Yerleştirme
             }
         }
 
+
         
 
 

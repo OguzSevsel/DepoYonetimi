@@ -280,6 +280,9 @@
             comboBox_SelectedConveyor = new ComboBox();
             groupBox_SelectedConveyor = new GroupBox();
             RightSide_LayoutPanel = new FlowLayoutPanel();
+            layoutPanel_Ambar = new FlowLayoutPanel();
+            groupBox_Ambar = new GroupBox();
+            treeView_Ambar = new TreeView();
             drawingPanel.SuspendLayout();
             Conveyor_Reference_FixedorManuel_Panel.SuspendLayout();
             Conveyor_Reference_Fixed_Panel.SuspendLayout();
@@ -309,6 +312,8 @@
             Panel_SelectedDepo.SuspendLayout();
             layoutPanel_SelectedConveyor.SuspendLayout();
             Panel_SelectedConveyor.SuspendLayout();
+            layoutPanel_Ambar.SuspendLayout();
+            groupBox_Ambar.SuspendLayout();
             SuspendLayout();
             // 
             // drawingPanel
@@ -1382,7 +1387,7 @@
             Alan_Olusturma_Paneli.Controls.Add(txt_Alan_Boyu);
             Alan_Olusturma_Paneli.Controls.Add(btn_Alan_Olustur_Vazgec);
             Alan_Olusturma_Paneli.Controls.Add(btn_Alan_Olustur);
-            Alan_Olusturma_Paneli.Location = new Point(626, 1021);
+            Alan_Olusturma_Paneli.Location = new Point(1245, 1021);
             Alan_Olusturma_Paneli.Name = "Alan_Olusturma_Paneli";
             Alan_Olusturma_Paneli.Size = new Size(310, 388);
             Alan_Olusturma_Paneli.TabIndex = 7;
@@ -1556,7 +1561,7 @@
             Depo_Olusturma_Paneli.Controls.Add(lbl_Depo_Adi);
             Depo_Olusturma_Paneli.Controls.Add(txt_Depo_Adi);
             Depo_Olusturma_Paneli.Controls.Add(txt_Depo_Aciklamasi);
-            Depo_Olusturma_Paneli.Location = new Point(1258, 1021);
+            Depo_Olusturma_Paneli.Location = new Point(1875, 1021);
             Depo_Olusturma_Paneli.Name = "Depo_Olusturma_Paneli";
             Depo_Olusturma_Paneli.Size = new Size(310, 883);
             Depo_Olusturma_Paneli.TabIndex = 33;
@@ -1874,7 +1879,7 @@
             Conveyor_Olusturma_Paneli.Controls.Add(txt_Conveyor_Boyu);
             Conveyor_Olusturma_Paneli.Controls.Add(btn_Conveyor_Olustur_Vazgec);
             Conveyor_Olusturma_Paneli.Controls.Add(btn_Conveyor_Olustur);
-            Conveyor_Olusturma_Paneli.Location = new Point(310, 1021);
+            Conveyor_Olusturma_Paneli.Location = new Point(932, 1021);
             Conveyor_Olusturma_Paneli.Name = "Conveyor_Olusturma_Paneli";
             Conveyor_Olusturma_Paneli.Size = new Size(310, 420);
             Conveyor_Olusturma_Paneli.TabIndex = 8;
@@ -2047,7 +2052,7 @@
             Izgara_Olusturma_Paneli.Controls.Add(txt_Nesnenin_Eni);
             Izgara_Olusturma_Paneli.Controls.Add(btn_Izgara_Olustur);
             Izgara_Olusturma_Paneli.Controls.Add(txt_Nesnenin_Boyu);
-            Izgara_Olusturma_Paneli.Location = new Point(942, 1021);
+            Izgara_Olusturma_Paneli.Location = new Point(1559, 1021);
             Izgara_Olusturma_Paneli.Name = "Izgara_Olusturma_Paneli";
             Izgara_Olusturma_Paneli.Size = new Size(310, 883);
             Izgara_Olusturma_Paneli.TabIndex = 10;
@@ -2352,7 +2357,7 @@
             PaddingPanel.Controls.Add(txt_Right_Padding);
             PaddingPanel.Controls.Add(txt_Bottom_Padding);
             PaddingPanel.Controls.Add(txt_Top_Padding);
-            PaddingPanel.Location = new Point(1862, 1028);
+            PaddingPanel.Location = new Point(296, 1021);
             PaddingPanel.Name = "PaddingPanel";
             PaddingPanel.Size = new Size(305, 690);
             PaddingPanel.TabIndex = 30;
@@ -3280,7 +3285,7 @@
             // 
             LeftSide_LayoutPanel.AutoScroll = true;
             LeftSide_LayoutPanel.Controls.Add(LayoutPanel_SelectedDepo);
-            LeftSide_LayoutPanel.Controls.Add(layoutPanel_SelectedConveyor);
+            LeftSide_LayoutPanel.Controls.Add(layoutPanel_Ambar);
             LeftSide_LayoutPanel.Location = new Point(10, 102);
             LeftSide_LayoutPanel.Name = "LeftSide_LayoutPanel";
             LeftSide_LayoutPanel.Size = new Size(330, 909);
@@ -3345,7 +3350,7 @@
             layoutPanel_SelectedConveyor.AutoScroll = true;
             layoutPanel_SelectedConveyor.Controls.Add(Panel_SelectedConveyor);
             layoutPanel_SelectedConveyor.Controls.Add(groupBox_SelectedConveyor);
-            layoutPanel_SelectedConveyor.Location = new Point(1, 455);
+            layoutPanel_SelectedConveyor.Location = new Point(604, 1021);
             layoutPanel_SelectedConveyor.Margin = new Padding(1);
             layoutPanel_SelectedConveyor.Name = "layoutPanel_SelectedConveyor";
             layoutPanel_SelectedConveyor.Size = new Size(324, 452);
@@ -3402,21 +3407,52 @@
             RightSide_LayoutPanel.Size = new Size(330, 909);
             RightSide_LayoutPanel.TabIndex = 36;
             // 
+            // layoutPanel_Ambar
+            // 
+            layoutPanel_Ambar.AutoScroll = true;
+            layoutPanel_Ambar.Controls.Add(groupBox_Ambar);
+            layoutPanel_Ambar.Location = new Point(1, 455);
+            layoutPanel_Ambar.Margin = new Padding(1);
+            layoutPanel_Ambar.Name = "layoutPanel_Ambar";
+            layoutPanel_Ambar.Size = new Size(324, 452);
+            layoutPanel_Ambar.TabIndex = 38;
+            // 
+            // groupBox_Ambar
+            // 
+            groupBox_Ambar.BackColor = Color.LightCyan;
+            groupBox_Ambar.Controls.Add(treeView_Ambar);
+            groupBox_Ambar.Font = new Font("Sans Serif Collection", 10F, FontStyle.Bold);
+            groupBox_Ambar.ForeColor = Color.Red;
+            groupBox_Ambar.Location = new Point(3, 3);
+            groupBox_Ambar.Name = "groupBox_Ambar";
+            groupBox_Ambar.Size = new Size(318, 446);
+            groupBox_Ambar.TabIndex = 34;
+            groupBox_Ambar.TabStop = false;
+            groupBox_Ambar.Text = "Ambar";
+            // 
+            // treeView_Ambar
+            // 
+            treeView_Ambar.Location = new Point(6, 39);
+            treeView_Ambar.Name = "treeView_Ambar";
+            treeView_Ambar.Size = new Size(306, 401);
+            treeView_Ambar.TabIndex = 0;
+            // 
             // LayoutOlusturma
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Azure;
             ClientSize = new Size(1904, 1041);
+            Controls.Add(layoutPanel_SelectedConveyor);
             Controls.Add(Izgara_Olusturma_Paneli);
             Controls.Add(Depo_Olusturma_Paneli);
             Controls.Add(Alan_Olusturma_Paneli);
             Controls.Add(RightSide_LayoutPanel);
             Controls.Add(ButtonPanel);
             Controls.Add(LeftSide_LayoutPanel);
+            Controls.Add(PaddingPanel);
             Controls.Add(btn_Layout_Kaydet);
             Controls.Add(Conveyor_Olusturma_Paneli);
-            Controls.Add(PaddingPanel);
             Controls.Add(lbl_Layout_Title);
             Controls.Add(drawingPanel);
             Name = "LayoutOlusturma";
@@ -3463,6 +3499,8 @@
             Panel_SelectedDepo.ResumeLayout(false);
             layoutPanel_SelectedConveyor.ResumeLayout(false);
             Panel_SelectedConveyor.ResumeLayout(false);
+            layoutPanel_Ambar.ResumeLayout(false);
+            groupBox_Ambar.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -3720,5 +3758,8 @@
         private Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge49;
         private FlowLayoutPanel RightSide_LayoutPanel;
         private Button btn_openClose_RightSide;
+        private FlowLayoutPanel layoutPanel_Ambar;
+        private GroupBox groupBox_Ambar;
+        private TreeView treeView_Ambar;
     }
 }
