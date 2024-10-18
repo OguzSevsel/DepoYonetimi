@@ -155,8 +155,9 @@ namespace Balya_Yerleştirme
 
 
             HideEverything();
+            MainPanelCloseBothSides(LeftSide_LayoutPanel, RightSide_LayoutPanel, this);
         }
-
+        //Delete, Copy, Paste
         private void KeyDownEventHandler(object? sender, KeyEventArgs e)
         {
             if (e.Control && e.KeyCode == Keys.C)
@@ -561,144 +562,11 @@ namespace Balya_Yerleştirme
                 drawingPanel.Invalidate();
             }
         }
-        private void Timer_Tick(object? sender, EventArgs e)
-        {
-            if (Parameter == "Sola Doğru")
-            {
-                drawingPanel.Invalidate();
-                currentColumn--;
-                if (currentColumn == -1)
-                {
-                    currentColumn = colCount;
-                    rectangles.Clear();
-                }
-            }
-            else if (Parameter == "Sağa Doğru")
-            {
-                drawingPanel.Invalidate();
-                currentColumn++;
-                if (currentColumn == colCount + 2)
-                {
-                    currentColumn = 0;
-                    rectangles.Clear();
-                }
-            }
-            else if (Parameter == "Yukarı Doğru")
-            {
-                drawingPanel.Invalidate();
-                currentRow--;
-                if (currentRow == -1)
-                {
-                    currentRow = (rowCount);
-                    rectangles.Clear();
-                }
-            }
-            else if (Parameter == "Ortadan Yukarı Doğru")
-            {
-                drawingPanel.Invalidate();
-                currentRow--;
-                if (currentRow == -1)
-                {
-                    currentRow = (rowCount / 2);
-                    rectangles.Clear();
-                }
-            }
-            else if (Parameter == "Aşağı Doğru")
-            {
-                drawingPanel.Invalidate();
-                currentRow++;
-                if (currentRow == rowCount + 2)
-                {
-                    currentRow = 0;
-                    rectangles.Clear();
-                }
-            }
-            else if (Parameter == "Ortadan Aşağı Doğru")
-            {
-                drawingPanel.Invalidate();
-                currentRow++;
-                if (currentRow == rowCount + 2)
-                {
-                    currentRow = (rowCount / 2 + 2);
-                    rectangles.Clear();
-                }
-            }
-        }
-        private void radio_To_Right_CheckedChanged(object sender, EventArgs e)
-        {
-            currentColumn = 0;
-            timer.Stop();
-            if (radio_To_Right.Checked)
-            {
-                rectangles.Clear();
-                timer.Interval = 300;
-                timer.Start();
-                Parameter = "Sağa Doğru";
-            }
-        }
-        private void radio_To_Left_CheckedChanged(object sender, EventArgs e)
-        {
-            currentColumn = colCount;
-            timer.Stop();
-            if (radio_To_Left.Checked)
-            {
-                rectangles.Clear();
-                timer.Interval = 300;
-                timer.Start();
-                Parameter = "Sola Doğru";
-            }
-        }
-        private void radio_To_Up_CheckedChanged(object sender, EventArgs e)
-        {
-            currentRow = rowCount / 2 + 1;
-            timer.Stop();
-            if (radio_To_Up.Checked)
-            {
-                rectangles.Clear();
-                timer.Interval = 300;
-                timer.Start();
-                Parameter = "Ortadan Yukarı Doğru";
-            }
-        }
-        private void radio_To_Down_CheckedChanged(object sender, EventArgs e)
-        {
-            currentRow = (rowCount / 2 + 1);
-            timer.Stop();
-            if (radio_To_Down.Checked)
-            {
-                rectangles.Clear();
-                timer.Interval = 300;
-                timer.Start();
-                Parameter = "Ortadan Aşağı Doğru";
-            }
-        }
-        private void radio_Start_From_Bottom_CheckedChanged(object sender, EventArgs e)
-        {
-            currentRow = rowCount;
-            timer.Stop();
-            if (radio_Start_From_Bottom.Checked)
-            {
-                rectangles.Clear();
-                timer.Interval = 300;
-                timer.Start();
-                Parameter = "Yukarı Doğru";
-            }
-        }
-        private void radio_Start_From_Top_CheckedChanged(object sender, EventArgs e)
-        {
-            currentRow = 0;
-            timer.Stop();
-            if (radio_Start_From_Top.Checked)
-            {
-                rectangles.Clear();
-                timer.Interval = 300;
-                timer.Start();
-                Parameter = "Aşağı Doğru";
-            }
-        }
+
+        
 
 
-
+        //DrawingPanel Events
         private void SimulationPanel_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
@@ -1054,72 +922,6 @@ namespace Balya_Yerleştirme
             notify.showAlert("Depoların sırasını üzerlerine sol tıklayarak seçebilirsiniz.(Sağ tıklayarak sırasını kaldırabilirsiniz.)", CustomNotifyIcon.enmType.Info);
             Fill_WareHouse = true;
         }
-        private void DrawArrowInCell(Graphics g, RectangleF cell)
-        {
-            if (MovingParameter)
-            {
-                if (Parameter == "Aşağı Doğru")
-                {
-                    PointF start = GVisual.GetMiddleOfTopEdge(cell);
-                    PointF end = GVisual.GetMiddleOfBottomEdge(cell);
-
-                    Pen pen = new Pen(Brushes.Green, 5);
-                    pen.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
-
-                    g.DrawLine(pen, start, end);
-                }
-                else if (Parameter == "Yukarı Doğru")
-                {
-                    PointF start = GVisual.GetMiddleOfBottomEdge(cell);
-                    PointF end = GVisual.GetMiddleOfTopEdge(cell);
-
-                    Pen pen = new Pen(Brushes.Green, 5);
-                    pen.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
-
-                    g.DrawLine(pen, start, end);
-                }
-                else if (Parameter == "Ortadan Yukarı Doğru")
-                {
-                    PointF start = GVisual.GetMiddleOfBottomEdge(cell);
-                    PointF end = GVisual.GetMiddleOfTopEdge(cell);
-
-                    Pen pen = new Pen(Brushes.Green, 5);
-                    pen.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
-
-                    g.DrawLine(pen, start, end);
-                }
-                else if (Parameter == "Ortadan Aşağı Doğru")
-                {
-                    PointF start = GVisual.GetMiddleOfTopEdge(cell);
-                    PointF end = GVisual.GetMiddleOfBottomEdge(cell);
-
-                    Pen pen = new Pen(Brushes.Green, 5);
-                    pen.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
-
-                    g.DrawLine(pen, start, end);
-                }
-                else if (Parameter == "Sağa Doğru")
-                {
-                    PointF start = GVisual.GetMiddleOfLeftEdge(cell);
-                    PointF end = GVisual.GetMiddleOfRightEdge(cell);
-
-                    Pen pen = new Pen(Brushes.Green, 5);
-                    pen.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
-
-                    g.DrawLine(pen, start, end);
-                }
-                else if (Parameter == "Sola Doğru")
-                {
-                    PointF start = GVisual.GetMiddleOfRightEdge(cell);
-                    PointF end = GVisual.GetMiddleOfLeftEdge(cell);
-
-                    Pen pen = new Pen(Brushes.Green, 5);
-                    pen.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
-
-                    g.DrawLine(pen, start, end);
-                }
-            }
-        }
         private void drawingPanel_MouseDown(object sender, MouseEventArgs e)
         {
             System.Drawing.Point scaledPoint = new System.Drawing.Point((int)((e.X - drawingPanel.AutoScrollPosition.X)),
@@ -1314,6 +1116,12 @@ namespace Balya_Yerleştirme
                 drawingPanel.Invalidate();
             }
         }
+
+
+
+
+
+        //Rectangle Snap and Drawing Methods
         public RectangleF SnapRectangles(RectangleF rectangle, RectangleF refRectangle)
         {
             System.Drawing.Point rectangleRightMiddle = GVisual.GetMiddleOfRightEdge(rectangle);
@@ -1335,7 +1143,7 @@ namespace Balya_Yerleştirme
             System.Drawing.Point refRectangleBotLeftCorner = GVisual.GetBottomLeftCorner(refRectangle);
             System.Drawing.Point refRectangleBotRightCorner = GVisual.GetBottomRightCorner(refRectangle);
 
-            int snapping = 12;
+            int snapping = 8;
 
             double TopLeftCornerSnapDistance = GVisual.CalculateDistance(rectangleBotLeftCorner.X,
                 rectangleBotLeftCorner.Y, refRectangleTopLeftCorner.X,
@@ -1511,1295 +1319,6 @@ namespace Balya_Yerleştirme
                 return rectangle;
             }
         }
-
-
-
-
-
-        //Yerini ve Boyutunu Değiştir Algorithm
-        private void txt_Width_TextChanged(object sender, EventArgs e)
-        {
-            errorProvider.Clear();
-            var pxCM = ConvertPixelToCmGivenRectangle(Ambar.Rectangle, Ambar.AmbarEni, Ambar.AmbarBoyu);
-            float pxX = pxCM.Item1;
-            float pxY = pxCM.Item2;
-
-            txt_width = StrLib.ReplaceDotWithCommaReturnFloat(txt_Width, errorProvider,
-               "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
-
-            if (Manuel_Move)
-            {
-                if (selectedDepo != null)
-                {
-                    if (!errorProvider.HasErrors)
-                    {
-                        RectangleF rect = new RectangleF(selectedDepo.Rectangle.X, selectedDepo.Rectangle.Y,
-                            txt_width * pxX * 100, selectedDepo.Rectangle.Height);
-
-                        if (rect.Right > Ambar.Rectangle.Right)
-                        {
-                            CustomNotifyIcon notify = new CustomNotifyIcon();
-                            notify.showAlert("Alanın dışına çıkamazsınız.", CustomNotifyIcon.enmType.Error);
-                            txt_Width.Text = $"{selectedDepo.DepoAlaniEni}";
-                        }
-                        else
-                        {
-                            DataCell = selectedDepo.gridmaps.FirstOrDefault();
-
-                            if (DataCell != null)
-                            {
-                                cell_eni = DataCell.CellEni;
-                                cell_boyu = DataCell.CellBoyu;
-                                dikey_kenar_boslugu = DataCell.DikeyKenarBoslugu;
-                                yatay_kenar_boslugu = DataCell.YatayKenarBoslugu;
-                                nesne_eni = DataCell.NesneEni;
-                                nesne_boyu = DataCell.NesneBoyu;
-                            }
-
-                            selectedDepo.Rectangle = new RectangleF(selectedDepo.Rectangle.X,
-                                selectedDepo.Rectangle.Y, txt_width * pxX * 100,
-                                selectedDepo.Rectangle.Height);
-
-                            selectedDepo.OriginalRectangle = new RectangleF(selectedDepo.Rectangle.X,
-                                selectedDepo.Rectangle.Y, txt_width * pxX * 100,
-                                selectedDepo.Rectangle.Height);
-
-                            selectedDepo.OriginalDepoSize = new SizeF(selectedDepo.OriginalRectangle.Width,
-                               selectedDepo.OriginalRectangle.Height);
-
-                            selectedDepo.DepoAlaniEni = txt_width;
-
-                            selectedDepo.Cm_Width = txt_width * 100;
-
-                            selectedDepo.CreateGridMapMenuItem(cell_eni, cell_boyu, dikey_kenar_boslugu,
-                                yatay_kenar_boslugu, nesne_eni, nesne_boyu);
-
-                            //txt_Width.Text = $"{txt_width}";
-                        }
-                        drawingPanel.Invalidate();
-                    }
-                }
-                if (selectedConveyor != null)
-                {
-                    if (!errorProvider.HasErrors)
-                    {
-                        RectangleF rect = new RectangleF(selectedConveyor.Rectangle.X,
-                            selectedConveyor.Rectangle.Y, txt_width * pxX * 100,
-                            selectedConveyor.Rectangle.Height);
-
-                        if (rect.Right > Ambar.Rectangle.Right)
-                        {
-                            CustomNotifyIcon notify = new CustomNotifyIcon();
-                            notify.showAlert("Alanın dışına çıkamazsınız.", CustomNotifyIcon.enmType.Error);
-                            txt_Width.Text = $"{selectedConveyor.ConveyorEni}";
-                        }
-                        else
-                        {
-                            selectedConveyor.Rectangle = new RectangleF(selectedConveyor.Rectangle.X,
-                                selectedConveyor.Rectangle.Y, txt_width * pxX * 100,
-                                selectedConveyor.Rectangle.Height);
-                            selectedConveyor.OriginalRectangle = new RectangleF(selectedConveyor.Rectangle.X, selectedConveyor.Rectangle.Y, selectedConveyor.Rectangle.Width, selectedConveyor.Rectangle.Height);
-
-                            AdjustFixedConveyorReferencePoints(selectedConveyor);
-
-                            //txt_Width.Text = $"{txt_width}";
-                        }
-                        drawingPanel.Invalidate();
-                    }
-                }
-            }
-        }
-        private void txt_Height_TextChanged(object sender, EventArgs e)
-        {
-            errorProvider.Clear();
-
-            var pxCM = ConvertPixelToCmGivenRectangle(Ambar.Rectangle, Ambar.AmbarEni, Ambar.AmbarBoyu);
-            float pxX = pxCM.Item1;
-            float pxY = pxCM.Item2;
-            txt_height = StrLib.ReplaceDotWithCommaReturnFloat(txt_Height, errorProvider,
-               "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
-            if (Manuel_Move)
-            {
-                if (selectedDepo != null)
-                {
-                    if (!errorProvider.HasErrors)
-                    {
-                        RectangleF rect = new RectangleF(selectedDepo.Rectangle.X, selectedDepo.Rectangle.Y,
-                        selectedDepo.Rectangle.Width, txt_height * pxY * 100);
-
-                        if (rect.Bottom > Ambar.Rectangle.Bottom)
-                        {
-                            CustomNotifyIcon notify = new CustomNotifyIcon();
-                            notify.showAlert("Alanın dışına çıkamazsınız.", CustomNotifyIcon.enmType.Error);
-                            txt_Height.Text = $"{selectedDepo.DepoAlaniBoyu}";
-                        }
-                        else
-                        {
-                            DataCell = selectedDepo.gridmaps.FirstOrDefault();
-
-                            if (DataCell != null)
-                            {
-                                cell_eni = DataCell.CellEni;
-                                cell_boyu = DataCell.CellBoyu;
-                                dikey_kenar_boslugu = DataCell.DikeyKenarBoslugu;
-                                yatay_kenar_boslugu = DataCell.YatayKenarBoslugu;
-                                nesne_eni = DataCell.NesneEni;
-                                nesne_boyu = DataCell.NesneBoyu;
-                            }
-
-                            selectedDepo.Rectangle = new RectangleF(selectedDepo.Rectangle.X, selectedDepo.Rectangle.Y,
-                            selectedDepo.Rectangle.Width, txt_height * pxY * 100);
-
-                            selectedDepo.OriginalRectangle =
-                                new RectangleF(selectedDepo.Rectangle.X,
-                                selectedDepo.Rectangle.Y,
-                            selectedDepo.Rectangle.Width, txt_height * pxY * 100);
-
-                            selectedDepo.OriginalDepoSize = new SizeF(selectedDepo.OriginalRectangle.Width,
-                               selectedDepo.OriginalRectangle.Height);
-
-                            selectedDepo.DepoAlaniBoyu = txt_height;
-
-                            selectedDepo.Cm_Height = txt_height * 100;
-
-                            selectedDepo.CreateGridMapMenuItem(cell_eni, cell_boyu, dikey_kenar_boslugu,
-                               yatay_kenar_boslugu, nesne_eni, nesne_boyu);
-
-                            //txt_Height.Text = $"{txt_height}";
-                        }
-                        drawingPanel.Invalidate();
-                    }
-                }
-                if (selectedConveyor != null)
-                {
-                    if (!errorProvider.HasErrors)
-                    {
-                        RectangleF rect = new RectangleF(selectedConveyor.Rectangle.X,
-                            selectedConveyor.Rectangle.Y, selectedConveyor.Rectangle.Width,
-                            txt_height * pxY * 100);
-
-                        if (rect.Bottom >= Ambar.Rectangle.Bottom + 1)
-                        {
-                            CustomNotifyIcon notify = new CustomNotifyIcon();
-                            notify.showAlert("Alanın dışına çıkamazsınız.", CustomNotifyIcon.enmType.Error);
-                            txt_Height.Text = $"{selectedConveyor.ConveyorBoyu}";
-                        }
-                        else
-                        {
-                            selectedConveyor.Rectangle = new RectangleF(selectedConveyor.Rectangle.X,
-                                selectedConveyor.Rectangle.Y,
-                            selectedConveyor.Rectangle.Width, txt_height * pxY * 100);
-
-                            selectedConveyor.OriginalRectangle = new RectangleF(selectedConveyor.Rectangle.X,
-                                selectedConveyor.Rectangle.Y,
-                            selectedConveyor.Rectangle.Width, txt_height * pxY * 100);
-
-                            AdjustFixedConveyorReferencePoints(selectedConveyor);
-
-                            //txt_Height.Text = $"{txt_height}";
-                        }
-                        drawingPanel.Invalidate();
-                    }
-                }
-            }
-        }
-        private void AdjustFixedConveyorReferencePoints(Conveyor selectedConveyor)
-        {
-            foreach (var reff in selectedConveyor.ConveyorReferencePoints)
-            {
-                if (reff.FixedPointLocation == "Center")
-                {
-                    PointF point = GVisual.GetCenterF(selectedConveyor.Rectangle);
-
-                    reff.Rectangle = new RectangleF(point.X - reff.Rectangle.Width / 2,
-                        point.Y - reff.Rectangle.Height / 2, reff.Rectangle.Width,
-                        reff.Rectangle.Height);
-                    reff.OriginalLocationInsideParent = new PointF(reff.Rectangle.X - selectedConveyor.Rectangle.X,
-                        reff.Rectangle.Y - selectedConveyor.Rectangle.Y);
-                }
-
-                if (reff.FixedPointLocation == "Top")
-                {
-                    PointF point = GVisual.GetMiddleOfTopEdgeF(selectedConveyor.Rectangle);
-
-                    reff.Rectangle = new RectangleF(point.X - reff.Rectangle.Width / 2,
-                        point.Y - reff.Rectangle.Height / 2, reff.Rectangle.Width,
-                        reff.Rectangle.Height);
-                    reff.OriginalLocationInsideParent = new PointF(reff.Rectangle.X - selectedConveyor.Rectangle.X,
-                        reff.Rectangle.Y - selectedConveyor.Rectangle.Y);
-                }
-
-                if (reff.FixedPointLocation == "Bottom")
-                {
-                    PointF point = GVisual.GetMiddleOfBottomEdgeF(selectedConveyor.Rectangle);
-
-                    reff.Rectangle = new RectangleF(point.X - reff.Rectangle.Width / 2,
-                        point.Y - reff.Rectangle.Height / 2, reff.Rectangle.Width,
-                        reff.Rectangle.Height);
-                    reff.OriginalLocationInsideParent = new PointF(reff.Rectangle.X - selectedConveyor.Rectangle.X,
-                        reff.Rectangle.Y - selectedConveyor.Rectangle.Y);
-                }
-
-                if (reff.FixedPointLocation == "Left")
-                {
-                    PointF point = GVisual.GetMiddleOfLeftEdgeF(selectedConveyor.Rectangle);
-
-                    reff.Rectangle = new RectangleF(point.X - reff.Rectangle.Width / 2,
-                        point.Y - reff.Rectangle.Height / 2, reff.Rectangle.Width,
-                        reff.Rectangle.Height);
-                    reff.OriginalLocationInsideParent = new PointF(reff.Rectangle.X - selectedConveyor.Rectangle.X,
-                        reff.Rectangle.Y - selectedConveyor.Rectangle.Y);
-                }
-
-                if (reff.FixedPointLocation == "Right")
-                {
-                    PointF point = GVisual.GetMiddleOfRightEdgeF(selectedConveyor.Rectangle);
-
-                    reff.Rectangle = new RectangleF(point.X - reff.Rectangle.Width / 2,
-                        point.Y - reff.Rectangle.Height / 2, reff.Rectangle.Width,
-                        reff.Rectangle.Height);
-                    reff.OriginalLocationInsideParent = new PointF(reff.Rectangle.X - selectedConveyor.Rectangle.X,
-                        reff.Rectangle.Y - selectedConveyor.Rectangle.Y);
-                }
-            }
-        }
-        private void txt_Left_Padding_TextChanged(object sender, EventArgs e)
-        {
-            errorProvider.Clear();
-            var pxCM = ConvertPixelToCmGivenRectangle(Ambar.Rectangle, Ambar.AmbarEni, Ambar.AmbarBoyu);
-            float pxX = pxCM.Item1;
-            float proxRectLoc = 0f;
-
-            float txt_left = StrLib.ReplaceDotWithCommaReturnFloatButAllowZeros(txt_Left_Padding, errorProvider,
-               "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
-
-            if (!ProxRectLeft.IsEmpty)
-            {
-                proxRectLoc = ProxRectLeft.Right - Ambar.Rectangle.Left;
-            }
-            else
-            {
-                proxRectLoc = 0;
-            }
-
-            if (selectedDepo != null)
-            {
-                if (!errorProvider.HasErrors)
-                {
-                    float ambar_eni_CM = (Ambar.AmbarEni * 100) - selectedDepo.Cm_Width;
-
-                    if (txt_left >= 0 && txt_left <= ambar_eni_CM)
-                    {
-                        selectedDepo.Rectangle =
-                        new RectangleF(Ambar.Rectangle.X + proxRectLoc + txt_left * pxX,
-                        selectedDepo.Rectangle.Y,
-                        selectedDepo.Rectangle.Width, selectedDepo.Rectangle.Height);
-
-                        selectedDepo.OriginalRectangle =
-                        new RectangleF(Ambar.Rectangle.X + proxRectLoc + txt_left * pxX,
-                        selectedDepo.Rectangle.Y,
-                        selectedDepo.Rectangle.Width, selectedDepo.Rectangle.Height);
-
-                        if (selectedDepo.gridmaps.Count > 0)
-                        {
-                            DataCell = selectedDepo.gridmaps.FirstOrDefault();
-
-                            selectedDepo.gridmaps.Clear();
-
-                            selectedDepo.CreateGridMapMenuItem(DataCell.CellEni, DataCell.CellBoyu,
-                                DataCell.DikeyKenarBoslugu, DataCell.YatayKenarBoslugu, DataCell.NesneEni,
-                                DataCell.NesneBoyu);
-                        }
-
-                        drawingPanel.Invalidate();
-                    }
-                    else
-                    {
-                        CustomNotifyIcon notify = new CustomNotifyIcon();
-                        notify.showAlert("Alanın dışına çıkamazsınız.", CustomNotifyIcon.enmType.Error);
-                        drawingPanel.Invalidate();
-                    }
-                }
-            }
-            if (selectedConveyor != null)
-            {
-                if (!errorProvider.HasErrors)
-                {
-                    float ambar_eni_CM =
-                        (Ambar.AmbarEni * 100) - selectedConveyor.ConveyorEni * 100;
-
-                    if (txt_left >= 0 && txt_left <= ambar_eni_CM)
-                    {
-                        selectedConveyor.Rectangle = new RectangleF
-                            (Ambar.Rectangle.X + proxRectLoc + txt_left * pxX,
-                            selectedConveyor.Rectangle.Y,
-                            selectedConveyor.Rectangle.Width,
-                            selectedConveyor.Rectangle.Height);
-
-                        selectedConveyor.OriginalRectangle = new RectangleF
-                            (Ambar.Rectangle.X + proxRectLoc + txt_left * pxX,
-                            selectedConveyor.Rectangle.Y,
-                            selectedConveyor.Rectangle.Width,
-                            selectedConveyor.Rectangle.Height);
-
-                        foreach (var reff in selectedConveyor.ConveyorReferencePoints)
-                        {
-                            reff.Rectangle = new RectangleF
-                                (selectedConveyor.Rectangle.X + reff.OriginalLocationInsideParent.X,
-                                selectedConveyor.Rectangle.Y + reff.OriginalLocationInsideParent.Y,
-                                reff.Rectangle.Width, reff.Rectangle.Height);
-                        }
-
-                        drawingPanel.Invalidate();
-                    }
-                    else
-                    {
-                        CustomNotifyIcon notify = new CustomNotifyIcon();
-                        notify.showAlert("Alanın dışına çıkamazsınız.", CustomNotifyIcon.enmType.Error);
-                        drawingPanel.Invalidate();
-                    }
-                }
-            }
-        }
-        private void txt_Right_Padding_TextChanged(object sender, EventArgs e)
-        {
-            errorProvider.Clear();
-            var pxCM = ConvertPixelToCmGivenRectangle(Ambar.Rectangle, Ambar.AmbarEni, Ambar.AmbarBoyu);
-            float pxX = pxCM.Item1;
-            float pxY = pxCM.Item2;
-            float right_padding = 0f;
-            float ProxRectWidthCM = 0f;
-
-            float txt_right =
-                StrLib.ReplaceDotWithCommaReturnFloatButAllowZeros(txt_Right_Padding, errorProvider,
-               "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
-
-            if (!ProxRectRight.IsEmpty)
-            {
-                ProxRectWidthCM = Ambar.Rectangle.Right - ProxRectRight.X;
-            }
-            else
-            {
-                ProxRectWidthCM = 0f;
-            }
-
-            if (selectedDepo != null)
-            {
-                if (!errorProvider.HasErrors)
-                {
-                    float ambar_eni_CM = (Ambar.AmbarEni * 100) - selectedDepo.Cm_Width;
-
-                    right_padding = txt_right * pxX + selectedDepo.Rectangle.Width + ProxRectWidthCM;
-
-                    if (txt_right >= 0 && txt_right <= ambar_eni_CM)
-                    {
-                        selectedDepo.Rectangle = new RectangleF(Ambar.Rectangle.Right - right_padding,
-                            selectedDepo.Rectangle.Y, selectedDepo.Rectangle.Width,
-                            selectedDepo.Rectangle.Height);
-
-                        selectedDepo.OriginalRectangle = new RectangleF(Ambar.Rectangle.Right - right_padding,
-                            selectedDepo.Rectangle.Y, selectedDepo.Rectangle.Width,
-                            selectedDepo.Rectangle.Height);
-
-                        if (selectedDepo.gridmaps.Count > 0)
-                        {
-                            DataCell = selectedDepo.gridmaps.FirstOrDefault();
-
-                            selectedDepo.gridmaps.Clear();
-
-                            selectedDepo.CreateGridMapMenuItem(DataCell.CellEni, DataCell.CellBoyu,
-                                DataCell.DikeyKenarBoslugu, DataCell.YatayKenarBoslugu, DataCell.NesneEni,
-                                DataCell.NesneBoyu);
-                        }
-
-                        drawingPanel.Invalidate();
-                    }
-                    else
-                    {
-                        CustomNotifyIcon notify = new CustomNotifyIcon();
-                        notify.showAlert("Alanın dışına çıkamazsınız.", CustomNotifyIcon.enmType.Error);
-                        drawingPanel.Invalidate();
-                    }
-                }
-            }
-            if (selectedConveyor != null)
-            {
-                if (!errorProvider.HasErrors)
-                {
-                    float ambar_eni_CM =
-                        (Ambar.AmbarEni * 100) - selectedConveyor.ConveyorEni * 100;
-
-                    right_padding = txt_right * pxX +
-                        selectedConveyor.Rectangle.Width + ProxRectWidthCM;
-
-                    if (txt_right >= 0 && txt_right <= ambar_eni_CM)
-                    {
-                        selectedConveyor.Rectangle = new RectangleF
-                            (Ambar.Rectangle.Right - right_padding,
-                            selectedConveyor.Rectangle.Y,
-                            selectedConveyor.Rectangle.Width,
-                            selectedConveyor.Rectangle.Height);
-
-                        selectedConveyor.OriginalRectangle = new RectangleF
-                            (Ambar.Rectangle.Right - right_padding,
-                            selectedConveyor.Rectangle.Y,
-                            selectedConveyor.Rectangle.Width,
-                            selectedConveyor.Rectangle.Height);
-
-                        foreach (var reff in selectedConveyor.ConveyorReferencePoints)
-                        {
-                            reff.Rectangle = new RectangleF
-                                (selectedConveyor.Rectangle.X + reff.OriginalLocationInsideParent.X,
-                                selectedConveyor.Rectangle.Y + reff.OriginalLocationInsideParent.Y,
-                                reff.Rectangle.Width, reff.Rectangle.Height);
-                        }
-
-                        drawingPanel.Invalidate();
-                    }
-                    else
-                    {
-                        CustomNotifyIcon notify = new CustomNotifyIcon();
-                        notify.showAlert("Alanın dışına çıkamazsınız.", CustomNotifyIcon.enmType.Error);
-                        drawingPanel.Invalidate();
-                    }
-                }
-            }
-        }
-        private void txt_Bottom_Padding_TextChanged(object sender, EventArgs e)
-        {
-            errorProvider.Clear();
-            var pxCM = ConvertPixelToCmGivenRectangle(Ambar.Rectangle, Ambar.AmbarEni, Ambar.AmbarBoyu);
-            float pxX = pxCM.Item1;
-            float pxY = pxCM.Item2;
-            float proxRectBotLoc = 0f;
-            float bot_padding = 0f;
-            float ambar_boyu_CM = 0f;
-
-            float txt_bot =
-                StrLib.ReplaceDotWithCommaReturnFloatButAllowZeros(txt_Bottom_Padding, errorProvider,
-                "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
-
-            if (!ProxRectBottom.IsEmpty)
-            {
-                proxRectBotLoc = Ambar.Rectangle.Bottom - ProxRectBottom.Top;
-            }
-            else
-            {
-                proxRectBotLoc = 0f;
-            }
-
-            if (selectedDepo != null)
-            {
-                if (!errorProvider.HasErrors)
-                {
-                    ambar_boyu_CM = (Ambar.AmbarBoyu * 100) - selectedDepo.Cm_Height;
-
-                    bot_padding = txt_bot * pxY + selectedDepo.Rectangle.Height + proxRectBotLoc;
-
-                    if (txt_bot >= 0 && txt_bot <= ambar_boyu_CM)
-                    {
-                        selectedDepo.Rectangle = new RectangleF(selectedDepo.Rectangle.X,
-                            Ambar.Rectangle.Bottom - bot_padding,
-                            selectedDepo.Rectangle.Width,
-                            selectedDepo.Rectangle.Height);
-
-                        selectedDepo.OriginalRectangle = new RectangleF(selectedDepo.Rectangle.X,
-                            Ambar.Rectangle.Bottom - bot_padding,
-                            selectedDepo.Rectangle.Width,
-                            selectedDepo.Rectangle.Height);
-
-                        if (selectedDepo.gridmaps.Count > 0)
-                        {
-                            DataCell = selectedDepo.gridmaps.FirstOrDefault();
-
-                            selectedDepo.gridmaps.Clear();
-
-                            selectedDepo.CreateGridMapMenuItem(DataCell.CellEni, DataCell.CellBoyu,
-                                DataCell.DikeyKenarBoslugu, DataCell.YatayKenarBoslugu, DataCell.NesneEni,
-                                DataCell.NesneBoyu);
-                        }
-
-                        drawingPanel.Invalidate();
-                    }
-                    else
-                    {
-                        CustomNotifyIcon notify = new CustomNotifyIcon();
-                        notify.showAlert("Alanın dışına çıkamazsınız.", CustomNotifyIcon.enmType.Error);
-                        drawingPanel.Invalidate();
-                    }
-                }
-            }
-            if (selectedConveyor != null)
-            {
-                if (!errorProvider.HasErrors)
-                {
-                    ambar_boyu_CM = (Ambar.AmbarBoyu * 100);
-
-                    bot_padding = txt_bot * pxY +
-                        selectedConveyor.Rectangle.Height + proxRectBotLoc;
-
-                    Debug.WriteLine($"{txt_bot}");
-
-                    if (txt_bot >= 0 && txt_bot <= ambar_boyu_CM)
-                    {
-                        selectedConveyor.Rectangle =
-                            new RectangleF(selectedConveyor.Rectangle.X,
-                            Ambar.Rectangle.Y + Ambar.Rectangle.Height - bot_padding,
-                            selectedConveyor.Rectangle.Width,
-                            selectedConveyor.Rectangle.Height);
-
-                        selectedConveyor.OriginalRectangle =
-                            new RectangleF(selectedConveyor.Rectangle.X,
-                            Ambar.Rectangle.Y + Ambar.Rectangle.Height - bot_padding,
-                            selectedConveyor.Rectangle.Width,
-                            selectedConveyor.Rectangle.Height);
-
-                        foreach (var reff in selectedConveyor.ConveyorReferencePoints)
-                        {
-                            reff.Rectangle = new RectangleF
-                                (selectedConveyor.Rectangle.X + reff.OriginalLocationInsideParent.X,
-                                selectedConveyor.Rectangle.Y + reff.OriginalLocationInsideParent.Y,
-                                reff.Rectangle.Width, reff.Rectangle.Height);
-                        }
-                        drawingPanel.Invalidate();
-                    }
-                    else
-                    {
-                        CustomNotifyIcon notify = new CustomNotifyIcon();
-                        notify.showAlert("Alanın dışına çıkamazsınız.", CustomNotifyIcon.enmType.Error);
-                        drawingPanel.Invalidate();
-                    }
-                }
-            }
-        }
-        private void txt_Top_Padding_TextChanged(object sender, EventArgs e)
-        {
-            errorProvider.Clear();
-            var pxCM = ConvertPixelToCmGivenRectangle(Ambar.Rectangle, Ambar.AmbarEni, Ambar.AmbarBoyu);
-            float pxX = pxCM.Item1;
-            float pxY = pxCM.Item2;
-            float proxRectTopLoc = 0f;
-            float top_padding = 0f;
-            float txt_top =
-                StrLib.ReplaceDotWithCommaReturnFloatButAllowZeros(txt_Top_Padding, errorProvider,
-                "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
-
-            if (!ProxRectTop.IsEmpty)
-            {
-                proxRectTopLoc = ProxRectTop.Bottom - Ambar.Rectangle.Top;
-            }
-            else
-            {
-                proxRectTopLoc = 0f;
-            }
-
-            if (selectedDepo != null)
-            {
-                if (!errorProvider.HasErrors)
-                {
-                    float ambar_boyu_CM = (Ambar.AmbarBoyu * 100) - selectedDepo.Cm_Height;
-
-                    top_padding = txt_top * pxY + proxRectTopLoc;
-
-                    if (txt_top >= 0 && txt_top <= ambar_boyu_CM)
-                    {
-                        selectedDepo.Rectangle = new RectangleF(selectedDepo.Rectangle.X,
-                            Ambar.Rectangle.Y + top_padding, selectedDepo.Rectangle.Width,
-                            selectedDepo.Rectangle.Height);
-
-                        selectedDepo.OriginalRectangle = new RectangleF(selectedDepo.Rectangle.X,
-                            Ambar.Rectangle.Y + top_padding, selectedDepo.Rectangle.Width,
-                            selectedDepo.Rectangle.Height);
-
-                        if (selectedDepo.gridmaps.Count > 0)
-                        {
-                            DataCell = selectedDepo.gridmaps.FirstOrDefault();
-
-                            selectedDepo.gridmaps.Clear();
-
-                            selectedDepo.CreateGridMapMenuItem(DataCell.CellEni, DataCell.CellBoyu,
-                                DataCell.DikeyKenarBoslugu, DataCell.YatayKenarBoslugu, DataCell.NesneEni,
-                                DataCell.NesneBoyu);
-                        }
-
-                        drawingPanel.Invalidate();
-                    }
-                    else
-                    {
-                        CustomNotifyIcon notify = new CustomNotifyIcon();
-                        notify.showAlert("Alanın dışına çıkamazsınız.", CustomNotifyIcon.enmType.Error);
-                        drawingPanel.Invalidate();
-                    }
-                }
-            }
-            if (selectedConveyor != null)
-            {
-                if (!errorProvider.HasErrors)
-                {
-                    float ambar_boyu_CM = (Ambar.AmbarBoyu * 100) -
-                        selectedConveyor.ConveyorBoyu * 100;
-
-                    top_padding = txt_top * pxY + proxRectTopLoc;
-
-                    if (txt_top >= 0 && txt_top <= ambar_boyu_CM)
-                    {
-                        selectedConveyor.Rectangle =
-                            new RectangleF(selectedConveyor.Rectangle.X,
-                            Ambar.Rectangle.Y + top_padding,
-                            selectedConveyor.Rectangle.Width,
-                            selectedConveyor.Rectangle.Height);
-
-                        selectedConveyor.OriginalRectangle =
-                            new RectangleF(selectedConveyor.Rectangle.X,
-                            Ambar.Rectangle.Y + top_padding,
-                            selectedConveyor.Rectangle.Width,
-                            selectedConveyor.Rectangle.Height);
-
-                        foreach (var reff in selectedConveyor.ConveyorReferencePoints)
-                        {
-                            reff.Rectangle = new RectangleF
-                                (selectedConveyor.Rectangle.X + reff.OriginalLocationInsideParent.X,
-                                selectedConveyor.Rectangle.Y + reff.OriginalLocationInsideParent.Y,
-                                reff.Rectangle.Width, reff.Rectangle.Height);
-                        }
-
-                        drawingPanel.Invalidate();
-                    }
-                    else
-                    {
-                        CustomNotifyIcon notify = new CustomNotifyIcon();
-                        notify.showAlert("Alanın dışına çıkamazsınız.", CustomNotifyIcon.enmType.Error);
-                        drawingPanel.Invalidate();
-                    }
-                }
-            }
-        }
-        private void btn_Yer_Onayla_Click(object sender, EventArgs e)
-        {
-            if (selectedDepo != null)
-            {
-                bool intersect = CheckifIntersects(selectedDepo.Rectangle, RectangleF.Empty,
-                        selectedDepo, null);
-                if (intersect)
-                {
-                    CustomNotifyIcon notify = new CustomNotifyIcon();
-                    notify.showAlert("Bu alan başka bir alanın sınırlarına giremez.",
-                        CustomNotifyIcon.enmType.Error);
-                    selectedDepo.Rectangle = UnchangedselectedDepoRectangle;
-                    selectedDepo.OriginalRectangle = selectedDepo.Rectangle;
-                    selectedDepo.LocationofRect = new System.Drawing.Point((int)selectedDepo.Rectangle.X, (int)selectedDepo.Rectangle.Y);
-                    selectedDepo = null;
-                    SelectedDepoPen.Color = System.Drawing.Color.Black;
-                    SelectedDepoPen.Width = 1;
-                    SelectedDepoEdgePen.Width = 1;
-                    Manuel_Move = false;
-                    GVisual.HideControl(PaddingPanel, drawingPanel);
-                    DrawingPanelEnlarge(PaddingPanel, this);
-                    drawingPanel.Invalidate();
-                }
-                else
-                {
-                    selectedDepo.DepoAlaniEni = txt_width;
-                    selectedDepo.DepoAlaniBoyu = txt_height;
-                    selectedDepo.Cm_Width = selectedDepo.DepoAlaniEni * 100;
-                    selectedDepo.Cm_Height = selectedDepo.DepoAlaniBoyu * 100;
-
-                    selectedDepo.OriginalRectangle =
-                        new RectangleF(selectedDepo.Rectangle.X,
-                        selectedDepo.Rectangle.Y, selectedDepo.Rectangle.Width,
-                        selectedDepo.Rectangle.Height);
-
-                    selectedDepo.OriginalDepoSizeWidth = selectedDepo.OriginalRectangle.Width;
-                    selectedDepo.OriginalDepoSizeHeight = selectedDepo.OriginalRectangle.Height;
-
-                    selectedDepo.OriginalDepoSize = new SizeF(selectedDepo.OriginalDepoSizeWidth, selectedDepo.OriginalDepoSizeHeight);
-
-                    selectedDepo.LocationofRect = new System.Drawing.Point((int)selectedDepo.Rectangle.X, (int)selectedDepo.Rectangle.Y);
-                    SelectedDepoPen.Color = System.Drawing.Color.Black;
-                    SelectedDepoPen.Width = 1;
-                    SelectedDepoEdgePen.Width = 1;
-                    Manuel_Move = false;
-                    GVisual.HideControl(PaddingPanel, drawingPanel);
-                    DrawingPanelEnlarge(PaddingPanel, this);
-                    selectedDepo = null;
-                    drawingPanel.Invalidate();
-                }
-            }
-            if (selectedConveyor != null)
-            {
-                bool intersect = CheckifIntersects(RectangleF.Empty,
-                    selectedConveyor.Rectangle, null, selectedConveyor);
-                if (intersect)
-                {
-                    CustomNotifyIcon notify = new CustomNotifyIcon();
-                    notify.showAlert("Bu alan başka bir alanın sınırlarına giremez.",
-                        CustomNotifyIcon.enmType.Error);
-                    selectedConveyor.Rectangle = UnchangedselectedConveyorRectangle;
-                    selectedConveyor.OriginalRectangle = selectedConveyor.Rectangle;
-                    selectedConveyor.LocationofRect = new System.Drawing.Point((int)selectedConveyor.Rectangle.X,
-                        (int)selectedConveyor.Rectangle.Y);
-                    selectedConveyor = null;
-                    SelectedConveyorPen.Color = System.Drawing.Color.Black;
-                    SelectedConveyorPen.Width = 1;
-                    SelectedConveyorEdgePen.Width = 1;
-                    Manuel_Move = false;
-                    GVisual.HideControl(PaddingPanel, drawingPanel);
-                    DrawingPanelEnlarge(PaddingPanel, this);
-                    drawingPanel.Invalidate();
-                }
-                else
-                {
-                    selectedConveyor.ConveyorBoyu = float.Parse(txt_Height.Text);
-                    selectedConveyor.ConveyorEni = float.Parse(txt_Width.Text);
-
-                    selectedConveyor.OriginalRectangle =
-                        new RectangleF(selectedConveyor.Rectangle.X,
-                        selectedConveyor.Rectangle.Y,
-                        selectedConveyor.Rectangle.Width,
-                        selectedConveyor.Rectangle.Height);
-
-                    selectedConveyor.LocationofRect = new System.Drawing.Point((int)selectedConveyor.Rectangle.X,
-                        (int)selectedConveyor.Rectangle.Y);
-                    Manuel_Move = false;
-                    selectedConveyor = null;
-                    SelectedConveyorPen.Color = System.Drawing.Color.Black;
-                    SelectedConveyorPen.Width = 1;
-                    SelectedConveyorEdgePen.Width = 1;
-                    GVisual.HideControl(PaddingPanel, drawingPanel);
-                    DrawingPanelEnlarge(PaddingPanel, this);
-                    drawingPanel.Invalidate();
-                }
-            }
-        }
-        private void btn_Padding_Vazgeç_Click(object sender, EventArgs e)
-        {
-            if (selectedDepo != null)
-            {
-                selectedDepo.Rectangle = UnchangedselectedDepoRectangle;
-                selectedDepo.OriginalRectangle = selectedDepo.Rectangle;
-                selectedDepo.LocationofRect = new System.Drawing.Point((int)selectedDepo.Rectangle.X, (int)selectedDepo.Rectangle.Y);
-                selectedDepo = null;
-                SelectedDepoPen.Color = System.Drawing.Color.Black;
-                SelectedDepoPen.Width = 1;
-                SelectedDepoEdgePen.Width = 1;
-                Manuel_Move = false;
-                GVisual.HideControl(PaddingPanel, drawingPanel);
-                drawingPanel.Invalidate();
-            }
-            if (selectedConveyor != null)
-            {
-                selectedConveyor.Rectangle = UnchangedselectedConveyorRectangle;
-                selectedConveyor.OriginalRectangle = selectedConveyor.Rectangle;
-                selectedConveyor.LocationofRect = new System.Drawing.Point((int)selectedConveyor.Rectangle.X,
-                        (int)selectedConveyor.Rectangle.Y);
-                SelectedConveyorPen.Color = System.Drawing.Color.Black;
-                SelectedConveyorPen.Width = 1;
-                SelectedConveyorEdgePen.Width = 1;
-                foreach (var reff in selectedConveyor.ConveyorReferencePoints)
-                {
-                    reff.Rectangle = new RectangleF
-                        (selectedConveyor.Rectangle.X + reff.OriginalLocationInsideParent.X,
-                        selectedConveyor.Rectangle.Y + reff.OriginalLocationInsideParent.Y,
-                        reff.Rectangle.Width, reff.Rectangle.Height);
-                }
-                AdjustFixedConveyorReferencePoints(selectedConveyor);
-                selectedConveyor = null;
-                Manuel_Move = false;
-                GVisual.HideControl(PaddingPanel, drawingPanel);
-                drawingPanel.Invalidate();
-            }
-            DrawingPanelEnlarge(PaddingPanel, this);
-        }
-        private bool CheckifIntersects(RectangleF DepoRect, RectangleF ConveyorRect,
-            Depo? selectedDepo, Conveyor? selectedConveyor)
-        {
-            if (Ambar != null)
-            {
-                foreach (var depo in Ambar.depolar)
-                {
-                    if (!DepoRect.IsEmpty &&
-                        depo.Rectangle.IntersectsWith(DepoRect) &&
-                        DepoRect != depo.Rectangle &&
-                        selectedDepo != null &&
-                        selectedDepo != depo)
-                    {
-                        return true;
-                    }
-                    if (!ConveyorRect.IsEmpty &&
-                        depo.Rectangle.IntersectsWith(ConveyorRect) &&
-                        selectedConveyor != null)
-                    {
-                        return true;
-                    }
-                }
-                foreach (var conveyor in Ambar.conveyors)
-                {
-                    if (!DepoRect.IsEmpty &&
-                        conveyor.Rectangle.IntersectsWith(DepoRect) &&
-                        selectedDepo != null)
-                    {
-                        return true;
-                    }
-                    if (!ConveyorRect.IsEmpty &&
-                                conveyor.Rectangle.IntersectsWith(ConveyorRect) &&
-                                ConveyorRect != conveyor.Rectangle &&
-                                selectedConveyor != null &&
-                                selectedConveyor != conveyor)
-                    {
-                        return true;
-                    }
-                }
-                return false;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        public bool CheckifIntersectsWithArea(RectangleF rect)
-        {
-            if (Ambar != null)
-            {
-                foreach (var depo in Ambar.depolar)
-                {
-                    if (rect.IntersectsWith(depo.Rectangle))
-                    {
-                        return true;
-                    }
-                }
-                foreach (var conveyor in Ambar.conveyors)
-                {
-                    if (rect.IntersectsWith(conveyor.Rectangle))
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-
-
-
-
-        //Alan Button Events
-        private void btn_Alan_Click(object sender, EventArgs e)
-        {
-            ShowControlOnLayoutPanel(Alan_Olusturma_Paneli);
-        }
-        private void btn_Alan_Olustur_Click(object sender, EventArgs e)
-        {
-            if (ambar_Boyut_Degistir && Ambar != null)
-            {
-                errorProvider.SetError(txt_Alan_Eni, string.Empty);
-                errorProvider.SetError(txt_Alan_Boyu, string.Empty);
-                errorProvider.Clear();
-
-                float alan_eni = StrLib.ReplaceDotWithCommaReturnFloat(txt_Alan_Eni, errorProvider,
-                    "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
-                float alan_boyu = StrLib.ReplaceDotWithCommaReturnFloat(txt_Alan_Boyu, errorProvider,
-                    "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
-
-                if (!errorProvider.HasErrors)
-                {
-                    Ambar.Rectangle = GVisual.RatioRectangleToPanel(drawingPanel, Ambar.Rectangle);
-                    System.Drawing.Point point = GVisual.GetCenter(drawingPanel.ClientRectangle);
-                    Ambar.Rectangle = new RectangleF(point.X - Ambar.Rectangle.Width / 2,
-                        point.Y - Ambar.Rectangle.Height / 2, Ambar.Rectangle.Width, Ambar.Rectangle.Height);
-                    Ambar.OriginalRectangle = Ambar.Rectangle;
-                    Ambar.AmbarEni = alan_eni;
-                    Ambar.AmbarBoyu = alan_boyu;
-                    Ambar.LocationofRect = new System.Drawing.Point((int)Ambar.Rectangle.X, (int)Ambar.Rectangle.Y);
-                    Ambar = Ambar;
-                    drawingPanel.Invalidate();
-                    DrawingPanelEnlarge(Alan_Olusturma_Paneli, LeftSide_LayoutPanel);
-                    ambar_Boyut_Degistir = false;
-                }
-            }
-            else
-            {
-                if (Ambar != null)
-                {
-                    var result = MessageBox.Show
-                    ("Halihazırda bulunan alan silinecektir, devam etmek istiyor musunuz?",
-                     "Devam Etmek İstiyor Musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-                    if (result == DialogResult.Yes)
-                    {
-                        Ambar = null;
-                        errorProvider.SetError(txt_Alan_Eni, string.Empty);
-                        errorProvider.SetError(txt_Alan_Boyu, string.Empty);
-                        errorProvider.Clear();
-
-                        float alan_eni = StrLib.ReplaceDotWithCommaReturnFloat(txt_Alan_Eni, errorProvider,
-                            "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
-                        float alan_boyu = StrLib.ReplaceDotWithCommaReturnFloat(txt_Alan_Boyu, errorProvider,
-                            "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
-
-
-                        if (!errorProvider.HasErrors)
-                        {
-                            Ambar ambar = new Ambar(0, 0, alan_eni, alan_boyu, Main, this);
-
-                            ambar.Rectangle = GVisual.RatioRectangleToPanel(drawingPanel, ambar.Rectangle);
-                            System.Drawing.Point point = GVisual.GetCenter(drawingPanel.ClientRectangle);
-                            ambar.Rectangle = new RectangleF(point.X - ambar.Rectangle.Width / 2,
-                                point.Y - ambar.Rectangle.Height / 2, ambar.Rectangle.Width, ambar.Rectangle.Height);
-                            ambar.OriginalRectangle = ambar.Rectangle;
-                            ambar.AmbarEni = alan_eni;
-                            ambar.AmbarBoyu = alan_boyu;
-                            ambar.LocationofRect = new System.Drawing.Point((int)ambar.Rectangle.X, (int)ambar.Rectangle.Y);
-                            Ambar = ambar;
-                            selDepo = new Depo(10, 10, 10, 10, 1f, Main, this, Ambar);
-                            selConveyor = new Conveyor(10, 10, 10, 10, Main, this, Ambar);
-                            drawingPanel.Invalidate();
-                            DrawingPanelEnlarge(Alan_Olusturma_Paneli, LeftSide_LayoutPanel);
-                        }
-                    }
-                    else
-                    {
-                        DrawingPanelEnlarge(Alan_Olusturma_Paneli, LeftSide_LayoutPanel);
-                    }
-                }
-                else
-                {
-                    errorProvider.SetError(txt_Alan_Eni, string.Empty);
-                    errorProvider.SetError(txt_Alan_Boyu, string.Empty);
-                    errorProvider.Clear();
-
-                    float alan_eni = StrLib.ReplaceDotWithCommaReturnFloat(txt_Alan_Eni, errorProvider,
-                        "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
-                    float alan_boyu = StrLib.ReplaceDotWithCommaReturnFloat(txt_Alan_Boyu, errorProvider,
-                        "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
-
-                    if (!errorProvider.HasErrors)
-                    {
-                        Ambar ambar = new Ambar(0, 0, alan_eni, alan_boyu, Main, this);
-
-                        ambar.Rectangle = GVisual.RatioRectangleToPanel(drawingPanel, ambar.Rectangle);
-                        System.Drawing.Point point = GVisual.GetCenter(drawingPanel.ClientRectangle);
-                        ambar.Rectangle = new RectangleF(point.X - ambar.Rectangle.Width / 2,
-                            point.Y - ambar.Rectangle.Height / 2, ambar.Rectangle.Width, ambar.Rectangle.Height);
-                        ambar.OriginalRectangle = ambar.Rectangle;
-                        ambar.AmbarEni = alan_eni;
-                        ambar.AmbarBoyu = alan_boyu;
-                        ambar.LocationofRect = new System.Drawing.Point((int)ambar.Rectangle.X, (int)ambar.Rectangle.Y);
-                        Ambar = ambar;
-                        drawingPanel.Invalidate();
-                        DrawingPanelEnlarge(Alan_Olusturma_Paneli, LeftSide_LayoutPanel);
-                    }
-                }
-            }
-        }
-        private void btn_Alan_Olustur_Vazgec_Click(object sender, EventArgs e)
-        {
-            DrawingPanelEnlarge(Alan_Olusturma_Paneli, this);
-            ambar_Boyut_Degistir = false;
-        }
-        private void boyutunuDeğiştirToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            if (Ambar != null)
-            {
-                ambar_Boyut_Degistir = true;
-                if (!CheckPanelVisible(Alan_Olusturma_Paneli))
-                {
-                    HideEverything();
-                    DrawingPanelShrink(Alan_Olusturma_Paneli, this, leftSidePanelLocation);
-                }
-                else
-                {
-                    HideEverything();
-                    GVisual.ShowControl(Alan_Olusturma_Paneli, this, leftSidePanelLocation);
-                    GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelMiddleSize);
-                    GVisual.Move_RightSide_of_AnotherControl(drawingPanel, Alan_Olusturma_Paneli, 7);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Lütfen önce alan oluşturun.", "Alan yok.", MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-            }
-        }
-        private void btn_Alan_Olusturma_Panelini_Kapat_Click(object sender, EventArgs e)
-        {
-            DrawingPanelEnlarge(Alan_Olusturma_Paneli, this);
-            ambar_Boyut_Degistir = false;
-        }
-
-
-
-
-
-        //Conveyor Button Events
-        private void btn_Conveyor_Click(object sender, EventArgs e)
-        {
-            if (Ambar != null)
-            {
-                ShowControlOnLayoutPanel(Conveyor_Olusturma_Paneli);
-            }
-            else
-            {
-                MessageBox.Show("Lütfen önce alan oluşturun.", "Alan yok.", MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-            }
-
-        }
-        private void btn_Conveyor_Olustur_Click(object sender, EventArgs e)
-        {
-            if (Ambar != null)
-            {
-                float conveyor_eni = StrLib.ReplaceDotWithCommaReturnFloat(txt_Conveyor_Eni,
-                    errorProvider, "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
-
-                float conveyor_boyu = StrLib.ReplaceDotWithCommaReturnFloat(txt_Conveyor_Boyu,
-                    errorProvider, "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
-
-                if (conveyor_eni > Ambar.AmbarEni)
-                {
-                    errorProvider.SetError(txt_Conveyor_Eni,
-                        "Conveyor'un eni alanın eninden büyük olamaz.");
-                }
-                if (conveyor_boyu > Ambar.AmbarBoyu)
-                {
-                    errorProvider.SetError(txt_Conveyor_Eni,
-                        "Conveyor'un boyu alanın boyundan büyük olamaz.");
-                }
-
-                if (!errorProvider.HasErrors)
-                {
-                    Conveyor conveyor = new Conveyor(0, 0, conveyor_eni, conveyor_boyu, null, this, Ambar);
-                    conveyor.Rectangle = GVisual.RatioRectangleToParentRectangle(conveyor_eni,
-                        conveyor_boyu, Ambar.AmbarEni, Ambar.AmbarBoyu, Ambar.Rectangle);
-                    conveyor.ConveyorEni = conveyor_eni;
-                    conveyor.ConveyorBoyu = conveyor_boyu;
-
-                    SearchForLocationtoPlace(conveyor.Rectangle, conveyor, null, Ambar);
-
-                    drawingPanel.Invalidate();
-                    DrawingPanelEnlarge(Conveyor_Olusturma_Paneli, this);
-                }
-            }
-        }
-        private void btn_Conveyor_Olustur_Vazgec_Click(object sender, EventArgs e)
-        {
-            DrawingPanelEnlarge(Conveyor_Olusturma_Paneli, this);
-        }
-        private void btn_Conveyor_Olusturma_Kapat_Click(object sender, EventArgs e)
-        {
-            DrawingPanelEnlarge(Conveyor_Olusturma_Paneli, this);
-        }
-
-
-
-
-
-
-        //Depo Button Events
-        private void btn_Depo_Click(object sender, EventArgs e)
-        {
-            if (Ambar != null)
-            {
-                ShowControlOnLayoutPanel(Depo_Olusturma_Paneli);
-            }
-            else
-            {
-                MessageBox.Show("Lütfen önce alan oluşturun.", "Alan yok.", MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-            }
-
-        }
-        private void btn_Depo_Olustur_Click(object sender, EventArgs e)
-        {
-            if (Ambar != null)
-            {
-                errorProvider.SetError(txt_Depo_Eni, string.Empty);
-                errorProvider.SetError(txt_Depo_Boyu, string.Empty);
-                errorProvider.SetError(txt_Depo_Yuksekligi, string.Empty);
-                errorProvider.Clear();
-
-                int depo_Yuksekligi = StrLib.CheckIntTextbox(txt_Depo_Yuksekligi,
-                    errorProvider, "Bu alan boş bırakılamaz.", "Buraya lütfen bir tam sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
-                float depo_eni = StrLib.ReplaceDotWithCommaReturnFloat(txt_Depo_Eni,
-                    errorProvider, "Bu alan boş bırakılamaz.", "Buraya lütfen bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
-                float depo_boyu = StrLib.ReplaceDotWithCommaReturnFloat(txt_Depo_Boyu,
-                    errorProvider, "Bu alan boş bırakılamaz.", "Buraya lütfen bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
-                string depo_name = txt_Depo_Adi.Text;
-                string depo_description = txt_Depo_Aciklamasi.Text;
-                string depo_item_kind = txt_Depo_Item_Turu.Text;
-
-                if (depo_eni > Ambar.AmbarEni)
-                {
-                    errorProvider.SetError(txt_Depo_Eni, "Deponun eni alanın eninden büyük olamaz.");
-                }
-                if (depo_boyu > Ambar.AmbarBoyu)
-                {
-                    errorProvider.SetError(txt_Depo_Boyu, "Deponun boyu alanın boyundan büyük olamaz.");
-                }
-
-                if (!errorProvider.HasErrors)
-                {
-                    Depo depo = new Depo(0, 0, depo_eni, depo_boyu, 1f, Main, this, Ambar);
-
-                    depo.Rectangle = GVisual.RatioRectangleToParentRectangle(depo_eni,
-                        depo_boyu, Ambar.AmbarEni, Ambar.AmbarBoyu, Ambar.Rectangle);
-
-                    depo.OriginalRectangle = depo.Rectangle;
-                    depo.LocationofRect = new System.Drawing.Point((int)depo.Rectangle.X, (int)depo.Rectangle.Y);
-                    depo.OriginalDepoSize = depo.Rectangle.Size;
-                    depo.KareX = depo.Rectangle.X;
-                    depo.KareY = depo.Rectangle.Y;
-                    depo.KareEni = depo.Rectangle.Width;
-                    depo.KareBoyu = depo.Rectangle.Height;
-                    depo.DepoAlaniEni = depo_eni;
-                    depo.DepoAlaniBoyu = depo_boyu;
-                    depo.DepoAlaniYuksekligi = depo_Yuksekligi;
-                    depo.OriginalKareX = depo.OriginalRectangle.X;
-                    depo.OriginalKareY = depo.OriginalRectangle.Y;
-                    depo.OriginalKareEni = depo.OriginalRectangle.Width;
-                    depo.OriginalKareBoyu = depo.OriginalRectangle.Height;
-                    depo.OriginalDepoSizeWidth = depo.OriginalRectangle.Width;
-                    depo.OriginalDepoSizeHeight = depo.OriginalRectangle.Height;
-                    depo.DepoName = depo_name;
-                    depo.DepoDescription = depo_description;
-                    depo.ItemTuru = depo_item_kind;
-                    depo.Yerlestirilme_Sirasi = Ware_Counter;
-                    depo.itemDrop_LeftRight = "Sağa Doğru";
-                    depo.itemDrop_UpDown = "Yukarı Doğru";
-                    depo.itemDrop_StartLocation = "Aşağıdan";
-
-                    SearchForLocationtoPlace(depo.Rectangle, null, depo, Ambar);
-
-                    Ware_Counter++;
-                    drawingPanel.Invalidate();
-                    HideEverythingOnLayoutPanel();
-                    AdjustTextboxesText($"{depo.DepoAlaniEni}", $"{depo.DepoAlaniBoyu}",
-                        null, null, null, null);
-                }
-            }
-        }
-        private void btn_Depo_Olustur_Vazgec_Click(object sender, EventArgs e)
-        {
-            DrawingPanelEnlarge(Depo_Olusturma_Paneli, this);
-        }
-        private void btn_Depo_Olusturma_Kapat_Click(object sender, EventArgs e)
-        {
-            DrawingPanelEnlarge(Depo_Olusturma_Paneli, this);
-        }
-
-
-
-
-
-
-        //Izgara Button Events
-        private void btn_Izgara_Haritasi_Click(object sender, EventArgs e)
-        {
-            if (Ambar != null)
-            {
-                if (Ambar.depolar.Count > 0)
-                {
-                    ToolStripIzgara = true;
-                    if (!CheckPanelVisible(Izgara_Olusturma_Paneli))
-                    {
-                        HideEverything();
-                        DrawingPanelShrink(Izgara_Olusturma_Paneli, this, leftSidePanelLocation);
-                    }
-                    else
-                    {
-                        HideEverything();
-                        GVisual.ShowControl(Izgara_Olusturma_Paneli, this, leftSidePanelLocation);
-                        GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelMiddleSize);
-                        GVisual.Move_RightSide_of_AnotherControl(drawingPanel, Izgara_Olusturma_Paneli, 7);
-                    }
-                }
-                else
-                {
-                    CustomNotifyIcon notify = new CustomNotifyIcon();
-                    notify.showAlert("Izgara haritası oluşturmak için öncelikle depo alanı oluşturmalısınız", CustomNotifyIcon.enmType.Error);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Lütfen önce alan oluşturun", "Alan yok", MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-            }
-        }
-        private void btn_Izgara_Mal_Kapat_Click(object sender, EventArgs e)
-        {
-            DrawingPanelEnlarge(Izgara_Olusturma_Paneli, this);
-            GVisual.Clear_Krypton_TextBoxes(Izgara_Olusturma_Paneli, null);
-        }
-        private void btn_Izgara_Olustur_Kapat_Click(object sender, EventArgs e)
-        {
-            DrawingPanelEnlarge(Izgara_Olusturma_Paneli, this);
-            GVisual.Clear_Krypton_TextBoxes(Izgara_Olusturma_Paneli, null);
-            GVisual.Clear_Krypton_TextBoxes(Izgara_Olusturma_Paneli, null);
-        }
-        private void btn_Izgara_Olustur_Click(object sender, EventArgs e)
-        {
-            errorProvider.SetError(txt_Dikey_Kenar_Boslugu, string.Empty);
-            errorProvider.SetError(txt_Yatay_Kenar_Boslugu, string.Empty);
-            errorProvider.Clear();
-
-            float hucre_Dikey_Bosluk =
-                StrLib.ReplaceDotWithCommaReturnFloat(txt_Dikey_Kenar_Boslugu, errorProvider,
-                "Bu alan boş bırakılamaz.", "Buraya lütfen bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
-
-            float hucre_Yatay_Bosluk =
-                StrLib.ReplaceDotWithCommaReturnFloat(txt_Yatay_Kenar_Boslugu, errorProvider,
-                "Bu alan boş bırakılamaz.", "Buraya lütfen bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
-
-            total_Cell_Width = nesne_Eni + hucre_Yatay_Bosluk;
-            total_Cell_Height = nesne_Boyu + hucre_Dikey_Bosluk;
-
-            if (!errorProvider.HasErrors)
-            {
-                if (selectedDepo != null && ToolStripIzgara == false)
-                {
-                    if (selectedDepo.gridmaps.Count > 0)
-                    {
-                        selectedDepo.gridmaps.Clear();
-
-                        selectedDepo.nesneEni = nesne_Eni;
-                        selectedDepo.nesneBoyu = nesne_Boyu;
-                        selectedDepo.nesneYuksekligi = nesne_Yuksekligi;
-                        selectedDepo.CreateGridMapMenuItem(total_Cell_Width, total_Cell_Height,
-                            hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu);
-                        DrawingPanelEnlarge(Izgara_Olusturma_Paneli, this);
-                    }
-                    else
-                    {
-                        selectedDepo.nesneEni = nesne_Eni;
-                        selectedDepo.nesneBoyu = nesne_Boyu;
-                        selectedDepo.nesneYuksekligi = nesne_Yuksekligi;
-                        selectedDepo.CreateGridMapMenuItem(total_Cell_Width, total_Cell_Height,
-                            hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu);
-                        DrawingPanelEnlarge(Izgara_Olusturma_Paneli, this);
-                    }
-                }
-                else if (ToolStripIzgara)
-                {
-                    foreach (var depo in Ambar.depolar)
-                    {
-                        depo.gridmaps.Clear();
-                    }
-                    izgaraHaritasiOlustur.Invoke(sender, EventArgs.Empty);
-                    DrawingPanelEnlarge(Izgara_Olusturma_Paneli, this);
-                    ToolStripIzgara = false;
-                }
-            }
-            drawingPanel.Invalidate();
-        }
-        private void btn_Izgara_Olustur_Iptal_Et_Click(object sender, EventArgs e)
-        {
-            DrawingPanelEnlarge(Izgara_Olusturma_Paneli, this);
-            GVisual.Clear_Krypton_TextBoxes(Izgara_Olusturma_Paneli, null);
-            GVisual.Clear_Krypton_TextBoxes(Izgara_Olusturma_Paneli, null);
-        }
-
-
-
-
         private void DrawLeftLines(Pen pen, Graphics g,
            List<RectangleF> ProximityRectangles, RectangleF rectangle,
            RectangleF ParentRectangle)
@@ -3340,6 +1859,1341 @@ namespace Balya_Yerleştirme
         }
 
 
+
+
+
+        //Yerini ve Boyutunu Değiştir Algorithm
+        private void txt_Width_TextChanged(object sender, EventArgs e)
+        {
+            errorProvider.Clear();
+            var pxCM = ConvertPixelToCmGivenRectangle(Ambar.Rectangle, Ambar.AmbarEni, Ambar.AmbarBoyu);
+            float pxX = pxCM.Item1;
+            float pxY = pxCM.Item2;
+
+            txt_width = StrLib.ReplaceDotWithCommaReturnFloat(txt_Width, errorProvider,
+               "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
+
+            if (Manuel_Move)
+            {
+                if (selectedDepo != null)
+                {
+                    if (!errorProvider.HasErrors)
+                    {
+                        RectangleF rect = new RectangleF(selectedDepo.Rectangle.X, selectedDepo.Rectangle.Y,
+                            txt_width * pxX * 100, selectedDepo.Rectangle.Height);
+
+                        if (rect.Right > Ambar.Rectangle.Right)
+                        {
+                            CustomNotifyIcon notify = new CustomNotifyIcon();
+                            notify.showAlert("Alanın dışına çıkamazsınız.", CustomNotifyIcon.enmType.Error);
+                            txt_Width.Text = $"{selectedDepo.DepoAlaniEni}";
+                        }
+                        else
+                        {
+                            DataCell = selectedDepo.gridmaps.FirstOrDefault();
+
+                            if (DataCell != null)
+                            {
+                                cell_eni = DataCell.CellEni;
+                                cell_boyu = DataCell.CellBoyu;
+                                dikey_kenar_boslugu = DataCell.DikeyKenarBoslugu;
+                                yatay_kenar_boslugu = DataCell.YatayKenarBoslugu;
+                                nesne_eni = DataCell.NesneEni;
+                                nesne_boyu = DataCell.NesneBoyu;
+                            }
+
+                            selectedDepo.Rectangle = new RectangleF(selectedDepo.Rectangle.X,
+                                selectedDepo.Rectangle.Y, txt_width * pxX * 100,
+                                selectedDepo.Rectangle.Height);
+
+                            selectedDepo.OriginalRectangle = new RectangleF(selectedDepo.Rectangle.X,
+                                selectedDepo.Rectangle.Y, txt_width * pxX * 100,
+                                selectedDepo.Rectangle.Height);
+
+                            selectedDepo.OriginalDepoSize = new SizeF(selectedDepo.OriginalRectangle.Width,
+                               selectedDepo.OriginalRectangle.Height);
+
+                            selectedDepo.DepoAlaniEni = txt_width;
+
+                            selectedDepo.Cm_Width = txt_width * 100;
+
+                            selectedDepo.CreateGridMapMenuItem(cell_eni, cell_boyu, dikey_kenar_boslugu,
+                                yatay_kenar_boslugu, nesne_eni, nesne_boyu);
+
+                            //txt_Width.Text = $"{txt_width}";
+                        }
+                        drawingPanel.Invalidate();
+                    }
+                }
+                if (selectedConveyor != null)
+                {
+                    if (!errorProvider.HasErrors)
+                    {
+                        RectangleF rect = new RectangleF(selectedConveyor.Rectangle.X,
+                            selectedConveyor.Rectangle.Y, txt_width * pxX * 100,
+                            selectedConveyor.Rectangle.Height);
+
+                        if (rect.Right > Ambar.Rectangle.Right)
+                        {
+                            CustomNotifyIcon notify = new CustomNotifyIcon();
+                            notify.showAlert("Alanın dışına çıkamazsınız.", CustomNotifyIcon.enmType.Error);
+                            txt_Width.Text = $"{selectedConveyor.ConveyorEni}";
+                        }
+                        else
+                        {
+                            selectedConveyor.Rectangle = new RectangleF(selectedConveyor.Rectangle.X,
+                                selectedConveyor.Rectangle.Y, txt_width * pxX * 100,
+                                selectedConveyor.Rectangle.Height);
+                            selectedConveyor.OriginalRectangle = new RectangleF(selectedConveyor.Rectangle.X, selectedConveyor.Rectangle.Y, selectedConveyor.Rectangle.Width, selectedConveyor.Rectangle.Height);
+
+                            AdjustFixedConveyorReferencePoints(selectedConveyor);
+
+                            //txt_Width.Text = $"{txt_width}";
+                        }
+                        drawingPanel.Invalidate();
+                    }
+                }
+            }
+        }
+        private void txt_Height_TextChanged(object sender, EventArgs e)
+        {
+            errorProvider.Clear();
+
+            var pxCM = ConvertPixelToCmGivenRectangle(Ambar.Rectangle, Ambar.AmbarEni, Ambar.AmbarBoyu);
+            float pxX = pxCM.Item1;
+            float pxY = pxCM.Item2;
+            txt_height = StrLib.ReplaceDotWithCommaReturnFloat(txt_Height, errorProvider,
+               "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
+            if (Manuel_Move)
+            {
+                if (selectedDepo != null)
+                {
+                    if (!errorProvider.HasErrors)
+                    {
+                        RectangleF rect = new RectangleF(selectedDepo.Rectangle.X, selectedDepo.Rectangle.Y,
+                        selectedDepo.Rectangle.Width, txt_height * pxY * 100);
+
+                        if (rect.Bottom > Ambar.Rectangle.Bottom)
+                        {
+                            CustomNotifyIcon notify = new CustomNotifyIcon();
+                            notify.showAlert("Alanın dışına çıkamazsınız.", CustomNotifyIcon.enmType.Error);
+                            txt_Height.Text = $"{selectedDepo.DepoAlaniBoyu}";
+                        }
+                        else
+                        {
+                            DataCell = selectedDepo.gridmaps.FirstOrDefault();
+
+                            if (DataCell != null)
+                            {
+                                cell_eni = DataCell.CellEni;
+                                cell_boyu = DataCell.CellBoyu;
+                                dikey_kenar_boslugu = DataCell.DikeyKenarBoslugu;
+                                yatay_kenar_boslugu = DataCell.YatayKenarBoslugu;
+                                nesne_eni = DataCell.NesneEni;
+                                nesne_boyu = DataCell.NesneBoyu;
+                            }
+
+                            selectedDepo.Rectangle = new RectangleF(selectedDepo.Rectangle.X, selectedDepo.Rectangle.Y,
+                            selectedDepo.Rectangle.Width, txt_height * pxY * 100);
+
+                            selectedDepo.OriginalRectangle =
+                                new RectangleF(selectedDepo.Rectangle.X,
+                                selectedDepo.Rectangle.Y,
+                            selectedDepo.Rectangle.Width, txt_height * pxY * 100);
+
+                            selectedDepo.OriginalDepoSize = new SizeF(selectedDepo.OriginalRectangle.Width,
+                               selectedDepo.OriginalRectangle.Height);
+
+                            selectedDepo.DepoAlaniBoyu = txt_height;
+
+                            selectedDepo.Cm_Height = txt_height * 100;
+
+                            selectedDepo.CreateGridMapMenuItem(cell_eni, cell_boyu, dikey_kenar_boslugu,
+                               yatay_kenar_boslugu, nesne_eni, nesne_boyu);
+
+                            //txt_Height.Text = $"{txt_height}";
+                        }
+                        drawingPanel.Invalidate();
+                    }
+                }
+                if (selectedConveyor != null)
+                {
+                    if (!errorProvider.HasErrors)
+                    {
+                        RectangleF rect = new RectangleF(selectedConveyor.Rectangle.X,
+                            selectedConveyor.Rectangle.Y, selectedConveyor.Rectangle.Width,
+                            txt_height * pxY * 100);
+
+                        if (rect.Bottom >= Ambar.Rectangle.Bottom + 1)
+                        {
+                            CustomNotifyIcon notify = new CustomNotifyIcon();
+                            notify.showAlert("Alanın dışına çıkamazsınız.", CustomNotifyIcon.enmType.Error);
+                            txt_Height.Text = $"{selectedConveyor.ConveyorBoyu}";
+                        }
+                        else
+                        {
+                            selectedConveyor.Rectangle = new RectangleF(selectedConveyor.Rectangle.X,
+                                selectedConveyor.Rectangle.Y,
+                            selectedConveyor.Rectangle.Width, txt_height * pxY * 100);
+
+                            selectedConveyor.OriginalRectangle = new RectangleF(selectedConveyor.Rectangle.X,
+                                selectedConveyor.Rectangle.Y,
+                            selectedConveyor.Rectangle.Width, txt_height * pxY * 100);
+
+                            AdjustFixedConveyorReferencePoints(selectedConveyor);
+
+                            //txt_Height.Text = $"{txt_height}";
+                        }
+                        drawingPanel.Invalidate();
+                    }
+                }
+            }
+        }
+        private void AdjustFixedConveyorReferencePoints(Conveyor selectedConveyor)
+        {
+            foreach (var reff in selectedConveyor.ConveyorReferencePoints)
+            {
+                if (reff.FixedPointLocation == "Center")
+                {
+                    PointF point = GVisual.GetCenterF(selectedConveyor.Rectangle);
+
+                    reff.Rectangle = new RectangleF(point.X - reff.Rectangle.Width / 2,
+                        point.Y - reff.Rectangle.Height / 2, reff.Rectangle.Width,
+                        reff.Rectangle.Height);
+                    reff.OriginalLocationInsideParent = new PointF(reff.Rectangle.X - selectedConveyor.Rectangle.X,
+                        reff.Rectangle.Y - selectedConveyor.Rectangle.Y);
+                }
+
+                if (reff.FixedPointLocation == "Top")
+                {
+                    PointF point = GVisual.GetMiddleOfTopEdgeF(selectedConveyor.Rectangle);
+
+                    reff.Rectangle = new RectangleF(point.X - reff.Rectangle.Width / 2,
+                        point.Y - reff.Rectangle.Height / 2, reff.Rectangle.Width,
+                        reff.Rectangle.Height);
+                    reff.OriginalLocationInsideParent = new PointF(reff.Rectangle.X - selectedConveyor.Rectangle.X,
+                        reff.Rectangle.Y - selectedConveyor.Rectangle.Y);
+                }
+
+                if (reff.FixedPointLocation == "Bottom")
+                {
+                    PointF point = GVisual.GetMiddleOfBottomEdgeF(selectedConveyor.Rectangle);
+
+                    reff.Rectangle = new RectangleF(point.X - reff.Rectangle.Width / 2,
+                        point.Y - reff.Rectangle.Height / 2, reff.Rectangle.Width,
+                        reff.Rectangle.Height);
+                    reff.OriginalLocationInsideParent = new PointF(reff.Rectangle.X - selectedConveyor.Rectangle.X,
+                        reff.Rectangle.Y - selectedConveyor.Rectangle.Y);
+                }
+
+                if (reff.FixedPointLocation == "Left")
+                {
+                    PointF point = GVisual.GetMiddleOfLeftEdgeF(selectedConveyor.Rectangle);
+
+                    reff.Rectangle = new RectangleF(point.X - reff.Rectangle.Width / 2,
+                        point.Y - reff.Rectangle.Height / 2, reff.Rectangle.Width,
+                        reff.Rectangle.Height);
+                    reff.OriginalLocationInsideParent = new PointF(reff.Rectangle.X - selectedConveyor.Rectangle.X,
+                        reff.Rectangle.Y - selectedConveyor.Rectangle.Y);
+                }
+
+                if (reff.FixedPointLocation == "Right")
+                {
+                    PointF point = GVisual.GetMiddleOfRightEdgeF(selectedConveyor.Rectangle);
+
+                    reff.Rectangle = new RectangleF(point.X - reff.Rectangle.Width / 2,
+                        point.Y - reff.Rectangle.Height / 2, reff.Rectangle.Width,
+                        reff.Rectangle.Height);
+                    reff.OriginalLocationInsideParent = new PointF(reff.Rectangle.X - selectedConveyor.Rectangle.X,
+                        reff.Rectangle.Y - selectedConveyor.Rectangle.Y);
+                }
+            }
+        }
+        private void txt_Left_Padding_TextChanged(object sender, EventArgs e)
+        {
+            errorProvider.Clear();
+            var pxCM = ConvertPixelToCmGivenRectangle(Ambar.Rectangle, Ambar.AmbarEni, Ambar.AmbarBoyu);
+            float pxX = pxCM.Item1;
+            float proxRectLoc = 0f;
+
+            float txt_left = StrLib.ReplaceDotWithCommaReturnFloatButAllowZeros(txt_Left_Padding, errorProvider,
+               "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
+
+            if (!ProxRectLeft.IsEmpty)
+            {
+                proxRectLoc = ProxRectLeft.Right - Ambar.Rectangle.Left;
+            }
+            else
+            {
+                proxRectLoc = 0;
+            }
+
+            if (selectedDepo != null)
+            {
+                if (!errorProvider.HasErrors)
+                {
+                    float ambar_eni_CM = (Ambar.AmbarEni * 100) - selectedDepo.Cm_Width;
+
+                    if (txt_left >= 0 && txt_left <= ambar_eni_CM)
+                    {
+                        selectedDepo.Rectangle =
+                        new RectangleF(Ambar.Rectangle.X + proxRectLoc + txt_left * pxX,
+                        selectedDepo.Rectangle.Y,
+                        selectedDepo.Rectangle.Width, selectedDepo.Rectangle.Height);
+
+                        selectedDepo.OriginalRectangle =
+                        new RectangleF(Ambar.Rectangle.X + proxRectLoc + txt_left * pxX,
+                        selectedDepo.Rectangle.Y,
+                        selectedDepo.Rectangle.Width, selectedDepo.Rectangle.Height);
+
+                        if (selectedDepo.gridmaps.Count > 0)
+                        {
+                            DataCell = selectedDepo.gridmaps.FirstOrDefault();
+
+                            selectedDepo.gridmaps.Clear();
+
+                            selectedDepo.CreateGridMapMenuItem(DataCell.CellEni, DataCell.CellBoyu,
+                                DataCell.DikeyKenarBoslugu, DataCell.YatayKenarBoslugu, DataCell.NesneEni,
+                                DataCell.NesneBoyu);
+                        }
+
+                        drawingPanel.Invalidate();
+                    }
+                    else
+                    {
+                        CustomNotifyIcon notify = new CustomNotifyIcon();
+                        notify.showAlert("Alanın dışına çıkamazsınız.", CustomNotifyIcon.enmType.Error);
+                        drawingPanel.Invalidate();
+                    }
+                }
+            }
+            if (selectedConveyor != null)
+            {
+                if (!errorProvider.HasErrors)
+                {
+                    float ambar_eni_CM =
+                        (Ambar.AmbarEni * 100) - selectedConveyor.ConveyorEni * 100;
+
+                    if (txt_left >= 0 && txt_left <= ambar_eni_CM)
+                    {
+                        selectedConveyor.Rectangle = new RectangleF
+                            (Ambar.Rectangle.X + proxRectLoc + txt_left * pxX,
+                            selectedConveyor.Rectangle.Y,
+                            selectedConveyor.Rectangle.Width,
+                            selectedConveyor.Rectangle.Height);
+
+                        selectedConveyor.OriginalRectangle = new RectangleF
+                            (Ambar.Rectangle.X + proxRectLoc + txt_left * pxX,
+                            selectedConveyor.Rectangle.Y,
+                            selectedConveyor.Rectangle.Width,
+                            selectedConveyor.Rectangle.Height);
+
+                        foreach (var reff in selectedConveyor.ConveyorReferencePoints)
+                        {
+                            reff.Rectangle = new RectangleF
+                                (selectedConveyor.Rectangle.X + reff.OriginalLocationInsideParent.X,
+                                selectedConveyor.Rectangle.Y + reff.OriginalLocationInsideParent.Y,
+                                reff.Rectangle.Width, reff.Rectangle.Height);
+                        }
+
+                        drawingPanel.Invalidate();
+                    }
+                    else
+                    {
+                        CustomNotifyIcon notify = new CustomNotifyIcon();
+                        notify.showAlert("Alanın dışına çıkamazsınız.", CustomNotifyIcon.enmType.Error);
+                        drawingPanel.Invalidate();
+                    }
+                }
+            }
+        }
+        private void txt_Right_Padding_TextChanged(object sender, EventArgs e)
+        {
+            errorProvider.Clear();
+            var pxCM = ConvertPixelToCmGivenRectangle(Ambar.Rectangle, Ambar.AmbarEni, Ambar.AmbarBoyu);
+            float pxX = pxCM.Item1;
+            float pxY = pxCM.Item2;
+            float right_padding = 0f;
+            float ProxRectWidthCM = 0f;
+
+            float txt_right =
+                StrLib.ReplaceDotWithCommaReturnFloatButAllowZeros(txt_Right_Padding, errorProvider,
+               "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
+
+            if (!ProxRectRight.IsEmpty)
+            {
+                ProxRectWidthCM = Ambar.Rectangle.Right - ProxRectRight.X;
+            }
+            else
+            {
+                ProxRectWidthCM = 0f;
+            }
+
+            if (selectedDepo != null)
+            {
+                if (!errorProvider.HasErrors)
+                {
+                    float ambar_eni_CM = (Ambar.AmbarEni * 100) - selectedDepo.Cm_Width;
+
+                    right_padding = txt_right * pxX + selectedDepo.Rectangle.Width + ProxRectWidthCM;
+
+                    if (txt_right >= 0 && txt_right <= ambar_eni_CM)
+                    {
+                        selectedDepo.Rectangle = new RectangleF(Ambar.Rectangle.Right - right_padding,
+                            selectedDepo.Rectangle.Y, selectedDepo.Rectangle.Width,
+                            selectedDepo.Rectangle.Height);
+
+                        selectedDepo.OriginalRectangle = new RectangleF(Ambar.Rectangle.Right - right_padding,
+                            selectedDepo.Rectangle.Y, selectedDepo.Rectangle.Width,
+                            selectedDepo.Rectangle.Height);
+
+                        if (selectedDepo.gridmaps.Count > 0)
+                        {
+                            DataCell = selectedDepo.gridmaps.FirstOrDefault();
+
+                            selectedDepo.gridmaps.Clear();
+
+                            selectedDepo.CreateGridMapMenuItem(DataCell.CellEni, DataCell.CellBoyu,
+                                DataCell.DikeyKenarBoslugu, DataCell.YatayKenarBoslugu, DataCell.NesneEni,
+                                DataCell.NesneBoyu);
+                        }
+
+                        drawingPanel.Invalidate();
+                    }
+                    else
+                    {
+                        CustomNotifyIcon notify = new CustomNotifyIcon();
+                        notify.showAlert("Alanın dışına çıkamazsınız.", CustomNotifyIcon.enmType.Error);
+                        drawingPanel.Invalidate();
+                    }
+                }
+            }
+            if (selectedConveyor != null)
+            {
+                if (!errorProvider.HasErrors)
+                {
+                    float ambar_eni_CM =
+                        (Ambar.AmbarEni * 100) - selectedConveyor.ConveyorEni * 100;
+
+                    right_padding = txt_right * pxX +
+                        selectedConveyor.Rectangle.Width + ProxRectWidthCM;
+
+                    if (txt_right >= 0 && txt_right <= ambar_eni_CM)
+                    {
+                        selectedConveyor.Rectangle = new RectangleF
+                            (Ambar.Rectangle.Right - right_padding,
+                            selectedConveyor.Rectangle.Y,
+                            selectedConveyor.Rectangle.Width,
+                            selectedConveyor.Rectangle.Height);
+
+                        selectedConveyor.OriginalRectangle = new RectangleF
+                            (Ambar.Rectangle.Right - right_padding,
+                            selectedConveyor.Rectangle.Y,
+                            selectedConveyor.Rectangle.Width,
+                            selectedConveyor.Rectangle.Height);
+
+                        foreach (var reff in selectedConveyor.ConveyorReferencePoints)
+                        {
+                            reff.Rectangle = new RectangleF
+                                (selectedConveyor.Rectangle.X + reff.OriginalLocationInsideParent.X,
+                                selectedConveyor.Rectangle.Y + reff.OriginalLocationInsideParent.Y,
+                                reff.Rectangle.Width, reff.Rectangle.Height);
+                        }
+
+                        drawingPanel.Invalidate();
+                    }
+                    else
+                    {
+                        CustomNotifyIcon notify = new CustomNotifyIcon();
+                        notify.showAlert("Alanın dışına çıkamazsınız.", CustomNotifyIcon.enmType.Error);
+                        drawingPanel.Invalidate();
+                    }
+                }
+            }
+        }
+        private void txt_Bottom_Padding_TextChanged(object sender, EventArgs e)
+        {
+            errorProvider.Clear();
+            var pxCM = ConvertPixelToCmGivenRectangle(Ambar.Rectangle, Ambar.AmbarEni, Ambar.AmbarBoyu);
+            float pxX = pxCM.Item1;
+            float pxY = pxCM.Item2;
+            float proxRectBotLoc = 0f;
+            float bot_padding = 0f;
+            float ambar_boyu_CM = 0f;
+
+            float txt_bot =
+                StrLib.ReplaceDotWithCommaReturnFloatButAllowZeros(txt_Bottom_Padding, errorProvider,
+                "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
+
+            if (!ProxRectBottom.IsEmpty)
+            {
+                proxRectBotLoc = Ambar.Rectangle.Bottom - ProxRectBottom.Top;
+            }
+            else
+            {
+                proxRectBotLoc = 0f;
+            }
+
+            if (selectedDepo != null)
+            {
+                if (!errorProvider.HasErrors)
+                {
+                    ambar_boyu_CM = (Ambar.AmbarBoyu * 100) - selectedDepo.Cm_Height;
+
+                    bot_padding = txt_bot * pxY + selectedDepo.Rectangle.Height + proxRectBotLoc;
+
+                    if (txt_bot >= 0 && txt_bot <= ambar_boyu_CM)
+                    {
+                        selectedDepo.Rectangle = new RectangleF(selectedDepo.Rectangle.X,
+                            Ambar.Rectangle.Bottom - bot_padding,
+                            selectedDepo.Rectangle.Width,
+                            selectedDepo.Rectangle.Height);
+
+                        selectedDepo.OriginalRectangle = new RectangleF(selectedDepo.Rectangle.X,
+                            Ambar.Rectangle.Bottom - bot_padding,
+                            selectedDepo.Rectangle.Width,
+                            selectedDepo.Rectangle.Height);
+
+                        if (selectedDepo.gridmaps.Count > 0)
+                        {
+                            DataCell = selectedDepo.gridmaps.FirstOrDefault();
+
+                            selectedDepo.gridmaps.Clear();
+
+                            selectedDepo.CreateGridMapMenuItem(DataCell.CellEni, DataCell.CellBoyu,
+                                DataCell.DikeyKenarBoslugu, DataCell.YatayKenarBoslugu, DataCell.NesneEni,
+                                DataCell.NesneBoyu);
+                        }
+
+                        drawingPanel.Invalidate();
+                    }
+                    else
+                    {
+                        CustomNotifyIcon notify = new CustomNotifyIcon();
+                        notify.showAlert("Alanın dışına çıkamazsınız.", CustomNotifyIcon.enmType.Error);
+                        drawingPanel.Invalidate();
+                    }
+                }
+            }
+            if (selectedConveyor != null)
+            {
+                if (!errorProvider.HasErrors)
+                {
+                    ambar_boyu_CM = (Ambar.AmbarBoyu * 100);
+
+                    bot_padding = txt_bot * pxY +
+                        selectedConveyor.Rectangle.Height + proxRectBotLoc;
+
+                    if (txt_bot >= 0 && txt_bot <= ambar_boyu_CM)
+                    {
+                        selectedConveyor.Rectangle =
+                            new RectangleF(selectedConveyor.Rectangle.X,
+                            Ambar.Rectangle.Y + Ambar.Rectangle.Height - bot_padding,
+                            selectedConveyor.Rectangle.Width,
+                            selectedConveyor.Rectangle.Height);
+
+                        selectedConveyor.OriginalRectangle =
+                            new RectangleF(selectedConveyor.Rectangle.X,
+                            Ambar.Rectangle.Y + Ambar.Rectangle.Height - bot_padding,
+                            selectedConveyor.Rectangle.Width,
+                            selectedConveyor.Rectangle.Height);
+
+                        foreach (var reff in selectedConveyor.ConveyorReferencePoints)
+                        {
+                            reff.Rectangle = new RectangleF
+                                (selectedConveyor.Rectangle.X + reff.OriginalLocationInsideParent.X,
+                                selectedConveyor.Rectangle.Y + reff.OriginalLocationInsideParent.Y,
+                                reff.Rectangle.Width, reff.Rectangle.Height);
+                        }
+                        drawingPanel.Invalidate();
+                    }
+                    else
+                    {
+                        CustomNotifyIcon notify = new CustomNotifyIcon();
+                        notify.showAlert("Alanın dışına çıkamazsınız.", CustomNotifyIcon.enmType.Error);
+                        drawingPanel.Invalidate();
+                    }
+                }
+            }
+        }
+        private void txt_Top_Padding_TextChanged(object sender, EventArgs e)
+        {
+            errorProvider.Clear();
+            var pxCM = ConvertPixelToCmGivenRectangle(Ambar.Rectangle, Ambar.AmbarEni, Ambar.AmbarBoyu);
+            float pxX = pxCM.Item1;
+            float pxY = pxCM.Item2;
+            float proxRectTopLoc = 0f;
+            float top_padding = 0f;
+            float txt_top =
+                StrLib.ReplaceDotWithCommaReturnFloatButAllowZeros(txt_Top_Padding, errorProvider,
+                "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
+
+            if (!ProxRectTop.IsEmpty)
+            {
+                proxRectTopLoc = ProxRectTop.Bottom - Ambar.Rectangle.Top;
+            }
+            else
+            {
+                proxRectTopLoc = 0f;
+            }
+
+            if (selectedDepo != null)
+            {
+                if (!errorProvider.HasErrors)
+                {
+                    float ambar_boyu_CM = (Ambar.AmbarBoyu * 100) - selectedDepo.Cm_Height;
+
+                    top_padding = txt_top * pxY + proxRectTopLoc;
+
+                    if (txt_top >= 0 && txt_top <= ambar_boyu_CM)
+                    {
+                        selectedDepo.Rectangle = new RectangleF(selectedDepo.Rectangle.X,
+                            Ambar.Rectangle.Y + top_padding, selectedDepo.Rectangle.Width,
+                            selectedDepo.Rectangle.Height);
+
+                        selectedDepo.OriginalRectangle = new RectangleF(selectedDepo.Rectangle.X,
+                            Ambar.Rectangle.Y + top_padding, selectedDepo.Rectangle.Width,
+                            selectedDepo.Rectangle.Height);
+
+                        if (selectedDepo.gridmaps.Count > 0)
+                        {
+                            DataCell = selectedDepo.gridmaps.FirstOrDefault();
+
+                            selectedDepo.gridmaps.Clear();
+
+                            selectedDepo.CreateGridMapMenuItem(DataCell.CellEni, DataCell.CellBoyu,
+                                DataCell.DikeyKenarBoslugu, DataCell.YatayKenarBoslugu, DataCell.NesneEni,
+                                DataCell.NesneBoyu);
+                        }
+
+                        drawingPanel.Invalidate();
+                    }
+                    else
+                    {
+                        CustomNotifyIcon notify = new CustomNotifyIcon();
+                        notify.showAlert("Alanın dışına çıkamazsınız.", CustomNotifyIcon.enmType.Error);
+                        drawingPanel.Invalidate();
+                    }
+                }
+            }
+            if (selectedConveyor != null)
+            {
+                if (!errorProvider.HasErrors)
+                {
+                    float ambar_boyu_CM = (Ambar.AmbarBoyu * 100) -
+                        selectedConveyor.ConveyorBoyu * 100;
+
+                    top_padding = txt_top * pxY + proxRectTopLoc;
+
+                    if (txt_top >= 0 && txt_top <= ambar_boyu_CM)
+                    {
+                        selectedConveyor.Rectangle =
+                            new RectangleF(selectedConveyor.Rectangle.X,
+                            Ambar.Rectangle.Y + top_padding,
+                            selectedConveyor.Rectangle.Width,
+                            selectedConveyor.Rectangle.Height);
+
+                        selectedConveyor.OriginalRectangle =
+                            new RectangleF(selectedConveyor.Rectangle.X,
+                            Ambar.Rectangle.Y + top_padding,
+                            selectedConveyor.Rectangle.Width,
+                            selectedConveyor.Rectangle.Height);
+
+                        foreach (var reff in selectedConveyor.ConveyorReferencePoints)
+                        {
+                            reff.Rectangle = new RectangleF
+                                (selectedConveyor.Rectangle.X + reff.OriginalLocationInsideParent.X,
+                                selectedConveyor.Rectangle.Y + reff.OriginalLocationInsideParent.Y,
+                                reff.Rectangle.Width, reff.Rectangle.Height);
+                        }
+
+                        drawingPanel.Invalidate();
+                    }
+                    else
+                    {
+                        CustomNotifyIcon notify = new CustomNotifyIcon();
+                        notify.showAlert("Alanın dışına çıkamazsınız.", CustomNotifyIcon.enmType.Error);
+                        drawingPanel.Invalidate();
+                    }
+                }
+            }
+        }
+        private void btn_Yer_Onayla_Click(object sender, EventArgs e)
+        {
+            if (selectedDepo != null)
+            {
+                bool intersect = CheckifIntersects(selectedDepo.Rectangle, RectangleF.Empty,
+                        selectedDepo, null);
+                if (intersect)
+                {
+                    CustomNotifyIcon notify = new CustomNotifyIcon();
+                    notify.showAlert("Bu alan başka bir alanın sınırlarına giremez.",
+                        CustomNotifyIcon.enmType.Error);
+                    selectedDepo.Rectangle = UnchangedselectedDepoRectangle;
+                    selectedDepo.OriginalRectangle = selectedDepo.Rectangle;
+                    selectedDepo.LocationofRect = new System.Drawing.Point((int)selectedDepo.Rectangle.X, (int)selectedDepo.Rectangle.Y);
+                    selectedDepo = null;
+                    SelectedDepoPen.Color = System.Drawing.Color.Black;
+                    SelectedDepoPen.Width = 1;
+                    SelectedDepoEdgePen.Width = 1;
+                    Manuel_Move = false;
+                    GVisual.HideControl(PaddingPanel, drawingPanel);
+                    DrawingPanelEnlarge(PaddingPanel, this);
+                    drawingPanel.Invalidate();
+                }
+                else
+                {
+                    selectedDepo.DepoAlaniEni = txt_width;
+                    selectedDepo.DepoAlaniBoyu = txt_height;
+                    selectedDepo.Cm_Width = selectedDepo.DepoAlaniEni * 100;
+                    selectedDepo.Cm_Height = selectedDepo.DepoAlaniBoyu * 100;
+
+                    selectedDepo.OriginalRectangle =
+                        new RectangleF(selectedDepo.Rectangle.X,
+                        selectedDepo.Rectangle.Y, selectedDepo.Rectangle.Width,
+                        selectedDepo.Rectangle.Height);
+
+                    selectedDepo.OriginalDepoSizeWidth = selectedDepo.OriginalRectangle.Width;
+                    selectedDepo.OriginalDepoSizeHeight = selectedDepo.OriginalRectangle.Height;
+
+                    selectedDepo.OriginalDepoSize = new SizeF(selectedDepo.OriginalDepoSizeWidth, selectedDepo.OriginalDepoSizeHeight);
+
+                    selectedDepo.LocationofRect = new System.Drawing.Point((int)selectedDepo.Rectangle.X, (int)selectedDepo.Rectangle.Y);
+                    SelectedDepoPen.Color = System.Drawing.Color.Black;
+                    SelectedDepoPen.Width = 1;
+                    SelectedDepoEdgePen.Width = 1;
+                    Manuel_Move = false;
+                    GVisual.HideControl(PaddingPanel, drawingPanel);
+                    DrawingPanelEnlarge(PaddingPanel, this);
+                    selectedDepo = null;
+                    drawingPanel.Invalidate();
+                }
+            }
+            if (selectedConveyor != null)
+            {
+                bool intersect = CheckifIntersects(RectangleF.Empty,
+                    selectedConveyor.Rectangle, null, selectedConveyor);
+                if (intersect)
+                {
+                    CustomNotifyIcon notify = new CustomNotifyIcon();
+                    notify.showAlert("Bu alan başka bir alanın sınırlarına giremez.",
+                        CustomNotifyIcon.enmType.Error);
+                    selectedConveyor.Rectangle = UnchangedselectedConveyorRectangle;
+                    selectedConveyor.OriginalRectangle = selectedConveyor.Rectangle;
+                    selectedConveyor.LocationofRect = new System.Drawing.Point((int)selectedConveyor.Rectangle.X,
+                        (int)selectedConveyor.Rectangle.Y);
+                    selectedConveyor = null;
+                    SelectedConveyorPen.Color = System.Drawing.Color.Black;
+                    SelectedConveyorPen.Width = 1;
+                    SelectedConveyorEdgePen.Width = 1;
+                    Manuel_Move = false;
+                    GVisual.HideControl(PaddingPanel, drawingPanel);
+                    DrawingPanelEnlarge(PaddingPanel, this);
+                    drawingPanel.Invalidate();
+                }
+                else
+                {
+                    selectedConveyor.ConveyorBoyu = float.Parse(txt_Height.Text);
+                    selectedConveyor.ConveyorEni = float.Parse(txt_Width.Text);
+
+                    selectedConveyor.OriginalRectangle =
+                        new RectangleF(selectedConveyor.Rectangle.X,
+                        selectedConveyor.Rectangle.Y,
+                        selectedConveyor.Rectangle.Width,
+                        selectedConveyor.Rectangle.Height);
+
+                    selectedConveyor.LocationofRect = new System.Drawing.Point((int)selectedConveyor.Rectangle.X,
+                        (int)selectedConveyor.Rectangle.Y);
+                    Manuel_Move = false;
+                    selectedConveyor = null;
+                    SelectedConveyorPen.Color = System.Drawing.Color.Black;
+                    SelectedConveyorPen.Width = 1;
+                    SelectedConveyorEdgePen.Width = 1;
+                    GVisual.HideControl(PaddingPanel, drawingPanel);
+                    DrawingPanelEnlarge(PaddingPanel, this);
+                    drawingPanel.Invalidate();
+                }
+            }
+        }
+        private void btn_Padding_Vazgeç_Click(object sender, EventArgs e)
+        {
+            if (selectedDepo != null)
+            {
+                selectedDepo.Rectangle = UnchangedselectedDepoRectangle;
+                selectedDepo.OriginalRectangle = selectedDepo.Rectangle;
+                selectedDepo.LocationofRect = new System.Drawing.Point((int)selectedDepo.Rectangle.X, (int)selectedDepo.Rectangle.Y);
+                selectedDepo = null;
+                SelectedDepoPen.Color = System.Drawing.Color.Black;
+                SelectedDepoPen.Width = 1;
+                SelectedDepoEdgePen.Width = 1;
+                Manuel_Move = false;
+                GVisual.HideControl(PaddingPanel, drawingPanel);
+                drawingPanel.Invalidate();
+            }
+            if (selectedConveyor != null)
+            {
+                selectedConveyor.Rectangle = UnchangedselectedConveyorRectangle;
+                selectedConveyor.OriginalRectangle = selectedConveyor.Rectangle;
+                selectedConveyor.LocationofRect = new System.Drawing.Point((int)selectedConveyor.Rectangle.X,
+                        (int)selectedConveyor.Rectangle.Y);
+                SelectedConveyorPen.Color = System.Drawing.Color.Black;
+                SelectedConveyorPen.Width = 1;
+                SelectedConveyorEdgePen.Width = 1;
+                foreach (var reff in selectedConveyor.ConveyorReferencePoints)
+                {
+                    reff.Rectangle = new RectangleF
+                        (selectedConveyor.Rectangle.X + reff.OriginalLocationInsideParent.X,
+                        selectedConveyor.Rectangle.Y + reff.OriginalLocationInsideParent.Y,
+                        reff.Rectangle.Width, reff.Rectangle.Height);
+                }
+                AdjustFixedConveyorReferencePoints(selectedConveyor);
+                selectedConveyor = null;
+                Manuel_Move = false;
+                GVisual.HideControl(PaddingPanel, drawingPanel);
+                drawingPanel.Invalidate();
+            }
+            DrawingPanelEnlarge(PaddingPanel, this);
+        }
+        private bool CheckifIntersects(RectangleF DepoRect, RectangleF ConveyorRect,
+            Depo? selectedDepo, Conveyor? selectedConveyor)
+        {
+            if (Ambar != null)
+            {
+                foreach (var depo in Ambar.depolar)
+                {
+                    if (!DepoRect.IsEmpty &&
+                        depo.Rectangle.IntersectsWith(DepoRect) &&
+                        DepoRect != depo.Rectangle &&
+                        selectedDepo != null &&
+                        selectedDepo != depo)
+                    {
+                        return true;
+                    }
+                    if (!ConveyorRect.IsEmpty &&
+                        depo.Rectangle.IntersectsWith(ConveyorRect) &&
+                        selectedConveyor != null)
+                    {
+                        return true;
+                    }
+                }
+                foreach (var conveyor in Ambar.conveyors)
+                {
+                    if (!DepoRect.IsEmpty &&
+                        conveyor.Rectangle.IntersectsWith(DepoRect) &&
+                        selectedDepo != null)
+                    {
+                        return true;
+                    }
+                    if (!ConveyorRect.IsEmpty &&
+                                conveyor.Rectangle.IntersectsWith(ConveyorRect) &&
+                                ConveyorRect != conveyor.Rectangle &&
+                                selectedConveyor != null &&
+                                selectedConveyor != conveyor)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public bool CheckifIntersectsWithArea(RectangleF rect)
+        {
+            if (Ambar != null)
+            {
+                foreach (var depo in Ambar.depolar)
+                {
+                    if (rect.IntersectsWith(depo.Rectangle))
+                    {
+                        return true;
+                    }
+                }
+                foreach (var conveyor in Ambar.conveyors)
+                {
+                    if (rect.IntersectsWith(conveyor.Rectangle))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+
+
+
+
+        //Alan Button Events
+        private void btn_Alan_Click(object sender, EventArgs e)
+        {
+            if (RightSide_LayoutPanel.Visible)
+            {
+                if (!Alan_Olusturma_Paneli.Visible)
+                {
+                    ShowControl(RightSide_LayoutPanel, Alan_Olusturma_Paneli);
+                }
+                RightSide_LayoutPanel.ScrollControlIntoView(Alan_Olusturma_Paneli);
+            }
+            else
+            {
+                MainPanelOpenRightSide(RightSide_LayoutPanel, this, rightSidePanelLocation);
+                if (!Alan_Olusturma_Paneli.Visible)
+                {
+                    ShowControl(RightSide_LayoutPanel, Alan_Olusturma_Paneli);
+                }
+                RightSide_LayoutPanel.ScrollControlIntoView(Alan_Olusturma_Paneli);
+            }
+        }
+        private void btn_Alan_Olustur_Click(object sender, EventArgs e)
+        {
+            if (ambar_Boyut_Degistir && Ambar != null)
+            {
+                errorProvider.SetError(txt_Alan_Eni, string.Empty);
+                errorProvider.SetError(txt_Alan_Boyu, string.Empty);
+                errorProvider.Clear();
+
+                float alan_eni = StrLib.ReplaceDotWithCommaReturnFloat(txt_Alan_Eni, errorProvider,
+                    "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
+                float alan_boyu = StrLib.ReplaceDotWithCommaReturnFloat(txt_Alan_Boyu, errorProvider,
+                    "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
+
+                if (!errorProvider.HasErrors)
+                {
+                    Ambar.Rectangle = GVisual.RatioRectangleToPanel(drawingPanel, Ambar.Rectangle);
+                    System.Drawing.Point point = GVisual.GetCenter(drawingPanel.ClientRectangle);
+                    Ambar.Rectangle = new RectangleF(point.X - Ambar.Rectangle.Width / 2,
+                        point.Y - Ambar.Rectangle.Height / 2, Ambar.Rectangle.Width, Ambar.Rectangle.Height);
+                    Ambar.OriginalRectangle = Ambar.Rectangle;
+                    Ambar.AmbarEni = alan_eni;
+                    Ambar.AmbarBoyu = alan_boyu;
+                    Ambar.LocationofRect = new System.Drawing.Point((int)Ambar.Rectangle.X, (int)Ambar.Rectangle.Y);
+                    Ambar = Ambar;
+                    ambar_Boyut_Degistir = false;
+                    MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+                    drawingPanel.Invalidate();
+                }
+            }
+            else
+            {
+                if (Ambar != null)
+                {
+                    var result = MessageBox.Show
+                    ("Halihazırda bulunan alan silinecektir, devam etmek istiyor musunuz?",
+                     "Devam Etmek İstiyor Musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        Ambar = null;
+                        errorProvider.SetError(txt_Alan_Eni, string.Empty);
+                        errorProvider.SetError(txt_Alan_Boyu, string.Empty);
+                        errorProvider.Clear();
+
+                        float alan_eni = StrLib.ReplaceDotWithCommaReturnFloat(txt_Alan_Eni, errorProvider,
+                            "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
+                        float alan_boyu = StrLib.ReplaceDotWithCommaReturnFloat(txt_Alan_Boyu, errorProvider,
+                            "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
+
+
+                        if (!errorProvider.HasErrors)
+                        {
+                            Ambar ambar = new Ambar(0, 0, alan_eni, alan_boyu, Main, this);
+
+                            ambar.Rectangle = GVisual.RatioRectangleToPanel(drawingPanel, ambar.Rectangle);
+                            System.Drawing.Point point = GVisual.GetCenter(drawingPanel.ClientRectangle);
+                            ambar.Rectangle = new RectangleF(point.X - ambar.Rectangle.Width / 2,
+                                point.Y - ambar.Rectangle.Height / 2, ambar.Rectangle.Width, ambar.Rectangle.Height);
+                            ambar.OriginalRectangle = ambar.Rectangle;
+                            ambar.AmbarEni = alan_eni;
+                            ambar.AmbarBoyu = alan_boyu;
+                            ambar.LocationofRect = new System.Drawing.Point((int)ambar.Rectangle.X, (int)ambar.Rectangle.Y);
+                            Ambar = ambar;
+                            selDepo = new Depo(10, 10, 10, 10, 1f, Main, this, Ambar);
+                            selConveyor = new Conveyor(10, 10, 10, 10, Main, this, Ambar);
+                            drawingPanel.Invalidate();
+                            MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+                            drawingPanel.Invalidate();
+                        }
+                    }
+                    else
+                    {
+                        MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+                        drawingPanel.Invalidate();
+                    }
+                }
+                else
+                {
+                    errorProvider.SetError(txt_Alan_Eni, string.Empty);
+                    errorProvider.SetError(txt_Alan_Boyu, string.Empty);
+                    errorProvider.Clear();
+
+                    float alan_eni = StrLib.ReplaceDotWithCommaReturnFloat(txt_Alan_Eni, errorProvider,
+                        "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
+                    float alan_boyu = StrLib.ReplaceDotWithCommaReturnFloat(txt_Alan_Boyu, errorProvider,
+                        "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
+
+                    if (!errorProvider.HasErrors)
+                    {
+                        Ambar ambar = new Ambar(0, 0, alan_eni, alan_boyu, Main, this);
+
+                        ambar.Rectangle = GVisual.RatioRectangleToPanel(drawingPanel, ambar.Rectangle);
+                        System.Drawing.Point point = GVisual.GetCenter(drawingPanel.ClientRectangle);
+                        ambar.Rectangle = new RectangleF(point.X - ambar.Rectangle.Width / 2,
+                            point.Y - ambar.Rectangle.Height / 2, ambar.Rectangle.Width, ambar.Rectangle.Height);
+                        ambar.OriginalRectangle = ambar.Rectangle;
+                        ambar.AmbarEni = alan_eni;
+                        ambar.AmbarBoyu = alan_boyu;
+                        ambar.LocationofRect = new System.Drawing.Point((int)ambar.Rectangle.X, (int)ambar.Rectangle.Y);
+                        Ambar = ambar;
+                        MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+                        drawingPanel.Invalidate();
+                    }
+                }
+            }
+        }
+        private void btn_Alan_Olustur_Vazgec_Click(object sender, EventArgs e)
+        {
+            MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+            ambar_Boyut_Degistir = false;
+        }
+        private void boyutunuDeğiştirToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (Ambar != null)
+            {
+                ambar_Boyut_Degistir = true;
+                if (!CheckPanelVisible(Alan_Olusturma_Paneli))
+                {
+                    HideEverything();
+                    DrawingPanelShrink(Alan_Olusturma_Paneli, this, leftSidePanelLocation);
+                }
+                else
+                {
+                    HideEverything();
+                    GVisual.ShowControl(Alan_Olusturma_Paneli, this, leftSidePanelLocation);
+                    GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelMiddleSize);
+                    GVisual.Move_RightSide_of_AnotherControl(drawingPanel, Alan_Olusturma_Paneli, 7);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Lütfen önce alan oluşturun.", "Alan yok.", MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+            }
+        }
+        private void btn_Alan_Olusturma_Panelini_Kapat_Click(object sender, EventArgs e)
+        {
+            HideControl(RightSide_LayoutPanel, Alan_Olusturma_Paneli);
+            ambar_Boyut_Degistir = false;
+        }
+
+
+
+
+
+        //Conveyor Button Events
+        private void btn_Conveyor_Click(object sender, EventArgs e)
+        {
+            if (Ambar != null)
+            {
+                if (RightSide_LayoutPanel.Visible)
+                {
+                    if (!Conveyor_Olusturma_Paneli.Visible)
+                    {
+                        ShowControl(RightSide_LayoutPanel, Conveyor_Olusturma_Paneli);
+                    }
+                    RightSide_LayoutPanel.ScrollControlIntoView(Conveyor_Olusturma_Paneli);
+                }
+                else
+                {
+                    MainPanelOpenRightSide(RightSide_LayoutPanel, this, rightSidePanelLocation);
+                    if (!Conveyor_Olusturma_Paneli.Visible)
+                    {
+                        ShowControl(RightSide_LayoutPanel, Conveyor_Olusturma_Paneli);
+                    }
+                    RightSide_LayoutPanel.ScrollControlIntoView(Conveyor_Olusturma_Paneli);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Lütfen önce alan oluşturun.", "Alan yok.", MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+            }
+
+        }
+        private void btn_Conveyor_Olustur_Click(object sender, EventArgs e)
+        {
+            errorProvider.Clear();
+            if (Ambar != null)
+            {
+                float conveyor_eni = StrLib.ReplaceDotWithCommaReturnFloat(txt_Conveyor_Eni,
+                    errorProvider, "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
+
+                float conveyor_boyu = StrLib.ReplaceDotWithCommaReturnFloat(txt_Conveyor_Boyu,
+                    errorProvider, "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
+
+                if (conveyor_eni > Ambar.AmbarEni)
+                {
+                    errorProvider.SetError(txt_Conveyor_Eni,
+                        "Conveyor'un eni alanın eninden büyük olamaz.");
+                }
+                if (conveyor_boyu > Ambar.AmbarBoyu)
+                {
+                    errorProvider.SetError(txt_Conveyor_Eni,
+                        "Conveyor'un boyu alanın boyundan büyük olamaz.");
+                }
+
+                if (!errorProvider.HasErrors)
+                {
+                    Conveyor conveyor = new Conveyor(0, 0, conveyor_eni, conveyor_boyu, null, this, Ambar);
+                    conveyor.Rectangle = GVisual.RatioRectangleToParentRectangle(conveyor_eni,
+                        conveyor_boyu, Ambar.AmbarEni, Ambar.AmbarBoyu, Ambar.Rectangle);
+                    conveyor.ConveyorEni = conveyor_eni;
+                    conveyor.ConveyorBoyu = conveyor_boyu;
+
+                    SearchForLocationtoPlace(conveyor.Rectangle, conveyor, null, Ambar);
+                    MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+                    drawingPanel.Invalidate();
+                }
+            }
+        }
+        private void btn_Conveyor_Olustur_Vazgec_Click(object sender, EventArgs e)
+        {
+            MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+        }
+        private void btn_Conveyor_Olusturma_Kapat_Click(object sender, EventArgs e)
+        {
+            HideControl(RightSide_LayoutPanel, Conveyor_Olusturma_Paneli);
+        }
+
+
+
+
+
+        //Depo Button Events
+        private void btn_Depo_Click(object sender, EventArgs e)
+        {
+            if (Ambar != null)
+            {
+                if (RightSide_LayoutPanel.Visible)
+                {
+                    if (!Depo_Olusturma_Paneli.Visible)
+                    {
+                        ShowControl(RightSide_LayoutPanel, Depo_Olusturma_Paneli);
+                    }
+                    RightSide_LayoutPanel.ScrollControlIntoView(Depo_Olusturma_Paneli);
+                }
+                else
+                {
+                    MainPanelOpenRightSide(RightSide_LayoutPanel, this, rightSidePanelLocation);
+                    if (!Depo_Olusturma_Paneli.Visible)
+                    {
+                        ShowControl(RightSide_LayoutPanel, Depo_Olusturma_Paneli);
+                    }
+                    RightSide_LayoutPanel.ScrollControlIntoView(Depo_Olusturma_Paneli);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Lütfen önce alan oluşturun.", "Alan yok.", MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+            }
+
+        }
+        private void btn_Depo_Olustur_Click(object sender, EventArgs e)
+        {
+            if (Ambar != null)
+            {
+                errorProvider.SetError(txt_Depo_Eni, string.Empty);
+                errorProvider.SetError(txt_Depo_Boyu, string.Empty);
+                errorProvider.SetError(txt_Depo_Yuksekligi, string.Empty);
+                errorProvider.Clear();
+
+                int depo_Yuksekligi = StrLib.CheckIntTextbox(txt_Depo_Yuksekligi,
+                    errorProvider, "Bu alan boş bırakılamaz.", "Buraya lütfen bir tam sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
+                float depo_eni = StrLib.ReplaceDotWithCommaReturnFloat(txt_Depo_Eni,
+                    errorProvider, "Bu alan boş bırakılamaz.", "Buraya lütfen bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
+                float depo_boyu = StrLib.ReplaceDotWithCommaReturnFloat(txt_Depo_Boyu,
+                    errorProvider, "Bu alan boş bırakılamaz.", "Buraya lütfen bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
+                string depo_name = txt_Depo_Adi.Text;
+                string depo_description = txt_Depo_Aciklamasi.Text;
+                string depo_item_kind = txt_Depo_Item_Turu.Text;
+
+                if (depo_eni > Ambar.AmbarEni)
+                {
+                    errorProvider.SetError(txt_Depo_Eni, "Deponun eni alanın eninden büyük olamaz.");
+                }
+                if (depo_boyu > Ambar.AmbarBoyu)
+                {
+                    errorProvider.SetError(txt_Depo_Boyu, "Deponun boyu alanın boyundan büyük olamaz.");
+                }
+
+                if (!errorProvider.HasErrors)
+                {
+                    Depo depo = new Depo(0, 0, depo_eni, depo_boyu, 1f, Main, this, Ambar);
+
+                    depo.Rectangle = GVisual.RatioRectangleToParentRectangle(depo_eni,
+                        depo_boyu, Ambar.AmbarEni, Ambar.AmbarBoyu, Ambar.Rectangle);
+
+                    depo.OriginalRectangle = depo.Rectangle;
+                    depo.LocationofRect = new System.Drawing.Point((int)depo.Rectangle.X, (int)depo.Rectangle.Y);
+                    depo.OriginalDepoSize = depo.Rectangle.Size;
+                    depo.KareX = depo.Rectangle.X;
+                    depo.KareY = depo.Rectangle.Y;
+                    depo.KareEni = depo.Rectangle.Width;
+                    depo.KareBoyu = depo.Rectangle.Height;
+                    depo.DepoAlaniEni = depo_eni;
+                    depo.DepoAlaniBoyu = depo_boyu;
+                    depo.DepoAlaniYuksekligi = depo_Yuksekligi;
+                    depo.OriginalKareX = depo.OriginalRectangle.X;
+                    depo.OriginalKareY = depo.OriginalRectangle.Y;
+                    depo.OriginalKareEni = depo.OriginalRectangle.Width;
+                    depo.OriginalKareBoyu = depo.OriginalRectangle.Height;
+                    depo.OriginalDepoSizeWidth = depo.OriginalRectangle.Width;
+                    depo.OriginalDepoSizeHeight = depo.OriginalRectangle.Height;
+                    depo.DepoName = depo_name;
+                    depo.DepoDescription = depo_description;
+                    depo.ItemTuru = depo_item_kind;
+                    depo.Yerlestirilme_Sirasi = Ware_Counter;
+                    depo.itemDrop_LeftRight = "Sağa Doğru";
+                    depo.itemDrop_UpDown = "Yukarı Doğru";
+                    depo.itemDrop_StartLocation = "Aşağıdan";
+
+                    SearchForLocationtoPlace(depo.Rectangle, null, depo, Ambar);
+                    MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+                    Ware_Counter++;
+                    drawingPanel.Invalidate();
+                    AdjustTextboxesText($"{depo.DepoAlaniEni}", $"{depo.DepoAlaniBoyu}",
+                        null, null, null, null);
+                }
+            }
+        }
+        private void btn_Depo_Olustur_Vazgec_Click(object sender, EventArgs e)
+        {
+            MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+        }
+        private void btn_Depo_Olusturma_Kapat_Click(object sender, EventArgs e)
+        {
+            HideControl(RightSide_LayoutPanel, Depo_Olusturma_Paneli);
+        }
+
+
+
+
+
+        //Izgara Button Events
+        private void btn_Izgara_Haritasi_Click(object sender, EventArgs e)
+        {
+            if (Ambar != null)
+            {
+                if (Ambar.depolar.Count > 0)
+                {
+                    ToolStripIzgara = true;
+                    if (RightSide_LayoutPanel.Visible)
+                    {
+                        if (!Izgara_Olusturma_Paneli.Visible)
+                        {
+                            ShowControl(RightSide_LayoutPanel, Izgara_Olusturma_Paneli);
+                        }
+                        RightSide_LayoutPanel.ScrollControlIntoView(Izgara_Olusturma_Paneli);
+                    }
+                    else
+                    {
+                        MainPanelOpenRightSide(RightSide_LayoutPanel, this, rightSidePanelLocation);
+                        if (!Izgara_Olusturma_Paneli.Visible)
+                        {
+                            ShowControl(RightSide_LayoutPanel, Izgara_Olusturma_Paneli);
+                        }
+                        RightSide_LayoutPanel.ScrollControlIntoView(Izgara_Olusturma_Paneli);
+                    }
+                }
+                else
+                {
+                    CustomNotifyIcon notify = new CustomNotifyIcon();
+                    notify.showAlert("Izgara haritası oluşturmak için öncelikle depo alanı oluşturmalısınız", CustomNotifyIcon.enmType.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Lütfen önce alan oluşturun", "Alan yok", MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+            }
+        }
+        private void btn_Izgara_Olustur_Kapat_Click(object sender, EventArgs e)
+        {
+            HideControl(RightSide_LayoutPanel, Izgara_Olusturma_Paneli);
+        }
+        private void btn_Izgara_Olustur_Click(object sender, EventArgs e)
+        {
+            errorProvider.SetError(txt_Dikey_Kenar_Boslugu, string.Empty);
+            errorProvider.SetError(txt_Yatay_Kenar_Boslugu, string.Empty);
+            errorProvider.Clear();
+
+            nesne_Yuksekligi = StrLib.CheckIntTextbox(txt_Nesnenin_Yuksekligi, errorProvider, "Bu alan boş bırakılamaz.", "Buraya lütfen bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
+
+            nesne_Eni = StrLib.ReplaceDotWithCommaReturnFloat(txt_Nesnenin_Eni, errorProvider, "Bu alan boş bırakılamaz.", "Buraya lütfen bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
+
+            nesne_Boyu = StrLib.ReplaceDotWithCommaReturnFloat(txt_Nesnenin_Boyu, errorProvider, "Bu alan boş bırakılamaz.", "Buraya lütfen bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
+
+            float hucre_Dikey_Bosluk =
+                StrLib.ReplaceDotWithCommaReturnFloat(txt_Dikey_Kenar_Boslugu, errorProvider,
+                "Bu alan boş bırakılamaz.", "Buraya lütfen bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
+
+            float hucre_Yatay_Bosluk =
+                StrLib.ReplaceDotWithCommaReturnFloat(txt_Yatay_Kenar_Boslugu, errorProvider,
+                "Bu alan boş bırakılamaz.", "Buraya lütfen bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
+
+            total_Cell_Width = nesne_Eni + hucre_Yatay_Bosluk;
+            total_Cell_Height = nesne_Boyu + hucre_Dikey_Bosluk;
+
+            if (!errorProvider.HasErrors)
+            {
+                if (selectedDepo != null && ToolStripIzgara == false)
+                {
+                    if (selectedDepo.gridmaps.Count > 0)
+                    {
+                        selectedDepo.gridmaps.Clear();
+
+                        selectedDepo.nesneEni = nesne_Eni;
+                        selectedDepo.nesneBoyu = nesne_Boyu;
+                        selectedDepo.nesneYuksekligi = nesne_Yuksekligi;
+                        selectedDepo.CreateGridMapMenuItem(total_Cell_Width, total_Cell_Height,
+                            hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu);
+                        MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+                    }
+                    else
+                    {
+                        selectedDepo.nesneEni = nesne_Eni;
+                        selectedDepo.nesneBoyu = nesne_Boyu;
+                        selectedDepo.nesneYuksekligi = nesne_Yuksekligi;
+                        selectedDepo.CreateGridMapMenuItem(total_Cell_Width, total_Cell_Height,
+                            hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu);
+                        MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+                    }
+                }
+                else if (ToolStripIzgara)
+                {
+                    foreach (var depo in Ambar.depolar)
+                    {
+                        depo.gridmaps.Clear();
+                    }
+                    izgaraHaritasiOlustur.Invoke(sender, EventArgs.Empty);
+                    MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+                    ToolStripIzgara = false;
+                }
+            }
+            drawingPanel.Invalidate();
+        }
+        private void btn_Izgara_Olustur_Iptal_Et_Click(object sender, EventArgs e)
+        {
+            MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+        }
+
+
+
+
+
         //Useful Methods
         public static float ConvertTwoRectanglesDistancetoCMVertically
             (float areaWidthMeters, float areaHeightMeters, RectangleF parentRectangle,
@@ -3480,6 +3334,7 @@ namespace Balya_Yerleştirme
 
 
 
+
         //Ui Operations
         private void HideEverything()
         {
@@ -3577,30 +3432,6 @@ namespace Balya_Yerleştirme
                 drawingPanel.Invalidate();
             }
         }
-        public void ShowControlOnLayoutPanel(System.Windows.Forms.Control control)
-        {
-            OpenCloseLayoutPanel(LeftSide_LayoutPanel, leftSidePanelLocation);
-            LeftSide_LayoutPanel.Controls.Clear();
-            GVisual.ShowControl(control, LeftSide_LayoutPanel, new System.Drawing.Point(0, 0));
-        }
-        public void HideEverythingOnLayoutPanel()
-        {
-            OpenCloseLayoutPanel(LeftSide_LayoutPanel, leftSidePanelLocation);
-            LeftSide_LayoutPanel.Controls.Clear();
-        }
-        public void OpenCloseLayoutPanel(FlowLayoutPanel LayoutPanel, System.Drawing.Point locationofPanel)
-        {
-            if (LayoutPanel.Visible)
-            {
-                DrawingPanelEnlarge(LayoutPanel, this);
-                btn_OpenClose_LeftSide.Image = Resources.Resource1.Chevron_Right;
-            }
-            else
-            {
-                DrawingPanelShrink(LayoutPanel, this, locationofPanel);
-                btn_OpenClose_LeftSide.Image = Resources.Resource1.Chevron_Left;
-            }
-        }
         private void btn_openClose_LeftSide_Click(object sender, EventArgs e)
         {
             if (LeftSide_LayoutPanel.Visible)
@@ -3617,12 +3448,10 @@ namespace Balya_Yerleştirme
             if (RightSide_LayoutPanel.Visible)
             {
                 MainPanelCloseRightSide(RightSide_LayoutPanel, this);
-                
             }
             else
             {
                 MainPanelOpenRightSide(RightSide_LayoutPanel, this, rightSidePanelLocation);
-                GVisual.Control_TopRightCorner(btn_openClose_RightSide, drawingPanel, 3);
             }
         }
         private void DrawingPanelEnlarge(System.Windows.Forms.Control hideControl,
@@ -3651,6 +3480,7 @@ namespace Balya_Yerleştirme
                 drawingPanel.Location = drawingPanelMiddleLocation;
                 MoveLeft();
                 GVisual.Control_TopRightCorner(btn_openClose_RightSide, drawingPanel, 3);
+                btn_OpenClose_LeftSide.Image = Resources.Resource1.Chevron_Left;
             }
             else
             {
@@ -3659,6 +3489,7 @@ namespace Balya_Yerleştirme
                 drawingPanel.Location = drawingPanelMiddleLocation;
                 MoveLeft();
                 GVisual.Control_TopRightCorner(btn_openClose_RightSide, drawingPanel, 3);
+                btn_OpenClose_LeftSide.Image = Resources.Resource1.Chevron_Left;
             }
         }
         private void MainPanelOpenRightSide(System.Windows.Forms.Control showControlRight,
@@ -3669,16 +3500,18 @@ namespace Balya_Yerleştirme
                 GVisual.ShowControl(showControlRight, parentControl, childControlLocationRight);
                 GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelSmallSize);
                 drawingPanel.Location = drawingPanelMiddleLocation;
-                MoveRight();
+                MoveLeft();
                 GVisual.Control_TopRightCorner(btn_openClose_RightSide, drawingPanel, 3);
+                btn_openClose_RightSide.Image = Resources.Resource1.Chevron_Right;
             }
             else
             {
                 GVisual.ShowControl(showControlRight, parentControl, childControlLocationRight);
                 GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelMiddleSize);
                 drawingPanel.Location = drawingPanelLeftLocation;
-                MoveRight();
+                MoveLeft();
                 GVisual.Control_TopRightCorner(btn_openClose_RightSide, drawingPanel, 3);
+                btn_openClose_RightSide.Image = Resources.Resource1.Chevron_Right;
             }
         }
         private void MainPanelOpenBothSides(System.Windows.Forms.Control showControlLeft, System.Windows.Forms.Control showControlRight,
@@ -3689,6 +3522,8 @@ namespace Balya_Yerleştirme
             GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelSmallSize);
             drawingPanel.Location = drawingPanelMiddleLocation;
             GVisual.Control_TopRightCorner(btn_openClose_RightSide, drawingPanel, 3);
+            btn_OpenClose_LeftSide.Image = Resources.Resource1.Chevron_Left;
+            btn_openClose_RightSide.Image = Resources.Resource1.Chevron_Right;
         }
         private void MainPanelCloseLeftSide(System.Windows.Forms.Control hideControlLeft,
             System.Windows.Forms.Control parentControl)
@@ -3700,6 +3535,7 @@ namespace Balya_Yerleştirme
                 drawingPanel.Location = drawingPanelLeftLocation;
                 MoveRight();
                 GVisual.Control_TopRightCorner(btn_openClose_RightSide, drawingPanel, 3);
+                btn_OpenClose_LeftSide.Image = Resources.Resource1.Chevron_Right;
             }
             else
             {
@@ -3708,6 +3544,7 @@ namespace Balya_Yerleştirme
                 drawingPanel.Location = drawingPanelLeftLocation;
                 MoveRight();
                 GVisual.Control_TopRightCorner(btn_openClose_RightSide, drawingPanel, 3);
+                btn_OpenClose_LeftSide.Image = Resources.Resource1.Chevron_Right;
             }
 
         }
@@ -3719,16 +3556,18 @@ namespace Balya_Yerleştirme
                 GVisual.HideControl(hideControlRight, parentControl);
                 GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelMiddleSize);
                 drawingPanel.Location = drawingPanelMiddleLocation;
-                MoveLeft();
+                MoveRight();
                 GVisual.Control_TopRightCorner(btn_openClose_RightSide, drawingPanel, 3);
+                btn_openClose_RightSide.Image = Resources.Resource1.Chevron_Left;
             }
             else
             {
                 GVisual.HideControl(hideControlRight, parentControl);
                 GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelLargeSize);
                 drawingPanel.Location = drawingPanelLeftLocation;
-                MoveLeft();
+                MoveRight();
                 GVisual.Control_TopRightCorner(btn_openClose_RightSide, drawingPanel, 3);
+                btn_openClose_RightSide.Image = Resources.Resource1.Chevron_Left;
             }
 
         }
@@ -3740,8 +3579,21 @@ namespace Balya_Yerleştirme
             GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelLargeSize);
             drawingPanel.Location = drawingPanelLeftLocation;
             GVisual.Control_TopRightCorner(btn_openClose_RightSide, drawingPanel, 3);
+            btn_openClose_RightSide.Image = Resources.Resource1.Chevron_Left;
+            btn_OpenClose_LeftSide.Image = Resources.Resource1.Chevron_Right;
         }
-
+        private void ShowControl(System.Windows.Forms.Control parentControl, System.Windows.Forms.Control childControl)
+        {
+            GVisual.ShowControl(childControl, parentControl, new System.Drawing.Point(3, 0));
+        }
+        private void HideControl(System.Windows.Forms.Control parentControl, System.Windows.Forms.Control childControl)
+        {
+            GVisual.HideControl(childControl, parentControl);
+            if (parentControl.Controls.Count == 0)
+            {
+                MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+            }
+        }
 
 
 
@@ -4251,6 +4103,207 @@ namespace Balya_Yerleştirme
                 drawingPanel.Invalidate();
             }
         }
+        private void Timer_Tick(object? sender, EventArgs e)
+        {
+            if (Parameter == "Sola Doğru")
+            {
+                drawingPanel.Invalidate();
+                currentColumn--;
+                if (currentColumn == -1)
+                {
+                    currentColumn = colCount;
+                    rectangles.Clear();
+                }
+            }
+            else if (Parameter == "Sağa Doğru")
+            {
+                drawingPanel.Invalidate();
+                currentColumn++;
+                if (currentColumn == colCount + 2)
+                {
+                    currentColumn = 0;
+                    rectangles.Clear();
+                }
+            }
+            else if (Parameter == "Yukarı Doğru")
+            {
+                drawingPanel.Invalidate();
+                currentRow--;
+                if (currentRow == -1)
+                {
+                    currentRow = (rowCount);
+                    rectangles.Clear();
+                }
+            }
+            else if (Parameter == "Ortadan Yukarı Doğru")
+            {
+                drawingPanel.Invalidate();
+                currentRow--;
+                if (currentRow == -1)
+                {
+                    currentRow = (rowCount / 2);
+                    rectangles.Clear();
+                }
+            }
+            else if (Parameter == "Aşağı Doğru")
+            {
+                drawingPanel.Invalidate();
+                currentRow++;
+                if (currentRow == rowCount + 2)
+                {
+                    currentRow = 0;
+                    rectangles.Clear();
+                }
+            }
+            else if (Parameter == "Ortadan Aşağı Doğru")
+            {
+                drawingPanel.Invalidate();
+                currentRow++;
+                if (currentRow == rowCount + 2)
+                {
+                    currentRow = (rowCount / 2 + 2);
+                    rectangles.Clear();
+                }
+            }
+        }
+        private void DrawArrowInCell(Graphics g, RectangleF cell)
+        {
+            if (MovingParameter)
+            {
+                if (Parameter == "Aşağı Doğru")
+                {
+                    PointF start = GVisual.GetMiddleOfTopEdge(cell);
+                    PointF end = GVisual.GetMiddleOfBottomEdge(cell);
+
+                    Pen pen = new Pen(Brushes.Green, 5);
+                    pen.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
+
+                    g.DrawLine(pen, start, end);
+                }
+                else if (Parameter == "Yukarı Doğru")
+                {
+                    PointF start = GVisual.GetMiddleOfBottomEdge(cell);
+                    PointF end = GVisual.GetMiddleOfTopEdge(cell);
+
+                    Pen pen = new Pen(Brushes.Green, 5);
+                    pen.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
+
+                    g.DrawLine(pen, start, end);
+                }
+                else if (Parameter == "Ortadan Yukarı Doğru")
+                {
+                    PointF start = GVisual.GetMiddleOfBottomEdge(cell);
+                    PointF end = GVisual.GetMiddleOfTopEdge(cell);
+
+                    Pen pen = new Pen(Brushes.Green, 5);
+                    pen.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
+
+                    g.DrawLine(pen, start, end);
+                }
+                else if (Parameter == "Ortadan Aşağı Doğru")
+                {
+                    PointF start = GVisual.GetMiddleOfTopEdge(cell);
+                    PointF end = GVisual.GetMiddleOfBottomEdge(cell);
+
+                    Pen pen = new Pen(Brushes.Green, 5);
+                    pen.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
+
+                    g.DrawLine(pen, start, end);
+                }
+                else if (Parameter == "Sağa Doğru")
+                {
+                    PointF start = GVisual.GetMiddleOfLeftEdge(cell);
+                    PointF end = GVisual.GetMiddleOfRightEdge(cell);
+
+                    Pen pen = new Pen(Brushes.Green, 5);
+                    pen.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
+
+                    g.DrawLine(pen, start, end);
+                }
+                else if (Parameter == "Sola Doğru")
+                {
+                    PointF start = GVisual.GetMiddleOfRightEdge(cell);
+                    PointF end = GVisual.GetMiddleOfLeftEdge(cell);
+
+                    Pen pen = new Pen(Brushes.Green, 5);
+                    pen.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
+
+                    g.DrawLine(pen, start, end);
+                }
+            }
+        }
+        private void radio_To_Right_CheckedChanged(object sender, EventArgs e)
+        {
+            currentColumn = 0;
+            timer.Stop();
+            if (radio_To_Right.Checked)
+            {
+                rectangles.Clear();
+                timer.Interval = 300;
+                timer.Start();
+                Parameter = "Sağa Doğru";
+            }
+        }
+        private void radio_To_Left_CheckedChanged(object sender, EventArgs e)
+        {
+            currentColumn = colCount;
+            timer.Stop();
+            if (radio_To_Left.Checked)
+            {
+                rectangles.Clear();
+                timer.Interval = 300;
+                timer.Start();
+                Parameter = "Sola Doğru";
+            }
+        }
+        private void radio_To_Up_CheckedChanged(object sender, EventArgs e)
+        {
+            currentRow = rowCount / 2 + 1;
+            timer.Stop();
+            if (radio_To_Up.Checked)
+            {
+                rectangles.Clear();
+                timer.Interval = 300;
+                timer.Start();
+                Parameter = "Ortadan Yukarı Doğru";
+            }
+        }
+        private void radio_To_Down_CheckedChanged(object sender, EventArgs e)
+        {
+            currentRow = (rowCount / 2 + 1);
+            timer.Stop();
+            if (radio_To_Down.Checked)
+            {
+                rectangles.Clear();
+                timer.Interval = 300;
+                timer.Start();
+                Parameter = "Ortadan Aşağı Doğru";
+            }
+        }
+        private void radio_Start_From_Bottom_CheckedChanged(object sender, EventArgs e)
+        {
+            currentRow = rowCount;
+            timer.Stop();
+            if (radio_Start_From_Bottom.Checked)
+            {
+                rectangles.Clear();
+                timer.Interval = 300;
+                timer.Start();
+                Parameter = "Yukarı Doğru";
+            }
+        }
+        private void radio_Start_From_Top_CheckedChanged(object sender, EventArgs e)
+        {
+            currentRow = 0;
+            timer.Stop();
+            if (radio_Start_From_Top.Checked)
+            {
+                rectangles.Clear();
+                timer.Interval = 300;
+                timer.Start();
+                Parameter = "Aşağı Doğru";
+            }
+        }
 
 
 
@@ -4428,17 +4481,6 @@ namespace Balya_Yerleştirme
 
 
 
-
-
-
-
-
-
-
-
-
-
-
         //Alan ToolStripMenu Events
         private void silToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -4479,8 +4521,8 @@ namespace Balya_Yerleştirme
 
 
 
-        //Depo ToolStripMenu Events
-        //Izgara Haritası ToolStripMenuItems Events
+
+        //Depo Izgara Haritası ToolStripMenu Events
         private void ızgaraHaritasıOluşturToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ToolStripIzgara = false;
@@ -4554,8 +4596,8 @@ namespace Balya_Yerleştirme
 
 
 
-        //Conveyor ToolStripMenu Events
-        //Referans ToolStripMenuItems Events
+
+        //Conveyor Referans ToolStripMenu Events
         private void Referans_ekleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (selectedConveyor != null)
@@ -4984,9 +5026,6 @@ namespace Balya_Yerleştirme
 
 
 
-
-
-
         private void btn_Layout_Kaydet_Click(object sender, EventArgs e)
         {
             using (var dialog = new LayoutNaming())
@@ -5002,6 +5041,14 @@ namespace Balya_Yerleştirme
         }
 
         
+
+
+
+
+
+
+
+
 
 
         //private void DrawParameters(Graphics g)

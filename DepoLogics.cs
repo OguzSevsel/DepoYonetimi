@@ -731,8 +731,6 @@ namespace Balya_Yerleştirme.Models
                 rectangle = MoveRectangleToPoint(rectangle,
                refRectangle.X + (refRectangle.Width / 2 - rectangle.Width / 2),
                refRectangle.Bottom);
-                Debug.WriteLine($"Rectangle Top: {rectangle.Top}");
-                Debug.WriteLine($"refRectangle Bot: {refRectangle.Bottom}");
                 return rectangle;
             }
             else if (LeftSideSnapDistance < snapping)
