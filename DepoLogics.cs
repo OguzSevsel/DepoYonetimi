@@ -295,8 +295,10 @@ namespace Balya_Yerleştirme.Models
                             isDragging = true;
                             DragStartPoint = e.Location;
                         }
+                        layout.SortFlowLayoutPanel(layout.LayoutPanel_SelectedDepo);
                     }
                 }
+                layout.drawingPanel.Invalidate();
             }
             foreach (var cell in gridmaps)
             {

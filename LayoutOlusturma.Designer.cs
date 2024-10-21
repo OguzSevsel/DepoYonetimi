@@ -245,6 +245,7 @@
             kryptonBorderEdge4 = new Krypton.Toolkit.KryptonBorderEdge();
             errorProvider = new ErrorProvider(components);
             MenuStrip = new ContextMenuStrip(components);
+            depoMenuAcBTN = new ToolStripMenuItem();
             nesneKoyulmaSıralamasınıAyarlaToolStripMenuItem = new ToolStripMenuItem();
             depoToolStripMenuItem = new ToolStripMenuItem();
             deponunYeriniVeBoyutunuDeğiştirToolStripMenuItem = new ToolStripMenuItem();
@@ -254,6 +255,7 @@
             boyutunuDeğiştirToolStripMenuItem = new ToolStripMenuItem();
             silToolStripMenuItem1 = new ToolStripMenuItem();
             conveyorMenuStrip = new ContextMenuStrip(components);
+            conveyorMenuAcBTN = new ToolStripMenuItem();
             referansNoktalarıToolStripMenuItem = new ToolStripMenuItem();
             Referans_ekleToolStripMenuItem = new ToolStripMenuItem();
             Referans_silToolStripMenuItem = new ToolStripMenuItem();
@@ -262,6 +264,7 @@
             Conveyor_yeriniVeBoyutunuDeğiştirToolStripMenuItem = new ToolStripMenuItem();
             Conveyor_silToolStripMenuItem = new ToolStripMenuItem();
             ambarMenuStrip = new ContextMenuStrip(components);
+            alanMenuAcBTN = new ToolStripMenuItem();
             depolarınDoldurulmaSirasiniAyarla = new ToolStripMenuItem();
             alanToolStripMenuItem = new ToolStripMenuItem();
             boyutunuDeğiştirToolStripMenuItem1 = new ToolStripMenuItem();
@@ -274,15 +277,15 @@
             lbl_Depo_Selection = new Krypton.Toolkit.KryptonWrapLabel();
             comboBox_DepoSelection = new ComboBox();
             groupBox_SelectedDepo = new GroupBox();
+            layoutPanel_Ambar = new FlowLayoutPanel();
+            groupBox_Ambar = new GroupBox();
+            treeView_Ambar = new TreeView();
             layoutPanel_SelectedConveyor = new FlowLayoutPanel();
             Panel_SelectedConveyor = new Panel();
             lbl_SelectedConveyor = new Krypton.Toolkit.KryptonWrapLabel();
             comboBox_SelectedConveyor = new ComboBox();
             groupBox_SelectedConveyor = new GroupBox();
             RightSide_LayoutPanel = new FlowLayoutPanel();
-            layoutPanel_Ambar = new FlowLayoutPanel();
-            groupBox_Ambar = new GroupBox();
-            treeView_Ambar = new TreeView();
             drawingPanel.SuspendLayout();
             Conveyor_Reference_FixedorManuel_Panel.SuspendLayout();
             Conveyor_Reference_Fixed_Panel.SuspendLayout();
@@ -310,10 +313,10 @@
             LeftSide_LayoutPanel.SuspendLayout();
             LayoutPanel_SelectedDepo.SuspendLayout();
             Panel_SelectedDepo.SuspendLayout();
-            layoutPanel_SelectedConveyor.SuspendLayout();
-            Panel_SelectedConveyor.SuspendLayout();
             layoutPanel_Ambar.SuspendLayout();
             groupBox_Ambar.SuspendLayout();
+            layoutPanel_SelectedConveyor.SuspendLayout();
+            Panel_SelectedConveyor.SuspendLayout();
             SuspendLayout();
             // 
             // drawingPanel
@@ -344,9 +347,9 @@
             // 
             btn_openClose_RightSide.FlatStyle = FlatStyle.Flat;
             btn_openClose_RightSide.Image = Resources.Resource1.Chevron_Left;
-            btn_openClose_RightSide.Location = new Point(1175, 3);
+            btn_openClose_RightSide.Location = new Point(1171, 3);
             btn_openClose_RightSide.Name = "btn_openClose_RightSide";
-            btn_openClose_RightSide.Size = new Size(40, 49);
+            btn_openClose_RightSide.Size = new Size(44, 49);
             btn_openClose_RightSide.TabIndex = 37;
             btn_openClose_RightSide.UseVisualStyleBackColor = true;
             btn_openClose_RightSide.Click += btn_openClose_RightSide_Click;
@@ -355,9 +358,9 @@
             // 
             btn_OpenClose_LeftSide.FlatStyle = FlatStyle.Flat;
             btn_OpenClose_LeftSide.Image = Resources.Resource1.Chevron_Left;
-            btn_OpenClose_LeftSide.Location = new Point(2, 3);
+            btn_OpenClose_LeftSide.Location = new Point(3, 3);
             btn_OpenClose_LeftSide.Name = "btn_OpenClose_LeftSide";
-            btn_OpenClose_LeftSide.Size = new Size(40, 49);
+            btn_OpenClose_LeftSide.Size = new Size(44, 49);
             btn_OpenClose_LeftSide.TabIndex = 33;
             btn_OpenClose_LeftSide.UseVisualStyleBackColor = true;
             btn_OpenClose_LeftSide.Click += btn_openClose_LeftSide_Click;
@@ -2726,7 +2729,7 @@
             ButtonPanel.Controls.Add(btn_Izgara_Haritasi);
             ButtonPanel.Controls.Add(btn_Depo);
             ButtonPanel.Controls.Add(btn_Conveyor);
-            ButtonPanel.Location = new Point(1569, 12);
+            ButtonPanel.Location = new Point(1568, 12);
             ButtonPanel.Name = "ButtonPanel";
             ButtonPanel.Size = new Size(330, 84);
             ButtonPanel.TabIndex = 15;
@@ -2800,7 +2803,7 @@
             lbl_Layout_Title.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Bold, GraphicsUnit.Point, 162);
             lbl_Layout_Title.ForeColor = Color.Red;
             lbl_Layout_Title.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Layout_Title.Location = new Point(1055, 20);
+            lbl_Layout_Title.Location = new Point(708, 20);
             lbl_Layout_Title.Name = "lbl_Layout_Title";
             lbl_Layout_Title.Size = new Size(300, 76);
             lbl_Layout_Title.StateCommon.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Bold, GraphicsUnit.Point, 162);
@@ -3098,9 +3101,16 @@
             // MenuStrip
             // 
             MenuStrip.Font = new Font("Segoe UI", 9F);
-            MenuStrip.Items.AddRange(new ToolStripItem[] { nesneKoyulmaSıralamasınıAyarlaToolStripMenuItem, depoToolStripMenuItem, ızgaraHaritasıToolStripMenuItem });
+            MenuStrip.Items.AddRange(new ToolStripItem[] { depoMenuAcBTN, nesneKoyulmaSıralamasınıAyarlaToolStripMenuItem, depoToolStripMenuItem, ızgaraHaritasıToolStripMenuItem });
             MenuStrip.Name = "MenuStrip";
-            MenuStrip.Size = new Size(271, 70);
+            MenuStrip.Size = new Size(271, 92);
+            // 
+            // depoMenuAcBTN
+            // 
+            depoMenuAcBTN.Name = "depoMenuAcBTN";
+            depoMenuAcBTN.Size = new Size(270, 22);
+            depoMenuAcBTN.Text = "Menüyü Aç";
+            depoMenuAcBTN.Click += depoMenuAcBTN_Click;
             // 
             // nesneKoyulmaSıralamasınıAyarlaToolStripMenuItem
             // 
@@ -3161,9 +3171,16 @@
             // conveyorMenuStrip
             // 
             conveyorMenuStrip.Font = new Font("Segoe UI", 9F);
-            conveyorMenuStrip.Items.AddRange(new ToolStripItem[] { referansNoktalarıToolStripMenuItem, conveyorToolStripMenuItem });
+            conveyorMenuStrip.Items.AddRange(new ToolStripItem[] { conveyorMenuAcBTN, referansNoktalarıToolStripMenuItem, conveyorToolStripMenuItem });
             conveyorMenuStrip.Name = "MenuStrip";
-            conveyorMenuStrip.Size = new Size(163, 48);
+            conveyorMenuStrip.Size = new Size(163, 70);
+            // 
+            // conveyorMenuAcBTN
+            // 
+            conveyorMenuAcBTN.Name = "conveyorMenuAcBTN";
+            conveyorMenuAcBTN.Size = new Size(162, 22);
+            conveyorMenuAcBTN.Text = "Menüyü Aç";
+            conveyorMenuAcBTN.Click += conveyorMenuAcBTN_Click;
             // 
             // referansNoktalarıToolStripMenuItem
             // 
@@ -3217,9 +3234,16 @@
             // ambarMenuStrip
             // 
             ambarMenuStrip.Font = new Font("Segoe UI", 9F);
-            ambarMenuStrip.Items.AddRange(new ToolStripItem[] { depolarınDoldurulmaSirasiniAyarla, alanToolStripMenuItem });
+            ambarMenuStrip.Items.AddRange(new ToolStripItem[] { alanMenuAcBTN, depolarınDoldurulmaSirasiniAyarla, alanToolStripMenuItem });
             ambarMenuStrip.Name = "MenuStrip";
-            ambarMenuStrip.Size = new Size(268, 48);
+            ambarMenuStrip.Size = new Size(268, 70);
+            // 
+            // alanMenuAcBTN
+            // 
+            alanMenuAcBTN.Name = "alanMenuAcBTN";
+            alanMenuAcBTN.Size = new Size(267, 22);
+            alanMenuAcBTN.Text = "Menüyü Aç";
+            alanMenuAcBTN.Click += alanMenuAcBTN_Click;
             // 
             // depolarınDoldurulmaSirasiniAyarla
             // 
@@ -3345,6 +3369,36 @@
             groupBox_SelectedDepo.TabStop = false;
             groupBox_SelectedDepo.Text = "Depo";
             // 
+            // layoutPanel_Ambar
+            // 
+            layoutPanel_Ambar.AutoScroll = true;
+            layoutPanel_Ambar.Controls.Add(groupBox_Ambar);
+            layoutPanel_Ambar.Location = new Point(1, 455);
+            layoutPanel_Ambar.Margin = new Padding(1);
+            layoutPanel_Ambar.Name = "layoutPanel_Ambar";
+            layoutPanel_Ambar.Size = new Size(324, 452);
+            layoutPanel_Ambar.TabIndex = 38;
+            // 
+            // groupBox_Ambar
+            // 
+            groupBox_Ambar.BackColor = Color.LightCyan;
+            groupBox_Ambar.Controls.Add(treeView_Ambar);
+            groupBox_Ambar.Font = new Font("Sans Serif Collection", 10F, FontStyle.Bold);
+            groupBox_Ambar.ForeColor = Color.Red;
+            groupBox_Ambar.Location = new Point(3, 3);
+            groupBox_Ambar.Name = "groupBox_Ambar";
+            groupBox_Ambar.Size = new Size(318, 446);
+            groupBox_Ambar.TabIndex = 34;
+            groupBox_Ambar.TabStop = false;
+            groupBox_Ambar.Text = "Ambar";
+            // 
+            // treeView_Ambar
+            // 
+            treeView_Ambar.Location = new Point(6, 39);
+            treeView_Ambar.Name = "treeView_Ambar";
+            treeView_Ambar.Size = new Size(306, 401);
+            treeView_Ambar.TabIndex = 0;
+            // 
             // layoutPanel_SelectedConveyor
             // 
             layoutPanel_SelectedConveyor.AutoScroll = true;
@@ -3407,36 +3461,6 @@
             RightSide_LayoutPanel.Size = new Size(330, 909);
             RightSide_LayoutPanel.TabIndex = 36;
             // 
-            // layoutPanel_Ambar
-            // 
-            layoutPanel_Ambar.AutoScroll = true;
-            layoutPanel_Ambar.Controls.Add(groupBox_Ambar);
-            layoutPanel_Ambar.Location = new Point(1, 455);
-            layoutPanel_Ambar.Margin = new Padding(1);
-            layoutPanel_Ambar.Name = "layoutPanel_Ambar";
-            layoutPanel_Ambar.Size = new Size(324, 452);
-            layoutPanel_Ambar.TabIndex = 38;
-            // 
-            // groupBox_Ambar
-            // 
-            groupBox_Ambar.BackColor = Color.LightCyan;
-            groupBox_Ambar.Controls.Add(treeView_Ambar);
-            groupBox_Ambar.Font = new Font("Sans Serif Collection", 10F, FontStyle.Bold);
-            groupBox_Ambar.ForeColor = Color.Red;
-            groupBox_Ambar.Location = new Point(3, 3);
-            groupBox_Ambar.Name = "groupBox_Ambar";
-            groupBox_Ambar.Size = new Size(318, 446);
-            groupBox_Ambar.TabIndex = 34;
-            groupBox_Ambar.TabStop = false;
-            groupBox_Ambar.Text = "Ambar";
-            // 
-            // treeView_Ambar
-            // 
-            treeView_Ambar.Location = new Point(6, 39);
-            treeView_Ambar.Name = "treeView_Ambar";
-            treeView_Ambar.Size = new Size(306, 401);
-            treeView_Ambar.TabIndex = 0;
-            // 
             // LayoutOlusturma
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -3497,10 +3521,10 @@
             LeftSide_LayoutPanel.ResumeLayout(false);
             LayoutPanel_SelectedDepo.ResumeLayout(false);
             Panel_SelectedDepo.ResumeLayout(false);
-            layoutPanel_SelectedConveyor.ResumeLayout(false);
-            Panel_SelectedConveyor.ResumeLayout(false);
             layoutPanel_Ambar.ResumeLayout(false);
             groupBox_Ambar.ResumeLayout(false);
+            layoutPanel_SelectedConveyor.ResumeLayout(false);
+            Panel_SelectedConveyor.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -3709,57 +3733,60 @@
         public Krypton.Toolkit.KryptonWrapLabel lbl_Depo_Adi;
         public Krypton.Toolkit.KryptonTextBox txt_Depo_Adi;
         public Krypton.Toolkit.KryptonTextBox txt_Depo_Aciklamasi;
-        private ToolStripMenuItem alanToolStripMenuItem;
-        private ToolStripMenuItem silToolStripMenuItem;
-        private ToolStripMenuItem boşaltToolStripMenuItem;
-        private ToolStripMenuItem depoToolStripMenuItem;
-        private ToolStripMenuItem ızgaraHaritasıToolStripMenuItem;
-        private ToolStripMenuItem deponunYeriniVeBoyutunuDeğiştirToolStripMenuItem;
-        private ToolStripMenuItem depoyuSilToolStripMenuItem1;
-        private ToolStripMenuItem ızgaraHaritasıOluşturToolStripMenuItem;
-        private ToolStripMenuItem silToolStripMenuItem1;
-        private ToolStripMenuItem referansNoktalarıToolStripMenuItem;
-        private ToolStripMenuItem Referans_ekleToolStripMenuItem;
-        private ToolStripMenuItem Referans_silToolStripMenuItem;
-        private ToolStripMenuItem Referans_yerleriniDeğiştirToolStripMenuItem;
-        private ToolStripMenuItem conveyorToolStripMenuItem;
-        private ToolStripMenuItem Conveyor_yeriniVeBoyutunuDeğiştirToolStripMenuItem;
-        private ToolStripMenuItem Conveyor_silToolStripMenuItem;
+        public ToolStripMenuItem alanToolStripMenuItem;
+        public ToolStripMenuItem silToolStripMenuItem;
+        public ToolStripMenuItem boşaltToolStripMenuItem;
+        public ToolStripMenuItem depoToolStripMenuItem;
+        public ToolStripMenuItem ızgaraHaritasıToolStripMenuItem;
+        public ToolStripMenuItem deponunYeriniVeBoyutunuDeğiştirToolStripMenuItem;
+        public ToolStripMenuItem depoyuSilToolStripMenuItem1;
+        public ToolStripMenuItem ızgaraHaritasıOluşturToolStripMenuItem;
+        public ToolStripMenuItem silToolStripMenuItem1;
+        public ToolStripMenuItem referansNoktalarıToolStripMenuItem;
+        public ToolStripMenuItem Referans_ekleToolStripMenuItem;
+        public ToolStripMenuItem Referans_silToolStripMenuItem;
+        public ToolStripMenuItem Referans_yerleriniDeğiştirToolStripMenuItem;
+        public ToolStripMenuItem conveyorToolStripMenuItem;
+        public ToolStripMenuItem Conveyor_yeriniVeBoyutunuDeğiştirToolStripMenuItem;
+        public ToolStripMenuItem Conveyor_silToolStripMenuItem;
         public Krypton.Toolkit.KryptonTextBox txt_Depo_Item_Turu;
         public Krypton.Toolkit.KryptonWrapLabel lbl_Depo_Item_Turu;
-        private ToolStripMenuItem boyutunuDeğiştirToolStripMenuItem;
-        private ToolStripMenuItem boyutunuDeğiştirToolStripMenuItem1;
-        private Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge36;
-        private Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge37;
-        private Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge40;
-        private Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge39;
-        private Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge38;
-        private Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge42;
-        private Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge41;
-        private Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge43;
-        private Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge46;
-        private Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge45;
-        private Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge44;
-        private FlowLayoutPanel LeftSide_LayoutPanel;
-        private GroupBox groupBox_SelectedDepo;
-        private FlowLayoutPanel LayoutPanel_SelectedDepo;
-        private Panel Panel_SelectedDepo;
-        private Krypton.Toolkit.KryptonWrapLabel lbl_Depo_Selection;
-        private ComboBox comboBox_DepoSelection;
-        private FlowLayoutPanel layoutPanel_SelectedConveyor;
-        private Panel Panel_SelectedConveyor;
-        private Krypton.Toolkit.KryptonWrapLabel lbl_SelectedConveyor;
-        private ComboBox comboBox_SelectedConveyor;
-        private GroupBox groupBox_SelectedConveyor;
-        private Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge48;
-        private Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge47;
-        private Button btn_OpenClose_LeftSide;
-        private Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge50;
-        private Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge49;
-        private FlowLayoutPanel RightSide_LayoutPanel;
-        private Button btn_openClose_RightSide;
-        private FlowLayoutPanel layoutPanel_Ambar;
-        private GroupBox groupBox_Ambar;
-        private TreeView treeView_Ambar;
+        public ToolStripMenuItem boyutunuDeğiştirToolStripMenuItem;
+        public ToolStripMenuItem boyutunuDeğiştirToolStripMenuItem1;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge36;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge37;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge40;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge39;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge38;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge42;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge41;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge43;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge46;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge45;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge44;
+        public FlowLayoutPanel LeftSide_LayoutPanel;
+        public GroupBox groupBox_SelectedDepo;
+        public FlowLayoutPanel LayoutPanel_SelectedDepo;
+        public Panel Panel_SelectedDepo;
+        public Krypton.Toolkit.KryptonWrapLabel lbl_Depo_Selection;
+        public ComboBox comboBox_DepoSelection;
+        public FlowLayoutPanel layoutPanel_SelectedConveyor;
+        public Panel Panel_SelectedConveyor;
+        public Krypton.Toolkit.KryptonWrapLabel lbl_SelectedConveyor;
+        public ComboBox comboBox_SelectedConveyor;
+        public GroupBox groupBox_SelectedConveyor;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge48;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge47;
+        public Button btn_OpenClose_LeftSide;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge50;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge49;
+        public FlowLayoutPanel RightSide_LayoutPanel;
+        public Button btn_openClose_RightSide;
+        public FlowLayoutPanel layoutPanel_Ambar;
+        public GroupBox groupBox_Ambar;
+        public TreeView treeView_Ambar;
+        private ToolStripMenuItem depoMenuAcBTN;
+        private ToolStripMenuItem conveyorMenuAcBTN;
+        private ToolStripMenuItem alanMenuAcBTN;
     }
 }

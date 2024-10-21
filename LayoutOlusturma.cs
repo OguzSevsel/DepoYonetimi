@@ -564,7 +564,7 @@ namespace Balya_Yerleştirme
         }
 
 
-        
+
 
 
         //DrawingPanel Events
@@ -932,7 +932,6 @@ namespace Balya_Yerleştirme
             if (Ambar != null)
             {
                 Ambar.OnMouseDown(e);
-                drawingPanel.Invalidate();
 
                 if (!Manuel_Move && !AddReferencePoint)
                 {
@@ -986,7 +985,16 @@ namespace Balya_Yerleştirme
                         SelectedConveyorPen.Width = 2;
                         SelectedConveyorPen.Color = System.Drawing.Color.Black;
                     }
+
+                    if (!conveyornull && !deponull)
+                    {
+                        if (LeftSide_LayoutPanel.Visible)
+                        {
+                            MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
+                        }
+                    }
                 }
+                drawingPanel.Invalidate();
             }
         }
         private void drawingPanel_MouseUp(object sender, MouseEventArgs e)
@@ -3337,7 +3345,7 @@ namespace Balya_Yerleştirme
 
 
         //Ui Operations
-        private void HideEverything()
+        public void HideEverything()
         {
             GVisual.HideControl(Alan_Olusturma_Paneli, this);
             GVisual.HideControl(Conveyor_Olusturma_Paneli, this);
@@ -3347,6 +3355,7 @@ namespace Balya_Yerleştirme
             GVisual.HideControl(PaddingPanel, this);
             GVisual.HideControl(Depo_Olusturma_Paneli, this);
             GVisual.HideControl(LeftSide_LayoutPanel, this);
+            GVisual.HideControl(RightSide_LayoutPanel, this);
             GVisual.HideControl(txt_Width, drawingPanel);
             GVisual.HideControl(txt_Height, drawingPanel);
             GVisual.HideControl(txt_Left_Padding, drawingPanel);
@@ -3363,7 +3372,7 @@ namespace Balya_Yerleştirme
             GVisual.HideControl(Conveyor_Reference_FixedorManuel_Panel, drawingPanel);
             GVisual.HideControl(Conveyor_Reference_Fixed_Panel, drawingPanel);
         }
-        private void MoveLeft()
+        public void MoveLeft()
         {
             if (Ambar != null)
             {
@@ -3399,7 +3408,7 @@ namespace Balya_Yerleştirme
                 drawingPanel.Invalidate();
             }
         }
-        private void MoveRight()
+        public void MoveRight()
         {
             if (Ambar != null)
             {
@@ -3433,7 +3442,7 @@ namespace Balya_Yerleştirme
                 drawingPanel.Invalidate();
             }
         }
-        private void btn_openClose_LeftSide_Click(object sender, EventArgs e)
+        public void btn_openClose_LeftSide_Click(object sender, EventArgs e)
         {
             if (LeftSide_LayoutPanel.Visible)
             {
@@ -3444,7 +3453,7 @@ namespace Balya_Yerleştirme
                 MainPanelOpenLeftSide(LeftSide_LayoutPanel, this, leftSidePanelLocation);
             }
         }
-        private void btn_openClose_RightSide_Click(object sender, EventArgs e)
+        public void btn_openClose_RightSide_Click(object sender, EventArgs e)
         {
             if (RightSide_LayoutPanel.Visible)
             {
@@ -3455,7 +3464,7 @@ namespace Balya_Yerleştirme
                 MainPanelOpenRightSide(RightSide_LayoutPanel, this, rightSidePanelLocation);
             }
         }
-        private void DrawingPanelEnlarge(System.Windows.Forms.Control hideControl,
+        public void DrawingPanelEnlarge(System.Windows.Forms.Control hideControl,
             System.Windows.Forms.Control parentControl)
         {
             GVisual.HideControl(hideControl, parentControl);
@@ -3463,7 +3472,7 @@ namespace Balya_Yerleştirme
             drawingPanel.Location = drawingPanelLeftLocation;
             MoveRight();
         }
-        private void DrawingPanelShrink(System.Windows.Forms.Control showControl,
+        public void DrawingPanelShrink(System.Windows.Forms.Control showControl,
             System.Windows.Forms.Control parentControl, System.Drawing.Point childControlLocation)
         {
             GVisual.ShowControl(showControl, parentControl, childControlLocation);
@@ -3471,7 +3480,7 @@ namespace Balya_Yerleştirme
             drawingPanel.Location = drawingPanelMiddleLocation;
             MoveLeft();
         }
-        private void MainPanelOpenLeftSide(System.Windows.Forms.Control showControlLeft,
+        public void MainPanelOpenLeftSide(System.Windows.Forms.Control showControlLeft,
             System.Windows.Forms.Control parentControl, System.Drawing.Point childControlLocationLeft)
         {
             if (RightSide_LayoutPanel.Visible)
@@ -3493,7 +3502,7 @@ namespace Balya_Yerleştirme
                 btn_OpenClose_LeftSide.Image = Resources.Resource1.Chevron_Left;
             }
         }
-        private void MainPanelOpenRightSide(System.Windows.Forms.Control showControlRight,
+        public void MainPanelOpenRightSide(System.Windows.Forms.Control showControlRight,
             System.Windows.Forms.Control parentControl, System.Drawing.Point childControlLocationRight)
         {
             if (LeftSide_LayoutPanel.Visible)
@@ -3515,7 +3524,7 @@ namespace Balya_Yerleştirme
                 btn_openClose_RightSide.Image = Resources.Resource1.Chevron_Right;
             }
         }
-        private void MainPanelOpenBothSides(System.Windows.Forms.Control showControlLeft, System.Windows.Forms.Control showControlRight,
+        public void MainPanelOpenBothSides(System.Windows.Forms.Control showControlLeft, System.Windows.Forms.Control showControlRight,
             System.Windows.Forms.Control parentControl, System.Drawing.Point childControlLocationLeft, System.Drawing.Point childControlLocationRight)
         {
             GVisual.ShowControl(showControlLeft, parentControl, childControlLocationLeft);
@@ -3526,7 +3535,7 @@ namespace Balya_Yerleştirme
             btn_OpenClose_LeftSide.Image = Resources.Resource1.Chevron_Left;
             btn_openClose_RightSide.Image = Resources.Resource1.Chevron_Right;
         }
-        private void MainPanelCloseLeftSide(System.Windows.Forms.Control hideControlLeft,
+        public void MainPanelCloseLeftSide(System.Windows.Forms.Control hideControlLeft,
             System.Windows.Forms.Control parentControl)
         {
             if (RightSide_LayoutPanel.Visible)
@@ -3549,7 +3558,7 @@ namespace Balya_Yerleştirme
             }
 
         }
-        private void MainPanelCloseRightSide(System.Windows.Forms.Control hideControlRight,
+        public void MainPanelCloseRightSide(System.Windows.Forms.Control hideControlRight,
             System.Windows.Forms.Control parentControl)
         {
             if (LeftSide_LayoutPanel.Visible)
@@ -3572,7 +3581,7 @@ namespace Balya_Yerleştirme
             }
 
         }
-        private void MainPanelCloseBothSides(System.Windows.Forms.Control hideControlLeft, System.Windows.Forms.Control hideControlRight,
+        public void MainPanelCloseBothSides(System.Windows.Forms.Control hideControlLeft, System.Windows.Forms.Control hideControlRight,
             System.Windows.Forms.Control parentControl)
         {
             GVisual.HideControl(hideControlLeft, parentControl);
@@ -3583,11 +3592,11 @@ namespace Balya_Yerleştirme
             btn_openClose_RightSide.Image = Resources.Resource1.Chevron_Left;
             btn_OpenClose_LeftSide.Image = Resources.Resource1.Chevron_Right;
         }
-        private void ShowControl(System.Windows.Forms.Control parentControl, System.Windows.Forms.Control childControl)
+        public void ShowControl(System.Windows.Forms.Control parentControl, System.Windows.Forms.Control childControl)
         {
             GVisual.ShowControl(childControl, parentControl, new System.Drawing.Point(3, 0));
         }
-        private void HideControl(System.Windows.Forms.Control parentControl, System.Windows.Forms.Control childControl)
+        public void HideControl(System.Windows.Forms.Control parentControl, System.Windows.Forms.Control childControl)
         {
             GVisual.HideControl(childControl, parentControl);
             if (parentControl.Controls.Count == 0)
@@ -3595,9 +3604,17 @@ namespace Balya_Yerleştirme
                 MainPanelCloseRightSide(RightSide_LayoutPanel, this);
             }
         }
+        public void SortFlowLayoutPanel(System.Windows.Forms.Control ShowControl)
+        {
+            LeftSide_LayoutPanel.Controls.Clear();
 
-
-
+            GVisual.ShowControl(ShowControl, LeftSide_LayoutPanel, new System.Drawing.Point(3, 3));
+        }
+        public void Clear_AddControltoLeftSidePanel(System.Windows.Forms.Control ShowControl)
+        {
+            LeftSide_LayoutPanel.Controls.Clear();
+            GVisual.ShowControl(ShowControl, LeftSide_LayoutPanel, new System.Drawing.Point(3, 3));
+        }
 
 
         //Less Frequent Ui Operations
@@ -5041,7 +5058,35 @@ namespace Balya_Yerleştirme
             }
         }
 
-        
+
+        private void alanMenuAcBTN_Click(object sender, EventArgs e)
+        {
+            SortFlowLayoutPanel(layoutPanel_Ambar);
+            if (!LeftSide_LayoutPanel.Visible)
+            {
+                MainPanelOpenLeftSide(LeftSide_LayoutPanel, this, leftSidePanelLocation);
+            }
+        }
+
+        private void depoMenuAcBTN_Click(object sender, EventArgs e)
+        {
+            SortFlowLayoutPanel(LayoutPanel_SelectedDepo);
+            if (!LeftSide_LayoutPanel.Visible)
+            {
+                MainPanelOpenLeftSide(LeftSide_LayoutPanel, this, leftSidePanelLocation);
+            }
+        }
+
+        private void conveyorMenuAcBTN_Click(object sender, EventArgs e)
+        {
+            SortFlowLayoutPanel(layoutPanel_SelectedConveyor);
+            if (!LeftSide_LayoutPanel.Visible)
+            {
+                MainPanelOpenLeftSide(LeftSide_LayoutPanel, this, leftSidePanelLocation);
+            }
+        }
+
+
 
 
 

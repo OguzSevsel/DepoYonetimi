@@ -233,6 +233,7 @@ namespace Balya_Yerleştirme.Models
                             isDragging = true;
                             DragStartPoint = e.Location;
                             //holderRectangle = new RectangleF(Rectangle.X, Rectangle.Y, Rectangle.Width, Rectangle.Height);
+                            layout.SortFlowLayoutPanel(layout.layoutPanel_SelectedConveyor);
                             layout.drawingPanel.Invalidate();
                         }
                     }

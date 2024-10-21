@@ -473,6 +473,16 @@ namespace Balya_Yerleştirme.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Squared_Menu {
+            get {
+                object obj = ResourceManager.GetObject("Squared Menu", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Tag_Window {
             get {
                 object obj = ResourceManager.GetObject("Tag_Window", resourceCulture);
