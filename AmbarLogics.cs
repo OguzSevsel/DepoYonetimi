@@ -44,10 +44,7 @@ namespace Balya_Yerleştirme.Models
             if (Main != null)
             {
                 Main.ItemPlacementCancel += Ambar_ItemPlacementCancelEventHandler;
-                Main.ItemPlacementClose += Ambar_ItemPlacementCloseEventHandler;
-                Main.ItemPlacement += Ambar_ItemPlacementEventHandler;
                 Main.ItemPlacementToolStripButtonClicked += Ambar_ItemPlacementToolStripButtonClicked;
-                Main.ItemObtainToolStripButtonClicked += Ambar_ItemObtainToolStripButtonClicked;
                 Main.ItemPlacementContextMenuStripButtonClicked += Ambar_ItemPlacementContextMenuStripButtonClicked;
                 Main.ExportToExcel += Ambar_ExportToExcelButtonClicked;
                 Main.AddItemReferencePoint += Ambar_AddItemReferencePoint;

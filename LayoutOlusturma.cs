@@ -426,7 +426,6 @@ namespace Balya_Yerleştirme
                             else
                             {
                                 Ambar.depolar.Add(CopiedDepo);
-                                int num = 0;
                                 foreach (var depo in Ambar.depolar)
                                 {
                                     if (depo.DepoName.Contains('('))
@@ -669,7 +668,6 @@ namespace Balya_Yerleştirme
                         g.DrawString(CopyPaste, Font, brush1, new PointF(10, drawingPanel.ClientRectangle.Height - textSize.Height));
                     }
                 }
-                bool isfull = false;
                 RectangleF rect = new RectangleF();
                 if (MovingParameter)
                 {

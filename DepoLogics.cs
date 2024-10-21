@@ -84,11 +84,8 @@ namespace Balya_Yerleştirme.Models
 
             if (Main != null)
             {
-                Main.ItemPlacement += Depo_ItemPlacementEventHandler;
-                Main.ItemPlacementClose += Depo_ItemPlacementCloseEventHandler;
                 Main.ItemPlacementCancel += Depo_ItemPlacementCancelEventHandler;
                 Main.ItemPlacementToolStripButtonClicked += Depo_ItemPlacementToolStripButtonClicked;
-                Main.ItemObtainToolStripButtonClicked += Depo_ItemObtainToolStripButtonClicked;
                 Main.ItemPlacementContextMenuStripButtonClicked += Depo_ItemPlacementContextMenuStripButtonClicked;
                 Main.ExportToExcel += Depo_ExportToExcelButtonClicked;
                 Main.AddItemReferencePoint += Depo_AddItemReferencePoint;

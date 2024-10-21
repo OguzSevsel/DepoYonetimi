@@ -95,8 +95,6 @@ namespace Balya_Yerleştirme
         }
         private void drawingPanel_Paint(object sender, PaintEventArgs e)
         {
-            float locX = 0;
-            float locY = 0;
             Graphics g = e.Graphics;
             Pen.Color = Color.Red;
             g.DrawRectangle(Pen, Rectangle);

@@ -37,14 +37,7 @@ namespace Balya_Yerleştirme
         //Events
         public event EventHandler? ItemPlacementToolStripButtonClicked;
         public event EventHandler? ItemPlacementContextMenuStripButtonClicked;
-        public event EventHandler? ItemPlacement;
         public event EventHandler? ItemPlacementCancel;
-        public event EventHandler? ItemPlacementClose;
-        public event EventHandler? ItemObtainToolStripButtonClicked;
-        public event EventHandler? ItemObtainContextMenuStripButtonClicked;
-        public event EventHandler? ItemObtain;
-        public event EventHandler? ItemObtainCancel;
-        public event EventHandler? ItemObtainClose;
         public event EventHandler? ExportToExcel;
         public event EventHandler? AddItemReferencePoint;
         public event EventHandler? PLCBaglantisiniAyarlaButtonClicked;
@@ -1406,8 +1399,6 @@ namespace Balya_Yerleştirme
                 }
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    bool isadding = false;
-                    bool isbreaked = false;
                     if (RightClickCell != null)
                     {
                         if (RightClickCell.items.Count > 0)

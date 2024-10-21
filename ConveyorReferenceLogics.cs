@@ -55,11 +55,8 @@ namespace Balya_Yerleştirme.Models
 
             if (Main != null)
             {
-                Main.ItemPlacement += ConveyorRefs_ItemPlacementEventHandler;
-                Main.ItemPlacementClose += ConveyorRefs_ItemPlacementCloseEventHandler;
                 Main.ItemPlacementCancel += ConveyorRefs_ItemPlacementCancelEventHandler;
                 Main.ItemPlacementToolStripButtonClicked += ConveyorRefs_ItemPlacementToolStripButtonClicked;
-                Main.ItemObtainToolStripButtonClicked += ConveyorRefs_ItemObtainToolStripButtonClicked;
                 Main.ItemPlacementContextMenuStripButtonClicked += ConveyorRefs_ItemPlacementContextMenuStripButtonClicked;
                 Main.ExportToExcel += ConveyorRefs_ExportToExcelButtonClicked;
                 Main.AddItemReferencePoint += ConveyorRefs_AddItemReferencePoint;

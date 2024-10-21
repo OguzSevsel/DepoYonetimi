@@ -37,10 +37,7 @@ namespace Balya_Yerleştirme.Models
             ReferencePoints = new List<ItemReferencePoint>();
 
             Main.ItemPlacementCancel += Item_ItemPlacementCancelEventHandler;
-            Main.ItemPlacementClose += Item_ItemPlacementCloseEventHandler;
-            Main.ItemPlacement += Item_ItemPlacementEventHandler;
             Main.ItemPlacementToolStripButtonClicked += Item_ItemPlacementToolStripButtonClicked;
-            Main.ItemObtainToolStripButtonClicked += Item_ItemObtainToolStripButtonClicked;
             Main.ItemPlacementContextMenuStripButtonClicked += Item_ItemPlacementContextMenuStripButtonClicked;
             Main.ExportToExcel += Item_ExportToExcelButtonClicked;
             Main.AddItemReferencePoint += Item_AddItemReferencePoint;
@@ -108,7 +105,6 @@ namespace Balya_Yerleştirme.Models
 
         public void Draw(Graphics graphics, Pen pen)
         {
-            SizeF sizeofQmark = new SizeF();
             graphics.DrawRectangle(pen, Rectangle);
             //graphics.FillRectangle(new SolidBrush(Color.AliceBlue), Rectangle);
             System.Drawing.Font font = new System.Drawing.Font("Arial", 6 * Zoomlevel);

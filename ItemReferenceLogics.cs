@@ -33,11 +33,8 @@ namespace Balya_Yerleştirme.Models
             Zoomlevel = zoomlevel;
             Main = main;
 
-            Main.ItemPlacement += ItemRefs_ItemPlacementEventHandler;
-            Main.ItemPlacementClose += ItemRefs_ItemPlacementCloseEventHandler;
             Main.ItemPlacementCancel += ItemRefs_ItemPlacementCancelEventHandler;
             Main.ItemPlacementToolStripButtonClicked += ItemRefs_ItemPlacementToolStripButtonClicked;
-            Main.ItemObtainToolStripButtonClicked += ItemRefs_ItemObtainToolStripButtonClicked;
             Main.ItemPlacementContextMenuStripButtonClicked += ItemRefs_ItemPlacementContextMenuStripButtonClicked;
             Main.ExportToExcel += ItemRefs_ExportToExcelButtonClicked;
             Main.AddItemReferencePoint += ItemRefs_AddItemReferencePoint;

@@ -792,7 +792,6 @@ namespace Balya_Yerleştirme.Utilities
         {
             bool isStage1 = false;
             bool isStage2 = false;
-            bool isfull = false;
 
             foreach (var cell in depo.gridmaps)
             {

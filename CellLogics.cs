@@ -28,7 +28,7 @@ namespace Balya_Yerleştirme.Models
         [NotMapped]
         public Pen HoverPen = new Pen(Color.DarkGray);
         [NotMapped]
-        MainForm Main { get; set; }
+        MainForm ?Main { get; set; }
         [NotMapped]
         public bool Itemplacement { get; set; } = false;
         [NotMapped]
@@ -55,7 +55,7 @@ namespace Balya_Yerleştirme.Models
         public LayoutOlusturma ?Layout { get; set; }
        
 
-        public Cell(float x, float y, float width, float height, MainForm main, Depo parent, LayoutOlusturma ?layout)
+        public Cell(float x, float y, float width, float height, MainForm ?main, Depo parent, LayoutOlusturma ?layout)
         {
             Rectangle = new RectangleF(x, y, width, height);
             OriginalRectangle = new RectangleF(x, y, width, height);
@@ -77,16 +77,12 @@ namespace Balya_Yerleştirme.Models
                 toolitem = Main.Balya_Context_Menu_Strip.Items["referansNoktasıEkleToolStripMenuItem"];
                 toolitem1 = Main.Balya_Context_Menu_Strip.Items["balyalarınReferansNoktalarınıSilToolStripMenuItem"];
 
-                Main.ItemPlacement += Cell_ItemPlacementEventHandler;
-                Main.ItemPlacementClose += Cell_ItemPlacementCloseEventHandler;
                 Main.ItemPlacementCancel += Cell_ItemPlacementCancelEventHandler;
                 Main.ItemPlacementToolStripButtonClicked += Cell_ItemPlacementToolStripButtonClicked;
                 Main.ItemPlacementContextMenuStripButtonClicked += Cell_ItemPlacementContextMenuStripButtonClicked;
                 Main.ExportToExcel += Cell_ExportToExcelButtonClicked;
                 Main.AddItemReferencePoint += Cell_AddItemReferencePoint;
 
-                Main.ItemObtainToolStripButtonClicked += Cell_ItemObtainToolStripButtonClicked;
-                Main.ItemObtainContextMenuStripButtonClicked += Cell_ItemObtainContextMenuStripButtonClicked;
                 Main.PLCBaglantisiniAyarlaButtonClicked += Cell_PlcConnectionButton;
                 Main.PLCBaglantisiPaneliniKapat += Cell_MoveRight_Event;
                 Main.ToolStripNesneYerlestirClicked += Cell_MoveLeft_Event;
@@ -211,7 +207,6 @@ namespace Balya_Yerleştirme.Models
 
             foreach (var x in items)
             {
-                int value = 0;
                 pen = adjustItemRectangleColor(pen, x.ItemYuksekligi, CellYuksekligi);
 
                 x.Draw(graphics, pen);
