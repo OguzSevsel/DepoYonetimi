@@ -45,7 +45,7 @@ namespace Balya_Yerleştirme
             this.Main = main;
             DrawingPanel = drawingPanel;
             GVisual.HideControl(SelectLayoutPanel, this);
-            GVisual.ShowControl(progressBarPanel, this, PointProgressBar);
+            GVisual.LocationShowControl(progressBarPanel, this, PointProgressBar);
             GetLayoutsFromDB();
         }
 
@@ -793,7 +793,7 @@ namespace Balya_Yerleştirme
                     timer.Stop();
                     progressBar.Value = 0;
                     GVisual.HideControl(progressBarPanel, this);
-                    GVisual.ShowControl(SelectLayoutPanel, this, PointSelectLayoutPanel);
+                    GVisual.LocationShowControl(SelectLayoutPanel, this, PointSelectLayoutPanel);
                 }
             }
         }

@@ -128,6 +128,7 @@ namespace Balya_Yerleştirme
         public float dikey_kenar_boslugu = 0f;
         public float nesne_eni = 0f;
         public float nesne_boyu = 0f;
+        public bool leftPanel { get; set; } = false;
 
         public LayoutOlusturma(MainForm main)
         {
@@ -1154,36 +1155,53 @@ namespace Balya_Yerleştirme
 
             int snapping = 8;
 
+            //Distance Between Bottom Left of the Rectangle and Top Left of the Reference Rectangle
             double TopLeftCornerSnapDistance = GVisual.CalculateDistance(rectangleBotLeftCorner.X,
                 rectangleBotLeftCorner.Y, refRectangleTopLeftCorner.X,
                 refRectangleTopLeftCorner.Y);
+
+            //Distance Between Middle Right of the Rectangle and Middle Left of the Reference Rectangle
             double LeftSideSnapDistance = GVisual.CalculateDistance(rectangleRightMiddle.X,
                 rectangleRightMiddle.Y, refRectangleLeftMiddle.X, refRectangleLeftMiddle.Y);
+
+            //Distance Between Top Left of the Rectangle and Bottom Left of the Reference Rectangle
             double BotLeftCornerSnapDistance = GVisual.CalculateDistance(rectangleTopLeftCorner.X,
                 rectangleTopLeftCorner.Y, refRectangleBotLeftCorner.X,
                 refRectangleBotLeftCorner.Y);
 
-
+            //Distance Between Bottom Right of the Rectangle and Top Right of the Reference Rectangle
             double TopRightCornerSnapDistance = GVisual.CalculateDistance(rectangleBotRightCorner.X,
                 rectangleBotRightCorner.Y, refRectangleTopRightCorner.X, refRectangleTopRightCorner.Y);
+
+            //Distance Between Middle Left of the Rectangle and Middle Right of the Reference Rectangle
             double RightSideSnapDistance = GVisual.CalculateDistance(rectangleLeftMiddle.X,
                 rectangleLeftMiddle.Y, refRectangleRightMiddle.X, refRectangleRightMiddle.Y);
+
+            //Distance Between Top Right of the Rectangle and Bot Right of the Reference Rectangle
             double BotRightCornerSnapDistance = GVisual.CalculateDistance(rectangleTopRightCorner.X,
                 rectangleTopRightCorner.Y, refRectangleBotRightCorner.X, refRectangleBotRightCorner.Y);
 
-
+            //Distance Between Bottom Middle of the Rectangle and Top Middle of the Reference Rectangle
             double TopSideSnapDistance = GVisual.CalculateDistance(rectangleBotMiddle.X,
                 rectangleBotMiddle.Y, refRectangleTopMiddle.X, refRectangleTopMiddle.Y);
+
+            //Distance Between Top Middle of the Rectangle and Bottom Middle of the Reference Rectangle
             double BotSideSnapDistance = GVisual.CalculateDistance(rectangleTopMiddle.X,
                 rectangleTopMiddle.Y, refRectangleBotMiddle.X, refRectangleBotMiddle.Y);
 
+            //Distance Between Bottom Left of the Rectangle and Bottom Right of the Reference Rectangle
             double RightBotSnapDistance = GVisual.CalculateDistance(rectangleBotLeftCorner.X,
                 rectangleBotLeftCorner.Y, refRectangleBotRightCorner.X, refRectangleBotRightCorner.Y);
+
+            //Distance Between Top Left of the Rectangle and Top Right of the Reference Rectangle
             double RightTopSnapDistance = GVisual.CalculateDistance(rectangleTopLeftCorner.X,
                 rectangleTopLeftCorner.Y, refRectangleTopRightCorner.X, refRectangleTopRightCorner.Y);
 
+            //Distance Between Bottom Right of the Rectangle and Bottom Left of the Reference Rectangle
             double LeftBotSnapDistance = GVisual.CalculateDistance(rectangleBotRightCorner.X,
                 rectangleBotRightCorner.Y, refRectangleBotLeftCorner.X, refRectangleBotLeftCorner.Y);
+
+            //Distance Between Top Right of the Rectangle and Top Left of the Reference Rectangle
             double LeftTopSnapDistance = GVisual.CalculateDistance(rectangleTopRightCorner.X,
                 rectangleTopRightCorner.Y, refRectangleTopLeftCorner.X, refRectangleTopLeftCorner.Y);
 
@@ -1285,45 +1303,33 @@ namespace Balya_Yerleştirme
             }
             else
             {
-                if (LeftSideSnapDistance < RightSideSnapDistance &&
-                   LeftSideSnapDistance < TopSideSnapDistance &&
-                   LeftSideSnapDistance < BotSideSnapDistance)
-                {
-                    rectangle = GVisual.MoveRectangleToPoint(rectangle,
-                       refRectangle.X - rectangle.Width,
-                       rectangle.Y);
-                }
-                else if (RightSideSnapDistance < LeftSideSnapDistance &&
-                   RightSideSnapDistance < TopSideSnapDistance &&
-                   RightSideSnapDistance < BotSideSnapDistance)
-                {
-                    rectangle = GVisual.MoveRectangleToPoint(rectangle,
-                       refRectangle.X + refRectangle.Width,
-                       rectangle.Y);
-                }
-                else if (TopSideSnapDistance < LeftSideSnapDistance &&
-                   TopSideSnapDistance < RightSideSnapDistance &&
-                   TopSideSnapDistance < BotSideSnapDistance)
+                if (rectangle.Bottom <= refRectangle.Top + snapping)
                 {
                     rectangle = GVisual.MoveRectangleToPoint(rectangle,
                        rectangle.X,
                        refRectangle.Y - rectangle.Height);
+                    return rectangle;
                 }
-                else if (BotSideSnapDistance < LeftSideSnapDistance &&
-                   BotSideSnapDistance < RightSideSnapDistance &&
-                   BotSideSnapDistance < TopSideSnapDistance)
+                else if (rectangle.X <= refRectangle.X - rectangle.Width + snapping)
+                {
+                    rectangle = GVisual.MoveRectangleToPoint(rectangle,
+                      refRectangle.X - rectangle.Width,
+                      rectangle.Y);
+                    return rectangle;
+                }
+                else if (rectangle.Right >= refRectangle.Right + rectangle.Width - snapping)
+                {
+                    rectangle = GVisual.MoveRectangleToPoint(rectangle,
+                       refRectangle.X + refRectangle.Width,
+                       rectangle.Y);
+                    return rectangle;
+                }
+                else if (rectangle.Top >= refRectangle.Bottom - snapping)
                 {
                     rectangle = GVisual.MoveRectangleToPoint(rectangle,
                        rectangle.X,
                        refRectangle.Y + refRectangle.Height);
-                }
-                else if (LeftSideSnapDistance < RightSideSnapDistance &&
-                   LeftSideSnapDistance < TopSideSnapDistance &&
-                   LeftSideSnapDistance < BotSideSnapDistance)
-                {
-                    rectangle = GVisual.MoveRectangleToPoint(rectangle,
-                       refRectangle.X - rectangle.Width,
-                       rectangle.Y);
+                    return rectangle;
                 }
                 return rectangle;
             }
@@ -2880,7 +2886,7 @@ namespace Balya_Yerleştirme
                 else
                 {
                     HideEverything();
-                    GVisual.ShowControl(Alan_Olusturma_Paneli, this, leftSidePanelLocation);
+                    GVisual.LocationShowControl(Alan_Olusturma_Paneli, this, leftSidePanelLocation);
                     GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelMiddleSize);
                     GVisual.Move_RightSide_of_AnotherControl(drawingPanel, Alan_Olusturma_Paneli, 7);
                 }
@@ -3356,6 +3362,9 @@ namespace Balya_Yerleştirme
             GVisual.HideControl(Depo_Olusturma_Paneli, this);
             GVisual.HideControl(LeftSide_LayoutPanel, this);
             GVisual.HideControl(RightSide_LayoutPanel, this);
+
+
+
             GVisual.HideControl(txt_Width, drawingPanel);
             GVisual.HideControl(txt_Height, drawingPanel);
             GVisual.HideControl(txt_Left_Padding, drawingPanel);
@@ -3371,6 +3380,16 @@ namespace Balya_Yerleştirme
             GVisual.HideControl(Conveyor_Reference_Sayisi_Paneli, drawingPanel);
             GVisual.HideControl(Conveyor_Reference_FixedorManuel_Panel, drawingPanel);
             GVisual.HideControl(Conveyor_Reference_Fixed_Panel, drawingPanel);
+
+
+
+            GVisual.HideControl(panel_Depo_SubMenu, groupBox_SelectedDepo);
+            GVisual.HideControl(panel_Depo_SubMenu_Izgara_Haritasi, groupBox_SelectedDepo);
+
+
+
+            GVisual.HideControl(panel_Conveyor_Submenu, groupBox_SelectedConveyor);
+            GVisual.HideControl(panel_Conveyor_SubMenu_Referans, groupBox_SelectedConveyor);
         }
         public void MoveLeft()
         {
@@ -3475,7 +3494,7 @@ namespace Balya_Yerleştirme
         public void DrawingPanelShrink(System.Windows.Forms.Control showControl,
             System.Windows.Forms.Control parentControl, System.Drawing.Point childControlLocation)
         {
-            GVisual.ShowControl(showControl, parentControl, childControlLocation);
+            GVisual.LocationShowControl(showControl, parentControl, childControlLocation);
             GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelMiddleSize);
             drawingPanel.Location = drawingPanelMiddleLocation;
             MoveLeft();
@@ -3485,7 +3504,7 @@ namespace Balya_Yerleştirme
         {
             if (RightSide_LayoutPanel.Visible)
             {
-                GVisual.ShowControl(showControlLeft, parentControl, childControlLocationLeft);
+                GVisual.LocationShowControl(showControlLeft, parentControl, childControlLocationLeft);
                 GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelSmallSize);
                 drawingPanel.Location = drawingPanelMiddleLocation;
                 MoveLeft();
@@ -3494,7 +3513,7 @@ namespace Balya_Yerleştirme
             }
             else
             {
-                GVisual.ShowControl(showControlLeft, parentControl, childControlLocationLeft);
+                GVisual.LocationShowControl(showControlLeft, parentControl, childControlLocationLeft);
                 GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelMiddleSize);
                 drawingPanel.Location = drawingPanelMiddleLocation;
                 MoveLeft();
@@ -3507,7 +3526,7 @@ namespace Balya_Yerleştirme
         {
             if (LeftSide_LayoutPanel.Visible)
             {
-                GVisual.ShowControl(showControlRight, parentControl, childControlLocationRight);
+                GVisual.LocationShowControl(showControlRight, parentControl, childControlLocationRight);
                 GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelSmallSize);
                 drawingPanel.Location = drawingPanelMiddleLocation;
                 MoveLeft();
@@ -3516,7 +3535,7 @@ namespace Balya_Yerleştirme
             }
             else
             {
-                GVisual.ShowControl(showControlRight, parentControl, childControlLocationRight);
+                GVisual.LocationShowControl(showControlRight, parentControl, childControlLocationRight);
                 GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelMiddleSize);
                 drawingPanel.Location = drawingPanelLeftLocation;
                 MoveLeft();
@@ -3527,8 +3546,8 @@ namespace Balya_Yerleştirme
         public void MainPanelOpenBothSides(System.Windows.Forms.Control showControlLeft, System.Windows.Forms.Control showControlRight,
             System.Windows.Forms.Control parentControl, System.Drawing.Point childControlLocationLeft, System.Drawing.Point childControlLocationRight)
         {
-            GVisual.ShowControl(showControlLeft, parentControl, childControlLocationLeft);
-            GVisual.ShowControl(showControlRight, parentControl, childControlLocationRight);
+            GVisual.LocationShowControl(showControlLeft, parentControl, childControlLocationLeft);
+            GVisual.LocationShowControl(showControlRight, parentControl, childControlLocationRight);
             GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelSmallSize);
             drawingPanel.Location = drawingPanelMiddleLocation;
             GVisual.Control_TopRightCorner(btn_openClose_RightSide, drawingPanel, 3);
@@ -3594,7 +3613,7 @@ namespace Balya_Yerleştirme
         }
         public void ShowControl(System.Windows.Forms.Control parentControl, System.Windows.Forms.Control childControl)
         {
-            GVisual.ShowControl(childControl, parentControl, new System.Drawing.Point(3, 0));
+            GVisual.ShowControl(childControl, parentControl);
         }
         public void HideControl(System.Windows.Forms.Control parentControl, System.Windows.Forms.Control childControl)
         {
@@ -3608,13 +3627,22 @@ namespace Balya_Yerleştirme
         {
             LeftSide_LayoutPanel.Controls.Clear();
 
-            GVisual.ShowControl(ShowControl, LeftSide_LayoutPanel, new System.Drawing.Point(3, 3));
+            GVisual.ShowControl(ShowControl, LeftSide_LayoutPanel);
         }
         public void Clear_AddControltoLeftSidePanel(System.Windows.Forms.Control ShowControl)
         {
             LeftSide_LayoutPanel.Controls.Clear();
-            GVisual.ShowControl(ShowControl, LeftSide_LayoutPanel, new System.Drawing.Point(3, 3));
+            GVisual.ShowControl(ShowControl, LeftSide_LayoutPanel);
         }
+
+
+
+
+
+
+
+
+
 
 
         //Less Frequent Ui Operations
@@ -3622,7 +3650,7 @@ namespace Balya_Yerleştirme
         {
             if (Ambar != null)
             {
-                GVisual.ShowControl(btn_Yer_Onayla, PaddingPanel, new System.Drawing.Point(10, 10));
+                GVisual.LocationShowControl(btn_Yer_Onayla, PaddingPanel, new System.Drawing.Point(10, 10));
                 GVisual.Move_LeftSide_of_AnotherControl(btn_Yer_Onayla,
                     btn_Padding_Vazgeç, 10);
             }
@@ -3635,7 +3663,7 @@ namespace Balya_Yerleştirme
             System.Drawing.Point point = new System.Drawing.Point(selectedPoint.X - control.Width,
                 selectedPoint.Y - control.Height / 2);
 
-            GVisual.ShowControl(control, ParentControl, point);
+            GVisual.LocationShowControl(control, ParentControl, point);
 
             if (control.Top < ParentControl.ClientRectangle.Top)
             {
@@ -4447,12 +4475,12 @@ namespace Balya_Yerleştirme
             System.Drawing.Point txt_Left_Padding_Location, System.Drawing.Point txt_Right_Padding_Location,
             System.Drawing.Point txt_Top_Padding_Location, System.Drawing.Point txt_Bottom_Padding_Location)
         {
-            GVisual.ShowControl(txt_Width, PaddingPanel, txt_Width_Location);
-            GVisual.ShowControl(txt_Height, PaddingPanel, txt_Height_Location);
-            GVisual.ShowControl(txt_Left_Padding, PaddingPanel, txt_Left_Padding_Location);
-            GVisual.ShowControl(txt_Right_Padding, PaddingPanel, txt_Right_Padding_Location);
-            GVisual.ShowControl(txt_Top_Padding, PaddingPanel, txt_Top_Padding_Location);
-            GVisual.ShowControl(txt_Bottom_Padding, PaddingPanel, txt_Bottom_Padding_Location);
+            GVisual.LocationShowControl(txt_Width, PaddingPanel, txt_Width_Location);
+            GVisual.LocationShowControl(txt_Height, PaddingPanel, txt_Height_Location);
+            GVisual.LocationShowControl(txt_Left_Padding, PaddingPanel, txt_Left_Padding_Location);
+            GVisual.LocationShowControl(txt_Right_Padding, PaddingPanel, txt_Right_Padding_Location);
+            GVisual.LocationShowControl(txt_Top_Padding, PaddingPanel, txt_Top_Padding_Location);
+            GVisual.LocationShowControl(txt_Bottom_Padding, PaddingPanel, txt_Bottom_Padding_Location);
         }
         private void HideTextboxes()
         {
@@ -5068,14 +5096,6 @@ namespace Balya_Yerleştirme
             }
         }
 
-        private void depoMenuAcBTN_Click(object sender, EventArgs e)
-        {
-            SortFlowLayoutPanel(LayoutPanel_SelectedDepo);
-            if (!LeftSide_LayoutPanel.Visible)
-            {
-                MainPanelOpenLeftSide(LeftSide_LayoutPanel, this, leftSidePanelLocation);
-            }
-        }
 
         private void conveyorMenuAcBTN_Click(object sender, EventArgs e)
         {
@@ -5085,6 +5105,109 @@ namespace Balya_Yerleştirme
                 MainPanelOpenLeftSide(LeftSide_LayoutPanel, this, leftSidePanelLocation);
             }
         }
+
+
+        //Depo SubMenu Events
+        private void depoMenuAcBTN_Click(object sender, EventArgs e)
+        {
+            SortFlowLayoutPanel(LayoutPanel_SelectedDepo);
+            if (!LeftSide_LayoutPanel.Visible)
+            {
+                MainPanelOpenLeftSide(LeftSide_LayoutPanel, this, leftSidePanelLocation);
+            }
+        }
+        private void btn_Depo_SubMenu_Click(object sender, EventArgs e)
+        {
+            Show_DepoMenus("Depo SubMenu");
+        }
+        private void btn_Depo_SubMenu_Izgara_Haritasi_Click(object sender, EventArgs e)
+        {
+            Show_DepoMenus("Izgara Haritasi");
+        }
+        private void btn_Depo_Menu_Go_Back_Click(object sender, EventArgs e)
+        {
+            Show_DepoMenus("Depo");
+
+            if (panel_Depo_SubMenu_Izgara_Haritasi.Visible)
+            {
+                GVisual.HideControl(panel_Depo_SubMenu_Izgara_Haritasi, groupBox_SelectedDepo);
+            }
+            else if (panel_Depo_SubMenu.Visible)
+            {
+                GVisual.HideControl(panel_Depo_SubMenu, groupBox_SelectedDepo);
+            }
+        }
+        private void btn_Depo_SubMenu_Izgara_Haritasi_Olustur_Click(object sender, EventArgs e)
+        {
+            if (RightSide_LayoutPanel.Visible)
+            {
+                MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+            }
+            Clear_AddControltoLeftSidePanel(LeftPanel_Izgara_Olusturma);
+        }
+        private void btn_Depo_SubMenu_Izgara_Haritasi_Boyut_Degistir_Click(object sender, EventArgs e)
+        {
+            if (RightSide_LayoutPanel.Visible)
+            {
+                MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+            }
+            Clear_AddControltoLeftSidePanel(LeftPanel_Izgara_Olusturma);
+        }
+        private void btn_Depo_SubMenu_Izgara_Haritasini_Sil_Click(object sender, EventArgs e)
+        {
+            if (selectedDepo != null)
+            {
+                if (selectedDepo.gridmaps.Count > 0)
+                {
+                    selectedDepo.gridmaps.Clear();
+                    drawingPanel.Invalidate();
+                }
+                else
+                {
+                    CustomNotifyIcon notify = new CustomNotifyIcon();
+                    notify.showAlert("Izgara haritası yok", CustomNotifyIcon.enmType.Error);
+                }
+            }
+        }
+
+
+        public void Show_DepoMenus(string whichMenu)
+        {
+            GVisual.HideControl(panel_Depo_Menu, groupBox_SelectedDepo);
+
+            if (whichMenu == "Izgara Haritasi")
+            {
+                GVisual.ShowControl(panel_Depo_SubMenu_Izgara_Haritasi, groupBox_SelectedDepo);
+                GVisual.Control_Center(panel_Depo_SubMenu_Izgara_Haritasi, groupBox_SelectedDepo);
+            }
+            else if (whichMenu == "Depo SubMenu")
+            {
+                GVisual.ShowControl(panel_Depo_SubMenu, groupBox_SelectedDepo);
+                GVisual.Control_Center(panel_Depo_SubMenu, groupBox_SelectedDepo);
+            }
+            else if (whichMenu == "Depo")
+            {
+                GVisual.ShowControl(panel_Depo_Menu, groupBox_SelectedDepo);
+                GVisual.Control_Center(panel_Depo_Menu, groupBox_SelectedDepo);
+            }
+        }
+
+        
+
+
+
+        private void btn_Depo_SubMenu_Yerini_Boyutunu_Degistir_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_Depo_SubMenu_Sil_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+
 
 
 

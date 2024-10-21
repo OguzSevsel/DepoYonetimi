@@ -103,6 +103,16 @@ namespace Balya_Yerleştirme.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Centre_Point {
+            get {
+                object obj = ResourceManager.GetObject("Centre Point", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Checked_Checkbox {
             get {
                 object obj = ResourceManager.GetObject("Checked_Checkbox", resourceCulture);
@@ -273,6 +283,16 @@ namespace Balya_Yerleştirme.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Go_Back {
+            get {
+                object obj = ResourceManager.GetObject("Go Back", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Grid {
             get {
                 object obj = ResourceManager.GetObject("Grid", resourceCulture);
@@ -326,6 +346,16 @@ namespace Balya_Yerleştirme.Resources {
         internal static System.Drawing.Bitmap Location {
             get {
                 object obj = ResourceManager.GetObject("Location", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Location_Update {
+            get {
+                object obj = ResourceManager.GetObject("Location Update", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -406,6 +436,26 @@ namespace Balya_Yerleştirme.Resources {
         internal static System.Drawing.Bitmap Next_page {
             get {
                 object obj = ResourceManager.GetObject("Next_page", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Page_Size {
+            get {
+                object obj = ResourceManager.GetObject("Page Size", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Pain_Point {
+            get {
+                object obj = ResourceManager.GetObject("Pain Point", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
