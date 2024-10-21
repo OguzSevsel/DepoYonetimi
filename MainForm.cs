@@ -1264,13 +1264,13 @@ namespace Balya_Yerleştirme
         {
             if (!CheckPanelVisible(Nesne_Al_First_Panel))
             {
-                GVisual.LocationShowControl(Nesne_Al_First_Panel, this, leftSidePanelLocation);
+                GVisual.ShowControl(Nesne_Al_First_Panel, this, leftSidePanelLocation);
                 MainPanelMakeSmaller(DrawingPanel);
             }
             else
             {
                 HideEverything();
-                GVisual.LocationShowControl(Nesne_Al_First_Panel, this, leftSidePanelLocation);
+                GVisual.ShowControl(Nesne_Al_First_Panel, this, leftSidePanelLocation);
                 MainPanelMakeSmaller(DrawingPanel);
             }
             DrawingPanel.Invalidate();
@@ -2655,7 +2655,7 @@ namespace Balya_Yerleştirme
             toolStripButtonShowCellTag.Enabled = false;
             btn_Layout_Olustur.Enabled = false;
 
-            GVisual.LocationShowControl(ProgressBarPanel, this, ProgressBarPointLayoutOlustur);
+            GVisual.ShowControl(ProgressBarPanel, this, ProgressBarPointLayoutOlustur);
 
             var progress = new Progress<int>(value =>
             {
@@ -2825,7 +2825,7 @@ namespace Balya_Yerleştirme
                         toolStripButtonShowCellTag.Enabled = false;
                         btn_Layout_Olustur.Enabled = false;
 
-                        GVisual.LocationShowControl(ProgressBarPanel, this, ProgressBarPointLayoutOlustur);
+                        GVisual.ShowControl(ProgressBarPanel, this, ProgressBarPointLayoutOlustur);
 
                         var progress1 = new Progress<int>(value =>
                         {
@@ -2882,7 +2882,7 @@ namespace Balya_Yerleştirme
             toolStripButtonShowCellTag.Enabled = false;
             btn_Layout_Olustur.Enabled = false;
 
-            GVisual.LocationShowControl(ProgressBarPanel, this, ProgressBarPoint);
+            GVisual.ShowControl(ProgressBarPanel, this, ProgressBarPoint);
 
             var progress = new Progress<int>(value =>
             {
@@ -3304,9 +3304,9 @@ namespace Balya_Yerleştirme
             }
             else
             {
-                GVisual.LocationShowControl(txt_PLC_IP_Address, PLC_Connection_Panel, txt_PLC_IP_Address.Location);
-                GVisual.LocationShowControl(lbl_PLC_IP_Address, PLC_Connection_Panel, lbl_PLC_IP_Address.Location);
-                GVisual.LocationShowControl(btn_Connect_to_PLC, PLC_Connection_Panel, btn_Connect_to_PLC.Location);
+                GVisual.ShowControl(txt_PLC_IP_Address, PLC_Connection_Panel, txt_PLC_IP_Address.Location);
+                GVisual.ShowControl(lbl_PLC_IP_Address, PLC_Connection_Panel, lbl_PLC_IP_Address.Location);
+                GVisual.ShowControl(btn_Connect_to_PLC, PLC_Connection_Panel, btn_Connect_to_PLC.Location);
                 GVisual.ChangeSize_of_Control(PLC_Connection_Panel, new Size(312, 73));
                 GVisual.Move_RightSide_of_AnotherControl(PLC_Connection_Panel, ToolStrip, 3);
                 GVisual.Control_CenterRightEdge(btn_PLC_ConnectionPanel_Kapat, PLC_Connection_Panel, 3);
@@ -3326,7 +3326,7 @@ namespace Balya_Yerleştirme
             }
             MainPanelMakeSmaller(DrawingPanel);
             Point LeftPanelLocation = GVisual.Point_Control_to_LeftSide_ofControl(PLC_DB_AdressPanel, DrawingPanel, 3);
-            GVisual.LocationShowControl(PLC_DB_AdressPanel, this, LeftPanelLocation);
+            GVisual.ShowControl(PLC_DB_AdressPanel, this, LeftPanelLocation);
             DrawingPanel.Invalidate();
         }
         private void btn_PLC_DB_AddressPanel_Kapat_Click(object sender, EventArgs e)
@@ -3376,19 +3376,19 @@ namespace Balya_Yerleştirme
                 {
                     if (!PLC_Sim_Panel.Visible && !Nesne_Yerlestirme_First_Panel.Visible && !Nesne_Al_First_Panel.Visible)
                     {
-                        GVisual.LocationShowControl(PLC_Sim_Panel, this, rightSidePanelLocation);
+                        GVisual.ShowControl(PLC_Sim_Panel, this, rightSidePanelLocation);
                         MainPanelMakeSmaller1(DrawingPanel);
                     }
                     else if (!PLC_Sim_Panel.Visible && Nesne_Yerlestirme_First_Panel.Visible && !Nesne_Al_First_Panel.Visible)
                     {
                         GVisual.HideControl(Nesne_Yerlestirme_First_Panel, this);
-                        GVisual.LocationShowControl(PLC_Sim_Panel, this, rightSidePanelLocation);
+                        GVisual.ShowControl(PLC_Sim_Panel, this, rightSidePanelLocation);
                         MainPanelMakeSmaller1(DrawingPanel);
                     }
                     else if (!PLC_Sim_Panel.Visible && !Nesne_Yerlestirme_First_Panel.Visible && Nesne_Al_First_Panel.Visible)
                     {
                         GVisual.HideControl(Nesne_Al_First_Panel, this);
-                        GVisual.LocationShowControl(PLC_Sim_Panel, this, rightSidePanelLocation);
+                        GVisual.ShowControl(PLC_Sim_Panel, this, rightSidePanelLocation);
                         MainPanelMakeSmaller1(DrawingPanel);
                     }
                     if (MoveRightEvent != null)
@@ -3427,7 +3427,7 @@ namespace Balya_Yerleştirme
             {
                 if (!CheckPanelVisible(PLC_Sim_Panel))
                 {
-                    GVisual.LocationShowControl(PLC_Sim_Panel, this, rightSidePanelLocation);
+                    GVisual.ShowControl(PLC_Sim_Panel, this, rightSidePanelLocation);
                     MainPanelMakeSmaller1(DrawingPanel);
                     if (MoveLeftEvent != null)
                     {
@@ -3436,7 +3436,7 @@ namespace Balya_Yerleştirme
                 }
                 else
                 {
-                    GVisual.LocationShowControl(PLC_Sim_Panel, this, rightSidePanelLocation);
+                    GVisual.ShowControl(PLC_Sim_Panel, this, rightSidePanelLocation);
                     MainPanelMakeSmallest(DrawingPanel);
                     if (MoveLeftEvent != null)
                     {
@@ -3622,7 +3622,7 @@ namespace Balya_Yerleştirme
                 Show_BalyaYerlestirmePaneli();
             }
             Point point = GVisual.Point_Control_to_BottomSide_ofControl(PLC_Sim_YerSoyle_Panel, btn_PLC_Sim_Nesne_Bul, 10);
-            GVisual.LocationShowControl(PLC_Sim_YerSoyle_Panel, PLC_Sim_Panel, point);
+            GVisual.ShowControl(PLC_Sim_YerSoyle_Panel, PLC_Sim_Panel, point);
             btn_PLC_Sim_Nesne_Yerlestirildi.Text = "Nesne\nYerleştirildi";
             btn_PLC_Sim_Nesne_Yerlestirilemedi.Text = "Nesne\nYerleştirilemedi";
             lbl_YerSoyle.Text = "Yer Söyle...";
@@ -3682,7 +3682,7 @@ namespace Balya_Yerleştirme
                 if (PLCCounter > 20)
                 {
                     Point point = GVisual.Point_Control_to_BottomSide_ofControl(PLC_Sim_Nesne_Buttons_Panel, PLC_Sim_Yerlestiriliyor_Panel, 25);
-                    GVisual.LocationShowControl(PLC_Sim_Nesne_Buttons_Panel, PLC_Sim_Panel, point);
+                    GVisual.ShowControl(PLC_Sim_Nesne_Buttons_Panel, PLC_Sim_Panel, point);
                     //PLC_Sim_Nesne_Buttons_Panel.Controls.Add(btn_PLC_Sim_Nesne_Yerlestirildi);
                     //PLC_Sim_Nesne_Buttons_Panel.Controls.Add(btn_PLC_Sim_Nesne_Yerlestirilemedi);
                     //btn_PLC_Sim_Nesne_Yerlestirildi.Show();
@@ -3789,7 +3789,7 @@ namespace Balya_Yerleştirme
                             yerBul = true;
                             PlaceItem(newDepo);
                             Point location = new Point(7, 505);
-                            GVisual.LocationShowControl(Nesne_Yerlestirme_Second_Panel, Nesne_Yerlestirme_First_Panel, location);
+                            GVisual.ShowControl(Nesne_Yerlestirme_Second_Panel, Nesne_Yerlestirme_First_Panel, location);
                             DrawingPanel.Invalidate();
                         }
                         else
@@ -3805,7 +3805,7 @@ namespace Balya_Yerleştirme
         private void btn_Nesne_Yerlestir_Click(object sender, EventArgs e)
         {
             Point point = GVisual.Point_Control_to_BottomSide_ofControl(PLC_Sim_Yerlestiriliyor_Panel, PLC_Sim_YerSoyle_Panel, 10);
-            GVisual.LocationShowControl(PLC_Sim_Yerlestiriliyor_Panel, PLC_Sim_Panel, point);
+            GVisual.ShowControl(PLC_Sim_Yerlestiriliyor_Panel, PLC_Sim_Panel, point);
             lbl_YerSoyle.StateCommon.TextColor = System.Drawing.Color.MidnightBlue;
             ShowNesneButtons = true;
         }
@@ -3817,7 +3817,7 @@ namespace Balya_Yerleştirme
         {
             if (!CheckPanelVisible(PLC_Sim_Panel))
             {
-                GVisual.LocationShowControl(Nesne_Al_First_Panel, this, leftSidePanelLocation);
+                GVisual.ShowControl(Nesne_Al_First_Panel, this, leftSidePanelLocation);
                 MainPanelMakeSmallest(DrawingPanel);
                 GVisual.HideControl(Nesne_Al_Second_Panel, Nesne_Al_First_Panel);
                 if (MoveLeftEvent != null)
@@ -3831,7 +3831,7 @@ namespace Balya_Yerleştirme
                 Show_BalyaYerlestirmePaneli();
             }
             Point point = GVisual.Point_Control_to_BottomSide_ofControl(PLC_Sim_YerSoyle_Panel, btn_PLC_Sim_Nesne_Bul, 5);
-            GVisual.LocationShowControl(PLC_Sim_YerSoyle_Panel, PLC_Sim_Panel, point);
+            GVisual.ShowControl(PLC_Sim_YerSoyle_Panel, PLC_Sim_Panel, point);
             lbl_YerSoyle.Text = "Nesne Aranıyor...";
             lbl_YerSoyle.StateCommon.TextColor = System.Drawing.Color.Red;
             lbl_Yerlestiriliyor.StateCommon.TextColor = System.Drawing.Color.Red;
@@ -3869,11 +3869,11 @@ namespace Balya_Yerleştirme
                                         lbl_Nesne_Al_Nesne_Z_Value.Text = $"{item.Cm_Z_Axis} cm";
                                         nesneTimer.Start();
                                         Point point = GVisual.Point_Control_to_BottomSide_ofControl(Nesne_Al_Second_Panel, BorderEdge_NesneAl, 5);
-                                        GVisual.LocationShowControl(Nesne_Al_Second_Panel, Nesne_Al_First_Panel, point);
+                                        GVisual.ShowControl(Nesne_Al_Second_Panel, Nesne_Al_First_Panel, point);
                                         if (!PLC_Sim_YerSoyle_Panel.Visible)
                                         {
                                             Point point1 = GVisual.Point_Control_to_BottomSide_ofControl(PLC_Sim_YerSoyle_Panel, btn_PLC_Sim_Nesne_Bul, 5);
-                                            GVisual.LocationShowControl(PLC_Sim_YerSoyle_Panel, PLC_Sim_Panel, point1);
+                                            GVisual.ShowControl(PLC_Sim_YerSoyle_Panel, PLC_Sim_Panel, point1);
                                             PLC_Timer.Start();
                                         }
                                         break;
@@ -3931,7 +3931,7 @@ namespace Balya_Yerleştirme
         private void btn_Nesne_Kaldır_Click(object sender, EventArgs e)
         {
             Point point = GVisual.Point_Control_to_BottomSide_ofControl(PLC_Sim_Yerlestiriliyor_Panel, PLC_Sim_YerSoyle_Panel, 5);
-            GVisual.LocationShowControl(PLC_Sim_Yerlestiriliyor_Panel, PLC_Sim_Panel, point);
+            GVisual.ShowControl(PLC_Sim_Yerlestiriliyor_Panel, PLC_Sim_Panel, point);
             btn_PLC_Sim_Nesne_Yerlestirildi.Text = "Nesne\nGötürüldü";
             btn_PLC_Sim_Nesne_Yerlestirilemedi.Text = "Nesne\nGötürülemedi";
             lbl_Yerlestiriliyor.Text = "Nesne Götürülüyor...";

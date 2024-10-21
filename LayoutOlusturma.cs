@@ -2884,7 +2884,7 @@ namespace Balya_Yerleştirme
                 else
                 {
                     HideEverything();
-                    GVisual.LocationShowControl(Alan_Olusturma_Paneli, this, leftSidePanelLocation);
+                    GVisual.ShowControl(Alan_Olusturma_Paneli, this, leftSidePanelLocation);
                     GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelMiddleSize);
                     GVisual.Move_RightSide_of_AnotherControl(drawingPanel, Alan_Olusturma_Paneli, 7);
                 }
@@ -3492,7 +3492,7 @@ namespace Balya_Yerleştirme
         public void DrawingPanelShrink(System.Windows.Forms.Control showControl,
             System.Windows.Forms.Control parentControl, System.Drawing.Point childControlLocation)
         {
-            GVisual.LocationShowControl(showControl, parentControl, childControlLocation);
+            GVisual.ShowControl(showControl, parentControl, childControlLocation);
             GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelMiddleSize);
             drawingPanel.Location = drawingPanelMiddleLocation;
             MoveLeft();
@@ -3502,7 +3502,7 @@ namespace Balya_Yerleştirme
         {
             if (RightSide_LayoutPanel.Visible)
             {
-                GVisual.LocationShowControl(showControlLeft, parentControl, childControlLocationLeft);
+                GVisual.ShowControl(showControlLeft, parentControl, childControlLocationLeft);
                 GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelSmallSize);
                 drawingPanel.Location = drawingPanelMiddleLocation;
                 MoveLeft();
@@ -3511,7 +3511,7 @@ namespace Balya_Yerleştirme
             }
             else
             {
-                GVisual.LocationShowControl(showControlLeft, parentControl, childControlLocationLeft);
+                GVisual.ShowControl(showControlLeft, parentControl, childControlLocationLeft);
                 GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelMiddleSize);
                 drawingPanel.Location = drawingPanelMiddleLocation;
                 MoveLeft();
@@ -3524,7 +3524,7 @@ namespace Balya_Yerleştirme
         {
             if (LeftSide_LayoutPanel.Visible)
             {
-                GVisual.LocationShowControl(showControlRight, parentControl, childControlLocationRight);
+                GVisual.ShowControl(showControlRight, parentControl, childControlLocationRight);
                 GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelSmallSize);
                 drawingPanel.Location = drawingPanelMiddleLocation;
                 MoveLeft();
@@ -3533,7 +3533,7 @@ namespace Balya_Yerleştirme
             }
             else
             {
-                GVisual.LocationShowControl(showControlRight, parentControl, childControlLocationRight);
+                GVisual.ShowControl(showControlRight, parentControl, childControlLocationRight);
                 GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelMiddleSize);
                 drawingPanel.Location = drawingPanelLeftLocation;
                 MoveLeft();
@@ -3544,8 +3544,8 @@ namespace Balya_Yerleştirme
         public void MainPanelOpenBothSides(System.Windows.Forms.Control showControlLeft, System.Windows.Forms.Control showControlRight,
             System.Windows.Forms.Control parentControl, System.Drawing.Point childControlLocationLeft, System.Drawing.Point childControlLocationRight)
         {
-            GVisual.LocationShowControl(showControlLeft, parentControl, childControlLocationLeft);
-            GVisual.LocationShowControl(showControlRight, parentControl, childControlLocationRight);
+            GVisual.ShowControl(showControlLeft, parentControl, childControlLocationLeft);
+            GVisual.ShowControl(showControlRight, parentControl, childControlLocationRight);
             GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelSmallSize);
             drawingPanel.Location = drawingPanelMiddleLocation;
             GVisual.Control_TopRightCorner(btn_openClose_RightSide, drawingPanel, 3);
@@ -3648,7 +3648,7 @@ namespace Balya_Yerleştirme
         {
             if (Ambar != null)
             {
-                GVisual.LocationShowControl(btn_Yer_Onayla, PaddingPanel, new System.Drawing.Point(10, 10));
+                GVisual.ShowControl(btn_Yer_Onayla, PaddingPanel, new System.Drawing.Point(10, 10));
                 GVisual.Move_LeftSide_of_AnotherControl(btn_Yer_Onayla,
                     btn_Padding_Vazgeç, 10);
             }
@@ -3661,7 +3661,7 @@ namespace Balya_Yerleştirme
             System.Drawing.Point point = new System.Drawing.Point(selectedPoint.X - control.Width,
                 selectedPoint.Y - control.Height / 2);
 
-            GVisual.LocationShowControl(control, ParentControl, point);
+            GVisual.ShowControl(control, ParentControl, point);
 
             if (control.Top < ParentControl.ClientRectangle.Top)
             {
@@ -4473,12 +4473,12 @@ namespace Balya_Yerleştirme
             System.Drawing.Point txt_Left_Padding_Location, System.Drawing.Point txt_Right_Padding_Location,
             System.Drawing.Point txt_Top_Padding_Location, System.Drawing.Point txt_Bottom_Padding_Location)
         {
-            GVisual.LocationShowControl(txt_Width, PaddingPanel, txt_Width_Location);
-            GVisual.LocationShowControl(txt_Height, PaddingPanel, txt_Height_Location);
-            GVisual.LocationShowControl(txt_Left_Padding, PaddingPanel, txt_Left_Padding_Location);
-            GVisual.LocationShowControl(txt_Right_Padding, PaddingPanel, txt_Right_Padding_Location);
-            GVisual.LocationShowControl(txt_Top_Padding, PaddingPanel, txt_Top_Padding_Location);
-            GVisual.LocationShowControl(txt_Bottom_Padding, PaddingPanel, txt_Bottom_Padding_Location);
+            GVisual.ShowControl(txt_Width, PaddingPanel, txt_Width_Location);
+            GVisual.ShowControl(txt_Height, PaddingPanel, txt_Height_Location);
+            GVisual.ShowControl(txt_Left_Padding, PaddingPanel, txt_Left_Padding_Location);
+            GVisual.ShowControl(txt_Right_Padding, PaddingPanel, txt_Right_Padding_Location);
+            GVisual.ShowControl(txt_Top_Padding, PaddingPanel, txt_Top_Padding_Location);
+            GVisual.ShowControl(txt_Bottom_Padding, PaddingPanel, txt_Bottom_Padding_Location);
         }
         private void HideTextboxes()
         {
