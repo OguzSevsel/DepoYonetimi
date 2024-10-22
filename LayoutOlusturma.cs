@@ -43,7 +43,6 @@ namespace Balya_Yerleştirme
         public float UnchangedDepoAlaniBoyu { get; set; }
         public float UnchangedConveyorEni { get; set; }
         public float UnchangedConveyorBoyu { get; set; }
-        public float UnchangedConveyorBoyu1 { get; set; }
 
 
         List<RectangleF> rectangles = new List<RectangleF>();
