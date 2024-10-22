@@ -208,7 +208,7 @@
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>77</value>
   </metadata>
-  <data name="kryptonButton1.StateCommon.Back.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Back.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABGdBTUEAALGPC/xhBQAAA4JJREFUaEPt
         Wkto1FAU7cofCoKfhSuXoq7zUkdhIC9TZ9FShBE3Qt1Zqgi6KdSFRRcVobgqggtd1nUVXBZE0IUgiOBG

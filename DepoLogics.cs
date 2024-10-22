@@ -282,7 +282,7 @@ namespace Balya_Yerleştirme.Models
                 {
                     if (Rectangle.Contains(scaledPoint))
                     {
-                        if (!layout.MovingParameter && !layout.Fill_WareHouse)
+                        if (!layout.MovingParameter && !layout.Fill_WareHouse && !layout.Manuel_Move)
                         {
                             layout.selectedDepo = this;
                             layout.isMoving = true;
@@ -291,8 +291,8 @@ namespace Balya_Yerleştirme.Models
                             layout.SelectedDepoPen.Color = System.Drawing.Color.Blue;
                             isDragging = true;
                             DragStartPoint = e.Location;
+                            layout.SortFlowLayoutPanel(layout.LayoutPanel_SelectedDepo);
                         }
-                        layout.SortFlowLayoutPanel(layout.LayoutPanel_SelectedDepo);
                     }
                 }
                 layout.drawingPanel.Invalidate();

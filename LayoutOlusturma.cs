@@ -128,7 +128,7 @@ namespace Balya_Yerleştirme
         public float dikey_kenar_boslugu = 0f;
         public float nesne_eni = 0f;
         public float nesne_boyu = 0f;
-        public bool leftPanel { get; set; } = false;
+        public bool menuProcess { get; set; } = false;
 
         public LayoutOlusturma(MainForm main)
         {
@@ -3787,15 +3787,33 @@ namespace Balya_Yerleştirme
             {
                 if (radio_Start_From_Middle.Checked)
                 {
-                    GVisual.HideControl(Placement_StartLocation_Panel, drawingPanel);
-                    CenterControltoLeftSideofRectangleVertically(selectedDepo.Rectangle,
-                        Placement_UpDown_Panel, drawingPanel);
+                    if (menuProcess)
+                    {
+                        GVisual.HideControl(Placement_StartLocation_Panel, groupBox_SelectedDepo);
+                        GVisual.ShowControl(Placement_UpDown_Panel, groupBox_SelectedDepo);
+                        GVisual.Control_Center(Placement_UpDown_Panel, groupBox_SelectedDepo);
+                    }
+                    else
+                    {
+                        GVisual.HideControl(Placement_StartLocation_Panel, drawingPanel);
+                        CenterControltoLeftSideofRectangleVertically(selectedDepo.Rectangle,
+                            Placement_UpDown_Panel, drawingPanel);
+                    }
                 }
                 else if (radio_Start_From_Top.Checked)
                 {
-                    GVisual.HideControl(Placement_StartLocation_Panel, drawingPanel);
-                    CenterControltoLeftSideofRectangleVertically(selectedDepo.Rectangle,
-                        Placement_LeftRight_Panel, drawingPanel);
+                    if (menuProcess)
+                    {
+                        GVisual.HideControl(Placement_StartLocation_Panel, groupBox_SelectedDepo);
+                        GVisual.ShowControl(Placement_LeftRight_Panel, groupBox_SelectedDepo);
+                        GVisual.Control_Center(Placement_LeftRight_Panel, groupBox_SelectedDepo);
+                    }
+                    else
+                    {
+                        GVisual.HideControl(Placement_StartLocation_Panel, drawingPanel);
+                        CenterControltoLeftSideofRectangleVertically(selectedDepo.Rectangle,
+                            Placement_LeftRight_Panel, drawingPanel);
+                    }
 
                     currentRow = 0;
                     rectangles.Clear();
@@ -3805,9 +3823,18 @@ namespace Balya_Yerleştirme
                 }
                 else if (radio_Start_From_Bottom.Checked)
                 {
-                    GVisual.HideControl(Placement_StartLocation_Panel, drawingPanel);
-                    CenterControltoLeftSideofRectangleVertically(selectedDepo.Rectangle,
-                        Placement_LeftRight_Panel, drawingPanel);
+                    if (menuProcess)
+                    {
+                        GVisual.HideControl(Placement_StartLocation_Panel, groupBox_SelectedDepo);
+                        GVisual.ShowControl(Placement_LeftRight_Panel, groupBox_SelectedDepo);
+                        GVisual.Control_Center(Placement_LeftRight_Panel, groupBox_SelectedDepo);
+                    }
+                    else
+                    {
+                        GVisual.HideControl(Placement_StartLocation_Panel, drawingPanel);
+                        CenterControltoLeftSideofRectangleVertically(selectedDepo.Rectangle,
+                            Placement_LeftRight_Panel, drawingPanel);
+                    }
 
                     currentRow = rowCount;
                     rectangles.Clear();
@@ -3828,9 +3855,18 @@ namespace Balya_Yerleştirme
             {
                 if (radio_To_Up.Checked || radio_To_Down.Checked)
                 {
-                    GVisual.HideControl(Placement_UpDown_Panel, drawingPanel);
-                    CenterControltoLeftSideofRectangleVertically(selectedDepo.Rectangle,
-                        Placement_LeftRight_Panel, drawingPanel);
+                    if (menuProcess)
+                    {
+                        GVisual.HideControl(Placement_UpDown_Panel, groupBox_SelectedDepo);
+                        GVisual.ShowControl(Placement_LeftRight_Panel, groupBox_SelectedDepo);
+                        GVisual.Control_Center(Placement_LeftRight_Panel, groupBox_SelectedDepo);
+                    }
+                    else
+                    {
+                        GVisual.HideControl(Placement_UpDown_Panel, drawingPanel);
+                        CenterControltoLeftSideofRectangleVertically(selectedDepo.Rectangle,
+                            Placement_LeftRight_Panel, drawingPanel);
+                    }
                 }
                 else
                 {
@@ -3908,7 +3944,18 @@ namespace Balya_Yerleştirme
                     MovingParameter = false;
                     Parameter = string.Empty;
                     rectangles.Clear();
-                    GVisual.HideControl(Placement_LeftRight_Panel, drawingPanel);
+
+                    if (menuProcess)
+                    {
+                        GVisual.HideControl(Placement_LeftRight_Panel, groupBox_SelectedDepo);
+                        GVisual.ShowControl(panel_Depo_Menu, groupBox_SelectedDepo);
+                        GVisual.Control_Center(panel_Depo_Menu, groupBox_SelectedDepo);
+                    }
+                    else
+                    {
+                        GVisual.HideControl(Placement_LeftRight_Panel, drawingPanel);
+                    }
+
                     CustomNotifyIcon notify = new CustomNotifyIcon();
                     notify.showAlert("Yerleştirilme Parametreleri Kaydedildi.", CustomNotifyIcon.enmType.Success);
                     drawingPanel.Invalidate();
@@ -3927,7 +3974,17 @@ namespace Balya_Yerleştirme
         private void btn_Placement_LeftRight_Cancel_Click(object sender, EventArgs e)
         {
             TransparentPen.Color = System.Drawing.Color.FromArgb(255, System.Drawing.Color.Black);
-            GVisual.HideControl(Placement_LeftRight_Panel, drawingPanel);
+            if (menuProcess)
+            {
+                GVisual.HideControl(Placement_LeftRight_Panel, groupBox_SelectedDepo);
+                GVisual.ShowControl(panel_Depo_Menu, groupBox_SelectedDepo);
+                GVisual.Control_Center(panel_Depo_Menu, groupBox_SelectedDepo);
+                menuProcess = false;
+            }
+            else
+            {
+                GVisual.HideControl(Placement_LeftRight_Panel, drawingPanel);
+            }
             Parameter = string.Empty;
             MovingParameter = false;
             upDown_1Asama_NesneSayisi.Value = 0;
@@ -3959,9 +4016,18 @@ namespace Balya_Yerleştirme
                     }
 
                     GVisual.HideControl(Asama1_Yukseklik_Panel, drawingPanel);
-                    CenterControltoLeftSideofRectangleVertically(selectedDepo.Rectangle,
-                            Asama2_Yukseklik_Panel, drawingPanel);
 
+                    if (menuProcess)
+                    {
+                        GVisual.HideControl(Asama1_Yukseklik_Panel, groupBox_SelectedDepo);
+                        GVisual.ShowControl(Asama2_Yukseklik_Panel, groupBox_SelectedDepo);
+                        GVisual.Control_Center(Asama2_Yukseklik_Panel, groupBox_SelectedDepo);
+                    }
+                    else
+                    {
+                        CenterControltoLeftSideofRectangleVertically(selectedDepo.Rectangle,
+                            Asama2_Yukseklik_Panel, drawingPanel);
+                    }
                     askOnce = true;
                 }
             }
@@ -4027,14 +4093,34 @@ namespace Balya_Yerleştirme
 
                         if (result == DialogResult.Yes)
                         {
-                            GVisual.HideControl(Asama2_Yukseklik_Panel, drawingPanel);
-                            CenterControltoLeftSideofRectangleVertically(selectedDepo.Rectangle, Placement_StartLocation_Panel, drawingPanel);
+
+                            if (menuProcess)
+                            {
+                                GVisual.HideControl(Asama2_Yukseklik_Panel, groupBox_SelectedDepo);
+                                GVisual.ShowControl(Placement_StartLocation_Panel, groupBox_SelectedDepo);
+                                GVisual.Control_Center(Placement_StartLocation_Panel, groupBox_SelectedDepo);
+                            }
+                            else
+                            {
+                                GVisual.HideControl(Asama2_Yukseklik_Panel, drawingPanel);
+                                CenterControltoLeftSideofRectangleVertically(selectedDepo.Rectangle, Placement_StartLocation_Panel, drawingPanel);
+                            }
                         }
                         else
                         {
                             MovingParameter = false;
+                            menuProcess = false;
                             TransparentPen.Color = System.Drawing.Color.FromArgb(255, System.Drawing.Color.Black);
-                            GVisual.HideControl(Asama2_Yukseklik_Panel, drawingPanel);
+
+                            if (menuProcess)
+                            {
+                                GVisual.HideControl(Asama2_Yukseklik_Panel, groupBox_SelectedDepo);
+                                GVisual.ShowControl(panel_Depo_Menu, groupBox_SelectedDepo);
+                            }
+                            else
+                            {
+                                GVisual.HideControl(Asama2_Yukseklik_Panel, drawingPanel);
+                            }
                         }
                     }
                     else if (toplam_nesne_yuksekligi_asama2 >
@@ -4047,8 +4133,17 @@ namespace Balya_Yerleştirme
                             toplam_nesne_yuksekligi_asama2 = selectedDepo.DepoAlaniYuksekligi;
                         }
 
-                        GVisual.HideControl(Asama2_Yukseklik_Panel, drawingPanel);
-                        CenterControltoLeftSideofRectangleVertically(selectedDepo.Rectangle, Placement_StartLocation_Panel, drawingPanel);
+                        if (menuProcess)
+                        {
+                            GVisual.HideControl(Asama2_Yukseklik_Panel, groupBox_SelectedDepo);
+                            GVisual.ShowControl(Placement_StartLocation_Panel, groupBox_SelectedDepo);
+                            GVisual.Control_Center(Placement_StartLocation_Panel, groupBox_SelectedDepo);
+                        }
+                        else
+                        {
+                            GVisual.HideControl(Asama2_Yukseklik_Panel, drawingPanel);
+                            CenterControltoLeftSideofRectangleVertically(selectedDepo.Rectangle, Placement_StartLocation_Panel, drawingPanel);
+                        }
                     }
                 }
                 else
@@ -4078,22 +4173,50 @@ namespace Balya_Yerleştirme
 
                             if (result == DialogResult.Yes)
                             {
-                                GVisual.HideControl(Asama2_Yukseklik_Panel, drawingPanel);
-                                CenterControltoLeftSideofRectangleVertically(selectedDepo.Rectangle, Placement_StartLocation_Panel, drawingPanel);
+                                if (menuProcess)
+                                {
+                                    GVisual.HideControl(Asama2_Yukseklik_Panel, groupBox_SelectedDepo);
+                                    GVisual.ShowControl(Placement_StartLocation_Panel, groupBox_SelectedDepo);
+                                    GVisual.Control_Center(Placement_StartLocation_Panel, groupBox_SelectedDepo);
+                                }
+                                else
+                                {
+                                    GVisual.HideControl(Asama2_Yukseklik_Panel, drawingPanel);
+                                    CenterControltoLeftSideofRectangleVertically(selectedDepo.Rectangle, Placement_StartLocation_Panel, drawingPanel);
+                                }
                             }
                             else
                             {
                                 MovingParameter = false;
+                                menuProcess = false;
                                 TransparentPen.Color = System.Drawing.Color.FromArgb(255, System.Drawing.Color.Black);
-                                GVisual.HideControl(Asama2_Yukseklik_Panel, drawingPanel);
+                                
+                                if (menuProcess)
+                                {
+                                    GVisual.HideControl(Asama2_Yukseklik_Panel, groupBox_SelectedDepo);
+                                    GVisual.ShowControl(panel_Depo_Menu, groupBox_SelectedDepo);
+                                }
+                                else
+                                {
+                                    GVisual.HideControl(Asama2_Yukseklik_Panel, drawingPanel);
+                                }
                             }
                         }
                         else if (toplam_nesne_yuksekligi_asama2 >
                             selectedDepo.DepoAlaniYuksekligi - selectedDepo.nesneYuksekligi &&
                             toplam_nesne_yuksekligi_asama2 <= selectedDepo.DepoAlaniYuksekligi)
                         {
-                            GVisual.HideControl(Asama2_Yukseklik_Panel, drawingPanel);
-                            CenterControltoLeftSideofRectangleVertically(selectedDepo.Rectangle, Placement_StartLocation_Panel, drawingPanel);
+                            if (menuProcess)
+                            {
+                                GVisual.HideControl(Asama2_Yukseklik_Panel, groupBox_SelectedDepo);
+                                GVisual.ShowControl(Placement_StartLocation_Panel, groupBox_SelectedDepo);
+                                GVisual.Control_Center(Placement_StartLocation_Panel, groupBox_SelectedDepo);
+                            }
+                            else
+                            {
+                                GVisual.HideControl(Asama2_Yukseklik_Panel, drawingPanel);
+                                CenterControltoLeftSideofRectangleVertically(selectedDepo.Rectangle, Placement_StartLocation_Panel, drawingPanel);
+                            }
                         }
                     }
                 }
@@ -4103,8 +4226,19 @@ namespace Balya_Yerleştirme
         {
             TransparentPen.Color = System.Drawing.Color.FromArgb(255, System.Drawing.Color.Black);
             MovingParameter = false;
+            menuProcess = false;
             Parameter = string.Empty;
-            GVisual.HideControl(Asama2_Yukseklik_Panel, drawingPanel);
+            if (menuProcess)
+            {
+                GVisual.HideControl(Asama2_Yukseklik_Panel, groupBox_SelectedDepo);
+                GVisual.ShowControl(panel_Depo_Menu, groupBox_SelectedDepo);
+                GVisual.Control_Center(panel_Depo_Menu, groupBox_SelectedDepo);
+                menuProcess = false;
+            }
+            else
+            {
+                GVisual.HideControl(Asama2_Yukseklik_Panel, drawingPanel);
+            }
             upDown_1Asama_NesneSayisi.Value = 0;
             upDown_2Asama_NesneSayisi.Value = 0;
         }
@@ -5095,14 +5229,6 @@ namespace Balya_Yerleştirme
         }
 
 
-        private void conveyorMenuAcBTN_Click(object sender, EventArgs e)
-        {
-            SortFlowLayoutPanel(layoutPanel_SelectedConveyor);
-            if (!LeftSide_LayoutPanel.Visible)
-            {
-                MainPanelOpenLeftSide(LeftSide_LayoutPanel, this, leftSidePanelLocation);
-            }
-        }
 
 
         //Depo SubMenu Events
@@ -5134,9 +5260,11 @@ namespace Balya_Yerleştirme
             {
                 GVisual.HideControl(panel_Depo_SubMenu, groupBox_SelectedDepo);
             }
+            menuProcess = false;
         }
         private void btn_Depo_SubMenu_Izgara_Haritasi_Olustur_Click(object sender, EventArgs e)
         {
+            menuProcess = true;
             if (RightSide_LayoutPanel.Visible)
             {
                 MainPanelCloseRightSide(RightSide_LayoutPanel, this);
@@ -5145,6 +5273,7 @@ namespace Balya_Yerleştirme
         }
         private void btn_Depo_SubMenu_Izgara_Haritasi_Boyut_Degistir_Click(object sender, EventArgs e)
         {
+            menuProcess = true;
             if (RightSide_LayoutPanel.Visible)
             {
                 MainPanelCloseRightSide(RightSide_LayoutPanel, this);
@@ -5167,8 +5296,62 @@ namespace Balya_Yerleştirme
                 }
             }
         }
+        private void btn_Depo_SubMenu_Yerini_Boyutunu_Degistir_Click(object sender, EventArgs e)
+        {
+            if (selectedDepo != null)
+            {
+                Clear_AddControltoLeftSidePanel(PaddingPanel);
+                btn_PaddingPanel_Kapat.Image = Resources.Resource1.Go_Back;
 
+                ShowTextboxes(txt_Width.Location, txt_Height.Location,
+                    txt_Left_Padding.Location, txt_Right_Padding.Location,
+                    txt_Top_Padding.Location, txt_Bottom_Padding.Location);
+                ShowMoveCheckButton();
+                Manuel_Move = true;
 
+                ManuelDepoRectangle = selectedDepo.Rectangle;
+                UnchangedDepoAlaniBoyu = selectedDepo.DepoAlaniBoyu;
+                UnchangedDepoAlaniEni = selectedDepo.DepoAlaniEni;
+                //txt_width.text = $"{unchangeddepoalanieni}";
+                //txt_height.text = $"{unchangeddepoalaniboyu}";
+                drawingPanel.Invalidate();
+            }
+        }
+        private void btn_Depo_SubMenu_Sil_Click(object sender, EventArgs e)
+        {
+            if (selectedDepo != null)
+            {
+                if (Ambar != null)
+                {
+                    Ambar.depolar.Remove(selectedDepo);
+                    drawingPanel.Invalidate();
+                }
+            }
+        }
+        private void btn_Depo_Menu_Nesne_Yerlestirme_Siralamasi_Click(object sender, EventArgs e)
+        {
+            if (selectedDepo != null)
+            {
+                if (selectedDepo.gridmaps.Count > 0)
+                {
+                    GVisual.HideControl(panel_Depo_Menu, groupBox_SelectedDepo);
+                    GVisual.ShowControl(Asama1_Yukseklik_Panel, groupBox_SelectedDepo);
+                    GVisual.Control_Center(Asama1_Yukseklik_Panel, groupBox_SelectedDepo);
+
+                    TransparentPen.Color = System.Drawing.Color.FromArgb(0, System.Drawing.Color.Black);
+                    MovingParameter = true;
+                    lbl_Placement_Yukseklik_Depo_Alani_Yuksekligi_Value.Text = $"{selectedDepo.DepoAlaniYuksekligi} cm";
+                    lbl_Placement_Yukseklik_Nesne_Yuksekligi_Value.Text = $"{selectedDepo.nesneYuksekligi} cm";
+                    lbl_Placement_Yukseklik_upDown_Nesne_Yuksekligi_Value.Text = "0 cm";
+                    menuProcess = true;
+                }
+                else
+                {
+                    CustomNotifyIcon notify = new CustomNotifyIcon();
+                    notify.showAlert("Lütfen önce ızgara haritası oluşturun.", CustomNotifyIcon.enmType.Warning);
+                }
+            }
+        }
         public void Show_DepoMenus(string whichMenu)
         {
             GVisual.HideControl(panel_Depo_Menu, groupBox_SelectedDepo);
@@ -5190,19 +5373,87 @@ namespace Balya_Yerleştirme
             }
         }
 
+
+
+
+
+
+
+
+        private void conveyorMenuAcBTN_Click(object sender, EventArgs e)
+        {
+            SortFlowLayoutPanel(layoutPanel_SelectedConveyor);
+            if (!LeftSide_LayoutPanel.Visible)
+            {
+                MainPanelOpenLeftSide(LeftSide_LayoutPanel, this, leftSidePanelLocation);
+            }
+        }
+        public void Show_ConveyorMenus(string whichMenu)
+        {
+            GVisual.HideControl(panel_Conveyor_Menu, groupBox_SelectedConveyor);
+
+            if (whichMenu == "Conveyor")
+            {
+                GVisual.ShowControl(panel_Conveyor_Menu, groupBox_SelectedConveyor);
+                GVisual.Control_Center(panel_Conveyor_Menu, groupBox_SelectedConveyor);
+            }
+            else if (whichMenu == "Conveyor SubMenu")
+            {
+                GVisual.ShowControl(panel_Conveyor_Submenu, groupBox_SelectedConveyor);
+                GVisual.Control_Center(panel_Conveyor_Submenu, groupBox_SelectedConveyor);
+            }
+            else if (whichMenu == "Referans SubMenu")
+            {
+                GVisual.ShowControl(panel_Conveyor_SubMenu_Referans, groupBox_SelectedConveyor);
+                GVisual.Control_Center(panel_Conveyor_SubMenu_Referans, groupBox_SelectedConveyor);
+            }
+        }
+        private void btn_Conveyor_SubMenu_Referans_Click(object sender, EventArgs e)
+        {
+            Show_ConveyorMenus("Referans SubMenu");
+        }
+        private void btn_Conveyor_SubMenu_Click(object sender, EventArgs e)
+        {
+            Show_ConveyorMenus("Conveyor SubMenu");
+        }
+        private void btn_Conveyor_Menu_Go_Back_Click(object sender, EventArgs e)
+        {
+            Show_ConveyorMenus("Conveyor");
+
+            if (panel_Conveyor_Submenu.Visible)
+            {
+                GVisual.HideControl(panel_Conveyor_Submenu, groupBox_SelectedConveyor);
+            }
+            else if (panel_Conveyor_SubMenu_Referans.Visible)
+            {
+                GVisual.HideControl(panel_Conveyor_SubMenu_Referans, groupBox_SelectedConveyor);
+            }
+        }
+        private void btn_PaddingPanel_Kapat_Click(object sender, EventArgs e)
+        {
+            if (LeftSide_LayoutPanel.Visible && LeftSide_LayoutPanel.Controls.Contains(PaddingPanel) &&
+                selectedConveyor != null)
+            {
+                SortFlowLayoutPanel(layoutPanel_SelectedConveyor);
+                Manuel_Move = false;
+                //Clear_AddControltoLeftSidePanel(layoutPanel_SelectedConveyor);
+                //GVisual.ShowControl(layoutPanel_Ambar, LeftSide_LayoutPanel);
+            }
+            else if (LeftSide_LayoutPanel.Visible && LeftSide_LayoutPanel.Controls.Contains(PaddingPanel) &&
+                selectedDepo != null)
+            {
+                SortFlowLayoutPanel(LayoutPanel_SelectedDepo);
+                Manuel_Move = false;
+            }
+            else if (this.Controls.Contains(PaddingPanel))
+            {
+                GVisual.HideControl(PaddingPanel, this);
+                MainPanelMakeBigger(drawingPanel);
+                MoveRight();
+            }
+        }
+
         
-
-
-
-        private void btn_Depo_SubMenu_Yerini_Boyutunu_Degistir_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btn_Depo_SubMenu_Sil_Click(object sender, EventArgs e)
-        {
-
-        }
 
 
 
