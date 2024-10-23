@@ -273,7 +273,7 @@ namespace Balya_Yerleştirme.Models
                             layout.SelectedDepoPen.Width = 3;
                             layout.SelectedDepoEdgePen.Width = 3;
                             layout.colCount = ColumnCount;
-                            layout.rowCount = RowCount + 1;
+                            layout.rowCount = RowCount;
                             layout.MenuStrip.Show(Cursor.Position);
                         }
                     }

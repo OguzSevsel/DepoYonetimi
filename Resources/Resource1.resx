@@ -202,9 +202,6 @@
   <data name="Done" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Done.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Page Size" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Page Size.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Xls_Export" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Xls Export.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -244,7 +241,7 @@
   <data name="Health_Data" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Health Data.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Go Back" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="Go_Back" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Go Back.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Down" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -279,5 +276,8 @@
   </data>
   <data name="Location Update" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Location Update.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Page_Size" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Page Size.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

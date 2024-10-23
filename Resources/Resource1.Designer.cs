@@ -285,7 +285,7 @@ namespace Balya_Yerleştirme.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap Go_Back {
             get {
-                object obj = ResourceManager.GetObject("Go Back", resourceCulture);
+                object obj = ResourceManager.GetObject("Go_Back", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -445,7 +445,7 @@ namespace Balya_Yerleştirme.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap Page_Size {
             get {
-                object obj = ResourceManager.GetObject("Page Size", resourceCulture);
+                object obj = ResourceManager.GetObject("Page_Size", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
