@@ -96,7 +96,7 @@
         #endregion
         public Button btn_Ref_Vazgec;
         public Button btn_Ref_Onayla;
-        private ErrorProvider errorProvider;
         public FlowLayoutPanel Panel;
+        public ErrorProvider errorProvider;
     }
 }

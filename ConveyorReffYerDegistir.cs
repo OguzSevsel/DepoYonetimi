@@ -72,6 +72,7 @@ namespace Balya_Yerleştirme
 
         private void btn_Ref_Onayla_Click(object sender, EventArgs e)
         {
+            errorProvider.Clear();
             float Reff_X = 0;
             float Reff_Y = 0;
             foreach (Panel panel in Panel.Controls)
@@ -85,16 +86,26 @@ namespace Balya_Yerleştirme
                         if (textBox.Name == "textBoxLocationX")
                         {
 
-                            Reff_X = StrLib.ReplaceDotWithCommaReturnFloat(textBox, errorProvider, "Bu alan boş bırakılamaz.", "Buraya bir sayı girmelisiniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
+                            Reff_X = StrLib.ReplaceDotWithCommaReturnFloatButAllowZeros(textBox, errorProvider, "Bu alan boş bırakılamaz.", "Buraya bir sayı girmelisiniz.", "Buraya 0'dan daha küçük bir değer giremezsiniz.");
+
+                            if (Reff_X > Conveyor.ConveyorEni * 100)
+                            {
+                                errorProvider.SetError(textBox, "Buraya Conveyor'un eninden daha büyük bir sayı giremezsiniz");
+                            }
                         }
                         if (textBox.Name == "textBoxLocationY")
                         {
-                            Reff_Y = StrLib.ReplaceDotWithCommaReturnFloat(textBox, errorProvider, "Bu alan boş bırakılamaz.", "Buraya bir sayı girmelisiniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
+                            Reff_Y = StrLib.ReplaceDotWithCommaReturnFloatButAllowZeros(textBox, errorProvider, "Bu alan boş bırakılamaz.", "Buraya bir sayı girmelisiniz.", "Buraya 0'dan daha küçük bir değer giremezsiniz.");
+
+                            if (Reff_Y > Conveyor.ConveyorBoyu * 100)
+                            {
+                                errorProvider.SetError(textBox, "Buraya Conveyor'un boyundan daha büyük bir sayı giremezsiniz");
+                            }
                         }
                     }
                 }
             }
-            if (Reff_X != 0 && Reff_Y != 0)
+            if (Reff_X != 0 && Reff_Y != 0 && !errorProvider.HasErrors)
             {
                 this.DialogResult = DialogResult.OK;
             }

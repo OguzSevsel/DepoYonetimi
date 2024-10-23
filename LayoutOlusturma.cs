@@ -162,9 +162,7 @@ namespace Balya_Yerleştirme
 
 
 
-
-
-
+        //Delete, Copy, Paste depo's and conveyor's with shortcuts 
         #region Delete, Copy, Paste
         //Delete, Copy, Paste
         private void KeyDownEventHandler(object? sender, KeyEventArgs e)
@@ -560,11 +558,47 @@ namespace Balya_Yerleştirme
                     if (selectedDepo != null)
                     {
                         Ambar.depolar.Remove(selectedDepo);
+                        if (LeftSide_LayoutPanel.Visible)
+                        {
+                            MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
+                            menuProcess = false;
+                        }
+
+                        if (RightSide_LayoutPanel.Visible)
+                        {
+                            if (Depo_Olusturma_Paneli.Visible)
+                            {
+                                RightSide_LayoutPanel.ScrollControlIntoView(Depo_Olusturma_Paneli);
+                            }
+                            else
+                            {
+                                GVisual.ShowControl(Depo_Olusturma_Paneli, RightSide_LayoutPanel);
+                                RightSide_LayoutPanel.ScrollControlIntoView(Depo_Olusturma_Paneli);
+                            }
+                        }
                     }
 
                     if (selectedConveyor != null)
                     {
                         Ambar.conveyors.Remove(selectedConveyor);
+                        if (LeftSide_LayoutPanel.Visible)
+                        {
+                            MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
+                            menuProcess = false;
+                            AddReferencePoint = false;
+                        }
+                        if (RightSide_LayoutPanel.Visible)
+                        {
+                            if (Conveyor_Olusturma_Paneli.Visible)
+                            {
+                                RightSide_LayoutPanel.ScrollControlIntoView(Conveyor_Olusturma_Paneli);
+                            }
+                            else
+                            {
+                                GVisual.ShowControl(Conveyor_Olusturma_Paneli, RightSide_LayoutPanel);
+                                RightSide_LayoutPanel.ScrollControlIntoView(Conveyor_Olusturma_Paneli);
+                            }
+                        }
                     }
                 }
                 drawingPanel.Invalidate();
@@ -574,9 +608,7 @@ namespace Balya_Yerleştirme
 
 
 
-
-
-
+        //Item Placement Sequence events for placing items to the Depo in main program form
         #region Item Placement Sequence Algorithm
         //Item Placement Sequence Start Button Events
         private void btn_Depo_Menu_Nesne_Yerlestirme_Siralamasi_Click(object sender, EventArgs e)
@@ -1131,7 +1163,7 @@ namespace Balya_Yerleştirme
             upDown_2Asama_NesneSayisi.Value = 0;
             drawingPanel.Invalidate();
         }
-        
+
 
 
 
@@ -1371,9 +1403,7 @@ namespace Balya_Yerleştirme
 
 
 
-
-
-
+        //Mainpanel events that Areas are drawed, MouseUp, MouseDown, MouseMove, Paint, Scroll
         #region DrawingPanel Events
         private void SimulationPanel_Paint(object sender, PaintEventArgs e)
         {
@@ -1780,6 +1810,7 @@ namespace Balya_Yerleştirme
 
                     if (!conveyornull && !deponull)
                     {
+                        menuProcess = false;
                         if (LeftSide_LayoutPanel.Visible)
                         {
                             MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
@@ -1921,9 +1952,7 @@ namespace Balya_Yerleştirme
 
 
 
-
-
-
+        //Snapping and Drawing Lines when left clicked to the areas events
         #region Snap and Drawing Methods
         public RectangleF SnapRectangles(RectangleF rectangle, RectangleF refRectangle)
         {
@@ -2669,9 +2698,7 @@ namespace Balya_Yerleştirme
 
 
 
-
-
-
+        //Change Size and Location events
         #region Change Size and Location Algorithm
         //Yerini ve Boyutunu Değiştir Textbox Events and Methods
         private void txt_Width_TextChanged(object sender, EventArgs e)
@@ -3405,7 +3432,7 @@ namespace Balya_Yerleştirme
 
 
 
-        //Yerini ve Boyutunu Degistir Button Events
+        //Change Size and Location of Depo and Conveyor Button Events
         private void btn_Yer_Onayla_Click(object sender, EventArgs e)
         {
             if (selectedDepo != null)
@@ -3460,7 +3487,7 @@ namespace Balya_Yerleştirme
                     SelectedDepoEdgePen.Width = 1;
                     Manuel_Move = false;
 
-                    if (menuProcess)
+                    if (menuProcess )
                     {
                         Clear_AddControltoLeftSidePanel(LayoutPanel_SelectedDepo);
                         Show_DepoMenus("Depo");
@@ -3492,10 +3519,11 @@ namespace Balya_Yerleştirme
                     SelectedConveyorPen.Width = 1;
                     SelectedConveyorEdgePen.Width = 1;
                     Manuel_Move = false;
+
                     if (menuProcess)
                     {
-                        Clear_AddControltoLeftSidePanel(LayoutPanel_SelectedDepo);
-                        Show_DepoMenus("Depo");
+                        Clear_AddControltoLeftSidePanel(layoutPanel_SelectedConveyor);
+                        Show_ConveyorMenus("Conveyor");
                         menuProcess = false;
                     }
                     else
@@ -3503,6 +3531,7 @@ namespace Balya_Yerleştirme
                         MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
                         selectedConveyor = null;
                     }
+
                     drawingPanel.Invalidate();
                 }
                 else
@@ -3522,6 +3551,7 @@ namespace Balya_Yerleştirme
                     SelectedConveyorPen.Color = System.Drawing.Color.Black;
                     SelectedConveyorPen.Width = 1;
                     SelectedConveyorEdgePen.Width = 1;
+
                     if (menuProcess)
                     {
                         Clear_AddControltoLeftSidePanel(LayoutPanel_SelectedDepo);
@@ -3533,6 +3563,7 @@ namespace Balya_Yerleştirme
                         MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
                         selectedConveyor = null;
                     }
+
                     drawingPanel.Invalidate();
                 }
             }
@@ -3542,19 +3573,36 @@ namespace Balya_Yerleştirme
             if (selectedDepo != null)
             {
                 selectedDepo.Rectangle = UnchangedselectedDepoRectangle;
+                selectedDepo.DepoAlaniEni = UnchangedDepoAlaniEni;
+                selectedDepo.DepoAlaniBoyu = UnchangedDepoAlaniBoyu;
+                selectedDepo.Cm_Width = UnchangedDepoAlaniEni * 100;
+                selectedDepo.Cm_Height = UnchangedDepoAlaniBoyu * 100;
                 selectedDepo.OriginalRectangle = selectedDepo.Rectangle;
                 selectedDepo.LocationofRect = new System.Drawing.Point((int)selectedDepo.Rectangle.X, (int)selectedDepo.Rectangle.Y);
-                selectedDepo = null;
                 SelectedDepoPen.Color = System.Drawing.Color.Black;
                 SelectedDepoPen.Width = 1;
                 SelectedDepoEdgePen.Width = 1;
                 Manuel_Move = false;
-                GVisual.HideControl(PaddingPanel, drawingPanel);
+
+                if (menuProcess)
+                {
+                    SortFlowLayoutPanel(LayoutPanel_SelectedDepo);
+                    Show_DepoMenus("Depo SubMenu");
+                    menuProcess = false;
+                }
+                else
+                {
+                    SortFlowLayoutPanel(LayoutPanel_SelectedDepo);
+                    MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
+                    selectedDepo = null;
+                }
                 drawingPanel.Invalidate();
             }
             if (selectedConveyor != null)
             {
                 selectedConveyor.Rectangle = UnchangedselectedConveyorRectangle;
+                selectedConveyor.ConveyorEni = UnchangedConveyorEni;
+                selectedConveyor.ConveyorBoyu = UnchangedConveyorBoyu;
                 selectedConveyor.OriginalRectangle = selectedConveyor.Rectangle;
                 selectedConveyor.LocationofRect = new System.Drawing.Point((int)selectedConveyor.Rectangle.X,
                         (int)selectedConveyor.Rectangle.Y);
@@ -3569,13 +3617,52 @@ namespace Balya_Yerleştirme
                         reff.Rectangle.Width, reff.Rectangle.Height);
                 }
                 AdjustFixedConveyorReferencePoints(selectedConveyor);
-                selectedConveyor = null;
                 Manuel_Move = false;
-                GVisual.HideControl(PaddingPanel, drawingPanel);
+
+                if (menuProcess)
+                {
+                    SortFlowLayoutPanel(layoutPanel_SelectedConveyor);
+                    Show_ConveyorMenus("Conveyor SubMenu");
+                    menuProcess = false;
+                }
+                else
+                {
+                    SortFlowLayoutPanel(layoutPanel_SelectedConveyor);
+                    MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
+                    selectedConveyor = null;
+                }
                 drawingPanel.Invalidate();
             }
-            DrawingPanelEnlarge(PaddingPanel, this);
         }
+        private void btn_PaddingPanel_Kapat_Click(object sender, EventArgs e)
+        {
+            if (LeftSide_LayoutPanel.Visible && LeftSide_LayoutPanel.Controls.Contains(PaddingPanel) &&
+                selectedConveyor != null)
+            {
+                SortFlowLayoutPanel(layoutPanel_SelectedConveyor);
+                Show_ConveyorMenus("Conveyor");
+                Manuel_Move = false;
+                menuProcess = false;
+            }
+            else if (LeftSide_LayoutPanel.Visible && LeftSide_LayoutPanel.Controls.Contains(PaddingPanel) &&
+                selectedDepo != null)
+            {
+                SortFlowLayoutPanel(LayoutPanel_SelectedDepo);
+                Show_DepoMenus("Depo");
+                Manuel_Move = false;
+                menuProcess = false;
+            }
+            else if (this.Controls.Contains(PaddingPanel))
+            {
+                GVisual.HideControl(PaddingPanel, this);
+                MainPanelMakeBigger(drawingPanel);
+                MoveRight();
+            }
+        }
+
+
+
+        //Change Size and Location of Depo Events
         private void deponunYeriniVeBoyutunuDeğiştirToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!LeftSide_LayoutPanel.Visible)
@@ -3625,36 +3712,68 @@ namespace Balya_Yerleştirme
                 drawingPanel.Invalidate();
             }
         }
-        private void btn_PaddingPanel_Kapat_Click(object sender, EventArgs e)
+
+
+
+        //Change Size and Location of Conveyor Events
+        private void Conveyor_yeriniVeBoyutunuDeğiştirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (LeftSide_LayoutPanel.Visible && LeftSide_LayoutPanel.Controls.Contains(PaddingPanel) &&
-                selectedConveyor != null)
+            if (!LeftSide_LayoutPanel.Visible)
             {
-                SortFlowLayoutPanel(layoutPanel_SelectedConveyor);
-                Manuel_Move = false;
-                //Clear_AddControltoLeftSidePanel(layoutPanel_SelectedConveyor);
-                //GVisual.ShowControl(layoutPanel_Ambar, LeftSide_LayoutPanel);
+                MainPanelOpenLeftSide(LeftSide_LayoutPanel, this, leftSidePanelLocation);
+                Clear_AddControltoLeftSidePanel(PaddingPanel);
             }
-            else if (LeftSide_LayoutPanel.Visible && LeftSide_LayoutPanel.Controls.Contains(PaddingPanel) &&
-                selectedDepo != null)
+            else
             {
-                SortFlowLayoutPanel(LayoutPanel_SelectedDepo);
-                Manuel_Move = false;
+                Clear_AddControltoLeftSidePanel(PaddingPanel);
             }
-            else if (this.Controls.Contains(PaddingPanel))
+
+            ShowTextboxes(txt_Width.Location, txt_Height.Location,
+                    txt_Left_Padding.Location, txt_Right_Padding.Location,
+                    txt_Top_Padding.Location, txt_Bottom_Padding.Location);
+            ShowMoveCheckButton();
+            Manuel_Move = true;
+            if (selectedConveyor != null)
             {
-                GVisual.HideControl(PaddingPanel, this);
-                MainPanelMakeBigger(drawingPanel);
-                MoveRight();
+                ManuelConveyorRectangle = selectedConveyor.Rectangle;
+                UnchangedConveyorEni = selectedConveyor.ConveyorEni;
+                UnchangedConveyorBoyu = selectedConveyor.ConveyorBoyu;
+                //txt_Width.Text = $"{UnchangedConveyorEni}";
+                //txt_Height.Text = $"{UnchangedConveyorBoyu}";
             }
         }
+        private void btn_Conveyor_SubMenu_Yerini_Boyutunu_Degistir_Click(object sender, EventArgs e)
+        {
+            if (selectedConveyor != null)
+            {
+                menuProcess = true;
+                Clear_AddControltoLeftSidePanel(PaddingPanel);
+                btn_PaddingPanel_Kapat.Image = Resources.Resource1.Go_Back;
+
+                ShowTextboxes(txt_Width.Location, txt_Height.Location,
+                    txt_Left_Padding.Location, txt_Right_Padding.Location,
+                    txt_Top_Padding.Location, txt_Bottom_Padding.Location);
+                ShowMoveCheckButton();
+                Manuel_Move = true;
+
+                if (selectedConveyor != null)
+                {
+                    ManuelConveyorRectangle = selectedConveyor.Rectangle;
+                    UnchangedConveyorEni = selectedConveyor.ConveyorEni;
+                    UnchangedConveyorBoyu = selectedConveyor.ConveyorBoyu;
+                    //txt_Width.Text = $"{UnchangedConveyorEni}";
+                    //txt_Height.Text = $"{UnchangedConveyorBoyu}";
+                }
+                drawingPanel.Invalidate();
+            }
+        }
+
+
         #endregion
 
 
 
-
-
-
+        //Area Creation events
         #region Area Creation Button Events
         private void btn_Alan_Click(object sender, EventArgs e)
         {
@@ -3793,6 +3912,7 @@ namespace Balya_Yerleştirme
             ambar_Boyut_Degistir = false;
         }
         #endregion
+        //Conveyor Creation events
         #region Conveyor Creation Button Events
         private void btn_Conveyor_Click(object sender, EventArgs e)
         {
@@ -3868,6 +3988,7 @@ namespace Balya_Yerleştirme
             HideControl(RightSide_LayoutPanel, Conveyor_Olusturma_Paneli);
         }
         #endregion
+        //Depo Creation events
         #region Depo Creation Button Events
         private void btn_Depo_Click(object sender, EventArgs e)
         {
@@ -3976,6 +4097,7 @@ namespace Balya_Yerleştirme
         }
 
         #endregion
+        //Depo Gridmaps Creation events
         #region Gridmaps Creation Button Events
 
         //RightSide Gridmaps Creation Button Events
@@ -4094,8 +4216,16 @@ namespace Balya_Yerleştirme
         //LeftSide Gridmaps Creation Button Events
         private void btn_Left_Izgara_Olusturma_Go_Back_Click(object sender, EventArgs e)
         {
-            Clear_AddControltoLeftSidePanel(LayoutPanel_SelectedDepo);
-            Show_DepoMenus("Izgara Haritasi");
+            if (menuProcess)
+            {
+                Clear_AddControltoLeftSidePanel(LayoutPanel_SelectedDepo);
+                Show_DepoMenus("Izgara Haritasi");
+                menuProcess = false;
+            }
+            else
+            {
+                MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
+            }
         }
         private void btn_Left_Izgara_Haritasi_Olustur_Click(object sender, EventArgs e)
         {
@@ -4123,7 +4253,7 @@ namespace Balya_Yerleştirme
 
             if (!errorProvider.HasErrors)
             {
-                if (selectedDepo != null && menuProcess)
+                if (selectedDepo != null)
                 {
                     if (selectedDepo.gridmaps.Count > 0)
                     {
@@ -4134,8 +4264,21 @@ namespace Balya_Yerleştirme
                         selectedDepo.nesneYuksekligi = nesne_Yuksekligi;
                         selectedDepo.CreateGridMapMenuItem(total_Cell_Width, total_Cell_Height,
                             hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu);
-                        Clear_AddControltoLeftSidePanel(LayoutPanel_SelectedDepo);
-                        Show_DepoMenus("Depo");
+
+
+                        if (menuProcess)
+                        {
+                            Clear_AddControltoLeftSidePanel(LayoutPanel_SelectedDepo);
+                            Show_DepoMenus("Depo");
+                            menuProcess = false;
+                        }
+                        else
+                        {
+                            MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
+                        }
+
+
+
                         colCount = selectedDepo.ColumnCount;
                         rowCount = selectedDepo.RowCount;
                     }
@@ -4146,8 +4289,18 @@ namespace Balya_Yerleştirme
                         selectedDepo.nesneYuksekligi = nesne_Yuksekligi;
                         selectedDepo.CreateGridMapMenuItem(total_Cell_Width, total_Cell_Height,
                             hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu);
-                        Clear_AddControltoLeftSidePanel(LayoutPanel_SelectedDepo);
-                        Show_DepoMenus("Depo");
+
+                        if (menuProcess)
+                        {
+                            Clear_AddControltoLeftSidePanel(LayoutPanel_SelectedDepo);
+                            Show_DepoMenus("Depo");
+                            menuProcess = false;
+                        }
+                        else
+                        {
+                            MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
+                        }
+
                         colCount = selectedDepo.ColumnCount;
                         rowCount = selectedDepo.RowCount;
                     }
@@ -4157,17 +4310,22 @@ namespace Balya_Yerleştirme
         }
         private void btn_Left_Izgara_Haritasi_Vazgec_Click(object sender, EventArgs e)
         {
-            menuProcess = false;
-            Clear_AddControltoLeftSidePanel(LayoutPanel_SelectedDepo);
-            Show_DepoMenus("Depo");
+            if (menuProcess)
+            {
+                Clear_AddControltoLeftSidePanel(LayoutPanel_SelectedDepo);
+                Show_DepoMenus("Depo");
+                menuProcess = false;
+            }
+            else
+            {
+                MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
+            }
         }
         #endregion
 
 
 
-
-
-
+        //Area events
         #region Area Events
         //Alan ToolStripMenu Events
         private void alanMenuAcBTN_Click(object sender, EventArgs e)
@@ -4240,7 +4398,7 @@ namespace Balya_Yerleştirme
             }
         }
         #endregion
-
+        //Depo events
         #region Depo Events
         //Delete Depo
         private void depoyuSilToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -4274,12 +4432,15 @@ namespace Balya_Yerleştirme
             }
         }
         #endregion
+        //Depo Gridmap events
         #region GridMaps Events
         //Create Gridmaps
         private void ızgaraHaritasıOluşturToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ToolStripIzgara = false;
-            DrawingPanelShrink(Izgara_Olusturma_Paneli, this, leftSidePanelLocation);
+            menuProcess = false;
+            MainPanelOpenLeftSide(LeftSide_LayoutPanel, this, leftSidePanelLocation);
+            Clear_AddControltoLeftSidePanel(LeftPanel_Izgara_Olusturma);
         }
         private void btn_Depo_SubMenu_Izgara_Haritasi_Olustur_Click(object sender, EventArgs e)
         {
@@ -4295,17 +4456,48 @@ namespace Balya_Yerleştirme
         //Change the Size of Gridmap Cells
         private void btn_Depo_SubMenu_Izgara_Haritasi_Boyut_Degistir_Click(object sender, EventArgs e)
         {
-            menuProcess = true;
-            if (RightSide_LayoutPanel.Visible)
+            ToolStripIzgara = false;
+            if (selectedDepo != null)
             {
-                MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+                if (selectedDepo.gridmaps.Count > 0)
+                {
+                    menuProcess = true;
+                    if (RightSide_LayoutPanel.Visible)
+                    {
+                        MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+                    }
+                    Clear_AddControltoLeftSidePanel(LeftPanel_Izgara_Olusturma);
+                }
+                else
+                {
+                    CustomNotifyIcon notify = new CustomNotifyIcon();
+                    notify.showAlert("Lütfen önce ızgara haritası oluşturun.", CustomNotifyIcon.enmType.Warning);
+                }
             }
-            Clear_AddControltoLeftSidePanel(LeftPanel_Izgara_Olusturma);
         }
         private void boyutunuDeğiştirToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ToolStripIzgara = false;
-            DrawingPanelShrink(Izgara_Olusturma_Paneli, this, leftSidePanelLocation);
+            if (selectedDepo != null)
+            {
+                if (selectedDepo.gridmaps.Count > 0)
+                {
+                    if (!LeftSide_LayoutPanel.Visible)
+                    {
+                        MainPanelOpenLeftSide(LeftSide_LayoutPanel, this, leftSidePanelLocation);
+                        Clear_AddControltoLeftSidePanel(LeftPanel_Izgara_Olusturma);
+                    }
+                    else
+                    {
+                        Clear_AddControltoLeftSidePanel(LeftPanel_Izgara_Olusturma);
+                    }
+                }
+                else
+                {
+                    CustomNotifyIcon notify = new CustomNotifyIcon();
+                    notify.showAlert("Lütfen önce ızgara haritası oluşturun.", CustomNotifyIcon.enmType.Warning);
+                }
+            }
         }
 
 
@@ -4339,26 +4531,9 @@ namespace Balya_Yerleştirme
             }
         }
         #endregion
-
+        //Conveyor events
         #region Conveyor Events
-        //Conveyor ToolStripMenuItems Events
-        private void Conveyor_yeriniVeBoyutunuDeğiştirToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DrawingPanelShrink(PaddingPanel, this, leftSidePanelLocation);
-            ShowTextboxes(txt_Width.Location, txt_Height.Location,
-                    txt_Left_Padding.Location, txt_Right_Padding.Location,
-                    txt_Top_Padding.Location, txt_Bottom_Padding.Location);
-            ShowMoveCheckButton();
-            Manuel_Move = true;
-            if (selectedConveyor != null)
-            {
-                ManuelConveyorRectangle = selectedConveyor.Rectangle;
-                UnchangedConveyorEni = selectedConveyor.ConveyorEni;
-                UnchangedConveyorBoyu = selectedConveyor.ConveyorBoyu;
-                //txt_Width.Text = $"{UnchangedConveyorEni}";
-                //txt_Height.Text = $"{UnchangedConveyorBoyu}";
-            }
-        }
+        //Delete Conveyor Events
         private void Conveyor_silToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (Ambar != null)
@@ -4372,9 +4547,29 @@ namespace Balya_Yerleştirme
             CopyConveyor = null;
             drawingPanel.Invalidate();
         }
+        private void btn_Conveyor_SubMenu_Conveyor_Sil_Click(object sender, EventArgs e)
+        {
+            if (Ambar != null)
+            {
+                if (selectedConveyor != null)
+                {
+                    Ambar.conveyors.Remove(selectedConveyor);
+                    Show_ConveyorMenus("Conveyor");
+                    MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
+                    if (Ambar.conveyors.Count == 0)
+                    {
+                        GVisual.HideControl(layoutPanel_SelectedConveyor, LeftSide_LayoutPanel);
+                    }
+                }
+            }
+            selectedConveyor = null;
+            CopyConveyor = null;
+            drawingPanel.Invalidate();
+        }
         #endregion
+        //Conveyor Reference events
         #region Conveyor Reference Events
-        //Conveyor Reference Point Context Menu Strip Button Events
+        //Add Reference Point to Conveyor Events
         private void Referans_ekleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (selectedConveyor != null)
@@ -4384,25 +4579,114 @@ namespace Balya_Yerleştirme
                     (selectedConveyor.Rectangle, Conveyor_Reference_FixedorManuel_Panel, drawingPanel);
             }
         }
+        private void btn_Conveyor_SubMenu_Referans_Ekle_Click(object sender, EventArgs e)
+        {
+            menuProcess = true;
+            if (selectedConveyor != null)
+            {
+                AddReferencePoint = true;
+                GVisual.ShowControl(Conveyor_Reference_FixedorManuel_Panel, groupBox_SelectedConveyor);
+                GVisual.Control_Center(Conveyor_Reference_FixedorManuel_Panel, groupBox_SelectedConveyor);
+                GVisual.HideControl(panel_Conveyor_SubMenu_Referans, groupBox_SelectedConveyor);
+            }
+        }
+
+
+
+        //Delete Conveyor Reference Point Events
         private void Referans_silToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (selectedConveyor != null)
             {
-                List<ConveyorReferencePoint> tempList = new List<ConveyorReferencePoint>();
-
-                foreach (var reff in selectedConveyor.ConveyorReferencePoints)
-                {
-                    tempList.Add(reff);
-                }
-
-                foreach (var ref1 in tempList)
-                {
-                    selectedConveyor.ConveyorReferencePoints.Remove(ref1);
-                }
+                selectedConveyor.ConveyorReferencePoints.Clear();
                 drawingPanel.Invalidate();
             }
         }
+        private void btn_Conveyor_SubMenu_Referans_Sil_Click(object sender, EventArgs e)
+        {
+            if (selectedConveyor != null)
+            {
+                selectedConveyor.ConveyorReferencePoints.Clear();
+                drawingPanel.Invalidate();
+            }
+        }
+
+
+
+        //Change Locations of Conveyor Reference Point Events
         private void Referans_yerleriniDeğiştirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (selectedConveyor != null)
+            {
+                float reffX = 0;
+                float reffY = 0;
+                using (var dialog = new ConveyorReffYerDegistir(selectedConveyor))
+                {
+                    dialog.errorProvider.Clear();
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        foreach (var reff in selectedConveyor.ConveyorReferencePoints)
+                        {
+                            foreach (Panel panel in dialog.Panel.Controls)
+                            {
+                                if (reff == (ConveyorReferencePoint)panel.Tag)
+                                {
+                                    foreach (var textbox in panel.Controls)
+                                    {
+                                        if (textbox is TextBox)
+                                        {
+                                            TextBox textBox = new TextBox();
+                                            textBox = (TextBox)textbox;
+
+                                            if (textBox.Name == "textBoxLocationX")
+                                            {
+                                                reffX = float.Parse(textBox.Text);
+                                            }
+                                            if (textBox.Name == "textBoxLocationY")
+                                            {
+                                                reffY = float.Parse(textBox.Text);
+                                            }
+                                        }
+                                       
+                                        PointF newpoint = ResizeandMoveChildRectangleInsideParent(selectedConveyor.Rectangle,
+                                                reffX, reffY, selectedConveyor.ConveyorEni * 100,
+                                                selectedConveyor.ConveyorBoyu * 100, reff.Rectangle);
+
+                                        reff.MoveRectangleExact(newpoint.X, newpoint.Y);
+
+                                        var cm = ConvertRectanglesLocationtoCMInsideParentRectangle(reff.Rectangle,
+                                            selectedConveyor.Rectangle, selectedConveyor.ConveyorEni,
+                                            selectedConveyor.ConveyorBoyu, true);
+
+                                        reff.Pointsize = 4;
+                                        reff.LocationofRect = new System.Drawing.Point((int)reff.Rectangle.X, (int)reff.Rectangle.Y);
+                                        reff.KareX = reff.Rectangle.X;
+                                        reff.KareY = reff.Rectangle.Y;
+                                        reff.KareEni = reff.Rectangle.Width;
+                                        reff.KareBoyu = reff.Rectangle.Height;
+                                        reff.OriginalKareX = reff.OriginalRectangle.X;
+                                        reff.OriginalKareY = reff.OriginalRectangle.Y;
+                                        reff.OriginalKareEni = reff.OriginalRectangle.Width;
+                                        reff.OriginalKareBoyu = reff.OriginalRectangle.Height;
+                                        reff.LocationX = cm.Item1;
+                                        reff.LocationY = cm.Item2;
+                                        reff.FixedPointLocation = reff.FixedPointLocation;
+
+                                        float X = reff.Rectangle.X - selectedConveyor.Rectangle.X;
+                                        float Y = reff.Rectangle.Y - selectedConveyor.Rectangle.Y;
+
+                                        reff.OriginalLocationInsideParent = new PointF(X, Y);
+
+                                        drawingPanel.Invalidate();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        private void btn_Conveyor_SubMenu_Referans_Yerlerini_Degistir_Click(object sender, EventArgs e)
         {
             if (selectedConveyor != null)
             {
@@ -4412,6 +4696,7 @@ namespace Balya_Yerleştirme
                 {
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
+                        menuProcess = true;
                         foreach (var reff in selectedConveyor.ConveyorReferencePoints)
                         {
                             foreach (Panel panel in dialog.Panel.Controls)
@@ -4465,6 +4750,7 @@ namespace Balya_Yerleştirme
                                         reff.OriginalLocationInsideParent = new PointF(X, Y);
 
                                         drawingPanel.Invalidate();
+                                        menuProcess = false;
                                     }
                                 }
                             }
@@ -4473,6 +4759,7 @@ namespace Balya_Yerleştirme
                 }
             }
         }
+
 
 
         //Adding Conveyor Reference Point Logic
@@ -4509,7 +4796,6 @@ namespace Balya_Yerleştirme
 
             selectedConveyor.ConveyorReferencePoints.Add(point);
             drawingPanel.Invalidate();
-            GVisual.HideControl(Conveyor_Reference_Fixed_Panel, drawingPanel);
             AddReferencePoint = false;
         }
 
@@ -4670,7 +4956,15 @@ namespace Balya_Yerleştirme
                     }
                 }
             }
-            GVisual.HideControl(Conveyor_Reference_Fixed_Panel, drawingPanel);
+            if (menuProcess)
+            {
+                Show_ConveyorMenus("Referans SubMenu");
+                menuProcess = false;
+            }
+            else
+            {
+                GVisual.HideControl(Conveyor_Reference_Fixed_Panel, drawingPanel);
+            }
             drawingPanel.Invalidate();
         }
         private void btn_Conveyor_Reference_Sayisi_Onayla_Click(object sender, EventArgs e)
@@ -4739,34 +5033,75 @@ namespace Balya_Yerleştirme
 
                     selectedConveyor.ConveyorReferencePoints.Add(point);
                     drawingPanel.Invalidate();
-                    GVisual.HideControl(Conveyor_Reference_Sayisi_Paneli, drawingPanel);
+                    
+                    if (menuProcess)
+                    {
+                        Show_ConveyorMenus("Referans SubMenu");
+                        menuProcess = false;
+                    }
+                    else
+                    {
+                        GVisual.HideControl(Conveyor_Reference_Sayisi_Paneli, drawingPanel);
+                    }
                     AddReferencePoint = false;
                 }
             }
         }
 
 
+
         //Select if Manual or Fixed Reference Points
         private void btn_Select_Fixed_Conveyor_Reference_Point_Click(object sender, EventArgs e)
         {
-            GVisual.HideControl(Conveyor_Reference_FixedorManuel_Panel, drawingPanel);
-            CenterControltoLeftSideofRectangleVertically(selectedConveyor.Rectangle,
-                Conveyor_Reference_Fixed_Panel, drawingPanel);
+            if (menuProcess)
+            {
+                GVisual.HideControl(Conveyor_Reference_FixedorManuel_Panel, groupBox_SelectedConveyor);
+                GVisual.ShowControl(Conveyor_Reference_Fixed_Panel, groupBox_SelectedConveyor);
+                GVisual.Control_Center(Conveyor_Reference_Fixed_Panel, groupBox_SelectedConveyor);
 
+
+                chk_Conveyor_Reference_Bottom.ForeColor = System.Drawing.Color.Black;
+                chk_Conveyor_Reference_Bottom.Font = new System.Drawing.Font("Segoe UI", 9);
+
+                chk_Conveyor_Reference_Top.ForeColor = System.Drawing.Color.Black;
+                chk_Conveyor_Reference_Top.Font = new System.Drawing.Font("Segoe UI", 9);
+
+                chk_Conveyor_Reference_Right.ForeColor = System.Drawing.Color.Black;
+                chk_Conveyor_Reference_Right.Font = new System.Drawing.Font("Segoe UI", 9);
+
+                chk_Conveyor_Reference_Left.ForeColor = System.Drawing.Color.Black;
+                chk_Conveyor_Reference_Left.Font = new System.Drawing.Font("Segoe UI", 9);
+
+                chk_Conveyor_Reference_Center.ForeColor = System.Drawing.Color.Black;
+                chk_Conveyor_Reference_Center.Font = new System.Drawing.Font("Segoe UI", 9);
+            }
+            else
+            {
+                GVisual.HideControl(Conveyor_Reference_FixedorManuel_Panel, drawingPanel);
+                CenterControltoLeftSideofRectangleVertically(selectedConveyor.Rectangle,
+                    Conveyor_Reference_Fixed_Panel, drawingPanel);
+            }
         }
         private void btn_Manuel_Reference_Point_Click(object sender, EventArgs e)
         {
-            GVisual.HideControl(Conveyor_Reference_FixedorManuel_Panel, drawingPanel);
-            CenterControltoLeftSideofRectangleVertically(selectedConveyor.Rectangle, Conveyor_Reference_Sayisi_Paneli,
-                drawingPanel);
+            if (menuProcess)
+            {
+                GVisual.HideControl(Conveyor_Reference_FixedorManuel_Panel, groupBox_SelectedConveyor);
+                GVisual.ShowControl(Conveyor_Reference_Sayisi_Paneli, groupBox_SelectedConveyor);
+                GVisual.Control_Center(Conveyor_Reference_Sayisi_Paneli, groupBox_SelectedConveyor);
+            }
+            else
+            {
+                GVisual.HideControl(Conveyor_Reference_FixedorManuel_Panel, drawingPanel);
+                CenterControltoLeftSideofRectangleVertically(selectedConveyor.Rectangle, Conveyor_Reference_Sayisi_Paneli,
+                    drawingPanel);
+            }
         }
         #endregion
 
 
 
-
-
-
+        //Depo SubMenu events
         #region Depo SubMenu Events
         private void depoMenuAcBTN_Click(object sender, EventArgs e)
         {
@@ -4808,6 +5143,7 @@ namespace Balya_Yerleştirme
             GVisual.HideControl(panel_Depo_Menu, groupBox_SelectedDepo);
             GVisual.HideControl(panel_Depo_SubMenu, groupBox_SelectedDepo);
             GVisual.HideControl(panel_Depo_SubMenu_Izgara_Haritasi, groupBox_SelectedDepo);
+            GVisual.HideControl(btn_Depo_Menu_Go_Back, groupBox_SelectedDepo);
 
             if (whichMenu == "Izgara Haritasi")
             {
@@ -4825,14 +5161,15 @@ namespace Balya_Yerleştirme
             {
                 GVisual.ShowControl(panel_Depo_Menu, groupBox_SelectedDepo);
                 GVisual.Control_Center(panel_Depo_Menu, groupBox_SelectedDepo);
-                GVisual.HideControl(btn_Depo_Menu_Go_Back, groupBox_SelectedDepo);
             }
         }
         #endregion
+        //Conveyor SubMenu Events
         #region Conveyor SubMenu Events
         private void conveyorMenuAcBTN_C1ick(object sender, EventArgs e)
         {
             SortFlowLayoutPanel(layoutPanel_SelectedConveyor);
+            Show_ConveyorMenus("Conveyor");
             if (!LeftSide_LayoutPanel.Visible)
             {
                 MainPanelOpenLeftSide(LeftSide_LayoutPanel, this, leftSidePanelLocation);
@@ -4861,7 +5198,7 @@ namespace Balya_Yerleştirme
         }
         public void Show_ConveyorMenus(string whichMenu)
         {
-            GVisual.HideControl(panel_Conveyor_Menu, groupBox_SelectedConveyor);
+            groupBox_SelectedConveyor.Controls.Clear();
 
             if (whichMenu == "Conveyor")
             {
@@ -4872,20 +5209,20 @@ namespace Balya_Yerleştirme
             {
                 GVisual.ShowControl(panel_Conveyor_Submenu, groupBox_SelectedConveyor);
                 GVisual.Control_Center(panel_Conveyor_Submenu, groupBox_SelectedConveyor);
+                GVisual.ShowControl(btn_Conveyor_Menu_Go_Back, groupBox_SelectedConveyor);
             }
             else if (whichMenu == "Referans SubMenu")
             {
                 GVisual.ShowControl(panel_Conveyor_SubMenu_Referans, groupBox_SelectedConveyor);
                 GVisual.Control_Center(panel_Conveyor_SubMenu_Referans, groupBox_SelectedConveyor);
+                GVisual.ShowControl(btn_Conveyor_Menu_Go_Back, groupBox_SelectedConveyor);
             }
         }
         #endregion
 
 
 
-
-
-
+        //All UI Operations Events and Methods (clearing textboxes, hide and show panels, hide and show textboxes, adjust locations of the areas and panels etc) 
         #region UI Operations
         public void HideEverything()
         {
@@ -5004,6 +5341,9 @@ namespace Balya_Yerleştirme
             if (LeftSide_LayoutPanel.Visible)
             {
                 MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
+                menuProcess = false;
+                Manuel_Move = false;
+                AddReferencePoint = false;
             }
             else
             {
@@ -5455,9 +5795,7 @@ namespace Balya_Yerleştirme
 
 
 
-
-
-
+        //Get Cm Values of the Location of the areas
         #region Convert to CM Methods
         public static float ConvertTwoRectanglesDistancetoCMVertically
             (float areaWidthMeters, float areaHeightMeters, RectangleF parentRectangle,
@@ -5603,6 +5941,18 @@ namespace Balya_Yerleştirme
 
         private void btn_Layout_Kaydet_Click(object sender, EventArgs e)
         {
+            if (RightSide_LayoutPanel.Visible && !LeftSide_LayoutPanel.Visible)
+            {
+                MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+            }
+            else if (!RightSide_LayoutPanel.Visible && LeftSide_LayoutPanel.Visible)
+            {
+                MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
+            }
+            else if (RightSide_LayoutPanel.Visible && LeftSide_LayoutPanel.Visible)
+            {
+                MainPanelCloseBothSides(LeftSide_LayoutPanel, RightSide_LayoutPanel, this);
+            }
             using (var dialog = new LayoutNaming())
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
@@ -5616,7 +5966,7 @@ namespace Balya_Yerleştirme
         }
 
 
-        
+
 
 
 

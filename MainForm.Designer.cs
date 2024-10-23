@@ -177,6 +177,7 @@
             toolStripButton1 = new ToolStripButton();
             Balya_Context_Menu_Strip = new ContextMenuStrip(components);
             depodakiNesneleriGörüntüleToolStripMenuItem = new ToolStripMenuItem();
+            balyayıAlToolStripMenuItem = new ToolStripMenuItem();
             errorProvider = new ErrorProvider(components);
             notify = new NotifyIcon(components);
             saveFileDialog = new SaveFileDialog();
@@ -193,7 +194,6 @@
             btn_PLC_ConnectionPanel_Kapat = new Button();
             btn_PLC_Barkod_Oku = new Krypton.Toolkit.KryptonButton();
             PLC_Timer = new System.Windows.Forms.Timer(components);
-            balyayıAlToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)Nesne_Yerlestirme_First_Panel).BeginInit();
             Nesne_Yerlestirme_First_Panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)combo_Tur_Kodu).BeginInit();
@@ -242,7 +242,7 @@
             Nesne_Yerlestirme_First_Panel.Controls.Add(Line_Mal_2);
             Nesne_Yerlestirme_First_Panel.Controls.Add(txt_Item_Agirligi);
             Nesne_Yerlestirme_First_Panel.Controls.Add(btn_Nesne_Yerlestirme_First_Panel_Kapat);
-            Nesne_Yerlestirme_First_Panel.Location = new Point(708, 1006);
+            Nesne_Yerlestirme_First_Panel.Location = new Point(386, 1020);
             Nesne_Yerlestirme_First_Panel.Name = "Nesne_Yerlestirme_First_Panel";
             Nesne_Yerlestirme_First_Panel.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
             Nesne_Yerlestirme_First_Panel.Size = new Size(364, 909);
@@ -699,7 +699,7 @@
             infopanel.Controls.Add(lbl_Info_Balya_Aciklamasi);
             infopanel.Controls.Add(lbl_Info_Title);
             infopanel.Controls.Add(lbl_Info_Balya_Etiketi);
-            infopanel.Location = new Point(1731, 605);
+            infopanel.Location = new Point(1543, 632);
             infopanel.Name = "infopanel";
             infopanel.Size = new Size(334, 274);
             infopanel.TabIndex = 19;
@@ -991,7 +991,7 @@
             PLC_Sim_Panel.Controls.Add(kryptonBorderEdge24);
             PLC_Sim_Panel.Controls.Add(BorderEdge_BarkodOku_Bottom);
             PLC_Sim_Panel.Controls.Add(btn_PLC_Sim_Panel_Kapat);
-            PLC_Sim_Panel.Location = new Point(1078, 1006);
+            PLC_Sim_Panel.Location = new Point(756, 1020);
             PLC_Sim_Panel.Name = "PLC_Sim_Panel";
             PLC_Sim_Panel.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
             PLC_Sim_Panel.Size = new Size(364, 909);
@@ -1281,7 +1281,7 @@
             Nesne_Al_First_Panel.Controls.Add(btn_Nesne_Bul_Vazgec);
             Nesne_Al_First_Panel.Controls.Add(btn_Nesne_Bul);
             Nesne_Al_First_Panel.Controls.Add(btn_Nesne_Al_First_Panel_Kapat);
-            Nesne_Al_First_Panel.Location = new Point(1448, 1006);
+            Nesne_Al_First_Panel.Location = new Point(1126, 1020);
             Nesne_Al_First_Panel.Name = "Nesne_Al_First_Panel";
             Nesne_Al_First_Panel.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
             Nesne_Al_First_Panel.Size = new Size(364, 909);
@@ -1742,7 +1742,7 @@
             PLC_DB_AdressPanel.Controls.Add(btn_DB_Onayla);
             PLC_DB_AdressPanel.Controls.Add(btn_PLC_DB_AddressPanel_Kapat);
             PLC_DB_AdressPanel.Controls.Add(txt_Nesne_Etiketi_DB_Address);
-            PLC_DB_AdressPanel.Location = new Point(1818, 1006);
+            PLC_DB_AdressPanel.Location = new Point(1496, 1020);
             PLC_DB_AdressPanel.Name = "PLC_DB_AdressPanel";
             PLC_DB_AdressPanel.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
             PLC_DB_AdressPanel.Size = new Size(364, 909);
@@ -2103,7 +2103,7 @@
             Balya_Context_Menu_Strip.Font = new Font("Segoe UI", 9F);
             Balya_Context_Menu_Strip.Items.AddRange(new ToolStripItem[] { depodakiNesneleriGörüntüleToolStripMenuItem, balyayıAlToolStripMenuItem });
             Balya_Context_Menu_Strip.Name = "contextMenuStrip1";
-            Balya_Context_Menu_Strip.Size = new Size(182, 70);
+            Balya_Context_Menu_Strip.Size = new Size(182, 48);
             // 
             // depodakiNesneleriGörüntüleToolStripMenuItem
             // 
@@ -2112,6 +2112,13 @@
             depodakiNesneleriGörüntüleToolStripMenuItem.Size = new Size(181, 22);
             depodakiNesneleriGörüntüleToolStripMenuItem.Text = "Özellikleri Görüntüle";
             depodakiNesneleriGörüntüleToolStripMenuItem.Click += depodakiNesneleriGörüntüleToolStripMenuItem_Click;
+            // 
+            // balyayıAlToolStripMenuItem
+            // 
+            balyayıAlToolStripMenuItem.Name = "balyayıAlToolStripMenuItem";
+            balyayıAlToolStripMenuItem.Size = new Size(181, 22);
+            balyayıAlToolStripMenuItem.Text = "balyayı al";
+            balyayıAlToolStripMenuItem.Click += balyayıAlToolStripMenuItem_Click_1;
             // 
             // errorProvider
             // 
@@ -2295,13 +2302,6 @@
             // 
             PLC_Timer.Tick += PLC_Timer_Tick;
             // 
-            // balyayıAlToolStripMenuItem
-            // 
-            balyayıAlToolStripMenuItem.Name = "balyayıAlToolStripMenuItem";
-            balyayıAlToolStripMenuItem.Size = new Size(181, 22);
-            balyayıAlToolStripMenuItem.Text = "balyayı al";
-            balyayıAlToolStripMenuItem.Click += balyayıAlToolStripMenuItem_Click_1;
-            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -2309,10 +2309,10 @@
             BackColor = Color.LightGray;
             ClientSize = new Size(1904, 1041);
             Controls.Add(Nesne_Yerlestirme_First_Panel);
-            Controls.Add(btn_PLC_Barkod_Oku);
-            Controls.Add(PLC_Sim_Panel);
-            Controls.Add(PLC_Connection_Panel);
             Controls.Add(Nesne_Al_First_Panel);
+            Controls.Add(PLC_Sim_Panel);
+            Controls.Add(btn_PLC_Barkod_Oku);
+            Controls.Add(PLC_Connection_Panel);
             Controls.Add(ProgressBarPanel);
             Controls.Add(PLC_DB_AdressPanel);
             Controls.Add(btn_Layout_Olustur);

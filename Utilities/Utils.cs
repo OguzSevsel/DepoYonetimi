@@ -1107,31 +1107,5 @@ namespace Balya_Yerleştirme.Utilities
             }
         }
 
-
-        //UI Operations
-        public static void MoveOpenCloseLayoutPanelButton()
-        {
-            
-        }
-        
-
-        public static void AddtoLayoutPanel(FlowLayoutPanel LayoutPanel, System.Windows.Forms.Control control)
-        {
-            if (!LayoutPanel.Controls.Contains(control))
-            {
-                LayoutPanel.Controls.Add(control);
-                control.Show();
-                control.Visible = true;
-            }
-        }
-        public static void RemoveFromLayoutPanel(FlowLayoutPanel LayoutPanel, System.Windows.Forms.Control control)
-        {
-            if (LayoutPanel.Controls.Contains(control))
-            {
-                LayoutPanel.Controls.Remove(control);
-                control.Hide();
-                control.Visible = false;
-            }
-        }
     }
 }
