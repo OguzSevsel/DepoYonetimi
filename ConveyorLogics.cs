@@ -206,6 +206,13 @@ namespace Balya_Yerleştirme.Models
                         layout.SelectedConveyorPen.Width = 3;
                         layout.SelectedConveyorEdgePen.Width = 3;
                         layout.conveyorMenuStrip.Show(Cursor.Position);
+
+                        if (layout.LeftSide_LayoutPanel.Visible)
+                        {
+                            layout.SortFlowLayoutPanel(layout.layoutPanel_SelectedConveyor);
+                            layout.Show_ConveyorMenus("Conveyor");
+                        }
+
                         layout.drawingPanel.Invalidate();
                     }
                 }
@@ -230,7 +237,11 @@ namespace Balya_Yerleştirme.Models
                             isDragging = true;
                             DragStartPoint = e.Location;
                             //holderRectangle = new RectangleF(Rectangle.X, Rectangle.Y, Rectangle.Width, Rectangle.Height);
-                            layout.SortFlowLayoutPanel(layout.layoutPanel_SelectedConveyor);
+                            if (layout.LeftSide_LayoutPanel.Visible)
+                            {
+                                layout.SortFlowLayoutPanel(layout.layoutPanel_SelectedConveyor);
+                                layout.Show_ConveyorMenus("Conveyor");
+                            }
                             layout.drawingPanel.Invalidate();
                         }
                     }

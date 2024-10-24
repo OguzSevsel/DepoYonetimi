@@ -275,6 +275,11 @@ namespace Balya_Yerleştirme.Models
                             layout.colCount = ColumnCount;
                             layout.rowCount = RowCount;
                             layout.MenuStrip.Show(Cursor.Position);
+                            if (layout.LeftSide_LayoutPanel.Visible)
+                            {
+                                layout.SortFlowLayoutPanel(layout.LayoutPanel_SelectedDepo);
+                                layout.Show_DepoMenus("Depo");
+                            }
                         }
                     }
                 }
@@ -291,7 +296,11 @@ namespace Balya_Yerleştirme.Models
                             layout.SelectedDepoPen.Color = System.Drawing.Color.Blue;
                             isDragging = true;
                             DragStartPoint = e.Location;
-                            layout.SortFlowLayoutPanel(layout.LayoutPanel_SelectedDepo);
+                            if (layout.LeftSide_LayoutPanel.Visible)
+                            {
+                                layout.SortFlowLayoutPanel(layout.LayoutPanel_SelectedDepo);
+                                layout.Show_DepoMenus("Depo");
+                            }
                         }
                     }
                 }

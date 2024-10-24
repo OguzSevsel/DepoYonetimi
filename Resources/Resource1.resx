@@ -154,6 +154,9 @@
   <data name="Grid" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Grid.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Location Update" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Location Update.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Downloading_Updates" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Downloading Updates.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -166,8 +169,8 @@
   <data name="Squared Menu" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Squared Menu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Left" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Square Bale1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Square Bale2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Move_Grabber" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Move Grabber.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -181,9 +184,6 @@
   <data name="Reset" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Reset.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Floor_Plan" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Floor Plan.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Move" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Move.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -196,11 +196,17 @@
   <data name="Square_Bale" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Square Bale.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Conveyor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Conveyor.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Chevron_Right" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Chevron Right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Done" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Done.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Floor_Plan" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Floor Plan.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Xls_Export" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Xls Export.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -211,8 +217,11 @@
   <data name="Map_Pin" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Map Pin1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Tag_Window" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Tag Window.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Page_Size" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Page Size.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Go_Back" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Go Back.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Right" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -241,9 +250,6 @@
   <data name="Health_Data" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Health Data.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Go_Back" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Go Back.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Down" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -262,22 +268,19 @@
   <data name="Square Bale" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Square Bale1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Conveyor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Conveyor.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Left" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Remove" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Remove.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Square Bale1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Square Bale2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Tag_Window" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Tag Window.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Navigation" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Navigation.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Location Update" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Location Update.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Page_Size" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Page Size.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Empty" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Empty.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

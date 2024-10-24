@@ -194,7 +194,31 @@ namespace Balya_Yerleştirme.Models
                             layout.selectedConveyor == null &&
                             layout.selectedDepo == null)
                         {
+                            layout.SelectedAmbar = this;
+                            layout.SelectedAmbarPen.Width = 3;
+                            layout.SelectedAmbarPen.Color = System.Drawing.Color.Blue;
                             layout.ambarMenuStrip.Show(Cursor.Position);
+                            if (layout.LeftSide_LayoutPanel.Visible)
+                            {
+                                layout.SortFlowLayoutPanel(layout.layoutPanel_Ambar);
+                                layout.Show_AreaMenus("Alan");
+                            }
+                        }
+                    }
+                    if (e.Button == MouseButtons.Left)
+                    {
+                        if (Rectangle.Contains(scaledPoint) &&
+                            layout.selectedConveyor == null &&
+                            layout.selectedDepo == null)
+                        {
+                            layout.SelectedAmbar = this;
+                            layout.SelectedAmbarPen.Width = 3;
+                            layout.SelectedAmbarPen.Color = System.Drawing.Color.Blue;
+                            if (layout.LeftSide_LayoutPanel.Visible)
+                            {
+                                layout.SortFlowLayoutPanel(layout.layoutPanel_Ambar);
+                                layout.Show_AreaMenus("Alan");
+                            }
                         }
                     }
                 }

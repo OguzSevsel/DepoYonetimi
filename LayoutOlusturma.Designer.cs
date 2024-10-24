@@ -31,27 +31,6 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LayoutOlusturma));
             drawingPanel = new Panel();
-            LeftPanel_Izgara_Olusturma = new Panel();
-            kryptonBorderEdge51 = new Krypton.Toolkit.KryptonBorderEdge();
-            kryptonBorderEdge52 = new Krypton.Toolkit.KryptonBorderEdge();
-            kryptonBorderEdge53 = new Krypton.Toolkit.KryptonBorderEdge();
-            txt_Left_Dikey_Kenar_Boslugu = new Krypton.Toolkit.KryptonTextBox();
-            lbl_Left_Yatay_Kenar_Boslugu = new Krypton.Toolkit.KryptonWrapLabel();
-            txt_Left_Yatay_Kenar_Boslugu = new Krypton.Toolkit.KryptonTextBox();
-            lbl_Left_Izgara_Olusturma_Kenar_Title = new Krypton.Toolkit.KryptonWrapLabel();
-            lbl_Left_Dikey_Kenar_Boslugu = new Krypton.Toolkit.KryptonWrapLabel();
-            kryptonBorderEdge54 = new Krypton.Toolkit.KryptonBorderEdge();
-            kryptonBorderEdge55 = new Krypton.Toolkit.KryptonBorderEdge();
-            lbl_Left_Nesne_Yuksekligi = new Krypton.Toolkit.KryptonWrapLabel();
-            txt_Left_Nesne_Yuksekligi = new Krypton.Toolkit.KryptonTextBox();
-            btn_Left_Izgara_Olusturma_Go_Back = new Button();
-            lbl_Left_Izgara_Olusturma_Nesne_Title = new Krypton.Toolkit.KryptonWrapLabel();
-            lbl_Left_Nesne_Boyu = new Krypton.Toolkit.KryptonWrapLabel();
-            lbl_Left_Nesne_Eni = new Krypton.Toolkit.KryptonWrapLabel();
-            btn_Left_Izgara_Haritasi_Vazgec = new Krypton.Toolkit.KryptonButton();
-            txt_Left_Nesne_Eni = new Krypton.Toolkit.KryptonTextBox();
-            btn_Left_Izgara_Haritasi_Olustur = new Krypton.Toolkit.KryptonButton();
-            txt_Left_Nesne_Boyu = new Krypton.Toolkit.KryptonTextBox();
             btn_openClose_RightSide = new Button();
             btn_OpenClose_LeftSide = new Button();
             Conveyor_Reference_FixedorManuel_Panel = new Panel();
@@ -67,6 +46,17 @@
             chk_Conveyor_Reference_Top = new CheckBox();
             lbl_Conveyor_Reference_Fixed_Title = new Krypton.Toolkit.KryptonWrapLabel();
             btn_Conveyor_Reference_Fixed_Onayla = new Button();
+            layoutPanel_Ambar = new FlowLayoutPanel();
+            groupBox_Ambar = new GroupBox();
+            panel_Alan_SubMenu = new Panel();
+            btn_Alan_SubMenu_Depolara_Izgara_Ekle = new Button();
+            btn_Alan_SubMenu_Sil = new Button();
+            btn_Alan_SubMenu_Boyut_Degistir = new Button();
+            btn_Alan_SubMenu_Bosalt = new Button();
+            btn_Alan_Menu_Go_Back = new Button();
+            panel_Alan_Menu = new Panel();
+            btn_Alan_SubMenu = new Button();
+            btn_Alan_SubMenu_Depo_Siralamasi = new Button();
             Conveyor_Reference_Sayisi_Paneli = new Panel();
             txt_Conveyor_Reference_Y = new TextBox();
             lbl_Conveyor_Reference_Y = new Krypton.Toolkit.KryptonWrapLabel();
@@ -129,6 +119,19 @@
             lbl_Placement_Yukseklik_Depo_Alani_Yuksekligi = new Krypton.Toolkit.KryptonWrapLabel();
             lbl_Placement_Yukseklik_SubTitle = new Krypton.Toolkit.KryptonWrapLabel();
             lbl_Placement_Yukseklik_Title = new Krypton.Toolkit.KryptonWrapLabel();
+            Placement_UpDown_Panel = new Panel();
+            btn_Placement_UpDown_NextPage = new Button();
+            pictureBox2 = new PictureBox();
+            pictureBox1 = new PictureBox();
+            radio_To_Down = new RadioButton();
+            kryptonBorderEdge20 = new Krypton.Toolkit.KryptonBorderEdge();
+            kryptonBorderEdge19 = new Krypton.Toolkit.KryptonBorderEdge();
+            radio_To_Up = new RadioButton();
+            lbl_Placement_UpDown_Title = new Krypton.Toolkit.KryptonWrapLabel();
+            kryptonBorderEdge33 = new Krypton.Toolkit.KryptonBorderEdge();
+            LayoutPanel_Alan_Hierarchy = new FlowLayoutPanel();
+            groupBox_Hierarchy_TreeView = new GroupBox();
+            AlanTreeView = new TreeView();
             PaddingPanel = new Panel();
             btn_PaddingPanel_Kapat = new Button();
             kryptonBorderEdge30 = new Krypton.Toolkit.KryptonBorderEdge();
@@ -159,16 +162,27 @@
             txt_Right_Padding = new Krypton.Toolkit.KryptonTextBox();
             txt_Bottom_Padding = new Krypton.Toolkit.KryptonTextBox();
             txt_Top_Padding = new Krypton.Toolkit.KryptonTextBox();
-            Placement_UpDown_Panel = new Panel();
-            btn_Placement_UpDown_NextPage = new Button();
-            pictureBox2 = new PictureBox();
-            pictureBox1 = new PictureBox();
-            radio_To_Down = new RadioButton();
-            kryptonBorderEdge20 = new Krypton.Toolkit.KryptonBorderEdge();
-            kryptonBorderEdge19 = new Krypton.Toolkit.KryptonBorderEdge();
-            radio_To_Up = new RadioButton();
-            lbl_Placement_UpDown_Title = new Krypton.Toolkit.KryptonWrapLabel();
-            kryptonBorderEdge33 = new Krypton.Toolkit.KryptonBorderEdge();
+            LeftPanel_Izgara_Olusturma = new Panel();
+            kryptonBorderEdge51 = new Krypton.Toolkit.KryptonBorderEdge();
+            kryptonBorderEdge52 = new Krypton.Toolkit.KryptonBorderEdge();
+            kryptonBorderEdge53 = new Krypton.Toolkit.KryptonBorderEdge();
+            txt_Left_Dikey_Kenar_Boslugu = new Krypton.Toolkit.KryptonTextBox();
+            lbl_Left_Yatay_Kenar_Boslugu = new Krypton.Toolkit.KryptonWrapLabel();
+            txt_Left_Yatay_Kenar_Boslugu = new Krypton.Toolkit.KryptonTextBox();
+            lbl_Left_Izgara_Olusturma_Kenar_Title = new Krypton.Toolkit.KryptonWrapLabel();
+            lbl_Left_Dikey_Kenar_Boslugu = new Krypton.Toolkit.KryptonWrapLabel();
+            kryptonBorderEdge54 = new Krypton.Toolkit.KryptonBorderEdge();
+            kryptonBorderEdge55 = new Krypton.Toolkit.KryptonBorderEdge();
+            lbl_Left_Nesne_Yuksekligi = new Krypton.Toolkit.KryptonWrapLabel();
+            txt_Left_Nesne_Yuksekligi = new Krypton.Toolkit.KryptonTextBox();
+            btn_Left_Izgara_Olusturma_Go_Back = new Button();
+            lbl_Left_Izgara_Olusturma_Nesne_Title = new Krypton.Toolkit.KryptonWrapLabel();
+            lbl_Left_Nesne_Boyu = new Krypton.Toolkit.KryptonWrapLabel();
+            lbl_Left_Nesne_Eni = new Krypton.Toolkit.KryptonWrapLabel();
+            btn_Left_Izgara_Haritasi_Vazgec = new Krypton.Toolkit.KryptonButton();
+            txt_Left_Nesne_Eni = new Krypton.Toolkit.KryptonTextBox();
+            btn_Left_Izgara_Haritasi_Olustur = new Krypton.Toolkit.KryptonButton();
+            txt_Left_Nesne_Boyu = new Krypton.Toolkit.KryptonTextBox();
             panel_Depo_SubMenu_Izgara_Haritasi = new Panel();
             btn_Depo_SubMenu_Izgara_Haritasi_Olustur = new Button();
             btn_Depo_SubMenu_Izgara_Haritasi_Boyut_Degistir = new Button();
@@ -327,14 +341,25 @@
             panel_Conveyor_Menu = new Panel();
             btn_Conveyor_SubMenu_Referans = new Button();
             btn_Conveyor_SubMenu = new Button();
-            layoutPanel_Ambar = new FlowLayoutPanel();
-            groupBox_Ambar = new GroupBox();
-            treeView_Ambar = new TreeView();
             RightSide_LayoutPanel = new FlowLayoutPanel();
+            LeftSide_Alan_Boyut_Degistirme_Paneli = new Panel();
+            kryptonBorderEdge56 = new Krypton.Toolkit.KryptonBorderEdge();
+            kryptonBorderEdge57 = new Krypton.Toolkit.KryptonBorderEdge();
+            btn_Left_Alan_Boyut_Degistirme_Paneli_Kapat = new Button();
+            lbl_Left_Alan_Boyut_Title = new Krypton.Toolkit.KryptonWrapLabel();
+            lbl_Left_Alan_Boyu = new Krypton.Toolkit.KryptonWrapLabel();
+            lbl_Left_Alan_Eni = new Krypton.Toolkit.KryptonWrapLabel();
+            txt_Left_Alan_Eni = new Krypton.Toolkit.KryptonTextBox();
+            txt_Left_Alan_Boyu = new Krypton.Toolkit.KryptonTextBox();
+            btn_Left_Alan_Boyut_Degistir_Vazgec = new Krypton.Toolkit.KryptonButton();
+            btn_Left_Alan_Boyut_Degistir = new Krypton.Toolkit.KryptonButton();
             drawingPanel.SuspendLayout();
-            LeftPanel_Izgara_Olusturma.SuspendLayout();
             Conveyor_Reference_FixedorManuel_Panel.SuspendLayout();
             Conveyor_Reference_Fixed_Panel.SuspendLayout();
+            layoutPanel_Ambar.SuspendLayout();
+            groupBox_Ambar.SuspendLayout();
+            panel_Alan_SubMenu.SuspendLayout();
+            panel_Alan_Menu.SuspendLayout();
             Conveyor_Reference_Sayisi_Paneli.SuspendLayout();
             Placement_LeftRight_Panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
@@ -342,10 +367,13 @@
             Asama2_Yukseklik_Panel.SuspendLayout();
             Placement_StartLocation_Panel.SuspendLayout();
             Asama1_Yukseklik_Panel.SuspendLayout();
-            PaddingPanel.SuspendLayout();
             Placement_UpDown_Panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            LayoutPanel_Alan_Hierarchy.SuspendLayout();
+            groupBox_Hierarchy_TreeView.SuspendLayout();
+            PaddingPanel.SuspendLayout();
+            LeftPanel_Izgara_Olusturma.SuspendLayout();
             panel_Depo_SubMenu_Izgara_Haritasi.SuspendLayout();
             panel_Depo_SubMenu.SuspendLayout();
             Alan_Olusturma_Paneli.SuspendLayout();
@@ -369,25 +397,24 @@
             panel_Conveyor_SubMenu_Referans.SuspendLayout();
             panel_Conveyor_Submenu.SuspendLayout();
             panel_Conveyor_Menu.SuspendLayout();
-            layoutPanel_Ambar.SuspendLayout();
-            groupBox_Ambar.SuspendLayout();
+            LeftSide_Alan_Boyut_Degistirme_Paneli.SuspendLayout();
             SuspendLayout();
             // 
             // drawingPanel
             // 
             drawingPanel.AccessibleName = "drawingPanel";
             drawingPanel.BorderStyle = BorderStyle.FixedSingle;
-            drawingPanel.Controls.Add(LeftPanel_Izgara_Olusturma);
             drawingPanel.Controls.Add(btn_openClose_RightSide);
             drawingPanel.Controls.Add(btn_OpenClose_LeftSide);
             drawingPanel.Controls.Add(Conveyor_Reference_FixedorManuel_Panel);
             drawingPanel.Controls.Add(Conveyor_Reference_Fixed_Panel);
+            drawingPanel.Controls.Add(LayoutPanel_Alan_Hierarchy);
+            drawingPanel.Controls.Add(layoutPanel_Ambar);
             drawingPanel.Controls.Add(Conveyor_Reference_Sayisi_Paneli);
             drawingPanel.Controls.Add(Placement_LeftRight_Panel);
             drawingPanel.Controls.Add(Asama2_Yukseklik_Panel);
             drawingPanel.Controls.Add(Placement_StartLocation_Panel);
             drawingPanel.Controls.Add(Asama1_Yukseklik_Panel);
-            drawingPanel.Controls.Add(PaddingPanel);
             drawingPanel.Controls.Add(Placement_UpDown_Panel);
             drawingPanel.Location = new Point(343, 102);
             drawingPanel.Name = "drawingPanel";
@@ -398,289 +425,6 @@
             drawingPanel.MouseDown += drawingPanel_MouseDown;
             drawingPanel.MouseMove += drawingPanel_MouseMove;
             drawingPanel.MouseUp += drawingPanel_MouseUp;
-            // 
-            // LeftPanel_Izgara_Olusturma
-            // 
-            LeftPanel_Izgara_Olusturma.BackColor = Color.LightCyan;
-            LeftPanel_Izgara_Olusturma.Controls.Add(kryptonBorderEdge51);
-            LeftPanel_Izgara_Olusturma.Controls.Add(kryptonBorderEdge52);
-            LeftPanel_Izgara_Olusturma.Controls.Add(kryptonBorderEdge53);
-            LeftPanel_Izgara_Olusturma.Controls.Add(txt_Left_Dikey_Kenar_Boslugu);
-            LeftPanel_Izgara_Olusturma.Controls.Add(lbl_Left_Yatay_Kenar_Boslugu);
-            LeftPanel_Izgara_Olusturma.Controls.Add(txt_Left_Yatay_Kenar_Boslugu);
-            LeftPanel_Izgara_Olusturma.Controls.Add(lbl_Left_Izgara_Olusturma_Kenar_Title);
-            LeftPanel_Izgara_Olusturma.Controls.Add(lbl_Left_Dikey_Kenar_Boslugu);
-            LeftPanel_Izgara_Olusturma.Controls.Add(kryptonBorderEdge54);
-            LeftPanel_Izgara_Olusturma.Controls.Add(kryptonBorderEdge55);
-            LeftPanel_Izgara_Olusturma.Controls.Add(lbl_Left_Nesne_Yuksekligi);
-            LeftPanel_Izgara_Olusturma.Controls.Add(txt_Left_Nesne_Yuksekligi);
-            LeftPanel_Izgara_Olusturma.Controls.Add(btn_Left_Izgara_Olusturma_Go_Back);
-            LeftPanel_Izgara_Olusturma.Controls.Add(lbl_Left_Izgara_Olusturma_Nesne_Title);
-            LeftPanel_Izgara_Olusturma.Controls.Add(lbl_Left_Nesne_Boyu);
-            LeftPanel_Izgara_Olusturma.Controls.Add(lbl_Left_Nesne_Eni);
-            LeftPanel_Izgara_Olusturma.Controls.Add(btn_Left_Izgara_Haritasi_Vazgec);
-            LeftPanel_Izgara_Olusturma.Controls.Add(txt_Left_Nesne_Eni);
-            LeftPanel_Izgara_Olusturma.Controls.Add(btn_Left_Izgara_Haritasi_Olustur);
-            LeftPanel_Izgara_Olusturma.Controls.Add(txt_Left_Nesne_Boyu);
-            LeftPanel_Izgara_Olusturma.Location = new Point(69, 12);
-            LeftPanel_Izgara_Olusturma.Name = "LeftPanel_Izgara_Olusturma";
-            LeftPanel_Izgara_Olusturma.Size = new Size(310, 883);
-            LeftPanel_Izgara_Olusturma.TabIndex = 40;
-            // 
-            // kryptonBorderEdge51
-            // 
-            kryptonBorderEdge51.Location = new Point(67, 655);
-            kryptonBorderEdge51.Name = "kryptonBorderEdge51";
-            kryptonBorderEdge51.Size = new Size(175, 1);
-            kryptonBorderEdge51.Text = "kryptonBorderEdge51";
-            // 
-            // kryptonBorderEdge52
-            // 
-            kryptonBorderEdge52.Location = new Point(67, 522);
-            kryptonBorderEdge52.Name = "kryptonBorderEdge52";
-            kryptonBorderEdge52.Size = new Size(175, 1);
-            kryptonBorderEdge52.Text = "kryptonBorderEdge52";
-            // 
-            // kryptonBorderEdge53
-            // 
-            kryptonBorderEdge53.Location = new Point(68, 299);
-            kryptonBorderEdge53.Name = "kryptonBorderEdge53";
-            kryptonBorderEdge53.Size = new Size(175, 1);
-            kryptonBorderEdge53.Text = "kryptonBorderEdge53";
-            // 
-            // txt_Left_Dikey_Kenar_Boslugu
-            // 
-            txt_Left_Dikey_Kenar_Boslugu.Location = new Point(160, 576);
-            txt_Left_Dikey_Kenar_Boslugu.Name = "txt_Left_Dikey_Kenar_Boslugu";
-            txt_Left_Dikey_Kenar_Boslugu.Size = new Size(123, 27);
-            txt_Left_Dikey_Kenar_Boslugu.StateCommon.Content.Color1 = SystemColors.GrayText;
-            txt_Left_Dikey_Kenar_Boslugu.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            txt_Left_Dikey_Kenar_Boslugu.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            txt_Left_Dikey_Kenar_Boslugu.TabIndex = 3;
-            txt_Left_Dikey_Kenar_Boslugu.Text = "20";
-            txt_Left_Dikey_Kenar_Boslugu.ToolTipValues.Description = "Az önce girdiğiniz nesnenin en ve boy değerine göre ve \r\nburaya girdiğiniz değere göre ızgara haritasındaki \r\nher bir hücrenin boyutu ortaya çıkacaktır.";
-            txt_Left_Dikey_Kenar_Boslugu.ToolTipValues.EnableToolTips = true;
-            txt_Left_Dikey_Kenar_Boslugu.ToolTipValues.Heading = "";
-            // 
-            // lbl_Left_Yatay_Kenar_Boslugu
-            // 
-            lbl_Left_Yatay_Kenar_Boslugu.AutoSize = false;
-            lbl_Left_Yatay_Kenar_Boslugu.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            lbl_Left_Yatay_Kenar_Boslugu.ForeColor = Color.Black;
-            lbl_Left_Yatay_Kenar_Boslugu.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Left_Yatay_Kenar_Boslugu.Location = new Point(13, 674);
-            lbl_Left_Yatay_Kenar_Boslugu.Name = "lbl_Left_Yatay_Kenar_Boslugu";
-            lbl_Left_Yatay_Kenar_Boslugu.Size = new Size(134, 96);
-            lbl_Left_Yatay_Kenar_Boslugu.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            lbl_Left_Yatay_Kenar_Boslugu.StateCommon.TextColor = Color.Black;
-            lbl_Left_Yatay_Kenar_Boslugu.Text = "Hücre Yatay Kenar Boşluğu (Cm):";
-            lbl_Left_Yatay_Kenar_Boslugu.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // txt_Left_Yatay_Kenar_Boslugu
-            // 
-            txt_Left_Yatay_Kenar_Boslugu.Location = new Point(160, 709);
-            txt_Left_Yatay_Kenar_Boslugu.Name = "txt_Left_Yatay_Kenar_Boslugu";
-            txt_Left_Yatay_Kenar_Boslugu.Size = new Size(123, 27);
-            txt_Left_Yatay_Kenar_Boslugu.StateCommon.Content.Color1 = SystemColors.GrayText;
-            txt_Left_Yatay_Kenar_Boslugu.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            txt_Left_Yatay_Kenar_Boslugu.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            txt_Left_Yatay_Kenar_Boslugu.TabIndex = 4;
-            txt_Left_Yatay_Kenar_Boslugu.Text = "20";
-            txt_Left_Yatay_Kenar_Boslugu.ToolTipValues.Description = "Az önce girdiğiniz nesnenin en ve boy değerine göre ve \r\nburaya girdiğiniz değere göre ızgara haritasındaki \r\nher bir hücrenin boyutu ortaya çıkacaktır.";
-            txt_Left_Yatay_Kenar_Boslugu.ToolTipValues.EnableToolTips = true;
-            txt_Left_Yatay_Kenar_Boslugu.ToolTipValues.Heading = "";
-            // 
-            // lbl_Left_Izgara_Olusturma_Kenar_Title
-            // 
-            lbl_Left_Izgara_Olusturma_Kenar_Title.AutoSize = false;
-            lbl_Left_Izgara_Olusturma_Kenar_Title.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            lbl_Left_Izgara_Olusturma_Kenar_Title.ForeColor = Color.Red;
-            lbl_Left_Izgara_Olusturma_Kenar_Title.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Left_Izgara_Olusturma_Kenar_Title.Location = new Point(6, 393);
-            lbl_Left_Izgara_Olusturma_Kenar_Title.Name = "lbl_Left_Izgara_Olusturma_Kenar_Title";
-            lbl_Left_Izgara_Olusturma_Kenar_Title.Size = new Size(300, 126);
-            lbl_Left_Izgara_Olusturma_Kenar_Title.StateCommon.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            lbl_Left_Izgara_Olusturma_Kenar_Title.StateCommon.TextColor = Color.Red;
-            lbl_Left_Izgara_Olusturma_Kenar_Title.Text = "Lütfen Koymak İstediğiniz Nesnelere Göre Aşağıdaki Alanları Doldurunuz";
-            lbl_Left_Izgara_Olusturma_Kenar_Title.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Left_Dikey_Kenar_Boslugu
-            // 
-            lbl_Left_Dikey_Kenar_Boslugu.AutoSize = false;
-            lbl_Left_Dikey_Kenar_Boslugu.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            lbl_Left_Dikey_Kenar_Boslugu.ForeColor = Color.Black;
-            lbl_Left_Dikey_Kenar_Boslugu.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Left_Dikey_Kenar_Boslugu.Location = new Point(14, 541);
-            lbl_Left_Dikey_Kenar_Boslugu.Name = "lbl_Left_Dikey_Kenar_Boslugu";
-            lbl_Left_Dikey_Kenar_Boslugu.Size = new Size(134, 96);
-            lbl_Left_Dikey_Kenar_Boslugu.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            lbl_Left_Dikey_Kenar_Boslugu.StateCommon.TextColor = Color.Black;
-            lbl_Left_Dikey_Kenar_Boslugu.Text = "Hücre Dikey Kenar Boşluğu (Cm): ";
-            lbl_Left_Dikey_Kenar_Boslugu.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // kryptonBorderEdge54
-            // 
-            kryptonBorderEdge54.Location = new Point(68, 226);
-            kryptonBorderEdge54.Name = "kryptonBorderEdge54";
-            kryptonBorderEdge54.Size = new Size(175, 1);
-            kryptonBorderEdge54.Text = "kryptonBorderEdge54";
-            // 
-            // kryptonBorderEdge55
-            // 
-            kryptonBorderEdge55.Location = new Point(68, 153);
-            kryptonBorderEdge55.Name = "kryptonBorderEdge55";
-            kryptonBorderEdge55.Size = new Size(175, 1);
-            kryptonBorderEdge55.Text = "kryptonBorderEdge55";
-            // 
-            // lbl_Left_Nesne_Yuksekligi
-            // 
-            lbl_Left_Nesne_Yuksekligi.AutoSize = false;
-            lbl_Left_Nesne_Yuksekligi.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            lbl_Left_Nesne_Yuksekligi.ForeColor = Color.Black;
-            lbl_Left_Nesne_Yuksekligi.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Left_Nesne_Yuksekligi.Location = new Point(13, 312);
-            lbl_Left_Nesne_Yuksekligi.Name = "lbl_Left_Nesne_Yuksekligi";
-            lbl_Left_Nesne_Yuksekligi.Size = new Size(134, 72);
-            lbl_Left_Nesne_Yuksekligi.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            lbl_Left_Nesne_Yuksekligi.StateCommon.TextColor = Color.Black;
-            lbl_Left_Nesne_Yuksekligi.Text = "Nesnenin Yüksekliği (Cm):";
-            lbl_Left_Nesne_Yuksekligi.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // txt_Left_Nesne_Yuksekligi
-            // 
-            txt_Left_Nesne_Yuksekligi.Location = new Point(154, 335);
-            txt_Left_Nesne_Yuksekligi.Name = "txt_Left_Nesne_Yuksekligi";
-            txt_Left_Nesne_Yuksekligi.Size = new Size(123, 27);
-            txt_Left_Nesne_Yuksekligi.StateCommon.Content.Color1 = SystemColors.GrayText;
-            txt_Left_Nesne_Yuksekligi.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            txt_Left_Nesne_Yuksekligi.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            txt_Left_Nesne_Yuksekligi.TabIndex = 2;
-            txt_Left_Nesne_Yuksekligi.Text = "100";
-            // 
-            // btn_Left_Izgara_Olusturma_Go_Back
-            // 
-            btn_Left_Izgara_Olusturma_Go_Back.FlatAppearance.BorderSize = 0;
-            btn_Left_Izgara_Olusturma_Go_Back.FlatStyle = FlatStyle.Flat;
-            btn_Left_Izgara_Olusturma_Go_Back.Image = Resources.Resource1.Go_Back;
-            btn_Left_Izgara_Olusturma_Go_Back.Location = new Point(257, 3);
-            btn_Left_Izgara_Olusturma_Go_Back.Name = "btn_Left_Izgara_Olusturma_Go_Back";
-            btn_Left_Izgara_Olusturma_Go_Back.Size = new Size(50, 50);
-            btn_Left_Izgara_Olusturma_Go_Back.TabIndex = 5;
-            btn_Left_Izgara_Olusturma_Go_Back.UseVisualStyleBackColor = true;
-            btn_Left_Izgara_Olusturma_Go_Back.Click += btn_Left_Izgara_Olusturma_Go_Back_Click;
-            // 
-            // lbl_Left_Izgara_Olusturma_Nesne_Title
-            // 
-            lbl_Left_Izgara_Olusturma_Nesne_Title.AutoSize = false;
-            lbl_Left_Izgara_Olusturma_Nesne_Title.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            lbl_Left_Izgara_Olusturma_Nesne_Title.ForeColor = Color.Red;
-            lbl_Left_Izgara_Olusturma_Nesne_Title.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Left_Izgara_Olusturma_Nesne_Title.Location = new Point(6, 56);
-            lbl_Left_Izgara_Olusturma_Nesne_Title.Name = "lbl_Left_Izgara_Olusturma_Nesne_Title";
-            lbl_Left_Izgara_Olusturma_Nesne_Title.Size = new Size(300, 94);
-            lbl_Left_Izgara_Olusturma_Nesne_Title.StateCommon.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            lbl_Left_Izgara_Olusturma_Nesne_Title.StateCommon.TextColor = Color.Red;
-            lbl_Left_Izgara_Olusturma_Nesne_Title.Text = "Depoya Konulacak Nesnelerin Boyutlarını Giriniz";
-            lbl_Left_Izgara_Olusturma_Nesne_Title.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Left_Nesne_Boyu
-            // 
-            lbl_Left_Nesne_Boyu.AutoSize = false;
-            lbl_Left_Nesne_Boyu.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            lbl_Left_Nesne_Boyu.ForeColor = Color.Black;
-            lbl_Left_Nesne_Boyu.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Left_Nesne_Boyu.Location = new Point(14, 239);
-            lbl_Left_Nesne_Boyu.Name = "lbl_Left_Nesne_Boyu";
-            lbl_Left_Nesne_Boyu.Size = new Size(134, 48);
-            lbl_Left_Nesne_Boyu.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            lbl_Left_Nesne_Boyu.StateCommon.TextColor = Color.Black;
-            lbl_Left_Nesne_Boyu.Text = "Nesnenin Boyu (Cm):";
-            lbl_Left_Nesne_Boyu.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Left_Nesne_Eni
-            // 
-            lbl_Left_Nesne_Eni.AutoSize = false;
-            lbl_Left_Nesne_Eni.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            lbl_Left_Nesne_Eni.ForeColor = Color.Black;
-            lbl_Left_Nesne_Eni.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Left_Nesne_Eni.Location = new Point(14, 166);
-            lbl_Left_Nesne_Eni.Name = "lbl_Left_Nesne_Eni";
-            lbl_Left_Nesne_Eni.Size = new Size(134, 48);
-            lbl_Left_Nesne_Eni.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            lbl_Left_Nesne_Eni.StateCommon.TextColor = Color.Black;
-            lbl_Left_Nesne_Eni.Text = "Nesnenin Eni (Cm):";
-            lbl_Left_Nesne_Eni.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // btn_Left_Izgara_Haritasi_Vazgec
-            // 
-            btn_Left_Izgara_Haritasi_Vazgec.CornerRoundingRadius = 20F;
-            btn_Left_Izgara_Haritasi_Vazgec.Location = new Point(154, 788);
-            btn_Left_Izgara_Haritasi_Vazgec.Name = "btn_Left_Izgara_Haritasi_Vazgec";
-            btn_Left_Izgara_Haritasi_Vazgec.Size = new Size(143, 89);
-            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Back.Image = (Image)resources.GetObject("btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Back.Image");
-            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Back.ImageAlign = Krypton.Toolkit.PaletteRectangleAlign.Local;
-            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Back.ImageStyle = Krypton.Toolkit.PaletteImageStyle.CenterLeft;
-            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Border.Color2 = Color.Red;
-            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Border.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
-            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
-            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Border.Rounding = 20F;
-            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Border.Width = 1;
-            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Content.Image.Effect = Krypton.Toolkit.PaletteImageEffect.Normal;
-            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Content.Image.ImageH = Krypton.Toolkit.PaletteRelativeAlign.Far;
-            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Content.Image.ImageV = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Content.Padding = new Padding(-1, -1, 5, -1);
-            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Content.ShortText.Color1 = Color.FromArgb(255, 128, 128);
-            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Content.ShortText.Font = new Font("Sylfaen", 17F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Content.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Far;
-            btn_Left_Izgara_Haritasi_Vazgec.TabIndex = 6;
-            btn_Left_Izgara_Haritasi_Vazgec.Values.Text = "Vazgeç";
-            btn_Left_Izgara_Haritasi_Vazgec.Click += btn_Left_Izgara_Haritasi_Vazgec_Click;
-            // 
-            // txt_Left_Nesne_Eni
-            // 
-            txt_Left_Nesne_Eni.Location = new Point(154, 177);
-            txt_Left_Nesne_Eni.Name = "txt_Left_Nesne_Eni";
-            txt_Left_Nesne_Eni.Size = new Size(123, 27);
-            txt_Left_Nesne_Eni.StateCommon.Content.Color1 = SystemColors.GrayText;
-            txt_Left_Nesne_Eni.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            txt_Left_Nesne_Eni.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            txt_Left_Nesne_Eni.TabIndex = 0;
-            txt_Left_Nesne_Eni.Text = "180";
-            // 
-            // btn_Left_Izgara_Haritasi_Olustur
-            // 
-            btn_Left_Izgara_Haritasi_Olustur.CornerRoundingRadius = 20F;
-            btn_Left_Izgara_Haritasi_Olustur.Location = new Point(14, 788);
-            btn_Left_Izgara_Haritasi_Olustur.Name = "btn_Left_Izgara_Haritasi_Olustur";
-            btn_Left_Izgara_Haritasi_Olustur.Size = new Size(134, 89);
-            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Back.Image = Resources.Resource1.Grid;
-            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Back.ImageStyle = Krypton.Toolkit.PaletteImageStyle.CenterLeft;
-            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Border.Color2 = Color.Lime;
-            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Border.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
-            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
-            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Border.Rounding = 20F;
-            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Border.Width = 1;
-            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Content.Image.Effect = Krypton.Toolkit.PaletteImageEffect.Normal;
-            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Content.Image.ImageH = Krypton.Toolkit.PaletteRelativeAlign.Far;
-            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Content.Image.ImageV = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Content.Padding = new Padding(-1, -1, -4, -1);
-            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Content.ShortText.Color1 = Color.Lime;
-            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Content.ShortText.Font = new Font("Sylfaen", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Content.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Far;
-            btn_Left_Izgara_Haritasi_Olustur.TabIndex = 5;
-            btn_Left_Izgara_Haritasi_Olustur.Values.Text = "Izgara\r\nHaritası\r\nOluştur";
-            btn_Left_Izgara_Haritasi_Olustur.Click += btn_Left_Izgara_Haritasi_Olustur_Click;
-            // 
-            // txt_Left_Nesne_Boyu
-            // 
-            txt_Left_Nesne_Boyu.Location = new Point(154, 250);
-            txt_Left_Nesne_Boyu.Name = "txt_Left_Nesne_Boyu";
-            txt_Left_Nesne_Boyu.Size = new Size(123, 27);
-            txt_Left_Nesne_Boyu.StateCommon.Content.Color1 = SystemColors.GrayText;
-            txt_Left_Nesne_Boyu.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            txt_Left_Nesne_Boyu.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            txt_Left_Nesne_Boyu.TabIndex = 1;
-            txt_Left_Nesne_Boyu.Text = "180";
             // 
             // btn_openClose_RightSide
             // 
@@ -865,6 +609,167 @@
             btn_Conveyor_Reference_Fixed_Onayla.TextAlign = ContentAlignment.MiddleLeft;
             btn_Conveyor_Reference_Fixed_Onayla.UseVisualStyleBackColor = false;
             btn_Conveyor_Reference_Fixed_Onayla.Click += btn_Conveyor_Reference_Fixed_Onayla_Click;
+            // 
+            // layoutPanel_Ambar
+            // 
+            layoutPanel_Ambar.AutoScroll = true;
+            layoutPanel_Ambar.Controls.Add(groupBox_Ambar);
+            layoutPanel_Ambar.Location = new Point(76, 3);
+            layoutPanel_Ambar.Margin = new Padding(1);
+            layoutPanel_Ambar.Name = "layoutPanel_Ambar";
+            layoutPanel_Ambar.Size = new Size(324, 450);
+            layoutPanel_Ambar.TabIndex = 38;
+            // 
+            // groupBox_Ambar
+            // 
+            groupBox_Ambar.BackColor = Color.LightCyan;
+            groupBox_Ambar.Controls.Add(panel_Alan_SubMenu);
+            groupBox_Ambar.Controls.Add(btn_Alan_Menu_Go_Back);
+            groupBox_Ambar.Controls.Add(panel_Alan_Menu);
+            groupBox_Ambar.Font = new Font("Sans Serif Collection", 10F, FontStyle.Bold);
+            groupBox_Ambar.ForeColor = Color.Red;
+            groupBox_Ambar.Location = new Point(3, 3);
+            groupBox_Ambar.Name = "groupBox_Ambar";
+            groupBox_Ambar.Size = new Size(318, 444);
+            groupBox_Ambar.TabIndex = 34;
+            groupBox_Ambar.TabStop = false;
+            groupBox_Ambar.Text = "Alan";
+            // 
+            // panel_Alan_SubMenu
+            // 
+            panel_Alan_SubMenu.Controls.Add(btn_Alan_SubMenu_Depolara_Izgara_Ekle);
+            panel_Alan_SubMenu.Controls.Add(btn_Alan_SubMenu_Sil);
+            panel_Alan_SubMenu.Controls.Add(btn_Alan_SubMenu_Boyut_Degistir);
+            panel_Alan_SubMenu.Controls.Add(btn_Alan_SubMenu_Bosalt);
+            panel_Alan_SubMenu.Location = new Point(61, 393);
+            panel_Alan_SubMenu.Name = "panel_Alan_SubMenu";
+            panel_Alan_SubMenu.Size = new Size(197, 412);
+            panel_Alan_SubMenu.TabIndex = 41;
+            // 
+            // btn_Alan_SubMenu_Depolara_Izgara_Ekle
+            // 
+            btn_Alan_SubMenu_Depolara_Izgara_Ekle.FlatStyle = FlatStyle.Flat;
+            btn_Alan_SubMenu_Depolara_Izgara_Ekle.Font = new Font("Sans Serif Collection", 8F, FontStyle.Bold);
+            btn_Alan_SubMenu_Depolara_Izgara_Ekle.ForeColor = Color.Black;
+            btn_Alan_SubMenu_Depolara_Izgara_Ekle.ImageAlign = ContentAlignment.MiddleLeft;
+            btn_Alan_SubMenu_Depolara_Izgara_Ekle.Location = new Point(9, 312);
+            btn_Alan_SubMenu_Depolara_Izgara_Ekle.Name = "btn_Alan_SubMenu_Depolara_Izgara_Ekle";
+            btn_Alan_SubMenu_Depolara_Izgara_Ekle.Size = new Size(179, 97);
+            btn_Alan_SubMenu_Depolara_Izgara_Ekle.TabIndex = 37;
+            btn_Alan_SubMenu_Depolara_Izgara_Ekle.TabStop = false;
+            btn_Alan_SubMenu_Depolara_Izgara_Ekle.Text = "Tüm\r\nDepolara Izgara\r\nHaritası Ekle";
+            btn_Alan_SubMenu_Depolara_Izgara_Ekle.UseVisualStyleBackColor = true;
+            btn_Alan_SubMenu_Depolara_Izgara_Ekle.Click += btn_Alan_SubMenu_Depolara_Izgara_Ekle_Click;
+            // 
+            // btn_Alan_SubMenu_Sil
+            // 
+            btn_Alan_SubMenu_Sil.FlatStyle = FlatStyle.Flat;
+            btn_Alan_SubMenu_Sil.Font = new Font("Sans Serif Collection", 8F, FontStyle.Bold);
+            btn_Alan_SubMenu_Sil.ForeColor = Color.Black;
+            btn_Alan_SubMenu_Sil.Image = Resources.Resource1.CancelRed;
+            btn_Alan_SubMenu_Sil.ImageAlign = ContentAlignment.MiddleLeft;
+            btn_Alan_SubMenu_Sil.Location = new Point(9, 209);
+            btn_Alan_SubMenu_Sil.Name = "btn_Alan_SubMenu_Sil";
+            btn_Alan_SubMenu_Sil.Padding = new Padding(0, 0, 15, 0);
+            btn_Alan_SubMenu_Sil.Size = new Size(179, 97);
+            btn_Alan_SubMenu_Sil.TabIndex = 36;
+            btn_Alan_SubMenu_Sil.TabStop = false;
+            btn_Alan_SubMenu_Sil.Text = "Alanı Sil";
+            btn_Alan_SubMenu_Sil.TextAlign = ContentAlignment.MiddleRight;
+            btn_Alan_SubMenu_Sil.UseVisualStyleBackColor = true;
+            btn_Alan_SubMenu_Sil.Click += btn_Alan_SubMenu_Sil_Click;
+            // 
+            // btn_Alan_SubMenu_Boyut_Degistir
+            // 
+            btn_Alan_SubMenu_Boyut_Degistir.FlatStyle = FlatStyle.Flat;
+            btn_Alan_SubMenu_Boyut_Degistir.Font = new Font("Sans Serif Collection", 8F, FontStyle.Bold);
+            btn_Alan_SubMenu_Boyut_Degistir.ForeColor = Color.Black;
+            btn_Alan_SubMenu_Boyut_Degistir.Image = Resources.Resource1.Area;
+            btn_Alan_SubMenu_Boyut_Degistir.ImageAlign = ContentAlignment.MiddleLeft;
+            btn_Alan_SubMenu_Boyut_Degistir.Location = new Point(9, 3);
+            btn_Alan_SubMenu_Boyut_Degistir.Name = "btn_Alan_SubMenu_Boyut_Degistir";
+            btn_Alan_SubMenu_Boyut_Degistir.Padding = new Padding(0, 0, 10, 0);
+            btn_Alan_SubMenu_Boyut_Degistir.Size = new Size(179, 97);
+            btn_Alan_SubMenu_Boyut_Degistir.TabIndex = 35;
+            btn_Alan_SubMenu_Boyut_Degistir.TabStop = false;
+            btn_Alan_SubMenu_Boyut_Degistir.Text = "Boyutunu\r\nDeğiştir";
+            btn_Alan_SubMenu_Boyut_Degistir.TextAlign = ContentAlignment.MiddleRight;
+            btn_Alan_SubMenu_Boyut_Degistir.UseVisualStyleBackColor = true;
+            btn_Alan_SubMenu_Boyut_Degistir.Click += btn_Alan_SubMenu_Boyut_Degistir_Click;
+            // 
+            // btn_Alan_SubMenu_Bosalt
+            // 
+            btn_Alan_SubMenu_Bosalt.FlatStyle = FlatStyle.Flat;
+            btn_Alan_SubMenu_Bosalt.Font = new Font("Sans Serif Collection", 8F, FontStyle.Bold);
+            btn_Alan_SubMenu_Bosalt.ForeColor = Color.Black;
+            btn_Alan_SubMenu_Bosalt.Image = Resources.Resource1.Warehouse;
+            btn_Alan_SubMenu_Bosalt.ImageAlign = ContentAlignment.MiddleLeft;
+            btn_Alan_SubMenu_Bosalt.Location = new Point(9, 106);
+            btn_Alan_SubMenu_Bosalt.Name = "btn_Alan_SubMenu_Bosalt";
+            btn_Alan_SubMenu_Bosalt.Size = new Size(179, 97);
+            btn_Alan_SubMenu_Bosalt.TabIndex = 34;
+            btn_Alan_SubMenu_Bosalt.TabStop = false;
+            btn_Alan_SubMenu_Bosalt.Text = "Alanı Boşalt";
+            btn_Alan_SubMenu_Bosalt.TextAlign = ContentAlignment.MiddleRight;
+            btn_Alan_SubMenu_Bosalt.UseVisualStyleBackColor = true;
+            btn_Alan_SubMenu_Bosalt.Click += btn_Alan_SubMenu_Bosalt_Click;
+            // 
+            // btn_Alan_Menu_Go_Back
+            // 
+            btn_Alan_Menu_Go_Back.FlatAppearance.BorderSize = 0;
+            btn_Alan_Menu_Go_Back.FlatStyle = FlatStyle.Flat;
+            btn_Alan_Menu_Go_Back.Image = Resources.Resource1.Go_Back;
+            btn_Alan_Menu_Go_Back.Location = new Point(265, 18);
+            btn_Alan_Menu_Go_Back.Name = "btn_Alan_Menu_Go_Back";
+            btn_Alan_Menu_Go_Back.Size = new Size(50, 48);
+            btn_Alan_Menu_Go_Back.TabIndex = 42;
+            btn_Alan_Menu_Go_Back.TabStop = false;
+            btn_Alan_Menu_Go_Back.UseVisualStyleBackColor = true;
+            btn_Alan_Menu_Go_Back.Click += btn_Alan_Menu_Go_Back_Click;
+            // 
+            // panel_Alan_Menu
+            // 
+            panel_Alan_Menu.Controls.Add(btn_Alan_SubMenu);
+            panel_Alan_Menu.Controls.Add(btn_Alan_SubMenu_Depo_Siralamasi);
+            panel_Alan_Menu.Location = new Point(61, 60);
+            panel_Alan_Menu.Name = "panel_Alan_Menu";
+            panel_Alan_Menu.Size = new Size(197, 327);
+            panel_Alan_Menu.TabIndex = 40;
+            // 
+            // btn_Alan_SubMenu
+            // 
+            btn_Alan_SubMenu.FlatStyle = FlatStyle.Flat;
+            btn_Alan_SubMenu.Font = new Font("Sans Serif Collection", 8F, FontStyle.Bold);
+            btn_Alan_SubMenu.ForeColor = Color.Black;
+            btn_Alan_SubMenu.Image = Resources.Resource1.Area;
+            btn_Alan_SubMenu.ImageAlign = ContentAlignment.MiddleLeft;
+            btn_Alan_SubMenu.Location = new Point(9, 63);
+            btn_Alan_SubMenu.Name = "btn_Alan_SubMenu";
+            btn_Alan_SubMenu.Padding = new Padding(0, 0, 30, 0);
+            btn_Alan_SubMenu.Size = new Size(179, 97);
+            btn_Alan_SubMenu.TabIndex = 35;
+            btn_Alan_SubMenu.TabStop = false;
+            btn_Alan_SubMenu.Text = "Alan";
+            btn_Alan_SubMenu.TextAlign = ContentAlignment.MiddleRight;
+            btn_Alan_SubMenu.UseVisualStyleBackColor = true;
+            btn_Alan_SubMenu.Click += btn_Alan_SubMenu_Click;
+            // 
+            // btn_Alan_SubMenu_Depo_Siralamasi
+            // 
+            btn_Alan_SubMenu_Depo_Siralamasi.FlatStyle = FlatStyle.Flat;
+            btn_Alan_SubMenu_Depo_Siralamasi.Font = new Font("Sans Serif Collection", 8F, FontStyle.Bold);
+            btn_Alan_SubMenu_Depo_Siralamasi.ForeColor = Color.Black;
+            btn_Alan_SubMenu_Depo_Siralamasi.Image = Resources.Resource1.Warehouse;
+            btn_Alan_SubMenu_Depo_Siralamasi.ImageAlign = ContentAlignment.MiddleLeft;
+            btn_Alan_SubMenu_Depo_Siralamasi.Location = new Point(9, 166);
+            btn_Alan_SubMenu_Depo_Siralamasi.Name = "btn_Alan_SubMenu_Depo_Siralamasi";
+            btn_Alan_SubMenu_Depo_Siralamasi.Size = new Size(179, 97);
+            btn_Alan_SubMenu_Depo_Siralamasi.TabIndex = 34;
+            btn_Alan_SubMenu_Depo_Siralamasi.TabStop = false;
+            btn_Alan_SubMenu_Depo_Siralamasi.Text = "Depo\r\nDoldurulma\r\nSıralaması";
+            btn_Alan_SubMenu_Depo_Siralamasi.TextAlign = ContentAlignment.MiddleRight;
+            btn_Alan_SubMenu_Depo_Siralamasi.UseVisualStyleBackColor = true;
+            btn_Alan_SubMenu_Depo_Siralamasi.Click += btn_Alan_SubMenu_Depo_Siralamasi_Click;
             // 
             // Conveyor_Reference_Sayisi_Paneli
             // 
@@ -1619,6 +1524,150 @@
             lbl_Placement_Yukseklik_Title.Text = "Lütfen 1. Aşama Yüksekliğini Seçiniz ";
             lbl_Placement_Yukseklik_Title.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // Placement_UpDown_Panel
+            // 
+            Placement_UpDown_Panel.BackColor = Color.Aquamarine;
+            Placement_UpDown_Panel.Controls.Add(btn_Placement_UpDown_NextPage);
+            Placement_UpDown_Panel.Controls.Add(pictureBox2);
+            Placement_UpDown_Panel.Controls.Add(pictureBox1);
+            Placement_UpDown_Panel.Controls.Add(radio_To_Down);
+            Placement_UpDown_Panel.Controls.Add(kryptonBorderEdge20);
+            Placement_UpDown_Panel.Controls.Add(kryptonBorderEdge19);
+            Placement_UpDown_Panel.Controls.Add(radio_To_Up);
+            Placement_UpDown_Panel.Controls.Add(lbl_Placement_UpDown_Title);
+            Placement_UpDown_Panel.Controls.Add(kryptonBorderEdge33);
+            Placement_UpDown_Panel.Location = new Point(1000, 713);
+            Placement_UpDown_Panel.Name = "Placement_UpDown_Panel";
+            Placement_UpDown_Panel.Size = new Size(219, 195);
+            Placement_UpDown_Panel.TabIndex = 26;
+            // 
+            // btn_Placement_UpDown_NextPage
+            // 
+            btn_Placement_UpDown_NextPage.BackColor = Color.Aquamarine;
+            btn_Placement_UpDown_NextPage.FlatAppearance.BorderSize = 0;
+            btn_Placement_UpDown_NextPage.FlatStyle = FlatStyle.Popup;
+            btn_Placement_UpDown_NextPage.Font = new Font("Segoe UI", 10F);
+            btn_Placement_UpDown_NextPage.Image = Resources.Resource1.Next_page;
+            btn_Placement_UpDown_NextPage.Location = new Point(35, 137);
+            btn_Placement_UpDown_NextPage.Name = "btn_Placement_UpDown_NextPage";
+            btn_Placement_UpDown_NextPage.Size = new Size(149, 45);
+            btn_Placement_UpDown_NextPage.TabIndex = 2;
+            btn_Placement_UpDown_NextPage.TextAlign = ContentAlignment.MiddleLeft;
+            btn_Placement_UpDown_NextPage.UseVisualStyleBackColor = false;
+            btn_Placement_UpDown_NextPage.Click += btn_Placement_UpDown_NextPage_Click;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.Image = Resources.Resource1.Down;
+            pictureBox2.Location = new Point(147, 89);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(31, 34);
+            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox2.TabIndex = 31;
+            pictureBox2.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = Resources.Resource1.Up;
+            pictureBox1.Location = new Point(147, 52);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(31, 34);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 30;
+            pictureBox1.TabStop = false;
+            // 
+            // radio_To_Down
+            // 
+            radio_To_Down.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            radio_To_Down.Location = new Point(40, 94);
+            radio_To_Down.Name = "radio_To_Down";
+            radio_To_Down.Size = new Size(81, 24);
+            radio_To_Down.TabIndex = 1;
+            radio_To_Down.TabStop = true;
+            radio_To_Down.Text = "Aşağı";
+            radio_To_Down.TextAlign = ContentAlignment.MiddleCenter;
+            radio_To_Down.UseVisualStyleBackColor = true;
+            radio_To_Down.CheckedChanged += radio_To_Down_CheckedChanged;
+            // 
+            // kryptonBorderEdge20
+            // 
+            kryptonBorderEdge20.Location = new Point(0, 124);
+            kryptonBorderEdge20.Name = "kryptonBorderEdge20";
+            kryptonBorderEdge20.Size = new Size(219, 1);
+            kryptonBorderEdge20.Text = "kryptonBorderEdge20";
+            // 
+            // kryptonBorderEdge19
+            // 
+            kryptonBorderEdge19.Location = new Point(0, 87);
+            kryptonBorderEdge19.Name = "kryptonBorderEdge19";
+            kryptonBorderEdge19.Size = new Size(219, 1);
+            kryptonBorderEdge19.Text = "kryptonBorderEdge19";
+            // 
+            // radio_To_Up
+            // 
+            radio_To_Up.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            radio_To_Up.Location = new Point(40, 57);
+            radio_To_Up.Name = "radio_To_Up";
+            radio_To_Up.Size = new Size(81, 24);
+            radio_To_Up.TabIndex = 0;
+            radio_To_Up.TabStop = true;
+            radio_To_Up.Text = "Yukarı";
+            radio_To_Up.TextAlign = ContentAlignment.MiddleCenter;
+            radio_To_Up.UseVisualStyleBackColor = true;
+            radio_To_Up.CheckedChanged += radio_To_Up_CheckedChanged;
+            // 
+            // lbl_Placement_UpDown_Title
+            // 
+            lbl_Placement_UpDown_Title.AutoSize = false;
+            lbl_Placement_UpDown_Title.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Placement_UpDown_Title.ForeColor = Color.Red;
+            lbl_Placement_UpDown_Title.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_Placement_UpDown_Title.Location = new Point(3, 3);
+            lbl_Placement_UpDown_Title.Name = "lbl_Placement_UpDown_Title";
+            lbl_Placement_UpDown_Title.Size = new Size(213, 44);
+            lbl_Placement_UpDown_Title.StateCommon.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Placement_UpDown_Title.StateCommon.TextColor = Color.Red;
+            lbl_Placement_UpDown_Title.Text = "Nesnelerin Yerleştirilme Yönünü Seçiniz";
+            lbl_Placement_UpDown_Title.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // kryptonBorderEdge33
+            // 
+            kryptonBorderEdge33.Location = new Point(0, 50);
+            kryptonBorderEdge33.Name = "kryptonBorderEdge33";
+            kryptonBorderEdge33.Size = new Size(219, 1);
+            kryptonBorderEdge33.Text = "kryptonBorderEdge33";
+            // 
+            // LayoutPanel_Alan_Hierarchy
+            // 
+            LayoutPanel_Alan_Hierarchy.AutoScroll = true;
+            LayoutPanel_Alan_Hierarchy.Controls.Add(groupBox_Hierarchy_TreeView);
+            LayoutPanel_Alan_Hierarchy.Location = new Point(416, 327);
+            LayoutPanel_Alan_Hierarchy.Margin = new Padding(1);
+            LayoutPanel_Alan_Hierarchy.Name = "LayoutPanel_Alan_Hierarchy";
+            LayoutPanel_Alan_Hierarchy.Size = new Size(324, 450);
+            LayoutPanel_Alan_Hierarchy.TabIndex = 41;
+            // 
+            // groupBox_Hierarchy_TreeView
+            // 
+            groupBox_Hierarchy_TreeView.BackColor = Color.LightCyan;
+            groupBox_Hierarchy_TreeView.Controls.Add(AlanTreeView);
+            groupBox_Hierarchy_TreeView.Font = new Font("Sans Serif Collection", 10F, FontStyle.Bold);
+            groupBox_Hierarchy_TreeView.ForeColor = Color.Red;
+            groupBox_Hierarchy_TreeView.Location = new Point(3, 3);
+            groupBox_Hierarchy_TreeView.Name = "groupBox_Hierarchy_TreeView";
+            groupBox_Hierarchy_TreeView.Size = new Size(318, 444);
+            groupBox_Hierarchy_TreeView.TabIndex = 34;
+            groupBox_Hierarchy_TreeView.TabStop = false;
+            groupBox_Hierarchy_TreeView.Text = "Alan Hiyerarşisi";
+            // 
+            // AlanTreeView
+            // 
+            AlanTreeView.BackColor = Color.LightCyan;
+            AlanTreeView.Location = new Point(0, 39);
+            AlanTreeView.Name = "AlanTreeView";
+            AlanTreeView.Size = new Size(318, 404);
+            AlanTreeView.TabIndex = 0;
+            // 
             // PaddingPanel
             // 
             PaddingPanel.BackColor = Color.LightCyan;
@@ -1651,7 +1700,7 @@
             PaddingPanel.Controls.Add(txt_Right_Padding);
             PaddingPanel.Controls.Add(txt_Bottom_Padding);
             PaddingPanel.Controls.Add(txt_Top_Padding);
-            PaddingPanel.Location = new Point(382, 12);
+            PaddingPanel.Location = new Point(326, 1021);
             PaddingPanel.Name = "PaddingPanel";
             PaddingPanel.Size = new Size(305, 690);
             PaddingPanel.TabIndex = 30;
@@ -1979,118 +2028,288 @@
             txt_Top_Padding.TabIndex = 5;
             txt_Top_Padding.TextChanged += txt_Top_Padding_TextChanged;
             // 
-            // Placement_UpDown_Panel
+            // LeftPanel_Izgara_Olusturma
             // 
-            Placement_UpDown_Panel.BackColor = Color.Aquamarine;
-            Placement_UpDown_Panel.Controls.Add(btn_Placement_UpDown_NextPage);
-            Placement_UpDown_Panel.Controls.Add(pictureBox2);
-            Placement_UpDown_Panel.Controls.Add(pictureBox1);
-            Placement_UpDown_Panel.Controls.Add(radio_To_Down);
-            Placement_UpDown_Panel.Controls.Add(kryptonBorderEdge20);
-            Placement_UpDown_Panel.Controls.Add(kryptonBorderEdge19);
-            Placement_UpDown_Panel.Controls.Add(radio_To_Up);
-            Placement_UpDown_Panel.Controls.Add(lbl_Placement_UpDown_Title);
-            Placement_UpDown_Panel.Controls.Add(kryptonBorderEdge33);
-            Placement_UpDown_Panel.Location = new Point(1000, 713);
-            Placement_UpDown_Panel.Name = "Placement_UpDown_Panel";
-            Placement_UpDown_Panel.Size = new Size(219, 195);
-            Placement_UpDown_Panel.TabIndex = 26;
+            LeftPanel_Izgara_Olusturma.BackColor = Color.LightCyan;
+            LeftPanel_Izgara_Olusturma.Controls.Add(kryptonBorderEdge51);
+            LeftPanel_Izgara_Olusturma.Controls.Add(kryptonBorderEdge52);
+            LeftPanel_Izgara_Olusturma.Controls.Add(kryptonBorderEdge53);
+            LeftPanel_Izgara_Olusturma.Controls.Add(txt_Left_Dikey_Kenar_Boslugu);
+            LeftPanel_Izgara_Olusturma.Controls.Add(lbl_Left_Yatay_Kenar_Boslugu);
+            LeftPanel_Izgara_Olusturma.Controls.Add(txt_Left_Yatay_Kenar_Boslugu);
+            LeftPanel_Izgara_Olusturma.Controls.Add(lbl_Left_Izgara_Olusturma_Kenar_Title);
+            LeftPanel_Izgara_Olusturma.Controls.Add(lbl_Left_Dikey_Kenar_Boslugu);
+            LeftPanel_Izgara_Olusturma.Controls.Add(kryptonBorderEdge54);
+            LeftPanel_Izgara_Olusturma.Controls.Add(kryptonBorderEdge55);
+            LeftPanel_Izgara_Olusturma.Controls.Add(lbl_Left_Nesne_Yuksekligi);
+            LeftPanel_Izgara_Olusturma.Controls.Add(txt_Left_Nesne_Yuksekligi);
+            LeftPanel_Izgara_Olusturma.Controls.Add(btn_Left_Izgara_Olusturma_Go_Back);
+            LeftPanel_Izgara_Olusturma.Controls.Add(lbl_Left_Izgara_Olusturma_Nesne_Title);
+            LeftPanel_Izgara_Olusturma.Controls.Add(lbl_Left_Nesne_Boyu);
+            LeftPanel_Izgara_Olusturma.Controls.Add(lbl_Left_Nesne_Eni);
+            LeftPanel_Izgara_Olusturma.Controls.Add(btn_Left_Izgara_Haritasi_Vazgec);
+            LeftPanel_Izgara_Olusturma.Controls.Add(txt_Left_Nesne_Eni);
+            LeftPanel_Izgara_Olusturma.Controls.Add(btn_Left_Izgara_Haritasi_Olustur);
+            LeftPanel_Izgara_Olusturma.Controls.Add(txt_Left_Nesne_Boyu);
+            LeftPanel_Izgara_Olusturma.Location = new Point(10, 1021);
+            LeftPanel_Izgara_Olusturma.Name = "LeftPanel_Izgara_Olusturma";
+            LeftPanel_Izgara_Olusturma.Size = new Size(310, 883);
+            LeftPanel_Izgara_Olusturma.TabIndex = 40;
             // 
-            // btn_Placement_UpDown_NextPage
+            // kryptonBorderEdge51
             // 
-            btn_Placement_UpDown_NextPage.BackColor = Color.Aquamarine;
-            btn_Placement_UpDown_NextPage.FlatAppearance.BorderSize = 0;
-            btn_Placement_UpDown_NextPage.FlatStyle = FlatStyle.Popup;
-            btn_Placement_UpDown_NextPage.Font = new Font("Segoe UI", 10F);
-            btn_Placement_UpDown_NextPage.Image = Resources.Resource1.Next_page;
-            btn_Placement_UpDown_NextPage.Location = new Point(35, 137);
-            btn_Placement_UpDown_NextPage.Name = "btn_Placement_UpDown_NextPage";
-            btn_Placement_UpDown_NextPage.Size = new Size(149, 45);
-            btn_Placement_UpDown_NextPage.TabIndex = 2;
-            btn_Placement_UpDown_NextPage.TextAlign = ContentAlignment.MiddleLeft;
-            btn_Placement_UpDown_NextPage.UseVisualStyleBackColor = false;
-            btn_Placement_UpDown_NextPage.Click += btn_Placement_UpDown_NextPage_Click;
+            kryptonBorderEdge51.Location = new Point(67, 655);
+            kryptonBorderEdge51.Name = "kryptonBorderEdge51";
+            kryptonBorderEdge51.Size = new Size(175, 1);
+            kryptonBorderEdge51.Text = "kryptonBorderEdge51";
             // 
-            // pictureBox2
+            // kryptonBorderEdge52
             // 
-            pictureBox2.Image = Resources.Resource1.Down;
-            pictureBox2.Location = new Point(147, 89);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(31, 34);
-            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox2.TabIndex = 31;
-            pictureBox2.TabStop = false;
+            kryptonBorderEdge52.Location = new Point(67, 522);
+            kryptonBorderEdge52.Name = "kryptonBorderEdge52";
+            kryptonBorderEdge52.Size = new Size(175, 1);
+            kryptonBorderEdge52.Text = "kryptonBorderEdge52";
             // 
-            // pictureBox1
+            // kryptonBorderEdge53
             // 
-            pictureBox1.Image = Resources.Resource1.Up;
-            pictureBox1.Location = new Point(147, 52);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(31, 34);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 30;
-            pictureBox1.TabStop = false;
+            kryptonBorderEdge53.Location = new Point(68, 299);
+            kryptonBorderEdge53.Name = "kryptonBorderEdge53";
+            kryptonBorderEdge53.Size = new Size(175, 1);
+            kryptonBorderEdge53.Text = "kryptonBorderEdge53";
             // 
-            // radio_To_Down
+            // txt_Left_Dikey_Kenar_Boslugu
             // 
-            radio_To_Down.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            radio_To_Down.Location = new Point(40, 94);
-            radio_To_Down.Name = "radio_To_Down";
-            radio_To_Down.Size = new Size(81, 24);
-            radio_To_Down.TabIndex = 1;
-            radio_To_Down.TabStop = true;
-            radio_To_Down.Text = "Aşağı";
-            radio_To_Down.TextAlign = ContentAlignment.MiddleCenter;
-            radio_To_Down.UseVisualStyleBackColor = true;
-            radio_To_Down.CheckedChanged += radio_To_Down_CheckedChanged;
+            txt_Left_Dikey_Kenar_Boslugu.Location = new Point(160, 576);
+            txt_Left_Dikey_Kenar_Boslugu.Name = "txt_Left_Dikey_Kenar_Boslugu";
+            txt_Left_Dikey_Kenar_Boslugu.Size = new Size(123, 27);
+            txt_Left_Dikey_Kenar_Boslugu.StateCommon.Content.Color1 = SystemColors.GrayText;
+            txt_Left_Dikey_Kenar_Boslugu.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            txt_Left_Dikey_Kenar_Boslugu.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            txt_Left_Dikey_Kenar_Boslugu.TabIndex = 3;
+            txt_Left_Dikey_Kenar_Boslugu.Text = "20";
+            txt_Left_Dikey_Kenar_Boslugu.ToolTipValues.Description = "Az önce girdiğiniz nesnenin en ve boy değerine göre ve \r\nburaya girdiğiniz değere göre ızgara haritasındaki \r\nher bir hücrenin boyutu ortaya çıkacaktır.";
+            txt_Left_Dikey_Kenar_Boslugu.ToolTipValues.EnableToolTips = true;
+            txt_Left_Dikey_Kenar_Boslugu.ToolTipValues.Heading = "";
             // 
-            // kryptonBorderEdge20
+            // lbl_Left_Yatay_Kenar_Boslugu
             // 
-            kryptonBorderEdge20.Location = new Point(0, 124);
-            kryptonBorderEdge20.Name = "kryptonBorderEdge20";
-            kryptonBorderEdge20.Size = new Size(219, 1);
-            kryptonBorderEdge20.Text = "kryptonBorderEdge20";
+            lbl_Left_Yatay_Kenar_Boslugu.AutoSize = false;
+            lbl_Left_Yatay_Kenar_Boslugu.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Left_Yatay_Kenar_Boslugu.ForeColor = Color.Black;
+            lbl_Left_Yatay_Kenar_Boslugu.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_Left_Yatay_Kenar_Boslugu.Location = new Point(13, 674);
+            lbl_Left_Yatay_Kenar_Boslugu.Name = "lbl_Left_Yatay_Kenar_Boslugu";
+            lbl_Left_Yatay_Kenar_Boslugu.Size = new Size(134, 96);
+            lbl_Left_Yatay_Kenar_Boslugu.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Left_Yatay_Kenar_Boslugu.StateCommon.TextColor = Color.Black;
+            lbl_Left_Yatay_Kenar_Boslugu.Text = "Hücre Yatay Kenar Boşluğu (Cm):";
+            lbl_Left_Yatay_Kenar_Boslugu.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // kryptonBorderEdge19
+            // txt_Left_Yatay_Kenar_Boslugu
             // 
-            kryptonBorderEdge19.Location = new Point(0, 87);
-            kryptonBorderEdge19.Name = "kryptonBorderEdge19";
-            kryptonBorderEdge19.Size = new Size(219, 1);
-            kryptonBorderEdge19.Text = "kryptonBorderEdge19";
+            txt_Left_Yatay_Kenar_Boslugu.Location = new Point(160, 709);
+            txt_Left_Yatay_Kenar_Boslugu.Name = "txt_Left_Yatay_Kenar_Boslugu";
+            txt_Left_Yatay_Kenar_Boslugu.Size = new Size(123, 27);
+            txt_Left_Yatay_Kenar_Boslugu.StateCommon.Content.Color1 = SystemColors.GrayText;
+            txt_Left_Yatay_Kenar_Boslugu.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            txt_Left_Yatay_Kenar_Boslugu.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            txt_Left_Yatay_Kenar_Boslugu.TabIndex = 4;
+            txt_Left_Yatay_Kenar_Boslugu.Text = "20";
+            txt_Left_Yatay_Kenar_Boslugu.ToolTipValues.Description = "Az önce girdiğiniz nesnenin en ve boy değerine göre ve \r\nburaya girdiğiniz değere göre ızgara haritasındaki \r\nher bir hücrenin boyutu ortaya çıkacaktır.";
+            txt_Left_Yatay_Kenar_Boslugu.ToolTipValues.EnableToolTips = true;
+            txt_Left_Yatay_Kenar_Boslugu.ToolTipValues.Heading = "";
             // 
-            // radio_To_Up
+            // lbl_Left_Izgara_Olusturma_Kenar_Title
             // 
-            radio_To_Up.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            radio_To_Up.Location = new Point(40, 57);
-            radio_To_Up.Name = "radio_To_Up";
-            radio_To_Up.Size = new Size(81, 24);
-            radio_To_Up.TabIndex = 0;
-            radio_To_Up.TabStop = true;
-            radio_To_Up.Text = "Yukarı";
-            radio_To_Up.TextAlign = ContentAlignment.MiddleCenter;
-            radio_To_Up.UseVisualStyleBackColor = true;
-            radio_To_Up.CheckedChanged += radio_To_Up_CheckedChanged;
+            lbl_Left_Izgara_Olusturma_Kenar_Title.AutoSize = false;
+            lbl_Left_Izgara_Olusturma_Kenar_Title.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Left_Izgara_Olusturma_Kenar_Title.ForeColor = Color.Red;
+            lbl_Left_Izgara_Olusturma_Kenar_Title.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_Left_Izgara_Olusturma_Kenar_Title.Location = new Point(6, 393);
+            lbl_Left_Izgara_Olusturma_Kenar_Title.Name = "lbl_Left_Izgara_Olusturma_Kenar_Title";
+            lbl_Left_Izgara_Olusturma_Kenar_Title.Size = new Size(300, 126);
+            lbl_Left_Izgara_Olusturma_Kenar_Title.StateCommon.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Left_Izgara_Olusturma_Kenar_Title.StateCommon.TextColor = Color.Red;
+            lbl_Left_Izgara_Olusturma_Kenar_Title.Text = "Lütfen Koymak İstediğiniz Nesnelere Göre Aşağıdaki Alanları Doldurunuz";
+            lbl_Left_Izgara_Olusturma_Kenar_Title.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // lbl_Placement_UpDown_Title
+            // lbl_Left_Dikey_Kenar_Boslugu
             // 
-            lbl_Placement_UpDown_Title.AutoSize = false;
-            lbl_Placement_UpDown_Title.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            lbl_Placement_UpDown_Title.ForeColor = Color.Red;
-            lbl_Placement_UpDown_Title.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Placement_UpDown_Title.Location = new Point(3, 3);
-            lbl_Placement_UpDown_Title.Name = "lbl_Placement_UpDown_Title";
-            lbl_Placement_UpDown_Title.Size = new Size(213, 44);
-            lbl_Placement_UpDown_Title.StateCommon.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            lbl_Placement_UpDown_Title.StateCommon.TextColor = Color.Red;
-            lbl_Placement_UpDown_Title.Text = "Nesnelerin Yerleştirilme Yönünü Seçiniz";
-            lbl_Placement_UpDown_Title.TextAlign = ContentAlignment.MiddleCenter;
+            lbl_Left_Dikey_Kenar_Boslugu.AutoSize = false;
+            lbl_Left_Dikey_Kenar_Boslugu.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Left_Dikey_Kenar_Boslugu.ForeColor = Color.Black;
+            lbl_Left_Dikey_Kenar_Boslugu.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_Left_Dikey_Kenar_Boslugu.Location = new Point(14, 541);
+            lbl_Left_Dikey_Kenar_Boslugu.Name = "lbl_Left_Dikey_Kenar_Boslugu";
+            lbl_Left_Dikey_Kenar_Boslugu.Size = new Size(134, 96);
+            lbl_Left_Dikey_Kenar_Boslugu.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Left_Dikey_Kenar_Boslugu.StateCommon.TextColor = Color.Black;
+            lbl_Left_Dikey_Kenar_Boslugu.Text = "Hücre Dikey Kenar Boşluğu (Cm): ";
+            lbl_Left_Dikey_Kenar_Boslugu.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // kryptonBorderEdge33
+            // kryptonBorderEdge54
             // 
-            kryptonBorderEdge33.Location = new Point(0, 50);
-            kryptonBorderEdge33.Name = "kryptonBorderEdge33";
-            kryptonBorderEdge33.Size = new Size(219, 1);
-            kryptonBorderEdge33.Text = "kryptonBorderEdge33";
+            kryptonBorderEdge54.Location = new Point(68, 226);
+            kryptonBorderEdge54.Name = "kryptonBorderEdge54";
+            kryptonBorderEdge54.Size = new Size(175, 1);
+            kryptonBorderEdge54.Text = "kryptonBorderEdge54";
+            // 
+            // kryptonBorderEdge55
+            // 
+            kryptonBorderEdge55.Location = new Point(68, 153);
+            kryptonBorderEdge55.Name = "kryptonBorderEdge55";
+            kryptonBorderEdge55.Size = new Size(175, 1);
+            kryptonBorderEdge55.Text = "kryptonBorderEdge55";
+            // 
+            // lbl_Left_Nesne_Yuksekligi
+            // 
+            lbl_Left_Nesne_Yuksekligi.AutoSize = false;
+            lbl_Left_Nesne_Yuksekligi.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Left_Nesne_Yuksekligi.ForeColor = Color.Black;
+            lbl_Left_Nesne_Yuksekligi.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_Left_Nesne_Yuksekligi.Location = new Point(13, 312);
+            lbl_Left_Nesne_Yuksekligi.Name = "lbl_Left_Nesne_Yuksekligi";
+            lbl_Left_Nesne_Yuksekligi.Size = new Size(134, 72);
+            lbl_Left_Nesne_Yuksekligi.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Left_Nesne_Yuksekligi.StateCommon.TextColor = Color.Black;
+            lbl_Left_Nesne_Yuksekligi.Text = "Nesnenin Yüksekliği (Cm):";
+            lbl_Left_Nesne_Yuksekligi.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // txt_Left_Nesne_Yuksekligi
+            // 
+            txt_Left_Nesne_Yuksekligi.Location = new Point(154, 335);
+            txt_Left_Nesne_Yuksekligi.Name = "txt_Left_Nesne_Yuksekligi";
+            txt_Left_Nesne_Yuksekligi.Size = new Size(123, 27);
+            txt_Left_Nesne_Yuksekligi.StateCommon.Content.Color1 = SystemColors.GrayText;
+            txt_Left_Nesne_Yuksekligi.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            txt_Left_Nesne_Yuksekligi.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            txt_Left_Nesne_Yuksekligi.TabIndex = 2;
+            txt_Left_Nesne_Yuksekligi.Text = "100";
+            // 
+            // btn_Left_Izgara_Olusturma_Go_Back
+            // 
+            btn_Left_Izgara_Olusturma_Go_Back.FlatAppearance.BorderSize = 0;
+            btn_Left_Izgara_Olusturma_Go_Back.FlatStyle = FlatStyle.Flat;
+            btn_Left_Izgara_Olusturma_Go_Back.Image = Resources.Resource1.Go_Back;
+            btn_Left_Izgara_Olusturma_Go_Back.Location = new Point(257, 3);
+            btn_Left_Izgara_Olusturma_Go_Back.Name = "btn_Left_Izgara_Olusturma_Go_Back";
+            btn_Left_Izgara_Olusturma_Go_Back.Size = new Size(50, 50);
+            btn_Left_Izgara_Olusturma_Go_Back.TabIndex = 5;
+            btn_Left_Izgara_Olusturma_Go_Back.UseVisualStyleBackColor = true;
+            btn_Left_Izgara_Olusturma_Go_Back.Click += btn_Left_Izgara_Olusturma_Go_Back_Click;
+            // 
+            // lbl_Left_Izgara_Olusturma_Nesne_Title
+            // 
+            lbl_Left_Izgara_Olusturma_Nesne_Title.AutoSize = false;
+            lbl_Left_Izgara_Olusturma_Nesne_Title.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Left_Izgara_Olusturma_Nesne_Title.ForeColor = Color.Red;
+            lbl_Left_Izgara_Olusturma_Nesne_Title.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_Left_Izgara_Olusturma_Nesne_Title.Location = new Point(6, 56);
+            lbl_Left_Izgara_Olusturma_Nesne_Title.Name = "lbl_Left_Izgara_Olusturma_Nesne_Title";
+            lbl_Left_Izgara_Olusturma_Nesne_Title.Size = new Size(300, 94);
+            lbl_Left_Izgara_Olusturma_Nesne_Title.StateCommon.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Left_Izgara_Olusturma_Nesne_Title.StateCommon.TextColor = Color.Red;
+            lbl_Left_Izgara_Olusturma_Nesne_Title.Text = "Depoya Konulacak Nesnelerin Boyutlarını Giriniz";
+            lbl_Left_Izgara_Olusturma_Nesne_Title.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Left_Nesne_Boyu
+            // 
+            lbl_Left_Nesne_Boyu.AutoSize = false;
+            lbl_Left_Nesne_Boyu.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Left_Nesne_Boyu.ForeColor = Color.Black;
+            lbl_Left_Nesne_Boyu.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_Left_Nesne_Boyu.Location = new Point(14, 239);
+            lbl_Left_Nesne_Boyu.Name = "lbl_Left_Nesne_Boyu";
+            lbl_Left_Nesne_Boyu.Size = new Size(134, 48);
+            lbl_Left_Nesne_Boyu.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Left_Nesne_Boyu.StateCommon.TextColor = Color.Black;
+            lbl_Left_Nesne_Boyu.Text = "Nesnenin Boyu (Cm):";
+            lbl_Left_Nesne_Boyu.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Left_Nesne_Eni
+            // 
+            lbl_Left_Nesne_Eni.AutoSize = false;
+            lbl_Left_Nesne_Eni.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Left_Nesne_Eni.ForeColor = Color.Black;
+            lbl_Left_Nesne_Eni.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_Left_Nesne_Eni.Location = new Point(14, 166);
+            lbl_Left_Nesne_Eni.Name = "lbl_Left_Nesne_Eni";
+            lbl_Left_Nesne_Eni.Size = new Size(134, 48);
+            lbl_Left_Nesne_Eni.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Left_Nesne_Eni.StateCommon.TextColor = Color.Black;
+            lbl_Left_Nesne_Eni.Text = "Nesnenin Eni (Cm):";
+            lbl_Left_Nesne_Eni.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // btn_Left_Izgara_Haritasi_Vazgec
+            // 
+            btn_Left_Izgara_Haritasi_Vazgec.CornerRoundingRadius = 20F;
+            btn_Left_Izgara_Haritasi_Vazgec.Location = new Point(154, 788);
+            btn_Left_Izgara_Haritasi_Vazgec.Name = "btn_Left_Izgara_Haritasi_Vazgec";
+            btn_Left_Izgara_Haritasi_Vazgec.Size = new Size(143, 89);
+            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Back.Image = (Image)resources.GetObject("btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Back.Image");
+            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Back.ImageAlign = Krypton.Toolkit.PaletteRectangleAlign.Local;
+            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Back.ImageStyle = Krypton.Toolkit.PaletteImageStyle.CenterLeft;
+            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Border.Color2 = Color.Red;
+            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Border.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
+            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
+            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Border.Rounding = 20F;
+            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Border.Width = 1;
+            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Content.Image.Effect = Krypton.Toolkit.PaletteImageEffect.Normal;
+            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Content.Image.ImageH = Krypton.Toolkit.PaletteRelativeAlign.Far;
+            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Content.Image.ImageV = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Content.Padding = new Padding(-1, -1, 5, -1);
+            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Content.ShortText.Color1 = Color.FromArgb(255, 128, 128);
+            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Content.ShortText.Font = new Font("Sylfaen", 17F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            btn_Left_Izgara_Haritasi_Vazgec.StateCommon.Content.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Far;
+            btn_Left_Izgara_Haritasi_Vazgec.TabIndex = 6;
+            btn_Left_Izgara_Haritasi_Vazgec.Values.Text = "Vazgeç";
+            btn_Left_Izgara_Haritasi_Vazgec.Click += btn_Left_Izgara_Haritasi_Vazgec_Click;
+            // 
+            // txt_Left_Nesne_Eni
+            // 
+            txt_Left_Nesne_Eni.Location = new Point(154, 177);
+            txt_Left_Nesne_Eni.Name = "txt_Left_Nesne_Eni";
+            txt_Left_Nesne_Eni.Size = new Size(123, 27);
+            txt_Left_Nesne_Eni.StateCommon.Content.Color1 = SystemColors.GrayText;
+            txt_Left_Nesne_Eni.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            txt_Left_Nesne_Eni.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            txt_Left_Nesne_Eni.TabIndex = 0;
+            txt_Left_Nesne_Eni.Text = "180";
+            // 
+            // btn_Left_Izgara_Haritasi_Olustur
+            // 
+            btn_Left_Izgara_Haritasi_Olustur.CornerRoundingRadius = 20F;
+            btn_Left_Izgara_Haritasi_Olustur.Location = new Point(14, 788);
+            btn_Left_Izgara_Haritasi_Olustur.Name = "btn_Left_Izgara_Haritasi_Olustur";
+            btn_Left_Izgara_Haritasi_Olustur.Size = new Size(134, 89);
+            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Back.Image = Resources.Resource1.Grid;
+            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Back.ImageStyle = Krypton.Toolkit.PaletteImageStyle.CenterLeft;
+            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Border.Color2 = Color.Lime;
+            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Border.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
+            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
+            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Border.Rounding = 20F;
+            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Border.Width = 1;
+            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Content.Image.Effect = Krypton.Toolkit.PaletteImageEffect.Normal;
+            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Content.Image.ImageH = Krypton.Toolkit.PaletteRelativeAlign.Far;
+            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Content.Image.ImageV = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Content.Padding = new Padding(-1, -1, -4, -1);
+            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Content.ShortText.Color1 = Color.Lime;
+            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Content.ShortText.Font = new Font("Sylfaen", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_Left_Izgara_Haritasi_Olustur.StateCommon.Content.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Far;
+            btn_Left_Izgara_Haritasi_Olustur.TabIndex = 5;
+            btn_Left_Izgara_Haritasi_Olustur.Values.Text = "Izgara\r\nHaritası\r\nOluştur";
+            btn_Left_Izgara_Haritasi_Olustur.Click += btn_Left_Izgara_Haritasi_Olustur_Click;
+            // 
+            // txt_Left_Nesne_Boyu
+            // 
+            txt_Left_Nesne_Boyu.Location = new Point(154, 250);
+            txt_Left_Nesne_Boyu.Name = "txt_Left_Nesne_Boyu";
+            txt_Left_Nesne_Boyu.Size = new Size(123, 27);
+            txt_Left_Nesne_Boyu.StateCommon.Content.Color1 = SystemColors.GrayText;
+            txt_Left_Nesne_Boyu.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            txt_Left_Nesne_Boyu.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            txt_Left_Nesne_Boyu.TabIndex = 1;
+            txt_Left_Nesne_Boyu.Text = "180";
             // 
             // panel_Depo_SubMenu_Izgara_Haritasi
             // 
@@ -2232,7 +2451,7 @@
             Alan_Olusturma_Paneli.Controls.Add(txt_Alan_Boyu);
             Alan_Olusturma_Paneli.Controls.Add(btn_Alan_Olustur_Vazgec);
             Alan_Olusturma_Paneli.Controls.Add(btn_Alan_Olustur);
-            Alan_Olusturma_Paneli.Location = new Point(1245, 1021);
+            Alan_Olusturma_Paneli.Location = new Point(156, 0);
             Alan_Olusturma_Paneli.Name = "Alan_Olusturma_Paneli";
             Alan_Olusturma_Paneli.Size = new Size(310, 388);
             Alan_Olusturma_Paneli.TabIndex = 7;
@@ -2721,10 +2940,11 @@
             Conveyor_Olusturma_Paneli.Controls.Add(lbl_Conveyor_Boyu);
             Conveyor_Olusturma_Paneli.Controls.Add(lbl_Conveyor_Eni);
             Conveyor_Olusturma_Paneli.Controls.Add(txt_Conveyor_Eni);
+            Conveyor_Olusturma_Paneli.Controls.Add(Alan_Olusturma_Paneli);
             Conveyor_Olusturma_Paneli.Controls.Add(txt_Conveyor_Boyu);
             Conveyor_Olusturma_Paneli.Controls.Add(btn_Conveyor_Olustur_Vazgec);
             Conveyor_Olusturma_Paneli.Controls.Add(btn_Conveyor_Olustur);
-            Conveyor_Olusturma_Paneli.Location = new Point(932, 1021);
+            Conveyor_Olusturma_Paneli.Location = new Point(1487, 1021);
             Conveyor_Olusturma_Paneli.Name = "Conveyor_Olusturma_Paneli";
             Conveyor_Olusturma_Paneli.Size = new Size(310, 420);
             Conveyor_Olusturma_Paneli.TabIndex = 8;
@@ -2897,7 +3117,7 @@
             Izgara_Olusturma_Paneli.Controls.Add(txt_Nesnenin_Eni);
             Izgara_Olusturma_Paneli.Controls.Add(btn_Izgara_Olustur);
             Izgara_Olusturma_Paneli.Controls.Add(txt_Nesnenin_Boyu);
-            Izgara_Olusturma_Paneli.Location = new Point(1559, 1021);
+            Izgara_Olusturma_Paneli.Location = new Point(1702, 1021);
             Izgara_Olusturma_Paneli.Name = "Izgara_Olusturma_Paneli";
             Izgara_Olusturma_Paneli.Size = new Size(310, 883);
             Izgara_Olusturma_Paneli.TabIndex = 10;
@@ -3818,7 +4038,7 @@
             LayoutPanel_SelectedDepo.Location = new Point(1, 1);
             LayoutPanel_SelectedDepo.Margin = new Padding(1);
             LayoutPanel_SelectedDepo.Name = "LayoutPanel_SelectedDepo";
-            LayoutPanel_SelectedDepo.Size = new Size(324, 452);
+            LayoutPanel_SelectedDepo.Size = new Size(324, 450);
             LayoutPanel_SelectedDepo.TabIndex = 35;
             // 
             // Panel_SelectedDepo
@@ -3864,7 +4084,7 @@
             groupBox_SelectedDepo.ForeColor = Color.Red;
             groupBox_SelectedDepo.Location = new Point(3, 39);
             groupBox_SelectedDepo.Name = "groupBox_SelectedDepo";
-            groupBox_SelectedDepo.Size = new Size(318, 410);
+            groupBox_SelectedDepo.Size = new Size(318, 408);
             groupBox_SelectedDepo.TabIndex = 34;
             groupBox_SelectedDepo.TabStop = false;
             groupBox_SelectedDepo.Text = "Depo";
@@ -3937,10 +4157,10 @@
             layoutPanel_SelectedConveyor.AutoScroll = true;
             layoutPanel_SelectedConveyor.Controls.Add(Panel_SelectedConveyor);
             layoutPanel_SelectedConveyor.Controls.Add(groupBox_SelectedConveyor);
-            layoutPanel_SelectedConveyor.Location = new Point(1, 455);
+            layoutPanel_SelectedConveyor.Location = new Point(1, 453);
             layoutPanel_SelectedConveyor.Margin = new Padding(1);
             layoutPanel_SelectedConveyor.Name = "layoutPanel_SelectedConveyor";
-            layoutPanel_SelectedConveyor.Size = new Size(324, 452);
+            layoutPanel_SelectedConveyor.Size = new Size(324, 450);
             layoutPanel_SelectedConveyor.TabIndex = 36;
             // 
             // Panel_SelectedConveyor
@@ -3986,7 +4206,7 @@
             groupBox_SelectedConveyor.ForeColor = Color.Red;
             groupBox_SelectedConveyor.Location = new Point(3, 39);
             groupBox_SelectedConveyor.Name = "groupBox_SelectedConveyor";
-            groupBox_SelectedConveyor.Size = new Size(318, 410);
+            groupBox_SelectedConveyor.Size = new Size(318, 408);
             groupBox_SelectedConveyor.TabIndex = 34;
             groupBox_SelectedConveyor.TabStop = false;
             groupBox_SelectedConveyor.Text = "Conveyor";
@@ -4162,36 +4382,6 @@
             btn_Conveyor_SubMenu.UseVisualStyleBackColor = true;
             btn_Conveyor_SubMenu.Click += btn_Conveyor_SubMenu_Click;
             // 
-            // layoutPanel_Ambar
-            // 
-            layoutPanel_Ambar.AutoScroll = true;
-            layoutPanel_Ambar.Controls.Add(groupBox_Ambar);
-            layoutPanel_Ambar.Location = new Point(605, 1021);
-            layoutPanel_Ambar.Margin = new Padding(1);
-            layoutPanel_Ambar.Name = "layoutPanel_Ambar";
-            layoutPanel_Ambar.Size = new Size(324, 452);
-            layoutPanel_Ambar.TabIndex = 38;
-            // 
-            // groupBox_Ambar
-            // 
-            groupBox_Ambar.BackColor = Color.LightCyan;
-            groupBox_Ambar.Controls.Add(treeView_Ambar);
-            groupBox_Ambar.Font = new Font("Sans Serif Collection", 10F, FontStyle.Bold);
-            groupBox_Ambar.ForeColor = Color.Red;
-            groupBox_Ambar.Location = new Point(3, 3);
-            groupBox_Ambar.Name = "groupBox_Ambar";
-            groupBox_Ambar.Size = new Size(318, 446);
-            groupBox_Ambar.TabIndex = 34;
-            groupBox_Ambar.TabStop = false;
-            groupBox_Ambar.Text = "Ambar";
-            // 
-            // treeView_Ambar
-            // 
-            treeView_Ambar.Location = new Point(6, 39);
-            treeView_Ambar.Name = "treeView_Ambar";
-            treeView_Ambar.Size = new Size(306, 401);
-            treeView_Ambar.TabIndex = 0;
-            // 
             // RightSide_LayoutPanel
             // 
             RightSide_LayoutPanel.AutoScroll = true;
@@ -4200,20 +4390,176 @@
             RightSide_LayoutPanel.Size = new Size(330, 909);
             RightSide_LayoutPanel.TabIndex = 36;
             // 
+            // LeftSide_Alan_Boyut_Degistirme_Paneli
+            // 
+            LeftSide_Alan_Boyut_Degistirme_Paneli.BackColor = Color.LightCyan;
+            LeftSide_Alan_Boyut_Degistirme_Paneli.Controls.Add(kryptonBorderEdge56);
+            LeftSide_Alan_Boyut_Degistirme_Paneli.Controls.Add(kryptonBorderEdge57);
+            LeftSide_Alan_Boyut_Degistirme_Paneli.Controls.Add(btn_Left_Alan_Boyut_Degistirme_Paneli_Kapat);
+            LeftSide_Alan_Boyut_Degistirme_Paneli.Controls.Add(lbl_Left_Alan_Boyut_Title);
+            LeftSide_Alan_Boyut_Degistirme_Paneli.Controls.Add(lbl_Left_Alan_Boyu);
+            LeftSide_Alan_Boyut_Degistirme_Paneli.Controls.Add(lbl_Left_Alan_Eni);
+            LeftSide_Alan_Boyut_Degistirme_Paneli.Controls.Add(txt_Left_Alan_Eni);
+            LeftSide_Alan_Boyut_Degistirme_Paneli.Controls.Add(txt_Left_Alan_Boyu);
+            LeftSide_Alan_Boyut_Degistirme_Paneli.Controls.Add(btn_Left_Alan_Boyut_Degistir_Vazgec);
+            LeftSide_Alan_Boyut_Degistirme_Paneli.Controls.Add(btn_Left_Alan_Boyut_Degistir);
+            LeftSide_Alan_Boyut_Degistirme_Paneli.Location = new Point(637, 1021);
+            LeftSide_Alan_Boyut_Degistirme_Paneli.Name = "LeftSide_Alan_Boyut_Degistirme_Paneli";
+            LeftSide_Alan_Boyut_Degistirme_Paneli.Size = new Size(324, 450);
+            LeftSide_Alan_Boyut_Degistirme_Paneli.TabIndex = 39;
+            // 
+            // kryptonBorderEdge56
+            // 
+            kryptonBorderEdge56.Location = new Point(68, 236);
+            kryptonBorderEdge56.Name = "kryptonBorderEdge56";
+            kryptonBorderEdge56.Size = new Size(175, 1);
+            kryptonBorderEdge56.Text = "kryptonBorderEdge56";
+            // 
+            // kryptonBorderEdge57
+            // 
+            kryptonBorderEdge57.Location = new Point(68, 125);
+            kryptonBorderEdge57.Name = "kryptonBorderEdge57";
+            kryptonBorderEdge57.Size = new Size(175, 1);
+            kryptonBorderEdge57.Text = "kryptonBorderEdge57";
+            // 
+            // btn_Left_Alan_Boyut_Degistirme_Paneli_Kapat
+            // 
+            btn_Left_Alan_Boyut_Degistirme_Paneli_Kapat.FlatAppearance.BorderSize = 0;
+            btn_Left_Alan_Boyut_Degistirme_Paneli_Kapat.FlatStyle = FlatStyle.Flat;
+            btn_Left_Alan_Boyut_Degistirme_Paneli_Kapat.Image = Resources.Resource1.Go_Back;
+            btn_Left_Alan_Boyut_Degistirme_Paneli_Kapat.Location = new Point(257, 3);
+            btn_Left_Alan_Boyut_Degistirme_Paneli_Kapat.Name = "btn_Left_Alan_Boyut_Degistirme_Paneli_Kapat";
+            btn_Left_Alan_Boyut_Degistirme_Paneli_Kapat.Size = new Size(50, 50);
+            btn_Left_Alan_Boyut_Degistirme_Paneli_Kapat.TabIndex = 4;
+            btn_Left_Alan_Boyut_Degistirme_Paneli_Kapat.UseVisualStyleBackColor = true;
+            btn_Left_Alan_Boyut_Degistirme_Paneli_Kapat.Click += btn_Left_Alan_Boyut_Degistirme_Paneli_Kapat_Click;
+            // 
+            // lbl_Left_Alan_Boyut_Title
+            // 
+            lbl_Left_Alan_Boyut_Title.AutoSize = false;
+            lbl_Left_Alan_Boyut_Title.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Left_Alan_Boyut_Title.ForeColor = Color.Red;
+            lbl_Left_Alan_Boyut_Title.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_Left_Alan_Boyut_Title.Location = new Point(5, 56);
+            lbl_Left_Alan_Boyut_Title.Name = "lbl_Left_Alan_Boyut_Title";
+            lbl_Left_Alan_Boyut_Title.Size = new Size(300, 66);
+            lbl_Left_Alan_Boyut_Title.StateCommon.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Left_Alan_Boyut_Title.StateCommon.TextColor = Color.Red;
+            lbl_Left_Alan_Boyut_Title.Text = "Lütfen Alanın Yeni Boyutlarını Giriniz";
+            lbl_Left_Alan_Boyut_Title.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Left_Alan_Boyu
+            // 
+            lbl_Left_Alan_Boyu.AutoSize = false;
+            lbl_Left_Alan_Boyu.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Left_Alan_Boyu.ForeColor = Color.FromArgb(30, 57, 91);
+            lbl_Left_Alan_Boyu.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_Left_Alan_Boyu.Location = new Point(15, 267);
+            lbl_Left_Alan_Boyu.Name = "lbl_Left_Alan_Boyu";
+            lbl_Left_Alan_Boyu.Size = new Size(134, 50);
+            lbl_Left_Alan_Boyu.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Left_Alan_Boyu.Text = "Alanın Boyu (Metre):";
+            lbl_Left_Alan_Boyu.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Left_Alan_Eni
+            // 
+            lbl_Left_Alan_Eni.AutoSize = false;
+            lbl_Left_Alan_Eni.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Left_Alan_Eni.ForeColor = Color.FromArgb(30, 57, 91);
+            lbl_Left_Alan_Eni.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_Left_Alan_Eni.Location = new Point(15, 156);
+            lbl_Left_Alan_Eni.Name = "lbl_Left_Alan_Eni";
+            lbl_Left_Alan_Eni.Size = new Size(134, 50);
+            lbl_Left_Alan_Eni.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Left_Alan_Eni.Text = "Alanın Eni (Metre):";
+            lbl_Left_Alan_Eni.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // txt_Left_Alan_Eni
+            // 
+            txt_Left_Alan_Eni.Location = new Point(155, 168);
+            txt_Left_Alan_Eni.Name = "txt_Left_Alan_Eni";
+            txt_Left_Alan_Eni.Size = new Size(123, 27);
+            txt_Left_Alan_Eni.StateCommon.Content.Color1 = SystemColors.GrayText;
+            txt_Left_Alan_Eni.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            txt_Left_Alan_Eni.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            txt_Left_Alan_Eni.TabIndex = 0;
+            txt_Left_Alan_Eni.Text = "20";
+            // 
+            // txt_Left_Alan_Boyu
+            // 
+            txt_Left_Alan_Boyu.Location = new Point(155, 279);
+            txt_Left_Alan_Boyu.Name = "txt_Left_Alan_Boyu";
+            txt_Left_Alan_Boyu.Size = new Size(123, 27);
+            txt_Left_Alan_Boyu.StateCommon.Content.Color1 = SystemColors.GrayText;
+            txt_Left_Alan_Boyu.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            txt_Left_Alan_Boyu.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            txt_Left_Alan_Boyu.TabIndex = 1;
+            txt_Left_Alan_Boyu.Text = "40";
+            // 
+            // btn_Left_Alan_Boyut_Degistir_Vazgec
+            // 
+            btn_Left_Alan_Boyut_Degistir_Vazgec.CornerRoundingRadius = 20F;
+            btn_Left_Alan_Boyut_Degistir_Vazgec.Location = new Point(154, 348);
+            btn_Left_Alan_Boyut_Degistir_Vazgec.Name = "btn_Left_Alan_Boyut_Degistir_Vazgec";
+            btn_Left_Alan_Boyut_Degistir_Vazgec.Size = new Size(143, 89);
+            btn_Left_Alan_Boyut_Degistir_Vazgec.StateCommon.Back.Image = (Image)resources.GetObject("btn_Left_Alan_Boyut_Degistir_Vazgec.StateCommon.Back.Image");
+            btn_Left_Alan_Boyut_Degistir_Vazgec.StateCommon.Back.ImageAlign = Krypton.Toolkit.PaletteRectangleAlign.Local;
+            btn_Left_Alan_Boyut_Degistir_Vazgec.StateCommon.Back.ImageStyle = Krypton.Toolkit.PaletteImageStyle.CenterLeft;
+            btn_Left_Alan_Boyut_Degistir_Vazgec.StateCommon.Border.Color2 = Color.Red;
+            btn_Left_Alan_Boyut_Degistir_Vazgec.StateCommon.Border.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
+            btn_Left_Alan_Boyut_Degistir_Vazgec.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
+            btn_Left_Alan_Boyut_Degistir_Vazgec.StateCommon.Border.Rounding = 20F;
+            btn_Left_Alan_Boyut_Degistir_Vazgec.StateCommon.Border.Width = 1;
+            btn_Left_Alan_Boyut_Degistir_Vazgec.StateCommon.Content.Image.Effect = Krypton.Toolkit.PaletteImageEffect.Normal;
+            btn_Left_Alan_Boyut_Degistir_Vazgec.StateCommon.Content.Image.ImageH = Krypton.Toolkit.PaletteRelativeAlign.Far;
+            btn_Left_Alan_Boyut_Degistir_Vazgec.StateCommon.Content.Image.ImageV = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            btn_Left_Alan_Boyut_Degistir_Vazgec.StateCommon.Content.Padding = new Padding(-1, -1, 5, -1);
+            btn_Left_Alan_Boyut_Degistir_Vazgec.StateCommon.Content.ShortText.Color1 = Color.FromArgb(255, 128, 128);
+            btn_Left_Alan_Boyut_Degistir_Vazgec.StateCommon.Content.ShortText.Font = new Font("Sylfaen", 17F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            btn_Left_Alan_Boyut_Degistir_Vazgec.StateCommon.Content.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Far;
+            btn_Left_Alan_Boyut_Degistir_Vazgec.TabIndex = 3;
+            btn_Left_Alan_Boyut_Degistir_Vazgec.Values.Text = "Vazgeç";
+            btn_Left_Alan_Boyut_Degistir_Vazgec.Click += btn_Left_Alan_Boyut_Degistir_Vazgec_Click;
+            // 
+            // btn_Left_Alan_Boyut_Degistir
+            // 
+            btn_Left_Alan_Boyut_Degistir.CornerRoundingRadius = 20F;
+            btn_Left_Alan_Boyut_Degistir.Location = new Point(14, 347);
+            btn_Left_Alan_Boyut_Degistir.Name = "btn_Left_Alan_Boyut_Degistir";
+            btn_Left_Alan_Boyut_Degistir.Size = new Size(134, 89);
+            btn_Left_Alan_Boyut_Degistir.StateCommon.Back.Image = Resources.Resource1.Page_Size;
+            btn_Left_Alan_Boyut_Degistir.StateCommon.Back.ImageStyle = Krypton.Toolkit.PaletteImageStyle.CenterLeft;
+            btn_Left_Alan_Boyut_Degistir.StateCommon.Border.Color2 = Color.Lime;
+            btn_Left_Alan_Boyut_Degistir.StateCommon.Border.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
+            btn_Left_Alan_Boyut_Degistir.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
+            btn_Left_Alan_Boyut_Degistir.StateCommon.Border.Rounding = 20F;
+            btn_Left_Alan_Boyut_Degistir.StateCommon.Border.Width = 1;
+            btn_Left_Alan_Boyut_Degistir.StateCommon.Content.Image.Effect = Krypton.Toolkit.PaletteImageEffect.Normal;
+            btn_Left_Alan_Boyut_Degistir.StateCommon.Content.Image.ImageH = Krypton.Toolkit.PaletteRelativeAlign.Far;
+            btn_Left_Alan_Boyut_Degistir.StateCommon.Content.Image.ImageV = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            btn_Left_Alan_Boyut_Degistir.StateCommon.Content.Padding = new Padding(-1, -1, -4, -1);
+            btn_Left_Alan_Boyut_Degistir.StateCommon.Content.ShortText.Color1 = Color.Lime;
+            btn_Left_Alan_Boyut_Degistir.StateCommon.Content.ShortText.Font = new Font("Sylfaen", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_Left_Alan_Boyut_Degistir.StateCommon.Content.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Far;
+            btn_Left_Alan_Boyut_Degistir.TabIndex = 2;
+            btn_Left_Alan_Boyut_Degistir.Values.Text = "Boyut\r\nDeğiştir";
+            btn_Left_Alan_Boyut_Degistir.Click += btn_Left_Alan_Boyut_Degistir_Click;
+            // 
             // LayoutOlusturma
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Azure;
             ClientSize = new Size(1904, 1041);
-            Controls.Add(layoutPanel_Ambar);
+            Controls.Add(LeftSide_Alan_Boyut_Degistirme_Paneli);
+            Controls.Add(LeftPanel_Izgara_Olusturma);
             Controls.Add(Izgara_Olusturma_Paneli);
             Controls.Add(Depo_Olusturma_Paneli);
-            Controls.Add(Alan_Olusturma_Paneli);
             Controls.Add(RightSide_LayoutPanel);
             Controls.Add(ButtonPanel);
             Controls.Add(LeftSide_LayoutPanel);
             Controls.Add(btn_Layout_Kaydet);
+            Controls.Add(PaddingPanel);
             Controls.Add(Conveyor_Olusturma_Paneli);
             Controls.Add(lbl_Layout_Title);
             Controls.Add(drawingPanel);
@@ -4221,11 +4567,13 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Layout Oluşturma";
             drawingPanel.ResumeLayout(false);
-            LeftPanel_Izgara_Olusturma.ResumeLayout(false);
-            LeftPanel_Izgara_Olusturma.PerformLayout();
             Conveyor_Reference_FixedorManuel_Panel.ResumeLayout(false);
             Conveyor_Reference_Fixed_Panel.ResumeLayout(false);
             Conveyor_Reference_Fixed_Panel.PerformLayout();
+            layoutPanel_Ambar.ResumeLayout(false);
+            groupBox_Ambar.ResumeLayout(false);
+            panel_Alan_SubMenu.ResumeLayout(false);
+            panel_Alan_Menu.ResumeLayout(false);
             Conveyor_Reference_Sayisi_Paneli.ResumeLayout(false);
             Conveyor_Reference_Sayisi_Paneli.PerformLayout();
             Placement_LeftRight_Panel.ResumeLayout(false);
@@ -4238,12 +4586,16 @@
             Placement_StartLocation_Panel.PerformLayout();
             Asama1_Yukseklik_Panel.ResumeLayout(false);
             Asama1_Yukseklik_Panel.PerformLayout();
-            PaddingPanel.ResumeLayout(false);
-            PaddingPanel.PerformLayout();
             Placement_UpDown_Panel.ResumeLayout(false);
             Placement_UpDown_Panel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            LayoutPanel_Alan_Hierarchy.ResumeLayout(false);
+            groupBox_Hierarchy_TreeView.ResumeLayout(false);
+            PaddingPanel.ResumeLayout(false);
+            PaddingPanel.PerformLayout();
+            LeftPanel_Izgara_Olusturma.ResumeLayout(false);
+            LeftPanel_Izgara_Olusturma.PerformLayout();
             panel_Depo_SubMenu_Izgara_Haritasi.ResumeLayout(false);
             panel_Depo_SubMenu.ResumeLayout(false);
             Alan_Olusturma_Paneli.ResumeLayout(false);
@@ -4271,8 +4623,8 @@
             panel_Conveyor_SubMenu_Referans.ResumeLayout(false);
             panel_Conveyor_Submenu.ResumeLayout(false);
             panel_Conveyor_Menu.ResumeLayout(false);
-            layoutPanel_Ambar.ResumeLayout(false);
-            groupBox_Ambar.ResumeLayout(false);
+            LeftSide_Alan_Boyut_Degistirme_Paneli.ResumeLayout(false);
+            LeftSide_Alan_Boyut_Degistirme_Paneli.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -4532,7 +4884,6 @@
         public Button btn_openClose_RightSide;
         public FlowLayoutPanel layoutPanel_Ambar;
         public GroupBox groupBox_Ambar;
-        public TreeView treeView_Ambar;
         private ToolStripMenuItem depoMenuAcBTN;
         private ToolStripMenuItem conveyorMenuAcBTN;
         private ToolStripMenuItem alanMenuAcBTN;
@@ -4581,5 +4932,28 @@
         public Krypton.Toolkit.KryptonButton btn_Left_Izgara_Haritasi_Olustur;
         public Krypton.Toolkit.KryptonTextBox txt_Left_Nesne_Boyu;
         public Button btn_PaddingPanel_Kapat;
+        private Panel panel_Alan_Menu;
+        public Button btn_Alan_SubMenu;
+        public Button btn_Alan_SubMenu_Depo_Siralamasi;
+        private Panel panel_Alan_SubMenu;
+        public Button btn_Alan_SubMenu_Sil;
+        public Button btn_Alan_SubMenu_Boyut_Degistir;
+        public Button btn_Alan_SubMenu_Bosalt;
+        public Button btn_Alan_SubMenu_Depolara_Izgara_Ekle;
+        public Button btn_Alan_Menu_Go_Back;
+        public FlowLayoutPanel LayoutPanel_Alan_Hierarchy;
+        public GroupBox groupBox_Hierarchy_TreeView;
+        private TreeView AlanTreeView;
+        public Panel LeftSide_Alan_Boyut_Degistirme_Paneli;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge56;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge57;
+        public Button btn_Left_Alan_Boyut_Degistirme_Paneli_Kapat;
+        public Krypton.Toolkit.KryptonWrapLabel lbl_Left_Alan_Boyut_Title;
+        public Krypton.Toolkit.KryptonWrapLabel lbl_Left_Alan_Boyu;
+        public Krypton.Toolkit.KryptonWrapLabel lbl_Left_Alan_Eni;
+        public Krypton.Toolkit.KryptonTextBox txt_Left_Alan_Eni;
+        public Krypton.Toolkit.KryptonTextBox txt_Left_Alan_Boyu;
+        public Krypton.Toolkit.KryptonButton btn_Left_Alan_Boyut_Degistir_Vazgec;
+        public Krypton.Toolkit.KryptonButton btn_Left_Alan_Boyut_Degistir;
     }
 }

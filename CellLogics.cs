@@ -167,6 +167,7 @@ namespace Balya_Yerleştirme.Models
             }
         }
 
+
         public void Draw(Graphics graphics)
         {
             RectangleF rect = new RectangleF();
