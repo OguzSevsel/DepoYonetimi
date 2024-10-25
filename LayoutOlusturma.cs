@@ -1,33 +1,9 @@
 ﻿using Balya_Yerleştirme.Models;
 using CustomNotification;
-using DocumentFormat.OpenXml.Drawing;
-using DocumentFormat.OpenXml.Drawing.Charts;
-using DocumentFormat.OpenXml.Drawing.Wordprocessing;
-using DocumentFormat.OpenXml.Office2013.Drawing.Chart;
-using DocumentFormat.OpenXml.Spreadsheet;
-using DocumentFormat.OpenXml.Wordprocessing;
 using GUI_Library;
-using Krypton.Toolkit;
-using Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SixLabors.Fonts;
 using String_Library;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Diagnostics.Contracts;
-using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Globalization;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using static Balya_Yerleştirme.Utilities.Utils;
 
 namespace Balya_Yerleştirme
@@ -179,12 +155,20 @@ namespace Balya_Yerleştirme
         #endregion
 
 
+        //Variables for TreeNode
+        #region TreeNode Variables
+        public TreeNode AlanNode { get; set; }
+        public TreeNode DepoNode { get; set; }
+        public TreeNode ConveyorNode { get; set; }
+        #endregion
+
         public bool menuProcess { get; set; } = false;
+
 
         public LayoutOlusturma(MainForm main)
         {
             InitializeComponent();
-            ToolTip toolTip = new ToolTip();
+            System.Windows.Forms.ToolTip toolTip = new System.Windows.Forms.ToolTip();
             toolTip.AutoPopDelay = 2500;
             toolTip.InitialDelay = 100;
             toolTip.ReshowDelay = 250;
@@ -198,6 +182,7 @@ namespace Balya_Yerleştirme
             this.KeyPreview = true;
             this.KeyDown += KeyDownEventHandler;
             AlanTreeView.AfterSelect += AlanTreeView_AfterSelect;
+            AlanTreeView.BeforeSelect += AlanTreeView_BeforeSelect;
             CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
             CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
             CopyDepo = new Depo();
@@ -206,43 +191,250 @@ namespace Balya_Yerleştirme
             Main = main;
             timer.Tick += Timer_Tick;
 
+            AlanNode = new TreeNode("Alan");
+            AlanNode.ForeColor = System.Drawing.Color.Blue;
+            AlanTreeView.Nodes.Add(AlanNode);
+
+            DepoNode = new TreeNode("Depolar");
+            AlanNode.Nodes.Add(DepoNode);
+
+            ConveyorNode = new TreeNode("Conveyorlar");
+            AlanNode.Nodes.Add(ConveyorNode);
+
 
             HideEverything();
             MainPanelCloseBothSides(LeftSide_LayoutPanel, RightSide_LayoutPanel, this);
         }
 
+        //TreeView Events and Methods for adding and deleting nodes according to the depos, conveyors in the area
+        #region TreeView Events and Methods
+        private void AlanTreeView_BeforeSelect(object? sender, TreeViewCancelEventArgs e)
+        {
+            if (e.Node.Tag == null)
+            {
+                e.Cancel = true;
+            }
+        }
+
         private void AlanTreeView_AfterSelect(object? sender, TreeViewEventArgs e)
         {
             var selectedObject = e.Node.Tag;
+            TreeNode node = e.Node;
 
-            if (selectedObject is Depo depo)
+            if (selectedObject is Ambar ambar)
             {
-                
+                if (selectedConveyor != null)
+                {
+                    selectedConveyor = null;
+                    SelectedConveyorPen.Width = 1;
+                    SelectedConveyorPen.Color = System.Drawing.Color.Black;
+                }
+
+                if (selectedDepo != null)
+                {
+                    selectedDepo = null;
+                    SelectedDepoPen.Width = 1;
+                    SelectedDepoPen.Color = System.Drawing.Color.Black;
+                }
+
+                SelectedAmbar = ambar;
+                SelectedAmbarPen.Width = 3;
+                SelectedAmbarPen.Color = System.Drawing.Color.Blue;
+
+                SortFlowLayoutPanel(layoutPanel_Ambar);
+
+                drawingPanel.Invalidate();
+            }
+            else if (selectedObject is Depo depo)
+            {
+                foreach (var depo1 in Ambar.depolar)
+                {
+                    if (depo1 == selectedObject)
+                    {
+                        if (selectedConveyor != null)
+                        {
+                            selectedConveyor = null;
+                            SelectedConveyorPen.Width = 1;
+                            SelectedConveyorPen.Color = System.Drawing.Color.Black;
+                        }
+
+                        if (SelectedAmbar != null)
+                        {
+                            SelectedAmbar = null;
+                            SelectedAmbarPen.Width = 1;
+                            SelectedAmbarPen.Color = System.Drawing.Color.Black;
+                        }
+
+                        selectedDepo = depo1;
+                        SelectedDepoPen.Width = 3;
+                        SelectedDepoPen.Color = System.Drawing.Color.Blue;
+
+                        ManuelDepoRectangle = selectedDepo.Rectangle;
+                        UnchangedDepoAlaniBoyu = selectedDepo.DepoAlaniBoyu;
+                        UnchangedDepoAlaniEni = selectedDepo.DepoAlaniEni;
+                        UnchangedselectedDepoRectangle = selectedDepo.Rectangle;
+
+                        SortFlowLayoutPanel(LayoutPanel_SelectedDepo);
+
+                        drawingPanel.Invalidate();
+                    }
+                }
+            }
+            else if (selectedObject is Conveyor conveyor)
+            {
+                foreach (var conv in Ambar.conveyors)
+                {
+                    if (conv == selectedObject)
+                    {
+                        if (selectedDepo != null)
+                        {
+                            selectedDepo = null;
+                            SelectedDepoPen.Width = 1;
+                            SelectedDepoPen.Color = System.Drawing.Color.Black;
+                        }
+
+                        if (SelectedAmbar != null)
+                        {
+                            SelectedAmbar = null;
+                            SelectedAmbarPen.Width = 1;
+                            SelectedAmbarPen.Color = System.Drawing.Color.Black;
+                        }
+
+                        selectedConveyor = conv;
+                        SelectedConveyorPen.Width = 3;
+                        SelectedConveyorPen.Color = System.Drawing.Color.Blue;
+
+                        ManuelConveyorRectangle = selectedConveyor.Rectangle;
+                        UnchangedConveyorEni = selectedConveyor.ConveyorEni;
+                        UnchangedConveyorBoyu = selectedConveyor.ConveyorBoyu;
+                        UnchangedselectedConveyorRectangle = selectedConveyor.Rectangle;
+
+                        SortFlowLayoutPanel(layoutPanel_SelectedConveyor);
+
+                        drawingPanel.Invalidate();
+                    }
+                }
+            }
+            else
+            {
+                if (node != DepoNode && node != ConveyorNode)
+                {
+                    if (selectedConveyor != null)
+                    {
+                        selectedConveyor = null;
+                        SelectedConveyorPen.Width = 1;
+                        SelectedConveyorPen.Color = System.Drawing.Color.Black;
+                    }
+
+                    if (selectedDepo != null)
+                    {
+                        selectedDepo = null;
+                        SelectedDepoPen.Width = 1;
+                        SelectedDepoPen.Color = System.Drawing.Color.Black;
+                    }
+
+                    if (SelectedAmbar != null)
+                    {
+                        SelectedAmbar = null;
+                        SelectedAmbarPen.Width = 1;
+                        SelectedAmbarPen.Color = System.Drawing.Color.Black;
+                    }
+
+                    if (LeftSide_LayoutPanel.Visible)
+                    {
+                        Clear_AddControltoLeftSidePanel(LayoutPanel_Alan_Hierarchy);
+                    }
+
+                    drawingPanel.Invalidate();
+                }
             }
         }
 
-        private void Populate_TreeView(Ambar ambar)
+        private void DeleteDepoNode(Depo depo)
         {
-            TreeNode nodeAlan = new TreeNode("Alan");
-            nodeAlan.Tag = ambar;
-            AlanTreeView.Nodes.Add(nodeAlan);
-
-            foreach (var depo in ambar.depolar)
+            TreeNode deleteNode = new TreeNode();
+            foreach (TreeNode node in DepoNode.Nodes)
             {
-                TreeNode nodeDepo = new TreeNode($"{depo.DepoName}");
-                nodeDepo.Tag = depo;
-                nodeAlan.Nodes.Add(nodeDepo);
+                if (node.Tag == depo)
+                {
+                    deleteNode = node;
+                }
             }
-            foreach (var conveyor in ambar.conveyors)
+            DepoNode.Nodes.Remove(deleteNode);
+        }
+
+        private void DeleteConveyorNode(Conveyor conveyor)
+        {
+            TreeNode deleteNode = new TreeNode();
+            foreach (TreeNode node in ConveyorNode.Nodes)
             {
-                TreeNode nodeConveyor = new TreeNode($"Conveyor {conveyor.ConveyorId}");
-                nodeConveyor.Tag = conveyor;
-                nodeAlan.Nodes.Add(nodeConveyor);
+                if (node.Tag == conveyor)
+                {
+                    deleteNode = node;
+                }
+            }
+            ConveyorNode.Nodes.Remove(deleteNode);
+        }
+
+        private void AddDepoNode(Depo depo)
+        {
+            TreeNode depoNode = new TreeNode($"{depo.DepoName}");
+            depoNode.Tag = depo;
+            depoNode.ForeColor = System.Drawing.Color.Blue;
+            DepoNode.Nodes.Add(depoNode);
+        }
+
+        private void AddConveyorNode(Conveyor conveyor)
+        {
+            TreeNode conveyorNode = new TreeNode($"Conveyor {conveyor.ConveyorId}");
+            conveyorNode.Tag = conveyor;
+            conveyorNode.ForeColor = System.Drawing.Color.Blue;
+            ConveyorNode.Nodes.Add(conveyorNode);
+        }
+
+        public void SelectNode(Ambar? ambar, Conveyor? conveyor, Depo? depo)
+        {
+            AlanTreeView.Focus();
+            if (ambar != null)
+            {
+                foreach (TreeNode node in AlanTreeView.Nodes)
+                {
+                    if (node.Tag == ambar)
+                    {
+                        AlanTreeView.SelectedNode = node;
+                    }
+                }
+            }
+
+            if (conveyor != null)
+            {
+                foreach (TreeNode node in ConveyorNode.Nodes)
+                {
+                    if (node.Tag == conveyor)
+                    {
+                        AlanTreeView.SelectedNode = node;
+                    }
+                }
+            }
+
+            if (depo != null)
+            {
+                foreach (TreeNode node in DepoNode.Nodes)
+                {
+                    if (node.Tag == depo)
+                    {
+                        AlanTreeView.SelectedNode = node;
+                    }
+                }
             }
         }
+
+        #endregion
+
 
         //Delete, Copy, Paste depo's and conveyor's with shortcuts 
         #region Delete, Copy, Paste
+
         //Delete, Copy, Paste
         private void KeyDownEventHandler(object? sender, KeyEventArgs e)
         {
@@ -399,14 +591,44 @@ namespace Balya_Yerleştirme
                 {
                     if (CopyDepo != null)
                     {
+                        float x = 0f;
+                        float y = 0f;
+
                         string deponame = CopyDepo.DepoName;
 
-                        PointF checkPoint = new PointF(CopyPoint.X + CopyDepo.Rectangle.Width / 2, CopyPoint.Y + CopyDepo.Rectangle.Height / 2);
+                        PointF checkPoint = new PointF(CopyPoint.X, CopyPoint.Y);
+
                         if (Ambar.Rectangle.Contains(checkPoint))
                         {
-                            Depo CopiedDepo = new Depo(CopyPoint.X - CopyDepo.Rectangle.Width / 2,
-                                CopyPoint.Y - CopyDepo.Rectangle.Height / 2, CopyDepo.Rectangle.Width,
-                            CopyDepo.Rectangle.Height, CopyDepo.Zoomlevel, Main, this, Ambar);
+                            if (checkPoint.X + CopyDepo.Rectangle.Width > Ambar.Rectangle.Right)
+                            {
+                                x = Ambar.Rectangle.Right - CopyDepo.Rectangle.Width;
+                            }
+                            else if (checkPoint.X - CopyDepo.Rectangle.Width < Ambar.Rectangle.Left)
+                            {
+                                x = Ambar.Rectangle.Left;
+                            }
+                            else
+                            {
+                                x = CopyPoint.X - CopyDepo.Rectangle.Width / 2;
+                            }
+
+                            if (checkPoint.Y + CopyDepo.Rectangle.Height > Ambar.Rectangle.Bottom)
+                            {
+                                y = Ambar.Rectangle.Bottom - CopyDepo.Rectangle.Height;
+                            }
+                            else if (checkPoint.Y - CopyDepo.Rectangle.Height < Ambar.Rectangle.Top)
+                            {
+                                y = Ambar.Rectangle.Top;
+                            }
+                            else
+                            {
+                                y = CopyPoint.Y - CopyDepo.Rectangle.Height / 2;
+                            }
+
+
+                            Depo CopiedDepo = new Depo(x, y, CopyDepo.Rectangle.Width, CopyDepo.Rectangle.Height, CopyDepo.Zoomlevel, Main, this, Ambar);
+
 
                             CopiedDepo.OriginalRectangle = CopiedDepo.Rectangle;
 
@@ -557,11 +779,41 @@ namespace Balya_Yerleştirme
 
                     if (CopyConveyor != null)
                     {
-                        PointF checkPoint = new PointF(CopyPoint.X + CopyConveyor.Rectangle.Width / 2, CopyPoint.Y + CopyConveyor.Rectangle.Height / 2);
+                        PointF checkPoint = new PointF(CopyPoint.X, CopyPoint.Y);
+
+                        float x = 0f;
+                        float y = 0f;
 
                         if (Ambar.Rectangle.Contains(checkPoint))
                         {
-                            Conveyor conveyor = new Conveyor(CopyPoint.X - CopyConveyor.Rectangle.Width / 2, CopyPoint.Y - CopyConveyor.Rectangle.Height / 2, CopyConveyor.Rectangle.Width, CopyConveyor.Rectangle.Height,
+
+                            if (checkPoint.X + CopyConveyor.Rectangle.Width > Ambar.Rectangle.Right)
+                            {
+                                x = Ambar.Rectangle.Right - CopyConveyor.Rectangle.Width;
+                            }
+                            else if (checkPoint.X - CopyConveyor.Rectangle.Width < Ambar.Rectangle.Left)
+                            {
+                                x = Ambar.Rectangle.Left;
+                            }
+                            else
+                            {
+                                x = CopyPoint.X - CopyConveyor.Rectangle.Width / 2;
+                            }
+
+                            if (checkPoint.Y + CopyConveyor.Rectangle.Height > Ambar.Rectangle.Bottom)
+                            {
+                                y = Ambar.Rectangle.Bottom - CopyConveyor.Rectangle.Height;
+                            }
+                            else if (checkPoint.Y - CopyConveyor.Rectangle.Height < Ambar.Rectangle.Top)
+                            {
+                                y = Ambar.Rectangle.Top;
+                            }
+                            else
+                            {
+                                y = CopyPoint.Y - CopyConveyor.Rectangle.Height / 2;
+                            }
+
+                            Conveyor conveyor = new Conveyor(x, y, CopyConveyor.Rectangle.Width, CopyConveyor.Rectangle.Height,
                             Main, this, Ambar);
 
                             conveyor.OriginalRectangle = conveyor.Rectangle;
@@ -683,9 +935,10 @@ namespace Balya_Yerleştirme
                 drawingPanel.Invalidate();
             }
         }
+
         #endregion
 
-        
+
 
         //Item Placement Sequence events for placing items to the Depo in main program form
         #region Item Placement Sequence Algorithm
@@ -1480,11 +1733,68 @@ namespace Balya_Yerleştirme
 
         #endregion
 
-        
+
 
         //Mainpanel events that Areas are drawed, MouseUp, MouseDown, MouseMove, Paint, Scroll
-        #region DrawingPanel Events
+        #region DrawingPanel Events and Methods
 
+        private void DrawInfoStrings(Graphics g, object obje)
+        {
+            SolidBrush BlueBrush = new SolidBrush(System.Drawing.Color.Blue);
+            SolidBrush RedBrush = new SolidBrush(System.Drawing.Color.Red);
+
+            string rightClick = "Sağ tık: ";
+            string Del = "Del: ";
+            string Copy = "Ctrl + C: ";
+            string Paste = "Ctrl + V: ";
+
+            string rightClickInfo = "Menüyü Aç";
+            string DelInfo = "Sil";
+            string CopyInfo = "Kopyala";
+            string PasteInfo = "Yapıştır";
+
+            SizeF textSizeRightClick = g.MeasureString(rightClick, Font);
+            SizeF textSizeDel = g.MeasureString(Del, Font);
+            SizeF textSizeCopy = g.MeasureString(Copy, Font);
+            SizeF textSizePaste = g.MeasureString(Paste, Font);
+
+            SizeF textSizeRightClickInfo = g.MeasureString(rightClickInfo, Font);
+            SizeF textSizeDelInfo = g.MeasureString(DelInfo, Font);
+            SizeF textSizeCopyInfo = g.MeasureString(CopyInfo, Font);
+            SizeF textSizePasteInfo = g.MeasureString(PasteInfo, Font);
+
+            PointF pointRightClick = new PointF(10, drawingPanel.ClientRectangle.Height - textSizeRightClick.Height);
+            PointF pointRightClickInfo = new PointF(10 + textSizeRightClick.Width, drawingPanel.ClientRectangle.Height - textSizeRightClickInfo.Height);
+
+            PointF pointDel = new PointF(10, drawingPanel.ClientRectangle.Height - textSizeRightClick.Height - textSizeDel.Height);
+            PointF pointDelInfo = new PointF(10 + textSizeDel.Width, drawingPanel.ClientRectangle.Height - textSizeRightClickInfo.Height - textSizeDel.Height);
+
+            PointF pointCopy = new PointF(10, drawingPanel.ClientRectangle.Height - textSizeRightClick.Height - textSizeDel.Height - textSizeCopy.Height);
+            PointF pointCopyInfo = new PointF(10 + textSizeCopy.Width, drawingPanel.ClientRectangle.Height - textSizeRightClickInfo.Height - textSizeDelInfo.Height - textSizeCopyInfo.Height);
+
+            PointF pointPaste = new PointF(10, drawingPanel.ClientRectangle.Height - textSizeRightClick.Height - textSizeDel.Height - textSizeCopy.Height - textSizePaste.Height);
+            PointF pointPasteInfo = new PointF(10 + textSizePaste.Width, drawingPanel.ClientRectangle.Height - textSizeRightClickInfo.Height - textSizeDelInfo.Height - textSizeCopyInfo.Height - textSizePasteInfo.Height);
+
+            if (obje is Ambar)
+            {
+                g.DrawString(rightClick, Font, RedBrush, pointRightClick);
+                g.DrawString(rightClickInfo, Font, BlueBrush, pointRightClickInfo);
+            }
+            else if (obje is Depo || obje is Conveyor)
+            {
+                g.DrawString(rightClick, Font, RedBrush, pointRightClick);
+                g.DrawString(rightClickInfo, Font, BlueBrush, pointRightClickInfo);
+
+                g.DrawString(Del, Font, RedBrush, pointDel);
+                g.DrawString(DelInfo, Font, BlueBrush, pointDelInfo);
+
+                g.DrawString(Copy, Font, RedBrush, pointCopy);
+                g.DrawString(CopyInfo, Font, BlueBrush, pointCopyInfo);
+
+                g.DrawString(Paste, Font, RedBrush, pointPaste);
+                g.DrawString(PasteInfo, Font, BlueBrush, pointPasteInfo);
+            }
+        }
         private void SimulationPanel_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
@@ -1518,6 +1828,8 @@ namespace Balya_Yerleştirme
                 if (SelectedAmbar != null && Fill_WareHouse == false)
                 {
                     g.DrawRectangle(SelectedAmbarPen, Ambar.Rectangle);
+
+                    DrawInfoStrings(g, SelectedAmbar);
                 }
 
                 foreach (var conv in Ambar.conveyors)
@@ -1541,10 +1853,7 @@ namespace Balya_Yerleştirme
                         DrawBottomLines(SelectedConveyorEdgePen, g, rects, conv.Rectangle,
                             Ambar.Rectangle);
 
-                        string CopyPaste = "Ctrl + C: Conveyor'u Kopyala\nCtrl + V: Conveyor'u Yapıştır";
-                        SizeF textSize = g.MeasureString(CopyPaste, Font);
-                        SolidBrush brush = new SolidBrush(System.Drawing.Color.Blue);
-                        g.DrawString(CopyPaste, Font, brush, new PointF(10, drawingPanel.ClientRectangle.Height - textSize.Height));
+                        DrawInfoStrings(g, selectedConveyor);
                     }
                     foreach (var reff in conv.ConveyorReferencePoints)
                     {
@@ -1583,10 +1892,7 @@ namespace Balya_Yerleştirme
                         DrawTopLines(SelectedDepoEdgePen, g, rects, depo.Rectangle, Ambar.Rectangle);
                         DrawBottomLines(SelectedDepoEdgePen, g, rects, depo.Rectangle, Ambar.Rectangle);
 
-                        string CopyPaste = "Ctrl + C: Depoyu Kopyala\nCtrl + V: Depoyu Yapıştır";
-                        SizeF textSize = g.MeasureString(CopyPaste, Font);
-                        SolidBrush brush1 = new SolidBrush(System.Drawing.Color.Blue);
-                        g.DrawString(CopyPaste, Font, brush1, new PointF(10, drawingPanel.ClientRectangle.Height - textSize.Height));
+                        DrawInfoStrings(g, selectedDepo);
                     }
                 }
                 RectangleF rect = new RectangleF();
@@ -1603,64 +1909,28 @@ namespace Balya_Yerleştirme
                                     if ((currentColumn >= 0 || currentColumn <= depo.ColumnCount) &&
                                         Parameter == "Sola Doğru" && cell.Column - 1 == currentColumn)
                                     {
-                                        float x = cell.Rectangle.X;
-                                        float y = cell.Rectangle.Y;
-                                        float width = (float)(cell.Rectangle.Width / 2 * 1.5);
-                                        float height = (float)(cell.Rectangle.Height / 2 * 1.5);
-
-                                        rect = new RectangleF(cell.Rectangle.X +
-                                            (cell.Rectangle.Width / 2 - width / 2),
-                                            cell.Rectangle.Y + (cell.Rectangle.Height / 2 -
-                                            height / 2), width, height);
-
+                                        rect = GetSimulationRectangle(cell);
                                         rectangles.Add(rect);
                                     }
 
                                     if ((currentColumn >= 0 || currentColumn <= depo.ColumnCount) &&
                                         Parameter == "Sağa Doğru" && cell.Column + 1 == currentColumn)
                                     {
-                                        float x = cell.Rectangle.X;
-                                        float y = cell.Rectangle.Y;
-                                        float width = (float)(cell.Rectangle.Width / 2 * 1.5);
-                                        float height = (float)(cell.Rectangle.Height / 2 * 1.5);
-
-                                        rect = new RectangleF(cell.Rectangle.X +
-                                            (cell.Rectangle.Width / 2 - width / 2),
-                                            cell.Rectangle.Y + (cell.Rectangle.Height / 2 -
-                                            height / 2), width, height);
-
+                                        rect = GetSimulationRectangle(cell);
                                         rectangles.Add(rect);
                                     }
 
                                     if ((currentRow >= 0 || currentRow <= depo.RowCount) &&
                                         Parameter == "Yukarı Doğru" && cell.Row == currentRow)
                                     {
-                                        float x = cell.Rectangle.X;
-                                        float y = cell.Rectangle.Y;
-                                        float width = (float)(cell.Rectangle.Width / 2 * 1.5);
-                                        float height = (float)(cell.Rectangle.Height / 2 * 1.5);
-
-                                        rect = new RectangleF(cell.Rectangle.X +
-                                            (cell.Rectangle.Width / 2 - width / 2),
-                                            cell.Rectangle.Y + (cell.Rectangle.Height / 2 -
-                                            height / 2), width, height);
-
+                                        rect = GetSimulationRectangle(cell);
                                         rectangles.Add(rect);
                                     }
 
                                     if ((currentRow >= 0 || currentRow <= depo.RowCount) &&
                                         Parameter == "Ortadan Yukarı Doğru" && cell.Row == currentRow)
                                     {
-                                        float x = cell.Rectangle.X;
-                                        float y = cell.Rectangle.Y;
-                                        float width = (float)(cell.Rectangle.Width / 2 * 1.5);
-                                        float height = (float)(cell.Rectangle.Height / 2 * 1.5);
-
-                                        rect = new RectangleF(cell.Rectangle.X +
-                                            (cell.Rectangle.Width / 2 - width / 2),
-                                            cell.Rectangle.Y + (cell.Rectangle.Height / 2 -
-                                            height / 2), width, height);
-
+                                        rect = GetSimulationRectangle(cell);
                                         rectangles.Add(rect);
                                     }
 
@@ -1668,32 +1938,14 @@ namespace Balya_Yerleştirme
                                     if ((currentRow >= 0 || currentRow <= depo.RowCount) &&
                                         Parameter == "Aşağı Doğru" && cell.Row == currentRow)
                                     {
-                                        float x = cell.Rectangle.X;
-                                        float y = cell.Rectangle.Y;
-                                        float width = (float)(cell.Rectangle.Width / 2 * 1.5);
-                                        float height = (float)(cell.Rectangle.Height / 2 * 1.5);
-
-                                        rect = new RectangleF(cell.Rectangle.X +
-                                            (cell.Rectangle.Width / 2 - width / 2),
-                                            cell.Rectangle.Y + (cell.Rectangle.Height / 2 -
-                                            height / 2), width, height);
-
+                                        rect = GetSimulationRectangle(cell);
                                         rectangles.Add(rect);
                                     }
 
                                     if ((currentRow >= 0 || currentRow <= depo.RowCount) &&
                                         Parameter == "Ortadan Aşağı Doğru" && cell.Row == currentRow)
                                     {
-                                        float x = cell.Rectangle.X;
-                                        float y = cell.Rectangle.Y;
-                                        float width = (float)(cell.Rectangle.Width / 2 * 1.5);
-                                        float height = (float)(cell.Rectangle.Height / 2 * 1.5);
-
-                                        rect = new RectangleF(cell.Rectangle.X +
-                                            (cell.Rectangle.Width / 2 - width / 2),
-                                            cell.Rectangle.Y + (cell.Rectangle.Height / 2 -
-                                            height / 2), width, height);
-
+                                        rect = GetSimulationRectangle(cell);
                                         rectangles.Add(rect);
                                     }
 
@@ -1704,14 +1956,7 @@ namespace Balya_Yerleştirme
                                     {
                                         DrawArrowInCell(g, cell.Rectangle);
                                     }
-                                    //if ((Parameter == "Yukarı Doğru" ||
-                                    //    Parameter == "Aşağı Doğru" ||
-                                    //    Parameter == "Ortadan Yukarı Doğru" ||
-                                    //    Parameter == "Ortadan Aşağı Doğru") &&
-                                    //    cell.Row - 1 == currentRow)
-                                    //{
-                                    //    DrawArrowInCell(g, cell.Rectangle);
-                                    //}
+
                                     if ((Parameter == "Aşağı Doğru" || Parameter == "Ortadan Aşağı Doğru") && cell.Row - 1 == currentRow)
                                     {
                                         DrawArrowInCell(g, cell.Rectangle);
@@ -1754,6 +1999,22 @@ namespace Balya_Yerleştirme
                     }
                 }
             }
+        }
+        private static RectangleF GetSimulationRectangle(Cell cell)
+        {
+            RectangleF rect;
+            float x = cell.Rectangle.X;
+            float y = cell.Rectangle.Y;
+            float width = (float)
+                (cell.Rectangle.Width / 2 * 1.5);
+            float height = (float)
+                (cell.Rectangle.Height / 2 * 1.5);
+
+            rect = new RectangleF(cell.Rectangle.X +
+                (cell.Rectangle.Width / 2 - width / 2),
+                cell.Rectangle.Y + (cell.Rectangle.Height / 2 -
+                height / 2), width, height);
+            return rect;
         }
         private void drawingPanel_MouseClick(object sender, MouseEventArgs e)
         {
@@ -1847,8 +2108,6 @@ namespace Balya_Yerleştirme
                         }
                     }
 
-
-
                     if (!deponull)
                     {
                         if (MovingParameter)
@@ -1870,6 +2129,20 @@ namespace Balya_Yerleştirme
                             notify.showAlert("Sıralama Kaydedildi.", CustomNotifyIcon.enmType.Success);
                             TransparentPen.Color = System.Drawing.Color.FromArgb(255, System.Drawing.Color.Black);
                             Fill_WareHouse = false;
+
+                            if (CountList.Count > 0)
+                            {
+                                foreach (var depo in Ambar.depolar)
+                                {
+                                    if (depo.Yerlestirilme_Sirasi == 0)
+                                    {
+                                        int num = CountList.FirstOrDefault();
+                                        depo.Yerlestirilme_Sirasi = num;
+
+                                        CountList.Remove(num);
+                                    }
+                                }
+                            }
                         }
 
                         selectedDepo = null;
@@ -2049,8 +2322,9 @@ namespace Balya_Yerleştirme
 
 
 
-        //Snapping and Drawing Lines when left clicked to the areas events
+        //Snapping and Drawing Lines when left clicked to the depos or conveyors
         #region Snap and Drawing Methods
+
         public RectangleF SnapRectangles(RectangleF rectangle, RectangleF refRectangle)
         {
             System.Drawing.Point rectangleRightMiddle = GVisual.GetMiddleOfRightEdge(rectangle);
@@ -2072,7 +2346,6 @@ namespace Balya_Yerleştirme
             System.Drawing.Point refRectangleBotLeftCorner = GVisual.GetBottomLeftCorner(refRectangle);
             System.Drawing.Point refRectangleBotRightCorner = GVisual.GetBottomRightCorner(refRectangle);
 
-            int snapping = 4;
 
             //Distance Between Bottom Left of the Rectangle and Top Left of the Reference Rectangle
             double TopLeftCornerSnapDistance = GVisual.CalculateDistance(rectangleBotLeftCorner.X,
@@ -2123,6 +2396,8 @@ namespace Balya_Yerleştirme
             //Distance Between Top Right of the Rectangle and Top Left of the Reference Rectangle
             double LeftTopSnapDistance = GVisual.CalculateDistance(rectangleTopRightCorner.X,
                 rectangleTopRightCorner.Y, refRectangleTopLeftCorner.X, refRectangleTopLeftCorner.Y);
+
+            int snapping = 4;
 
             if (TopSideSnapDistance < snapping)
             {
@@ -2222,34 +2497,263 @@ namespace Balya_Yerleştirme
             }
             else
             {
-                if (rectangle.Bottom <= refRectangle.Top + snapping)
+                double rightTopBotLeftDistance = GVisual.CalculateDistance(rectangleTopRightCorner.X, rectangleTopRightCorner.Y,
+                    refRectangleBotLeftCorner.X, refRectangleBotLeftCorner.Y);
+
+                double leftTopBotRightDistance = GVisual.CalculateDistance(rectangleTopLeftCorner.X, rectangleTopLeftCorner.Y,
+                    refRectangleBotRightCorner.X, refRectangleBotRightCorner.Y);
+
+                double rightBotTopLeftDistance = GVisual.CalculateDistance(rectangleBotRightCorner.X, rectangleBotRightCorner.Y,
+                    refRectangleTopLeftCorner.X, refRectangleTopLeftCorner.Y);
+
+                double leftBotTopRightDistance = GVisual.CalculateDistance(rectangleBotLeftCorner.X, rectangleBotLeftCorner.Y,
+                    refRectangleTopRightCorner.X, refRectangleTopRightCorner.Y);
+
+                if (refRectangle.Contains(rectangleTopRightCorner) && !refRectangle.Contains(rectangleTopLeftCorner))
                 {
-                    rectangle = GVisual.MoveRectangleToPoint(rectangle,
-                       rectangle.X,
-                       refRectangle.Y - rectangle.Height);
+                    if (rightTopBotLeftDistance <= snapping)
+                    {
+                        rectangle = GVisual.MoveRectangleToPoint(rectangle, 
+                        refRectangle.X - rectangle.Width,
+                        refRectangle.Y + refRectangle.Height);
+                        snapped = true;
+                        return rectangle;
+                    }
+                    else
+                    {
+                        if (rectangle.X <= refRectangle.X && rectangle.Y >= refRectangle.Y && rectangle.Y <= refRectangle.Bottom)
+                        {
+                            rectangle = GVisual.MoveRectangleToPoint(rectangle, refRectangle.X - rectangle.Width, rectangle.Y);
+                            return rectangle;
+                        }
+                        else if (rectangle.Y >= refRectangle.Bottom)
+                        {
+                            rectangle = GVisual.MoveRectangleToPoint(rectangle, rectangle.X,
+                            refRectangle.Y + refRectangle.Height);
+                            return rectangle;
+                        }
+                    }
+                }
+                else if (refRectangle.Contains(rectangleTopLeftCorner) && 
+                    !refRectangle.Contains(rectangleTopRightCorner))
+                {
+                    if (leftTopBotRightDistance <= snapping)
+                    {
+                        rectangle = GVisual.MoveRectangleToPoint(rectangle,
+                        refRectangle.X + refRectangle.Width,
+                        refRectangle.Y + refRectangle.Height);
+                        snapped = true;
+                        return rectangle;
+                    }
+                    else
+                    {
+                        if (rectangle.X >= refRectangle.Right - snapping && rectangle.Y >= refRectangle.Y && rectangle.Y <= refRectangle.Bottom + snapping)
+                        {
+                            rectangle = GVisual.MoveRectangleToPoint(rectangle, refRectangle.X + refRectangle.Width, rectangle.Y);
+                            return rectangle;
+                        }
+                        else if (rectangle.Y >= refRectangle.Bottom - snapping)
+                        {
+                            rectangle = GVisual.MoveRectangleToPoint(rectangle, rectangle.X,
+                            refRectangle.Y + refRectangle.Height);
+                            return rectangle;
+                        }
+                    }
+                }
+                else if (refRectangle.Contains(rectangleTopMiddle) &&
+                    (refRectangle.Contains(rectangleTopRightCorner) || 
+                    refRectangle.Contains(rectangleTopLeftCorner)))
+                {
+                    
+                    rectangle = GVisual.MoveRectangleToPoint(rectangle, rectangle.X, refRectangle.Y + refRectangle.Height);
                     return rectangle;
                 }
-                else if (rectangle.X <= refRectangle.X - rectangle.Width + snapping)
+                else if (refRectangle.Contains(rectangleBotRightCorner) &&
+                    !refRectangle.Contains(rectangleBotLeftCorner))
                 {
-                    rectangle = GVisual.MoveRectangleToPoint(rectangle,
-                      refRectangle.X - rectangle.Width,
-                      rectangle.Y);
+                    if (rightBotTopLeftDistance <= snapping)
+                    {
+                        rectangle = GVisual.MoveRectangleToPoint(rectangle,
+                        refRectangle.X - rectangle.Width,
+                        refRectangle.Y - rectangle.Height);
+                        snapped = true;
+                        return rectangle;
+                    }
+                    else
+                    {
+                        if (rectangle.X <= refRectangle.X && rectangle.Y <= refRectangle.Y && rectangle.Bottom >= refRectangle.Top)
+                        {
+                            rectangle = GVisual.MoveRectangleToPoint(rectangle, refRectangle.X - rectangle.Width, rectangle.Y);
+                            return rectangle;
+                        }
+                        else if (rectangle.Bottom <= refRectangle.Y + snapping)
+                        {
+                            rectangle = GVisual.MoveRectangleToPoint(rectangle, rectangle.X,
+                            refRectangle.Y - rectangle.Height);
+                            return rectangle;
+                        }
+                    }
+                }
+                else if (refRectangle.Contains(rectangleBotLeftCorner) &&
+                    !refRectangle.Contains(rectangleBotRightCorner))
+                {
+                    if (leftBotTopRightDistance <= snapping)
+                    {
+                        rectangle = GVisual.MoveRectangleToPoint(rectangle,
+                        refRectangle.X + refRectangle.Width,
+                        refRectangle.Y - rectangle.Height);
+                        snapped = true;
+                        return rectangle;
+                    }
+                    else
+                    {
+                        if (rectangle.X >= refRectangle.X && rectangle.Y <= refRectangle.Y && rectangle.Bottom >= refRectangle.Top)
+                        {
+                            rectangle = GVisual.MoveRectangleToPoint(rectangle, refRectangle.X + refRectangle.Width, rectangle.Y);
+                            return rectangle;
+                        }
+                        else if (rectangle.Bottom <= refRectangle.Y + snapping)
+                        {
+                            rectangle = GVisual.MoveRectangleToPoint(rectangle, rectangle.X,
+                            refRectangle.Y - rectangle.Height);
+                            return rectangle;
+                        }
+                    }
+                }
+                else if (refRectangle.Contains(rectangleBotMiddle) &&
+                    (refRectangle.Contains(rectangleBotLeftCorner) ||
+                    refRectangle.Contains(rectangleBotRightCorner)))
+                {
+
+                    rectangle = GVisual.MoveRectangleToPoint(rectangle, rectangle.X, refRectangle.Y - rectangle.Height);
                     return rectangle;
                 }
-                else if (rectangle.Right >= refRectangle.Right + rectangle.Width - snapping)
+
+
+                if (rectangle.Contains(refRectangleTopRightCorner) && !rectangle.Contains(refRectangleTopLeftCorner))
                 {
-                    rectangle = GVisual.MoveRectangleToPoint(rectangle,
-                       refRectangle.X + refRectangle.Width,
-                       rectangle.Y);
+                    if (rightTopBotLeftDistance <= snapping)
+                    {
+                        rectangle = GVisual.MoveRectangleToPoint(rectangle,
+                        refRectangle.X - rectangle.Width,
+                        refRectangle.Y + refRectangle.Height);
+                        snapped = true;
+                        return rectangle;
+                    }
+                    else
+                    {
+                        if (refRectangle.X <= rectangle.X && refRectangle.Y >= rectangle.Y && refRectangle.Y <= rectangle.Bottom)
+                        {
+                            rectangle = GVisual.MoveRectangleToPoint(rectangle, 
+                                refRectangle.X + refRectangle.Width, rectangle.Y);
+                            return rectangle;
+                        }
+                        else if (refRectangle.Y >= rectangle.Bottom)
+                        {
+                            rectangle = GVisual.MoveRectangleToPoint(rectangle, rectangle.X,
+                            refRectangle.Y + refRectangle.Height);
+                            return rectangle;
+                        }
+                    }
+                }
+                else if (rectangle.Contains(refRectangleTopLeftCorner) &&
+                    !rectangle.Contains(refRectangleTopRightCorner))
+                {
+                    if (leftTopBotRightDistance <= snapping)
+                    {
+                        rectangle = GVisual.MoveRectangleToPoint(rectangle,
+                        refRectangle.X + refRectangle.Width,
+                        refRectangle.Y + refRectangle.Height);
+                        snapped = true;
+                        return rectangle;
+                    }
+                    else
+                    {
+                        if (rectangle.X <= refRectangle.X && refRectangle.Y >= rectangle.Y && refRectangle.Y <= rectangle.Bottom + snapping)
+                        {
+                            rectangle = GVisual.MoveRectangleToPoint(rectangle, 
+                                refRectangle.X - rectangle.Width, rectangle.Y);
+                            return rectangle;
+                        }
+                        else if (refRectangle.Y >= rectangle.Bottom - snapping)
+                        {
+                            rectangle = GVisual.MoveRectangleToPoint(rectangle, rectangle.X,
+                            refRectangle.Y + refRectangle.Height);
+                            return rectangle;
+                        }
+                    }
+                }
+                else if (rectangle.Contains(refRectangleTopMiddle) &&
+                    (rectangle.Contains(refRectangleTopRightCorner) ||
+                    rectangle.Contains(refRectangleTopLeftCorner)))
+                {
+
+                    rectangle = GVisual.MoveRectangleToPoint(rectangle, rectangle.X, refRectangle.Y - rectangle.Height);
                     return rectangle;
                 }
-                else if (rectangle.Top >= refRectangle.Bottom - snapping)
+                //else if (rectangle.Contains(refRectangleBotRightCorner) &&
+                //    !rectangle.Contains(refRectangleBotLeftCorner))
+                //{
+                //    if (rightBotTopLeftDistance <= snapping)
+                //    {
+                //        rectangle = GVisual.MoveRectangleToPoint(rectangle,
+                //        refRectangle.X - rectangle.Width,
+                //        refRectangle.Y - rectangle.Height);
+                //        snapped = true;
+                //        return rectangle;
+                //    }
+                //    else
+                //    {
+                //        if (rectangle.X <= refRectangle.X && rectangle.Y <= refRectangle.Y && rectangle.Bottom >= refRectangle.Top)
+                //        {
+                //            rectangle = GVisual.MoveRectangleToPoint(rectangle, refRectangle.X - rectangle.Width, rectangle.Y);
+                //            return rectangle;
+                //        }
+                //        else if (rectangle.Bottom <= refRectangle.Y + snapping)
+                //        {
+                //            rectangle = GVisual.MoveRectangleToPoint(rectangle, rectangle.X,
+                //            refRectangle.Y - rectangle.Height);
+                //            return rectangle;
+                //        }
+                //    }
+                //}
+                //else if (rectangle.Contains(refRectangleBotLeftCorner) &&
+                //    !rectangle.Contains(refRectangleBotRightCorner))
+                //{
+                //    if (leftBotTopRightDistance <= snapping)
+                //    {
+                //        rectangle = GVisual.MoveRectangleToPoint(rectangle,
+                //        refRectangle.X + refRectangle.Width,
+                //        refRectangle.Y - rectangle.Height);
+                //        snapped = true;
+                //        return rectangle;
+                //    }
+                //    else
+                //    {
+                //        if (rectangle.X >= refRectangle.X && rectangle.Y <= refRectangle.Y && rectangle.Bottom >= refRectangle.Top)
+                //        {
+                //            rectangle = GVisual.MoveRectangleToPoint(rectangle, refRectangle.X + refRectangle.Width, rectangle.Y);
+                //            return rectangle;
+                //        }
+                //        else if (rectangle.Bottom <= refRectangle.Y + snapping)
+                //        {
+                //            rectangle = GVisual.MoveRectangleToPoint(rectangle, rectangle.X,
+                //            refRectangle.Y - rectangle.Height);
+                //            return rectangle;
+                //        }
+                //    }
+                //}
+                else if (rectangle.Contains(refRectangleBotMiddle) &&
+                    (rectangle.Contains(refRectangleBotLeftCorner) ||
+                    rectangle.Contains(refRectangleBotRightCorner)))
                 {
-                    rectangle = GVisual.MoveRectangleToPoint(rectangle,
-                       rectangle.X,
-                       refRectangle.Y + refRectangle.Height);
+
+                    rectangle = GVisual.MoveRectangleToPoint(rectangle, rectangle.X, refRectangle.Y + refRectangle.Height);
                     return rectangle;
                 }
+
+
+
                 return rectangle;
             }
         }
@@ -2791,6 +3295,7 @@ namespace Balya_Yerleştirme
                 }
             }
         }
+
         #endregion
 
 
@@ -3557,6 +4062,7 @@ namespace Balya_Yerleştirme
                     else
                     {
                         MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
+                        Clear_AddControltoLeftSidePanel(LayoutPanel_Alan_Hierarchy);
                         selectedDepo = null;
                     }
                     drawingPanel.Invalidate();
@@ -3593,6 +4099,7 @@ namespace Balya_Yerleştirme
                     else
                     {
                         MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
+                        Clear_AddControltoLeftSidePanel(LayoutPanel_Alan_Hierarchy);
                         selectedDepo = null;
                     }
 
@@ -3626,6 +4133,7 @@ namespace Balya_Yerleştirme
                     else
                     {
                         MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
+                        Clear_AddControltoLeftSidePanel(LayoutPanel_Alan_Hierarchy);
                         selectedConveyor = null;
                     }
 
@@ -3658,6 +4166,7 @@ namespace Balya_Yerleştirme
                     else
                     {
                         MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
+                        Clear_AddControltoLeftSidePanel(LayoutPanel_Alan_Hierarchy);
                         selectedConveyor = null;
                     }
 
@@ -3689,13 +4198,13 @@ namespace Balya_Yerleştirme
                 }
                 else
                 {
-                    SortFlowLayoutPanel(LayoutPanel_SelectedDepo);
+                    Clear_AddControltoLeftSidePanel(LayoutPanel_Alan_Hierarchy);
                     MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
                     selectedDepo = null;
                 }
                 drawingPanel.Invalidate();
             }
-            if (selectedConveyor != null)
+            else if (selectedConveyor != null)
             {
                 selectedConveyor.Rectangle = UnchangedselectedConveyorRectangle;
                 selectedConveyor.ConveyorEni = UnchangedConveyorEni;
@@ -3724,7 +4233,7 @@ namespace Balya_Yerleştirme
                 }
                 else
                 {
-                    SortFlowLayoutPanel(layoutPanel_SelectedConveyor);
+                    Clear_AddControltoLeftSidePanel(LayoutPanel_Alan_Hierarchy);
                     MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
                     selectedConveyor = null;
                 }
@@ -3780,6 +4289,7 @@ namespace Balya_Yerleştirme
 
             if (selectedDepo != null)
             {
+                UnchangedselectedDepoRectangle = selectedDepo.Rectangle;
                 ManuelDepoRectangle = selectedDepo.Rectangle;
                 UnchangedDepoAlaniBoyu = selectedDepo.DepoAlaniBoyu;
                 UnchangedDepoAlaniEni = selectedDepo.DepoAlaniEni;
@@ -3801,6 +4311,7 @@ namespace Balya_Yerleştirme
                 ShowMoveCheckButton();
                 Manuel_Move = true;
 
+                UnchangedselectedDepoRectangle = selectedDepo.Rectangle;
                 ManuelDepoRectangle = selectedDepo.Rectangle;
                 UnchangedDepoAlaniBoyu = selectedDepo.DepoAlaniBoyu;
                 UnchangedDepoAlaniEni = selectedDepo.DepoAlaniEni;
@@ -3832,6 +4343,7 @@ namespace Balya_Yerleştirme
             Manuel_Move = true;
             if (selectedConveyor != null)
             {
+                UnchangedselectedConveyorRectangle = selectedConveyor.Rectangle;
                 ManuelConveyorRectangle = selectedConveyor.Rectangle;
                 UnchangedConveyorEni = selectedConveyor.ConveyorEni;
                 UnchangedConveyorBoyu = selectedConveyor.ConveyorBoyu;
@@ -3855,6 +4367,7 @@ namespace Balya_Yerleştirme
 
                 if (selectedConveyor != null)
                 {
+                    UnchangedselectedConveyorRectangle = selectedConveyor.Rectangle;
                     ManuelConveyorRectangle = selectedConveyor.Rectangle;
                     UnchangedConveyorEni = selectedConveyor.ConveyorEni;
                     UnchangedConveyorBoyu = selectedConveyor.ConveyorBoyu;
@@ -3932,6 +4445,7 @@ namespace Balya_Yerleştirme
                         selConveyor = new Conveyor(10, 10, 10, 10, Main, this, Ambar);
                         drawingPanel.Invalidate();
                         MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+                        AlanNode.Tag = ambar;
                         drawingPanel.Invalidate();
                     }
                 }
@@ -3966,6 +4480,7 @@ namespace Balya_Yerleştirme
                     ambar.LocationofRect = new System.Drawing.Point((int)ambar.Rectangle.X, (int)ambar.Rectangle.Y);
                     Ambar = ambar;
                     MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+                    AlanNode.Tag = ambar;
                     drawingPanel.Invalidate();
                 }
             }
@@ -4020,7 +4535,7 @@ namespace Balya_Yerleştirme
                     foreach (var conveyor in Ambar.conveyors)
                     {
                         conveyor.Parent = ambar;
-                        conveyor.Ambar = ambar; 
+                        conveyor.Ambar = ambar;
                         ambar.conveyors.Add(conveyor);
                     }
 
@@ -4038,6 +4553,9 @@ namespace Balya_Yerleştirme
                         SortFlowLayoutPanel(layoutPanel_Ambar);
                         Show_AreaMenus("Alan SubMenu");
                     }
+
+                    AlanNode.Tag = ambar;
+
                     drawingPanel.Invalidate();
                 }
             }
@@ -4093,6 +4611,7 @@ namespace Balya_Yerleştirme
                     }
 
                     menuProcess = false;
+                    AlanNode.Tag = ambar;
                     drawingPanel.Invalidate();
                 }
             }
@@ -4193,6 +4712,7 @@ namespace Balya_Yerleştirme
 
                     SearchForLocationtoPlace(conveyor.Rectangle, conveyor, null, Ambar);
                     MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+                    AddConveyorNode(conveyor);
                     drawingPanel.Invalidate();
                 }
             }
@@ -4302,6 +4822,7 @@ namespace Balya_Yerleştirme
                     drawingPanel.Invalidate();
                     AdjustTextboxesText($"{depo.DepoAlaniEni}", $"{depo.DepoAlaniBoyu}",
                         null, null, null, null);
+                    AddDepoNode(depo);
                 }
             }
         }
@@ -4501,7 +5022,7 @@ namespace Balya_Yerleştirme
                             MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
                         }
 
-
+                        SelectNode(null, null, selectedDepo);
 
                         colCount = selectedDepo.ColumnCount;
                         rowCount = selectedDepo.RowCount;
@@ -4525,6 +5046,8 @@ namespace Balya_Yerleştirme
                             MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
                         }
 
+                        SelectNode(null, null, selectedDepo);
+
                         colCount = selectedDepo.ColumnCount;
                         rowCount = selectedDepo.RowCount;
                     }
@@ -4539,16 +5062,18 @@ namespace Balya_Yerleştirme
                             {
                                 depo.gridmaps.Clear();
                             }
-                            
+
                             depo.nesneEni = nesne_Eni;
                             depo.nesneBoyu = nesne_Boyu;
                             depo.nesneYuksekligi = nesne_Yuksekligi;
                             depo.CreateGridMapMenuItem(total_Cell_Width, total_Cell_Height,
                                 hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu);
-                            
+
                             SortFlowLayoutPanel(layoutPanel_Ambar);
                             Show_AreaMenus("Alan");
                             menuProcess = false;
+
+                            SelectNode(SelectedAmbar, null, null);
 
                             colCount = depo.ColumnCount;
                             rowCount = depo.RowCount;
@@ -4591,6 +5116,7 @@ namespace Balya_Yerleştirme
             if (Ambar != null)
             {
                 Ambar = null;
+                AlanNode.Tag = null;
                 drawingPanel.Invalidate();
             }
         }
@@ -4600,6 +5126,7 @@ namespace Balya_Yerleştirme
             {
                 Ambar = null;
                 SelectedAmbar = null;
+                AlanNode.Tag = null;
                 drawingPanel.Invalidate();
             }
         }
@@ -4611,26 +5138,10 @@ namespace Balya_Yerleştirme
         {
             if (Ambar != null)
             {
-                List<Depo> Depos = new List<Depo>();
-                List<Conveyor> Conveyors = new List<Conveyor>();
-
-                foreach (var depo in Ambar.depolar)
-                {
-                    Depos.Add(depo);
-                }
-                foreach (var conveyor in Ambar.conveyors)
-                {
-                    Conveyors.Add(conveyor);
-                }
-
-                foreach (var depo in Depos)
-                {
-                    Ambar.depolar.Remove(depo);
-                }
-                foreach (var conveyor in Conveyors)
-                {
-                    Ambar.conveyors.Remove(conveyor);
-                }
+                Ambar.depolar.Clear();
+                Ambar.conveyors.Clear();
+                DepoNode.Nodes.Clear();
+                ConveyorNode.Nodes.Clear();
                 drawingPanel.Invalidate();
             }
         }
@@ -4640,6 +5151,8 @@ namespace Balya_Yerleştirme
             {
                 Ambar.depolar.Clear();
                 Ambar.conveyors.Clear();
+                DepoNode.Nodes.Clear();
+                ConveyorNode.Nodes.Clear();
                 drawingPanel.Invalidate();
             }
         }
@@ -4746,11 +5259,13 @@ namespace Balya_Yerleştirme
         //Delete Depo
         private void depoyuSilToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            TreeNode DeletedNode = new TreeNode();
             if (Ambar != null)
             {
                 if (selectedDepo != null)
                 {
                     Ambar.depolar.Remove(selectedDepo);
+                    DeleteDepoNode(selectedDepo);
                 }
             }
             selectedDepo = null;
@@ -4770,6 +5285,7 @@ namespace Balya_Yerleştirme
                     {
                         GVisual.HideControl(LayoutPanel_SelectedDepo, LeftSide_LayoutPanel);
                     }
+                    DeleteDepoNode(selectedDepo);
                     drawingPanel.Invalidate();
                 }
             }
@@ -4884,6 +5400,7 @@ namespace Balya_Yerleştirme
                 if (selectedConveyor != null)
                 {
                     Ambar.conveyors.Remove(selectedConveyor);
+                    DeleteConveyorNode(selectedConveyor);
                 }
             }
             selectedConveyor = null;
@@ -4903,6 +5420,7 @@ namespace Balya_Yerleştirme
                     {
                         GVisual.HideControl(layoutPanel_SelectedConveyor, LeftSide_LayoutPanel);
                     }
+                    DeleteConveyorNode(selectedConveyor);
                 }
             }
             selectedConveyor = null;
@@ -4976,10 +5494,10 @@ namespace Balya_Yerleştirme
                                 {
                                     foreach (var textbox in panel.Controls)
                                     {
-                                        if (textbox is TextBox)
+                                        if (textbox is System.Windows.Forms.TextBox)
                                         {
-                                            TextBox textBox = new TextBox();
-                                            textBox = (TextBox)textbox;
+                                            System.Windows.Forms.TextBox textBox = new System.Windows.Forms.TextBox();
+                                            textBox = (System.Windows.Forms.TextBox)textbox;
 
                                             if (textBox.Name == "textBoxLocationX")
                                             {
@@ -5048,10 +5566,10 @@ namespace Balya_Yerleştirme
                                 {
                                     foreach (var textbox in panel.Controls)
                                     {
-                                        if (textbox is TextBox)
+                                        if (textbox is System.Windows.Forms.TextBox)
                                         {
-                                            TextBox textBox = new TextBox();
-                                            textBox = (TextBox)textbox;
+                                            System.Windows.Forms.TextBox textBox = new System.Windows.Forms.TextBox();
+                                            textBox = (System.Windows.Forms.TextBox)textbox;
 
                                             if (textBox.Name == "textBoxLocationX")
                                             {
@@ -5484,8 +6002,7 @@ namespace Balya_Yerleştirme
             }
             else if (whichMenu == "Alan SubMenu")
             {
-                GVisual.ShowControl(panel_Alan_SubMenu, groupBox_Ambar);
-                GVisual.Control_Center(panel_Alan_SubMenu, groupBox_Ambar);
+                GVisual.ShowControl(panel_Alan_SubMenu, groupBox_Ambar, new System.Drawing.Point(62, 28));
                 GVisual.ShowControl(btn_Alan_Menu_Go_Back, groupBox_Ambar);
             }
         }
@@ -5614,7 +6131,6 @@ namespace Balya_Yerleştirme
 
 
 
-
         //All UI Operations Events and Methods (clearing textboxes, hide and show panels, hide and show textboxes, adjust locations of the areas and panels etc) 
         #region UI Operations
         public void HideEverything()
@@ -5631,6 +6147,7 @@ namespace Balya_Yerleştirme
             GVisual.HideControl(LeftPanel_Izgara_Olusturma, this);
             GVisual.HideControl(layoutPanel_Ambar, this);
             GVisual.HideControl(LeftSide_Alan_Boyut_Degistirme_Paneli, this);
+            GVisual.HideControl(LayoutPanel_Alan_Hierarchy, this);
 
 
 
@@ -5764,6 +6281,23 @@ namespace Balya_Yerleştirme
             else
             {
                 MainPanelOpenLeftSide(LeftSide_LayoutPanel, this, leftSidePanelLocation);
+
+                if (selectedDepo != null)
+                {
+                    SortFlowLayoutPanel(LayoutPanel_SelectedDepo);
+                }
+                else if (SelectedAmbar != null)
+                {
+                    SortFlowLayoutPanel(layoutPanel_Ambar);
+                }
+                else if (selectedConveyor != null)
+                {
+                    SortFlowLayoutPanel(layoutPanel_SelectedConveyor);
+                }
+                else
+                {
+                    Clear_AddControltoLeftSidePanel(LayoutPanel_Alan_Hierarchy);
+                }
             }
         }
         public void btn_openClose_RightSide_Click(object sender, EventArgs e)
@@ -6379,7 +6913,7 @@ namespace Balya_Yerleştirme
             }
         }
 
-        
+
 
 
 

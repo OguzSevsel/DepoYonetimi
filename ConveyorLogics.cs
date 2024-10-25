@@ -202,6 +202,7 @@ namespace Balya_Yerleştirme.Models
                             layout.txt_Width.Text = $"{ConveyorEni}";
                             layout.txt_Height.Text = $"{ConveyorBoyu}";
                         }
+                        layout.SelectNode(null,this, null);
                         layout.SelectedConveyorPen.Color = System.Drawing.Color.Blue;
                         layout.SelectedConveyorPen.Width = 3;
                         layout.SelectedConveyorEdgePen.Width = 3;
@@ -230,6 +231,7 @@ namespace Balya_Yerleştirme.Models
                                 layout.txt_Width.Text = $"{ConveyorEni}";
                                 layout.txt_Height.Text = $"{ConveyorBoyu}";
                             }
+                            layout.SelectNode(null, this, null);
                             layout.SelectedConveyorPen.Color = System.Drawing.Color.Blue;
                             layout.SelectedConveyorPen.Width = 3;
                             layout.SelectedConveyorEdgePen.Width = 3;

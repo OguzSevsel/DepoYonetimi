@@ -46,6 +46,9 @@
             chk_Conveyor_Reference_Top = new CheckBox();
             lbl_Conveyor_Reference_Fixed_Title = new Krypton.Toolkit.KryptonWrapLabel();
             btn_Conveyor_Reference_Fixed_Onayla = new Button();
+            LayoutPanel_Alan_Hierarchy = new FlowLayoutPanel();
+            groupBox_Hierarchy_TreeView = new GroupBox();
+            AlanTreeView = new TreeView();
             layoutPanel_Ambar = new FlowLayoutPanel();
             groupBox_Ambar = new GroupBox();
             panel_Alan_SubMenu = new Panel();
@@ -129,9 +132,6 @@
             radio_To_Up = new RadioButton();
             lbl_Placement_UpDown_Title = new Krypton.Toolkit.KryptonWrapLabel();
             kryptonBorderEdge33 = new Krypton.Toolkit.KryptonBorderEdge();
-            LayoutPanel_Alan_Hierarchy = new FlowLayoutPanel();
-            groupBox_Hierarchy_TreeView = new GroupBox();
-            AlanTreeView = new TreeView();
             PaddingPanel = new Panel();
             btn_PaddingPanel_Kapat = new Button();
             kryptonBorderEdge30 = new Krypton.Toolkit.KryptonBorderEdge();
@@ -356,6 +356,8 @@
             drawingPanel.SuspendLayout();
             Conveyor_Reference_FixedorManuel_Panel.SuspendLayout();
             Conveyor_Reference_Fixed_Panel.SuspendLayout();
+            LayoutPanel_Alan_Hierarchy.SuspendLayout();
+            groupBox_Hierarchy_TreeView.SuspendLayout();
             layoutPanel_Ambar.SuspendLayout();
             groupBox_Ambar.SuspendLayout();
             panel_Alan_SubMenu.SuspendLayout();
@@ -370,8 +372,6 @@
             Placement_UpDown_Panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            LayoutPanel_Alan_Hierarchy.SuspendLayout();
-            groupBox_Hierarchy_TreeView.SuspendLayout();
             PaddingPanel.SuspendLayout();
             LeftPanel_Izgara_Olusturma.SuspendLayout();
             panel_Depo_SubMenu_Izgara_Haritasi.SuspendLayout();
@@ -408,7 +408,6 @@
             drawingPanel.Controls.Add(btn_OpenClose_LeftSide);
             drawingPanel.Controls.Add(Conveyor_Reference_FixedorManuel_Panel);
             drawingPanel.Controls.Add(Conveyor_Reference_Fixed_Panel);
-            drawingPanel.Controls.Add(LayoutPanel_Alan_Hierarchy);
             drawingPanel.Controls.Add(layoutPanel_Ambar);
             drawingPanel.Controls.Add(Conveyor_Reference_Sayisi_Paneli);
             drawingPanel.Controls.Add(Placement_LeftRight_Panel);
@@ -609,6 +608,37 @@
             btn_Conveyor_Reference_Fixed_Onayla.TextAlign = ContentAlignment.MiddleLeft;
             btn_Conveyor_Reference_Fixed_Onayla.UseVisualStyleBackColor = false;
             btn_Conveyor_Reference_Fixed_Onayla.Click += btn_Conveyor_Reference_Fixed_Onayla_Click;
+            // 
+            // LayoutPanel_Alan_Hierarchy
+            // 
+            LayoutPanel_Alan_Hierarchy.AutoScroll = true;
+            LayoutPanel_Alan_Hierarchy.Controls.Add(groupBox_Hierarchy_TreeView);
+            LayoutPanel_Alan_Hierarchy.Location = new Point(965, 1021);
+            LayoutPanel_Alan_Hierarchy.Margin = new Padding(1);
+            LayoutPanel_Alan_Hierarchy.Name = "LayoutPanel_Alan_Hierarchy";
+            LayoutPanel_Alan_Hierarchy.Size = new Size(324, 450);
+            LayoutPanel_Alan_Hierarchy.TabIndex = 41;
+            // 
+            // groupBox_Hierarchy_TreeView
+            // 
+            groupBox_Hierarchy_TreeView.BackColor = Color.LightCyan;
+            groupBox_Hierarchy_TreeView.Controls.Add(AlanTreeView);
+            groupBox_Hierarchy_TreeView.Font = new Font("Sans Serif Collection", 10F, FontStyle.Bold);
+            groupBox_Hierarchy_TreeView.ForeColor = Color.Red;
+            groupBox_Hierarchy_TreeView.Location = new Point(3, 3);
+            groupBox_Hierarchy_TreeView.Name = "groupBox_Hierarchy_TreeView";
+            groupBox_Hierarchy_TreeView.Size = new Size(318, 444);
+            groupBox_Hierarchy_TreeView.TabIndex = 34;
+            groupBox_Hierarchy_TreeView.TabStop = false;
+            groupBox_Hierarchy_TreeView.Text = "Alan Hiyerarşisi";
+            // 
+            // AlanTreeView
+            // 
+            AlanTreeView.BackColor = Color.LightCyan;
+            AlanTreeView.Location = new Point(0, 39);
+            AlanTreeView.Name = "AlanTreeView";
+            AlanTreeView.Size = new Size(318, 404);
+            AlanTreeView.TabIndex = 0;
             // 
             // layoutPanel_Ambar
             // 
@@ -1636,37 +1666,6 @@
             kryptonBorderEdge33.Name = "kryptonBorderEdge33";
             kryptonBorderEdge33.Size = new Size(219, 1);
             kryptonBorderEdge33.Text = "kryptonBorderEdge33";
-            // 
-            // LayoutPanel_Alan_Hierarchy
-            // 
-            LayoutPanel_Alan_Hierarchy.AutoScroll = true;
-            LayoutPanel_Alan_Hierarchy.Controls.Add(groupBox_Hierarchy_TreeView);
-            LayoutPanel_Alan_Hierarchy.Location = new Point(416, 327);
-            LayoutPanel_Alan_Hierarchy.Margin = new Padding(1);
-            LayoutPanel_Alan_Hierarchy.Name = "LayoutPanel_Alan_Hierarchy";
-            LayoutPanel_Alan_Hierarchy.Size = new Size(324, 450);
-            LayoutPanel_Alan_Hierarchy.TabIndex = 41;
-            // 
-            // groupBox_Hierarchy_TreeView
-            // 
-            groupBox_Hierarchy_TreeView.BackColor = Color.LightCyan;
-            groupBox_Hierarchy_TreeView.Controls.Add(AlanTreeView);
-            groupBox_Hierarchy_TreeView.Font = new Font("Sans Serif Collection", 10F, FontStyle.Bold);
-            groupBox_Hierarchy_TreeView.ForeColor = Color.Red;
-            groupBox_Hierarchy_TreeView.Location = new Point(3, 3);
-            groupBox_Hierarchy_TreeView.Name = "groupBox_Hierarchy_TreeView";
-            groupBox_Hierarchy_TreeView.Size = new Size(318, 444);
-            groupBox_Hierarchy_TreeView.TabIndex = 34;
-            groupBox_Hierarchy_TreeView.TabStop = false;
-            groupBox_Hierarchy_TreeView.Text = "Alan Hiyerarşisi";
-            // 
-            // AlanTreeView
-            // 
-            AlanTreeView.BackColor = Color.LightCyan;
-            AlanTreeView.Location = new Point(0, 39);
-            AlanTreeView.Name = "AlanTreeView";
-            AlanTreeView.Size = new Size(318, 404);
-            AlanTreeView.TabIndex = 0;
             // 
             // PaddingPanel
             // 
@@ -4552,6 +4551,7 @@
             BackColor = Color.Azure;
             ClientSize = new Size(1904, 1041);
             Controls.Add(LeftSide_Alan_Boyut_Degistirme_Paneli);
+            Controls.Add(LayoutPanel_Alan_Hierarchy);
             Controls.Add(LeftPanel_Izgara_Olusturma);
             Controls.Add(Izgara_Olusturma_Paneli);
             Controls.Add(Depo_Olusturma_Paneli);
@@ -4570,6 +4570,8 @@
             Conveyor_Reference_FixedorManuel_Panel.ResumeLayout(false);
             Conveyor_Reference_Fixed_Panel.ResumeLayout(false);
             Conveyor_Reference_Fixed_Panel.PerformLayout();
+            LayoutPanel_Alan_Hierarchy.ResumeLayout(false);
+            groupBox_Hierarchy_TreeView.ResumeLayout(false);
             layoutPanel_Ambar.ResumeLayout(false);
             groupBox_Ambar.ResumeLayout(false);
             panel_Alan_SubMenu.ResumeLayout(false);
@@ -4590,8 +4592,6 @@
             Placement_UpDown_Panel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            LayoutPanel_Alan_Hierarchy.ResumeLayout(false);
-            groupBox_Hierarchy_TreeView.ResumeLayout(false);
             PaddingPanel.ResumeLayout(false);
             PaddingPanel.PerformLayout();
             LeftPanel_Izgara_Olusturma.ResumeLayout(false);
@@ -4943,7 +4943,6 @@
         public Button btn_Alan_Menu_Go_Back;
         public FlowLayoutPanel LayoutPanel_Alan_Hierarchy;
         public GroupBox groupBox_Hierarchy_TreeView;
-        private TreeView AlanTreeView;
         public Panel LeftSide_Alan_Boyut_Degistirme_Paneli;
         public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge56;
         public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge57;
@@ -4955,5 +4954,6 @@
         public Krypton.Toolkit.KryptonTextBox txt_Left_Alan_Boyu;
         public Krypton.Toolkit.KryptonButton btn_Left_Alan_Boyut_Degistir_Vazgec;
         public Krypton.Toolkit.KryptonButton btn_Left_Alan_Boyut_Degistir;
+        public TreeView AlanTreeView;
     }
 }

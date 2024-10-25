@@ -269,6 +269,8 @@ namespace Balya_Yerleştirme.Models
                         if (!layout.Fill_WareHouse)
                         {
                             layout.selectedDepo = this;
+                            layout.SelectNode(null, null, this);
+
                             layout.SelectedDepoPen.Color = System.Drawing.Color.Blue;
                             layout.SelectedDepoPen.Width = 3;
                             layout.SelectedDepoEdgePen.Width = 3;
@@ -291,6 +293,7 @@ namespace Balya_Yerleştirme.Models
                         {
                             layout.selectedDepo = this;
                             layout.isMoving = true;
+                            layout.SelectNode(null, null, this);
                             layout.SelectedDepoPen.Width = 3;
                             layout.SelectedDepoEdgePen.Width = 3;
                             layout.SelectedDepoPen.Color = System.Drawing.Color.Blue;
