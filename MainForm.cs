@@ -646,9 +646,35 @@ namespace Balya_Yerleştirme
                 System.Drawing.Font font = new System.Drawing.Font("Arial", 10);
                 SolidBrush brush = new SolidBrush(System.Drawing.Color.Red);
 
+                System.Drawing.Point point = new System.Drawing.Point(DrawingPanel.ClientRectangle.Left, DrawingPanel.ClientRectangle.Top);
 
                 if (ambar != null)
                 {
+                    //string layoutRectangle1 = $"Ambar SelectLayoutRectangle: {ambar.SelectLayoutRectangle}";
+                    //string rectangle1 = $" Ambar Rectangle: {ambar.Rectangle}";
+                    //string originalRectangle1 = $" Ambar OriginalRectangle: {ambar.OriginalRectangle}";
+
+                    //g.DrawString(rectangle1, font, brush, new System.Drawing.Point(point.X, point.Y + 20));
+
+                    //g.DrawString(originalRectangle1, font, brush, new System.Drawing.Point(point.X, point.Y + 40));
+
+                    //g.DrawString(layoutRectangle1, font, brush, point);
+
+                    foreach (var depo in ambar.depolar)
+                    {
+                        //System.Drawing.Font font1 = new System.Drawing.Font("Arial", 8);
+                        //SolidBrush brush1 = new SolidBrush(System.Drawing.Color.Red);
+
+                        //string layoutRectangle = $"Depo SelectLayoutRectangle: {depo.SelectLayoutRectangle}";
+                        //string rectangle = $" Depo Rectangle: {depo.Rectangle}";
+                        //string originalRectangle = $" Depo OriginalRectangle: {depo.OriginalRectangle}";
+
+                        //g.DrawString(rectangle, font1, brush1, new System.Drawing.Point(point.X, point.Y + 60));
+
+                        //g.DrawString(originalRectangle, font1, brush1, new System.Drawing.Point(point.X, point.Y + 80));
+
+                        //g.DrawString(layoutRectangle, font1, brush1, new System.Drawing.Point(point.X, point.Y + 100));
+                    }
                     //foreach (var depo in ambar.depolar)
                     //{
                     //    string currentRow = $"Current Row: {depo.currentRow}";
@@ -851,14 +877,9 @@ namespace Balya_Yerleştirme
                         {
                             ambar = null;
                         }
+
                         ambar = dia.Ambar;
 
-                        ambar.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(
-                            ambar.Rectangle, dia.drawingPanel.ClientRectangle,
-                            DrawingPanel.ClientRectangle);
-                        ambar.Rectangle = new RectangleF(ambar.Rectangle.X,
-                            ambar.Rectangle.Y, ambar.Rectangle.Width, ambar.Rectangle.Height);
-                        ambar.OriginalRectangle = ambar.Rectangle;
                         ambar.KareX = ambar.Rectangle.X;
                         ambar.KareY = ambar.Rectangle.Y;
                         ambar.KareEni = ambar.Rectangle.Width;
@@ -872,18 +893,6 @@ namespace Balya_Yerleştirme
                         foreach (var conveyor in ambar.conveyors)
                         {
                             conveyor.layout = null;
-                            //conveyor.Rectangle = 
-                            //    GVisual.RatioRectangleToParentRectangle
-                            //    (conveyor.ConveyorEni, conveyor.ConveyorBoyu, 
-                            //    ambar.AmbarEni, ambar.AmbarBoyu, ambar.Rectangle);
-
-                            conveyor.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(
-                            conveyor.Rectangle, dia.drawingPanel.ClientRectangle,
-                            DrawingPanel.ClientRectangle);
-                            conveyor.Rectangle = new RectangleF
-                                (conveyor.Rectangle.X,
-                            conveyor.Rectangle.Y, conveyor.Rectangle.Width, conveyor.Rectangle.Height);
-                            conveyor.OriginalRectangle = conveyor.Rectangle;
 
                             conveyor.KareX = conveyor.Rectangle.X;
                             conveyor.KareY = conveyor.Rectangle.Y;
@@ -894,21 +903,10 @@ namespace Balya_Yerleştirme
                             conveyor.OriginalKareEni = conveyor.OriginalRectangle.Width;
                             conveyor.OriginalKareBoyu = conveyor.OriginalRectangle.Height;
                             conveyor.Zoomlevel = Zoomlevel;
-                            conveyor.layout = null;
 
 
                             foreach (var reff in conveyor.ConveyorReferencePoints)
                             {
-                                reff.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(
-                                    reff.Rectangle, dia.drawingPanel.ClientRectangle,
-                                    DrawingPanel.ClientRectangle);
-
-                                reff.Rectangle = new RectangleF
-                                (reff.Rectangle.X,
-                            reff.Rectangle.Y, reff.Rectangle.Width, reff.Rectangle.Height);
-
-                                reff.OriginalRectangle = reff.Rectangle;
-
 
                                 reff.KareX = reff.Rectangle.X;
                                 reff.KareY = reff.Rectangle.Y;
@@ -929,14 +927,7 @@ namespace Balya_Yerleştirme
                         }
                         foreach (var depo in ambar.depolar)
                         {
-                            depo.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(
-                            depo.Rectangle, dia.drawingPanel.ClientRectangle,
-                            DrawingPanel.ClientRectangle);
-                            depo.Rectangle = new RectangleF
-                                (depo.Rectangle.X,
-                                depo.Rectangle.Y, depo.Rectangle.Width,
-                                depo.Rectangle.Height);
-                            depo.OriginalRectangle = depo.Rectangle;
+                            
                             depo.OriginalDepoSizeWidth = depo.OriginalRectangle.Width;
                             depo.OriginalDepoSizeHeight = depo.OriginalRectangle.Height;
                             depo.KareX = depo.Rectangle.X;
@@ -957,16 +948,6 @@ namespace Balya_Yerleştirme
 
                             foreach (var cell in depo.gridmaps)
                             {
-                                cell.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(cell.Rectangle,
-                                    dia.drawingPanel.ClientRectangle, DrawingPanel.ClientRectangle);
-
-                                cell.Rectangle = new RectangleF(cell.Rectangle.X, cell.Rectangle.Y,
-                                    cell.Rectangle.Width, cell.Rectangle.Height);
-
-                                cell.OriginalRectangle = cell.Rectangle;
-
-                                cell.Layout = null;
-
                                 cell.KareX = cell.Rectangle.X;
                                 cell.KareY = cell.Rectangle.Y;
                                 cell.KareEni = cell.Rectangle.Width;
@@ -1393,7 +1374,7 @@ namespace Balya_Yerleştirme
                             "Depo", "Depo", depo.DepoAlaniEni,
                             depo.DepoAlaniBoyu, depo.DepoAlaniYuksekligi,
                             depo.OriginalDepoSizeWidth, depo.OriginalDepoSizeHeight,
-                            depo.KareX, depo.KareY, depo.KareEni, depo.KareBoyu,
+                            depo.Rectangle.X, depo.Rectangle.Y, depo.KareEni, depo.KareBoyu,
                             depo.OriginalKareX, depo.OriginalKareY,
                             depo.OriginalKareEni, depo.OriginalKareBoyu, depo.Zoomlevel,
                             depo.itemDrop_StartLocation, depo.itemDrop_UpDown,

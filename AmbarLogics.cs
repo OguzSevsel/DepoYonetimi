@@ -16,6 +16,8 @@ namespace Balya_Yerleştirme.Models
         [NotMapped]
         public RectangleF OriginalRectangle { get; set; }
         [NotMapped]
+        public RectangleF SelectLayoutRectangle { get; set; }
+        [NotMapped]
         public List<Conveyor> conveyors { get; set; }
         [NotMapped]
         public List<Depo> depolar {  get; set; }
@@ -35,6 +37,8 @@ namespace Balya_Yerleştirme.Models
         { 
             Rectangle = new RectangleF(x, y, width, height);
             OriginalRectangle = new RectangleF(x, y, width, height);
+            SelectLayoutRectangle = new RectangleF(x, y, width, height);
+
             Main = main;
             layout = Layout;
             conveyors = new List<Conveyor>();

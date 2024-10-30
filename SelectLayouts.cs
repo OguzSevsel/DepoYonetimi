@@ -455,63 +455,60 @@ namespace Balya_Yerleştirme
                     panelDescription.BorderStyle = BorderStyle.Fixed3D;
                     panelDescription.Location = new System.Drawing.Point(pictureBox.Left + (pictureBox.Width / 2 - panelDescription.Width / 2), pictureBox.Bottom);
 
-                    RectangleF ambarRect = new RectangleF();
-                    ambarRect = ambar.Rectangle;
 
-                    ambar.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(ambar.Rectangle, DrawingPanel.ClientRectangle, pictureBox.ClientRectangle);
-                    float BeforeX = ambar.Rectangle.X;
 
-                    ambar.Rectangle = GVisual.CenterRectangletoParentRectangle(ambar.Rectangle, pictureBox.ClientRectangle);
-                    float AfterX = ambar.Rectangle.X;
-                    float moveX = BeforeX - AfterX;
+                    ambar.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(ambar.Rectangle, DrawingPanel.ClientRectangle, pictureBox.ClientRectangle);
+                    float BeforeX = ambar.SelectLayoutRectangle.X;
+
+                    ambar.SelectLayoutRectangle = GVisual.CenterRectangletoParentRectangle(ambar.SelectLayoutRectangle, pictureBox.ClientRectangle);
+
+                    float AfterX = ambar.SelectLayoutRectangle.X;
+
+                    float MoveX = BeforeX - AfterX;
 
                     foreach (var conveyor in ambar.conveyors)
                     {
-                        conveyor.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(conveyor.Rectangle, DrawingPanel.ClientRectangle, pictureBox.ClientRectangle);
-                        conveyor.Rectangle = new RectangleF
-                                        (conveyor.Rectangle.X - moveX,
-                                    conveyor.Rectangle.Y, conveyor.Rectangle.Width, conveyor.Rectangle.Height);
+                        conveyor.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(conveyor.Rectangle, DrawingPanel.ClientRectangle, pictureBox.ClientRectangle);
+
+                        conveyor.SelectLayoutRectangle = new RectangleF(conveyor.SelectLayoutRectangle.X - MoveX,      conveyor.SelectLayoutRectangle.Y, conveyor.SelectLayoutRectangle.Width,
+                        conveyor.SelectLayoutRectangle.Height);
 
                         foreach (var reff in conveyor.ConveyorReferencePoints)
                         {
-                            reff.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(reff.Rectangle, DrawingPanel.ClientRectangle, pictureBox.ClientRectangle);
-                            reff.Rectangle = new RectangleF
-                                            (reff.Rectangle.X - moveX,
-                                        reff.Rectangle.Y, reff.Rectangle.Width, reff.Rectangle.Height);
+                            reff.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(reff.Rectangle, DrawingPanel.ClientRectangle, pictureBox.ClientRectangle);
+
+                            reff.SelectLayoutRectangle = new RectangleF(reff.SelectLayoutRectangle.X - MoveX, reff.SelectLayoutRectangle.Y,  reff.SelectLayoutRectangle.Width,
+                        reff.SelectLayoutRectangle.Height);
+
                         }
                     }
 
                     foreach (var depo in ambar.depolar)
                     {
-                        depo.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(depo.Rectangle, DrawingPanel.ClientRectangle, pictureBox.ClientRectangle);
-                        depo.Rectangle = new RectangleF
-                                        (depo.Rectangle.X - moveX,
-                                    depo.Rectangle.Y, depo.Rectangle.Width, depo.Rectangle.Height);
+                        depo.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(depo.Rectangle, DrawingPanel.ClientRectangle, pictureBox.ClientRectangle);
+
+                        depo.SelectLayoutRectangle = new RectangleF(depo.SelectLayoutRectangle.X - MoveX, depo.SelectLayoutRectangle.Y, depo.SelectLayoutRectangle.Width,
+                        depo.SelectLayoutRectangle.Height);
 
                         foreach (var cell in depo.gridmaps)
                         {
-                            cell.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(cell.Rectangle, DrawingPanel.ClientRectangle, pictureBox.ClientRectangle);
-                            cell.Rectangle = new RectangleF
-                                            (cell.Rectangle.X - moveX,
-                                        cell.Rectangle.Y, cell.Rectangle.Width, cell.Rectangle.Height);
+                            cell.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(cell.Rectangle, DrawingPanel.ClientRectangle, pictureBox.ClientRectangle);
+
+                            cell.SelectLayoutRectangle = new RectangleF(cell.SelectLayoutRectangle.X - MoveX, cell.SelectLayoutRectangle.Y, cell.SelectLayoutRectangle.Width,
+                       cell.SelectLayoutRectangle.Height);
+
 
                             foreach (var item in cell.items)
                             {
-                                item.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(item.Rectangle, DrawingPanel.ClientRectangle, pictureBox.ClientRectangle);
-                                item.Rectangle = new RectangleF
-                                                (item.Rectangle.X - moveX,
-                                            item.Rectangle.Y, item.Rectangle.Width, item.Rectangle.Height);
+                                item.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(item.Rectangle, DrawingPanel.ClientRectangle, pictureBox.ClientRectangle);
 
-                                foreach (var reff in item.ItemReferencePoints)
-                                {
-                                    reff.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(reff.Rectangle, DrawingPanel.ClientRectangle, pictureBox.ClientRectangle);
-                                    reff.Rectangle = new RectangleF
-                                                    (reff.Rectangle.X - moveX,
-                                                reff.Rectangle.Y, reff.Rectangle.Width, reff.Rectangle.Height);
-                                }
+                                item.SelectLayoutRectangle = new RectangleF(item.SelectLayoutRectangle.X - MoveX, item.SelectLayoutRectangle.Y, item.SelectLayoutRectangle.Width,
+                       item.SelectLayoutRectangle.Height);
                             }
                         }
                     }
+
+
 
                     panel.Controls.Add(LayoutTitle);
                     panelDescription.Controls.Add(LayoutDesc);
@@ -595,22 +592,33 @@ namespace Balya_Yerleştirme
             Graphics g = e.Graphics;
             PictureBox pictureBox = sender as PictureBox;
             System.Drawing.Point mousePosition = pictureBox.PointToClient(Cursor.Position);
+            System.Drawing.Point point = new System.Drawing.Point(pictureBox.ClientRectangle.Left, pictureBox.ClientRectangle.Top);
 
-            g.DrawRectangle(LayoutPen, ambar.Rectangle);
+            g.DrawRectangle(LayoutPen, ambar.SelectLayoutRectangle);
+
+            //string layoutRectangle1 = $"Ambar SelectLayoutRectangle: {ambar.SelectLayoutRectangle}";
+            //string rectangle1 = $" Ambar Rectangle: {ambar.Rectangle}";
+            //g.DrawString(rectangle1, font, brush, new System.Drawing.Point(point.X, point.Y + 20));
+            //g.DrawString(layoutRectangle1, font, brush, point);
 
             foreach (var depo in ambar.depolar)
             {
-                g.DrawRectangle(LayoutPen, depo.Rectangle);
+                //string layoutRectangle = $"Depo SelectLayoutRectangle: {depo.SelectLayoutRectangle}";
+                //string rectangle = $"Depo Rectangle: {depo.Rectangle}";
+                //g.DrawString(rectangle, font, brush, new System.Drawing.Point(point.X, point.Y + 40));
+                //g.DrawString(layoutRectangle, font, brush, new System.Drawing.Point(point.X, point.Y + 60));
+
+                g.DrawRectangle(LayoutPen, depo.SelectLayoutRectangle);
 
                 foreach (var cell in depo.gridmaps)
                 {
-                    g.DrawRectangle(LayoutPen, cell.Rectangle);
+                    g.DrawRectangle(LayoutPen, cell.SelectLayoutRectangle);
 
                     foreach (var item in cell.items)
                     {
-                        g.DrawRectangle(LayoutPen, item.Rectangle);
+                        g.DrawRectangle(LayoutPen, item.SelectLayoutRectangle);
                         counter++;
-                        rect = item.Rectangle;
+                        rect = item.SelectLayoutRectangle;
                     }
 
                     if (cell.items.Count > 0)
@@ -627,7 +635,7 @@ namespace Balya_Yerleştirme
 
             foreach (var conveyor in ambar.conveyors)
             {
-                g.DrawRectangle(LayoutPen, conveyor.Rectangle);
+                g.DrawRectangle(LayoutPen, conveyor.SelectLayoutRectangle);
 
                 foreach (var reff in conveyor.ConveyorReferencePoints)
                 {
@@ -917,29 +925,29 @@ namespace Balya_Yerleştirme
         {
             if (ambar != null)
             {
-                ambar.Rectangle = new System.Drawing.RectangleF(ambar.Rectangle.X * widthRatio, ambar.Rectangle.Y * heightRatio, ambar.Rectangle.Width * widthRatio, ambar.Rectangle.Height * heightRatio);
+                ambar.SelectLayoutRectangle = new System.Drawing.RectangleF(ambar.SelectLayoutRectangle.X * widthRatio, ambar.SelectLayoutRectangle.Y * heightRatio, ambar.SelectLayoutRectangle.Width * widthRatio, ambar.SelectLayoutRectangle.Height * heightRatio);
 
                 foreach (var depo in ambar.depolar)
                 {
-                    depo.Rectangle = new System.Drawing.RectangleF(depo.Rectangle.X * widthRatio, depo.Rectangle.Y * heightRatio, depo.Rectangle.Width * widthRatio, depo.Rectangle.Height * heightRatio);
+                    depo.SelectLayoutRectangle = new System.Drawing.RectangleF(depo.SelectLayoutRectangle.X * widthRatio, depo.SelectLayoutRectangle.Y * heightRatio, depo.SelectLayoutRectangle.Width * widthRatio, depo.SelectLayoutRectangle.Height * heightRatio);
 
                     foreach (var cell in depo.gridmaps)
                     {
-                        cell.Rectangle = new System.Drawing.RectangleF(cell.Rectangle.X * widthRatio, cell.Rectangle.Y * heightRatio, cell.Rectangle.Width * widthRatio, cell.Rectangle.Height * heightRatio);
+                        cell.SelectLayoutRectangle = new System.Drawing.RectangleF(cell.SelectLayoutRectangle.X * widthRatio, cell.SelectLayoutRectangle.Y * heightRatio, cell.SelectLayoutRectangle.Width * widthRatio, cell.SelectLayoutRectangle.Height * heightRatio);
 
                         foreach (var item in cell.items)
                         {
-                            item.Rectangle = new System.Drawing.RectangleF(item.Rectangle.X * widthRatio, item.Rectangle.Y * heightRatio, item.Rectangle.Width * widthRatio, item.Rectangle.Height * heightRatio);
+                            item.SelectLayoutRectangle = new System.Drawing.RectangleF(item.SelectLayoutRectangle.X * widthRatio, item.SelectLayoutRectangle.Y * heightRatio, item.SelectLayoutRectangle.Width * widthRatio, item.SelectLayoutRectangle.Height * heightRatio);
                         }
                     }
                 }
                 foreach (var conveyor in ambar.conveyors)
                 {
-                    conveyor.Rectangle = new System.Drawing.RectangleF(conveyor.Rectangle.X * widthRatio, conveyor.Rectangle.Y * heightRatio, conveyor.Rectangle.Width * widthRatio, conveyor.Rectangle.Height * heightRatio);
+                    conveyor.SelectLayoutRectangle = new System.Drawing.RectangleF(conveyor.SelectLayoutRectangle.X * widthRatio, conveyor.SelectLayoutRectangle.Y * heightRatio, conveyor.SelectLayoutRectangle.Width * widthRatio, conveyor.SelectLayoutRectangle.Height * heightRatio);
 
                     foreach (var reff in conveyor.ConveyorReferencePoints)
                     {
-                        reff.Rectangle = new System.Drawing.RectangleF(reff.Rectangle.X * widthRatio, reff.Rectangle.Y * heightRatio, reff.Rectangle.Width * widthRatio, reff.Rectangle.Height * heightRatio);
+                        reff.SelectLayoutRectangle = new System.Drawing.RectangleF(reff.SelectLayoutRectangle.X * widthRatio, reff.SelectLayoutRectangle.Y * heightRatio, reff.SelectLayoutRectangle.Width * widthRatio, reff.SelectLayoutRectangle.Height * heightRatio);
                     }
                 }
             }
@@ -954,7 +962,7 @@ namespace Balya_Yerleştirme
 
                 if (ambar != null)
                 {
-                    LayoutOlusturma layout = new LayoutOlusturma(Main, ambar);
+                    LayoutOlusturma layout = null;
 
                     foreach (var depo in ambar.depolar)
                     {
@@ -969,48 +977,25 @@ namespace Balya_Yerleştirme
 
                     if (isDepoEmpty)
                     {
-                        ambar.Rectangle = ambar.OriginalRectangle;
-                        float x = ambar.Rectangle.X;
-                        float y = ambar.Rectangle.Y;
-
-                        ambar.Rectangle = GVisual.CenterRectangletoParentRectangle(ambar.Rectangle, DrawingPanel.ClientRectangle);
-
-                        float ChangedX = ambar.Rectangle.X;
-                        float ChangedY = ambar.Rectangle.Y;
-
-                        float Move = ChangedX - x;
-                        float moveY = ChangedY - y;
+                        layout = new LayoutOlusturma(Main, ambar);
 
                         foreach (var depo in ambar.depolar)
                         {
-                            depo.Rectangle = depo.OriginalRectangle;
                             depo.layout = layout;
-                            depo.Rectangle = new RectangleF(depo.Rectangle.X + Move, depo.Rectangle.Y + moveY, depo.Rectangle.Width, depo.Rectangle.Height);
 
                             foreach (var cell in depo.gridmaps)
                             {
-                                cell.Rectangle = cell.OriginalRectangle;
                                 cell.Layout = layout;
-                                cell.Rectangle = new RectangleF(cell.Rectangle.X + Move, cell.Rectangle.Y + moveY, cell.Rectangle.Width, cell.Rectangle.Height);
-
-                                foreach (var item in cell.items)
-                                {
-                                    item.Rectangle = item.OriginalRectangle;
-                                    item.Rectangle = new RectangleF(item.Rectangle.X + Move, item.Rectangle.Y + moveY, item.Rectangle.Width, item.Rectangle.Height);
-                                }
+                               
                             }
                         }
                         foreach (var conveyor in ambar.conveyors)
                         {
-                            conveyor.Rectangle = conveyor.OriginalRectangle;
                             conveyor.layout = layout;
-                            conveyor.Rectangle = new RectangleF(conveyor.Rectangle.X + Move, conveyor.Rectangle.Y + moveY, conveyor.Rectangle.Width, conveyor.Rectangle.Height);
 
                             foreach (var reff in conveyor.ConveyorReferencePoints)
                             {
-                                reff.Rectangle = reff.OriginalRectangle;
                                 reff.Layout = layout;
-                                reff.Rectangle = new RectangleF(reff.Rectangle.X + Move, reff.Rectangle.Y + moveY, reff.Rectangle.Width, reff.Rectangle.Height);
                             }
                         }
                     }
@@ -1020,132 +1005,68 @@ namespace Balya_Yerleştirme
                         notify.showAlert("İçinde Nesneler olan bir layout'u değiştiremezsiniz.", CustomNotifyIcon.enmType.Warning);
                     }
 
-                    if (layout.ShowDialog() == DialogResult.OK)
+                    if (layout != null)
                     {
-                        ambar.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(ambar.Rectangle, DrawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
-                        float BeforeX = ambar.Rectangle.X;
-
-                        ambar.Rectangle = GVisual.CenterRectangletoParentRectangle(ambar.Rectangle, SelectedPB.ClientRectangle);
-                        float AfterX = ambar.Rectangle.X;
-                        float moveX = BeforeX - AfterX;
-
-                        foreach (var conveyor in ambar.conveyors)
+                        if (layout.ShowDialog() == DialogResult.OK)
                         {
-                            conveyor.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(conveyor.Rectangle, DrawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
-                            conveyor.Rectangle = new RectangleF
-                                            (conveyor.Rectangle.X - moveX,
-                                        conveyor.Rectangle.Y, conveyor.Rectangle.Width, conveyor.Rectangle.Height);
-                            conveyor.layout = null;
+                            ambar.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(ambar.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
+                            float BeforeX = ambar.SelectLayoutRectangle.X;
 
-                            foreach (var reff in conveyor.ConveyorReferencePoints)
+                            ambar.SelectLayoutRectangle = GVisual.CenterRectangletoParentRectangle(ambar.SelectLayoutRectangle, SelectedPB.ClientRectangle);
+
+                            float AfterX = ambar.SelectLayoutRectangle.X;
+
+                            float MoveX = BeforeX - AfterX;
+
+                            foreach (var conveyor in ambar.conveyors)
                             {
-                                reff.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(reff.Rectangle, DrawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
-                                reff.Rectangle = new RectangleF
-                                                (reff.Rectangle.X - moveX,
-                                            reff.Rectangle.Y, reff.Rectangle.Width, reff.Rectangle.Height);
-                                reff.Layout = null;
-                            }
-                        }
+                                conveyor.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(conveyor.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
 
-                        foreach (var depo in ambar.depolar)
-                        {
-                            depo.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(depo.Rectangle, DrawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
-                            depo.Rectangle = new RectangleF
-                                            (depo.Rectangle.X - moveX,
-                                        depo.Rectangle.Y, depo.Rectangle.Width, depo.Rectangle.Height);
-                            depo.layout = null;
+                                conveyor.SelectLayoutRectangle = new RectangleF(conveyor.SelectLayoutRectangle.X - MoveX, conveyor.SelectLayoutRectangle.Y, conveyor.SelectLayoutRectangle.Width,
+                                conveyor.SelectLayoutRectangle.Height);
 
-                            foreach (var cell in depo.gridmaps)
-                            {
-                                cell.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(cell.Rectangle, DrawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
-                                cell.Rectangle = new RectangleF
-                                                (cell.Rectangle.X - moveX,
-                                            cell.Rectangle.Y, cell.Rectangle.Width, cell.Rectangle.Height);
-                                cell.Layout = null;
-
-                                foreach (var item in cell.items)
+                                foreach (var reff in conveyor.ConveyorReferencePoints)
                                 {
-                                    item.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(item.Rectangle, DrawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
-                                    item.Rectangle = new RectangleF
-                                                    (item.Rectangle.X - moveX,
-                                                item.Rectangle.Y, item.Rectangle.Width, item.Rectangle.Height);
+                                    reff.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(reff.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
 
-                                    foreach (var reff in item.ItemReferencePoints)
+                                    reff.SelectLayoutRectangle = new RectangleF(reff.SelectLayoutRectangle.X - MoveX, reff.SelectLayoutRectangle.Y, reff.SelectLayoutRectangle.Width,
+                                reff.SelectLayoutRectangle.Height);
+                                }
+                            }
+
+                            foreach (var depo in ambar.depolar)
+                            {
+                                depo.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(depo.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
+
+                                depo.SelectLayoutRectangle = new RectangleF(depo.SelectLayoutRectangle.X - MoveX, depo.SelectLayoutRectangle.Y, depo.SelectLayoutRectangle.Width,
+                                depo.SelectLayoutRectangle.Height);
+
+                                foreach (var cell in depo.gridmaps)
+                                {
+                                    cell.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(cell.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
+
+                                    cell.SelectLayoutRectangle = new RectangleF(cell.SelectLayoutRectangle.X - MoveX, cell.SelectLayoutRectangle.Y, cell.SelectLayoutRectangle.Width,
+                               cell.SelectLayoutRectangle.Height);
+
+
+                                    foreach (var item in cell.items)
                                     {
-                                        reff.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(reff.Rectangle, DrawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
-                                        reff.Rectangle = new RectangleF
-                                                        (reff.Rectangle.X - moveX,
-                                                    reff.Rectangle.Y, reff.Rectangle.Width, reff.Rectangle.Height);
+                                        item.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(item.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
+
+                                        item.SelectLayoutRectangle = new RectangleF(item.SelectLayoutRectangle.X - MoveX, item.SelectLayoutRectangle.Y, item.SelectLayoutRectangle.Width,
+                               item.SelectLayoutRectangle.Height);
                                     }
                                 }
                             }
+                            SelectedPB.Invalidate();
                         }
-                    }
-                    else
-                    {
-                        ambar.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(ambar.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
-                        float BeforeX = ambar.Rectangle.X;
-
-                        ambar.Rectangle = GVisual.CenterRectangletoParentRectangle(ambar.Rectangle, SelectedPB.ClientRectangle);
-                        float AfterX = ambar.Rectangle.X;
-                        float moveX = BeforeX - AfterX;
-
-                        foreach (var conveyor in ambar.conveyors)
+                        else
                         {
-                            conveyor.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(conveyor.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
-                            conveyor.Rectangle = new RectangleF
-                                            (conveyor.Rectangle.X - moveX,
-                                        conveyor.Rectangle.Y, conveyor.Rectangle.Width, conveyor.Rectangle.Height);
-                            conveyor.layout = null;
-
-                            foreach (var reff in conveyor.ConveyorReferencePoints)
-                            {
-                                reff.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(reff.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
-                                reff.Rectangle = new RectangleF
-                                                (reff.Rectangle.X - moveX,
-                                            reff.Rectangle.Y, reff.Rectangle.Width, reff.Rectangle.Height);
-                                reff.Layout = null;
-                            }
-                        }
-
-                        foreach (var depo in ambar.depolar)
-                        {
-                            depo.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(depo.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
-                            depo.Rectangle = new RectangleF
-                                            (depo.Rectangle.X - moveX,
-                                        depo.Rectangle.Y, depo.Rectangle.Width, depo.Rectangle.Height);
-                            depo.layout = null;
-
-                            foreach (var cell in depo.gridmaps)
-                            {
-                                cell.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(cell.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
-                                cell.Rectangle = new RectangleF
-                                                (cell.Rectangle.X - moveX,
-                                            cell.Rectangle.Y, cell.Rectangle.Width, cell.Rectangle.Height);
-                                cell.Layout = null;
-
-                                foreach (var item in cell.items)
-                                {
-                                    item.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(item.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
-                                    item.Rectangle = new RectangleF
-                                                    (item.Rectangle.X - moveX,
-                                                item.Rectangle.Y, item.Rectangle.Width, item.Rectangle.Height);
-
-                                    foreach (var reff in item.ItemReferencePoints)
-                                    {
-                                        reff.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(reff.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
-                                        reff.Rectangle = new RectangleF
-                                                        (reff.Rectangle.X - moveX,
-                                                    reff.Rectangle.Y, reff.Rectangle.Width, reff.Rectangle.Height);
-                                    }
-                                }
-                            }
+                            
                         }
                     }
                 }
             }
-
-            
         }
 
         private void btn_Sil_Click(object sender, EventArgs e)

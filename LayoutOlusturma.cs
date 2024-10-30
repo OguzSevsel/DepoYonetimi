@@ -4,6 +4,7 @@ using GUI_Library;
 using String_Library;
 using System.Drawing.Drawing2D;
 using System.Globalization;
+using System.Windows.Forms;
 using static Balya_Yerleştirme.Utilities.Utils;
 
 namespace Balya_Yerleştirme
@@ -1819,6 +1820,23 @@ namespace Balya_Yerleştirme
             {
                 g.DrawRectangle(TransparentPen, Ambar.Rectangle);
 
+                System.Drawing.Font font1 = new System.Drawing.Font("Arial", 8);
+                SolidBrush brush1 = new SolidBrush(System.Drawing.Color.Red);
+
+                //System.Drawing.Point point = new System.Drawing.Point(drawingPanel.ClientRectangle.Left, drawingPanel.ClientRectangle.Top);
+                //g.DrawRectangle(TransparentPen, Ambar.SelectLayoutRectangle);
+
+
+                //string layoutRectangle1 = $"Ambar SelectLayoutRectangle: {Ambar.SelectLayoutRectangle}";
+                //string rectangle1 = $" Ambar Rectangle: {Ambar.Rectangle}";
+                //string originalRectangle1 = $" Ambar OriginalRectangle: {Ambar.OriginalRectangle}";
+
+                //g.DrawString(rectangle1, font1, brush1, new System.Drawing.Point(point.X, point.Y + 20));
+
+                //g.DrawString(originalRectangle1, font1, brush1, new System.Drawing.Point(point.X, point.Y + 40));
+
+                //g.DrawString(layoutRectangle1, font1, brush1, point);
+
                 PointF AmbarTop = GVisual.GetMiddleOfTopEdgeF(Ambar.Rectangle);
                 PointF AmbarBottom = GVisual.GetMiddleOfBottomEdgeF(Ambar.Rectangle);
 
@@ -1873,6 +1891,17 @@ namespace Balya_Yerleştirme
                     SolidBrush brush = new SolidBrush(System.Drawing.Color.Red);
 
                     g.DrawString(textDepoAdi, font, brush, depo.Rectangle.Location);
+
+
+                    //string layoutRectangle = $"Depo SelectLayoutRectangle: {depo.SelectLayoutRectangle}";
+                    //string rectangle = $" Depo Rectangle: {depo.Rectangle}";
+                    //string originalRectangle = $" Depo OriginalRectangle: {depo.OriginalRectangle}";
+
+                    //g.DrawString(rectangle, font1, brush1, new System.Drawing.Point(point.X, point.Y + 60));
+
+                    //g.DrawString(originalRectangle, font1, brush1, new System.Drawing.Point(point.X, point.Y + 80));
+
+                    //g.DrawString(layoutRectangle, font1, brush1, new System.Drawing.Point(point.X, point.Y + 100));
 
                     foreach (var cell in depo.gridmaps)
                     {
@@ -6188,6 +6217,7 @@ namespace Balya_Yerleştirme
             if (Ambar != null)
             {
                 Ambar.Rectangle = new RectangleF(Ambar.Rectangle.X - drawingPanelMoveConstant, Ambar.Rectangle.Y, Ambar.Rectangle.Width, Ambar.Rectangle.Height);
+                Ambar.OriginalRectangle = Ambar.Rectangle;
                 foreach (var depo in Ambar.depolar)
                 {
                     depo.Rectangle = new RectangleF(depo.Rectangle.X - drawingPanelMoveConstant, depo.Rectangle.Y, depo.Rectangle.Width, depo.Rectangle.Height);
@@ -6198,6 +6228,7 @@ namespace Balya_Yerleştirme
                     foreach (var cell in depo.gridmaps)
                     {
                         cell.Rectangle = new RectangleF(cell.Rectangle.X - drawingPanelMoveConstant, cell.Rectangle.Y, cell.Rectangle.Width, cell.Rectangle.Height);
+                        cell.OriginalRectangle = cell.Rectangle;
                         cell.LocationofRect = new System.Drawing.Point((int)cell.Rectangle.X, (int)cell.Rectangle.Y);
 
                     }
@@ -6205,6 +6236,8 @@ namespace Balya_Yerleştirme
                 foreach (var conveyor in Ambar.conveyors)
                 {
                     conveyor.Rectangle = new RectangleF(conveyor.Rectangle.X - drawingPanelMoveConstant, conveyor.Rectangle.Y, conveyor.Rectangle.Width, conveyor.Rectangle.Height);
+                    conveyor.OriginalRectangle = conveyor.Rectangle;
+
                     conveyor.LocationofRect = new System.Drawing.Point((int)conveyor.Rectangle.X, (int)conveyor.Rectangle.Y);
                     selectedConveyorRectangle = conveyor.Rectangle;
                     UnchangedselectedConveyorRectangle = conveyor.Rectangle;
@@ -6213,6 +6246,8 @@ namespace Balya_Yerleştirme
                     {
                         reff.Rectangle = new RectangleF(reff.Rectangle.X - drawingPanelMoveConstant,
                             reff.Rectangle.Y, reff.Rectangle.Width, reff.Rectangle.Height);
+                        reff.OriginalRectangle = reff.Rectangle;
+
                         reff.LocationofRect = new System.Drawing.Point((int)reff.Rectangle.X, (int)reff.Rectangle.Y);
                     }
                 }
@@ -6224,6 +6259,7 @@ namespace Balya_Yerleştirme
             if (Ambar != null)
             {
                 Ambar.Rectangle = new RectangleF(Ambar.Rectangle.X + drawingPanelMoveConstant, Ambar.Rectangle.Y, Ambar.Rectangle.Width, Ambar.Rectangle.Height);
+                Ambar.OriginalRectangle = Ambar.Rectangle;
                 foreach (var depo in Ambar.depolar)
                 {
                     depo.Rectangle = new RectangleF(depo.Rectangle.X + drawingPanelMoveConstant, depo.Rectangle.Y, depo.Rectangle.Width, depo.Rectangle.Height);
@@ -6234,12 +6270,15 @@ namespace Balya_Yerleştirme
                     foreach (var cell in depo.gridmaps)
                     {
                         cell.Rectangle = new RectangleF(cell.Rectangle.X + drawingPanelMoveConstant, cell.Rectangle.Y, cell.Rectangle.Width, cell.Rectangle.Height);
+                        cell.OriginalRectangle = cell.Rectangle;
                         cell.LocationofRect = new System.Drawing.Point((int)cell.Rectangle.X, (int)cell.Rectangle.Y);
                     }
                 }
                 foreach (var conveyor in Ambar.conveyors)
                 {
                     conveyor.Rectangle = new RectangleF(conveyor.Rectangle.X + drawingPanelMoveConstant, conveyor.Rectangle.Y, conveyor.Rectangle.Width, conveyor.Rectangle.Height);
+                    conveyor.OriginalRectangle = conveyor.Rectangle;
+
                     conveyor.LocationofRect = new System.Drawing.Point((int)conveyor.Rectangle.X, (int)conveyor.Rectangle.Y);
                     selectedConveyorRectangle = conveyor.Rectangle;
                     UnchangedselectedConveyorRectangle = conveyor.Rectangle;
@@ -6247,6 +6286,8 @@ namespace Balya_Yerleştirme
                     {
                         reff.Rectangle = new RectangleF(reff.Rectangle.X + drawingPanelMoveConstant,
                             reff.Rectangle.Y, reff.Rectangle.Width, reff.Rectangle.Height);
+                        reff.OriginalRectangle = reff.Rectangle;
+
                         reff.LocationofRect = new System.Drawing.Point((int)reff.Rectangle.X, (int)reff.Rectangle.Y);
                     }
                 }
@@ -6903,6 +6944,7 @@ namespace Balya_Yerleştirme
             {
                 MainPanelCloseBothSides(LeftSide_LayoutPanel, RightSide_LayoutPanel, this);
             }
+
             using (var dialog = new LayoutNaming())
             {
                 if (dialog.ShowDialog() == DialogResult.OK)

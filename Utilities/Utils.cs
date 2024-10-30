@@ -488,6 +488,26 @@ namespace Balya_Yerleştirme.Utilities
             return rectangle;
         }
 
+        public static RectangleF ResizeRectangleToRatioOfPanel
+            (PictureBox drawingpanel, RectangleF rectangle)
+        {
+            double ratioX = (double)drawingpanel.Width / (double)rectangle.Width;
+            double ratioY = (double)drawingpanel.Height / (double)rectangle.Height;
+            double ratio = Math.Min(ratioX, ratioY);
+
+            double newwidth = (rectangle.Width * ratio);
+            double newheight = (rectangle.Height * ratio);
+
+            int newHeight = Convert.ToInt32(newheight);
+            int newWidth = Convert.ToInt32(newwidth);
+
+            float posX = (drawingpanel.Width - newWidth) / 2;
+            float posY = (drawingpanel.Height - newHeight) / 2;
+
+            rectangle = new RectangleF(posX, posY, newWidth, newHeight);
+            return rectangle;
+        }
+
         public static (RectangleF,RectangleF,Point) ShiftLeft
             (RectangleF Rectangle, RectangleF OriginalRectangle, Point LocationofRect, 
             int drawingPanelMoveConst, float zoomlevel)

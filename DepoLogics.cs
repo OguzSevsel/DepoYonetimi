@@ -27,6 +27,8 @@ namespace Balya_Yerleştirme.Models
         [NotMapped]
         public RectangleF OriginalRectangle { get; set; }
         [NotMapped]
+        public RectangleF SelectLayoutRectangle { get; set; }
+        [NotMapped]
         MainForm Main { get; set; }
         [NotMapped]
         public Point LocationofRect { get; set; }
@@ -68,6 +70,8 @@ namespace Balya_Yerleştirme.Models
         { 
             Rectangle = new RectangleF(x, y, width, height);
             OriginalRectangle = new RectangleF(x, y, width, height);
+            SelectLayoutRectangle = new RectangleF(x, y, width, height);
+
             LocationofRect = new Point((int)Rectangle.X, (int)Rectangle.Y);
             Zoomlevel = zoomlevel;
             gridmaps = new List<Cell>();
