@@ -953,16 +953,203 @@ namespace Balya_Yerleştirme
             }
         }
 
+        //private void btn_Layout_Duzenle_Click(object sender, EventArgs e)
+        //{
+        //    RectangleF AmbarRect = new RectangleF();
+        //    List<Depo> depos = new List<Depo>();
+        //    List<Models.Cell> cells = new List<Models.Cell>();
+
+        //    List<Conveyor> conveyors = new List<Conveyor>();
+        //    List<ConveyorReferencePoint> conveyorReffs = new List<ConveyorReferencePoint>();
+
+        //    bool isDepoEmpty = true;
+
+        //    Ambar ambar1 = (Ambar)SelectedPB.Tag;
+
+        //    foreach (var depo1 in ambar1.depolar)
+        //    {
+        //        depos.Add(depo1);
+        //    }
+
+
+        //    if (SelectedPB != null)
+        //    {
+        //        Ambar ambar = (Ambar)SelectedPB.Tag;
+
+        //        if (ambar != null)
+        //        {
+        //            AmbarRect = ambar.Rectangle;
+
+        //            LayoutOlusturma layout = null;
+
+        //            foreach (var depo in ambar.depolar)
+        //            {
+        //                foreach (var cell in depo.gridmaps)
+        //                {
+        //                    if (cell.items.Count > 0)
+        //                    {
+        //                        isDepoEmpty = false;
+        //                    }
+        //                }
+        //            }
+
+        //            if (isDepoEmpty)
+        //            {
+        //                layout = new LayoutOlusturma(Main, ambar);
+
+        //                foreach (var depo in ambar.depolar)
+        //                {
+        //                    depo.layout = layout;
+
+        //                    foreach (var cell in depo.gridmaps)
+        //                    {
+        //                        cells.Add(cell);
+        //                        cell.Layout = layout;
+        //                    }
+        //                }
+        //                foreach (var conveyor in ambar.conveyors)
+        //                {
+        //                    conveyors.Add(conveyor);
+        //                    conveyor.layout = layout;
+
+        //                    foreach (var reff in conveyor.ConveyorReferencePoints)
+        //                    {
+        //                        conveyorReffs.Add(reff);
+        //                        reff.Layout = layout;
+        //                    }
+        //                }
+        //            }
+        //            else
+        //            {
+        //                CustomNotifyIcon notify = new CustomNotifyIcon();
+        //                notify.showAlert("İçinde Nesneler olan bir layout'u değiştiremezsiniz.", CustomNotifyIcon.enmType.Warning);
+        //            }
+
+        //            if (layout != null)
+        //            {
+        //                if (layout.ShowDialog() == DialogResult.OK)
+        //                {
+        //                    ambar.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(ambar.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
+        //                    float BeforeX = ambar.SelectLayoutRectangle.X;
+
+        //                    ambar.SelectLayoutRectangle = GVisual.CenterRectangletoParentRectangle(ambar.SelectLayoutRectangle, SelectedPB.ClientRectangle);
+
+        //                    float AfterX = ambar.SelectLayoutRectangle.X;
+
+        //                    float MoveX = BeforeX - AfterX;
+
+        //                    foreach (var conveyor in ambar.conveyors)
+        //                    {
+        //                        conveyor.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(conveyor.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
+
+        //                        conveyor.SelectLayoutRectangle = new RectangleF(conveyor.SelectLayoutRectangle.X - MoveX, conveyor.SelectLayoutRectangle.Y, conveyor.SelectLayoutRectangle.Width,
+        //                        conveyor.SelectLayoutRectangle.Height);
+
+        //                        foreach (var reff in conveyor.ConveyorReferencePoints)
+        //                        {
+        //                            reff.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(reff.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
+
+        //                            reff.SelectLayoutRectangle = new RectangleF(reff.SelectLayoutRectangle.X - MoveX, reff.SelectLayoutRectangle.Y, reff.SelectLayoutRectangle.Width,
+        //                        reff.SelectLayoutRectangle.Height);
+        //                        }
+        //                    }
+
+        //                    foreach (var depo in ambar.depolar)
+        //                    {
+        //                        depo.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(depo.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
+
+        //                        depo.SelectLayoutRectangle = new RectangleF(depo.SelectLayoutRectangle.X - MoveX, depo.SelectLayoutRectangle.Y, depo.SelectLayoutRectangle.Width,
+        //                        depo.SelectLayoutRectangle.Height);
+
+        //                        foreach (var cell in depo.gridmaps)
+        //                        {
+        //                            cell.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(cell.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
+
+        //                            cell.SelectLayoutRectangle = new RectangleF(cell.SelectLayoutRectangle.X - MoveX, cell.SelectLayoutRectangle.Y, cell.SelectLayoutRectangle.Width,
+        //                       cell.SelectLayoutRectangle.Height);
+
+        //                            foreach (var item in cell.items)
+        //                            {
+        //                                item.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(item.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
+
+        //                                item.SelectLayoutRectangle = new RectangleF(item.SelectLayoutRectangle.X - MoveX, item.SelectLayoutRectangle.Y, item.SelectLayoutRectangle.Width,
+        //                       item.SelectLayoutRectangle.Height);
+        //                            }
+        //                        }
+        //                    }
+        //                    SelectedPB.Invalidate();
+        //                }
+        //                else
+        //                {
+        //                    ambar = layout.Ambar;
+
+        //                    foreach (var depo in ambar.depolar)
+        //                    {
+        //                        foreach (var depo1 in depos)
+        //                        {
+        //                            if (depo == depo1)
+        //                            {
+        //                                depo.Rectangle = depo1.Rectangle;
+        //                            }
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+
         private void btn_Layout_Duzenle_Click(object sender, EventArgs e)
         {
+            RectangleF AmbarRect = new RectangleF();
+            List<Depo> depos = new List<Depo>();
+            List<Models.Cell> cells = new List<Models.Cell>();
+            List<Conveyor> conveyors = new List<Conveyor>();
+            List<ConveyorReferencePoint> conveyorReffs = new List<ConveyorReferencePoint>();
+
+            // Backups for reverting if necessary
+            List<RectangleF> depoRectBackup = new List<RectangleF>();
+            List<RectangleF> conveyorRectBackup = new List<RectangleF>();
+            List<RectangleF> cellRectBackup = new List<RectangleF>();
+            List<RectangleF> itemRectBackup = new List<RectangleF>();
+
             bool isDepoEmpty = true;
+            Ambar ambar1 = (Ambar)SelectedPB.Tag;
+
+            foreach (var depo1 in ambar1.depolar)
+            {
+                depos.Add(depo1);
+            }
+
             if (SelectedPB != null)
             {
                 Ambar ambar = (Ambar)SelectedPB.Tag;
-
                 if (ambar != null)
                 {
+                    AmbarRect = ambar.Rectangle;
                     LayoutOlusturma layout = null;
+
+                    // Backup rectangles
+                    foreach (var depo in ambar.depolar)
+                    {
+                        depoRectBackup.Add(depo.Rectangle);
+                        foreach (var cell in depo.gridmaps)
+                        {
+                            cellRectBackup.Add(cell.Rectangle);
+                            foreach (var item in cell.items)
+                            {
+                                itemRectBackup.Add(item.Rectangle);
+                            }
+                        }
+                    }
+                    foreach (var conveyor in ambar.conveyors)
+                    {
+                        conveyorRectBackup.Add(conveyor.Rectangle);
+                        foreach (var reff in conveyor.ConveyorReferencePoints)
+                        {
+                            conveyorReffs.Add(reff);
+                        }
+                    }
 
                     foreach (var depo in ambar.depolar)
                     {
@@ -978,23 +1165,22 @@ namespace Balya_Yerleştirme
                     if (isDepoEmpty)
                     {
                         layout = new LayoutOlusturma(Main, ambar);
-
                         foreach (var depo in ambar.depolar)
                         {
                             depo.layout = layout;
-
                             foreach (var cell in depo.gridmaps)
                             {
+                                cells.Add(cell);
                                 cell.Layout = layout;
-                               
                             }
                         }
                         foreach (var conveyor in ambar.conveyors)
                         {
+                            conveyors.Add(conveyor);
                             conveyor.layout = layout;
-
                             foreach (var reff in conveyor.ConveyorReferencePoints)
                             {
+                                conveyorReffs.Add(reff);
                                 reff.Layout = layout;
                             }
                         }
@@ -1009,52 +1195,39 @@ namespace Balya_Yerleştirme
                     {
                         if (layout.ShowDialog() == DialogResult.OK)
                         {
+                            // Proceed with applying the layout changes
                             ambar.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(ambar.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
                             float BeforeX = ambar.SelectLayoutRectangle.X;
-
                             ambar.SelectLayoutRectangle = GVisual.CenterRectangletoParentRectangle(ambar.SelectLayoutRectangle, SelectedPB.ClientRectangle);
-
                             float AfterX = ambar.SelectLayoutRectangle.X;
-
                             float MoveX = BeforeX - AfterX;
 
                             foreach (var conveyor in ambar.conveyors)
                             {
                                 conveyor.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(conveyor.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
-
-                                conveyor.SelectLayoutRectangle = new RectangleF(conveyor.SelectLayoutRectangle.X - MoveX, conveyor.SelectLayoutRectangle.Y, conveyor.SelectLayoutRectangle.Width,
-                                conveyor.SelectLayoutRectangle.Height);
+                                conveyor.SelectLayoutRectangle = new RectangleF(conveyor.SelectLayoutRectangle.X - MoveX, conveyor.SelectLayoutRectangle.Y, conveyor.SelectLayoutRectangle.Width, conveyor.SelectLayoutRectangle.Height);
 
                                 foreach (var reff in conveyor.ConveyorReferencePoints)
                                 {
                                     reff.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(reff.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
-
-                                    reff.SelectLayoutRectangle = new RectangleF(reff.SelectLayoutRectangle.X - MoveX, reff.SelectLayoutRectangle.Y, reff.SelectLayoutRectangle.Width,
-                                reff.SelectLayoutRectangle.Height);
+                                    reff.SelectLayoutRectangle = new RectangleF(reff.SelectLayoutRectangle.X - MoveX, reff.SelectLayoutRectangle.Y, reff.SelectLayoutRectangle.Width, reff.SelectLayoutRectangle.Height);
                                 }
                             }
 
                             foreach (var depo in ambar.depolar)
                             {
                                 depo.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(depo.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
-
-                                depo.SelectLayoutRectangle = new RectangleF(depo.SelectLayoutRectangle.X - MoveX, depo.SelectLayoutRectangle.Y, depo.SelectLayoutRectangle.Width,
-                                depo.SelectLayoutRectangle.Height);
+                                depo.SelectLayoutRectangle = new RectangleF(depo.SelectLayoutRectangle.X - MoveX, depo.SelectLayoutRectangle.Y, depo.SelectLayoutRectangle.Width, depo.SelectLayoutRectangle.Height);
 
                                 foreach (var cell in depo.gridmaps)
                                 {
                                     cell.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(cell.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
-
-                                    cell.SelectLayoutRectangle = new RectangleF(cell.SelectLayoutRectangle.X - MoveX, cell.SelectLayoutRectangle.Y, cell.SelectLayoutRectangle.Width,
-                               cell.SelectLayoutRectangle.Height);
-
+                                    cell.SelectLayoutRectangle = new RectangleF(cell.SelectLayoutRectangle.X - MoveX, cell.SelectLayoutRectangle.Y, cell.SelectLayoutRectangle.Width, cell.SelectLayoutRectangle.Height);
 
                                     foreach (var item in cell.items)
                                     {
                                         item.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(item.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
-
-                                        item.SelectLayoutRectangle = new RectangleF(item.SelectLayoutRectangle.X - MoveX, item.SelectLayoutRectangle.Y, item.SelectLayoutRectangle.Width,
-                               item.SelectLayoutRectangle.Height);
+                                        item.SelectLayoutRectangle = new RectangleF(item.SelectLayoutRectangle.X - MoveX, item.SelectLayoutRectangle.Y, item.SelectLayoutRectangle.Width, item.SelectLayoutRectangle.Height);
                                     }
                                 }
                             }
@@ -1062,7 +1235,37 @@ namespace Balya_Yerleştirme
                         }
                         else
                         {
-                            
+                            // Revert to backup values if dialog is cancelled
+                            for (int i = 0; i < ambar.depolar.Count; i++)
+                            {
+                                ambar.depolar[i].Rectangle = depoRectBackup[i];
+                            }
+
+                            int cellIndex = 0;
+                            foreach (var depo in ambar.depolar)
+                            {
+                                foreach (var cell in depo.gridmaps)
+                                {
+                                    cell.Rectangle = cellRectBackup[cellIndex++];
+                                }
+                            }
+
+                            int itemIndex = 0;
+                            foreach (var depo in ambar.depolar)
+                            {
+                                foreach (var cell in depo.gridmaps)
+                                {
+                                    foreach (var item in cell.items)
+                                    {
+                                        item.Rectangle = itemRectBackup[itemIndex++];
+                                    }
+                                }
+                            }
+
+                            for (int i = 0; i < ambar.conveyors.Count; i++)
+                            {
+                                ambar.conveyors[i].Rectangle = conveyorRectBackup[i];
+                            }
                         }
                     }
                 }
