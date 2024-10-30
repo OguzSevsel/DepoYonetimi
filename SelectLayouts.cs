@@ -21,6 +21,11 @@ using DocumentFormat.OpenXml.Presentation;
 using Microsoft.Identity.Client.NativeInterop;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using DocumentFormat.OpenXml.Drawing.Charts;
+using System.Security.Policy;
+using static Balya_Yerleştirme.Utilities.Utils;
+using Microsoft.Identity.Client;
+using CustomNotification;
 
 namespace Balya_Yerleştirme
 {
@@ -28,14 +33,22 @@ namespace Balya_Yerleştirme
     {
         public Panel DrawingPanel { get; set; }
 
+        public System.Drawing.Point rightPanelLocation = new System.Drawing.Point(1258, 70);
+        public System.Drawing.Size MainPanelSmallSize { get; set; } = new System.Drawing.Size(1240, 768);
+        public System.Drawing.Size MainPanelLargeSize { get; set; } = new System.Drawing.Size(1560, 768);
+
         public Pen LayoutPen = new Pen(System.Drawing.Color.Black, 2);
         public PictureBox? SelectedPB { get; set; }
         public MainForm Main { get; set; }
         public int LayoutCount { get; set; }
+
         public int totalProgress = 0;
+
         public System.Drawing.Point PointProgressBar = new System.Drawing.Point(18, 76);
+
         public System.Drawing.Point PointSelectLayoutPanel = new System.Drawing.Point(12, 70);
 
+        public bool notClicked { get; set; } = false;
 
         public SelectLayouts(Panel drawingPanel, MainForm main)
         {
@@ -72,7 +85,7 @@ namespace Balya_Yerleştirme
             }
         }
 
-        public async void CreateLayouts(Layout layout)
+        public async void CreateLayouts(Balya_Yerleştirme.Models.Layout layout)
         {
 
             var progress = new Progress<float>(value =>
@@ -88,16 +101,16 @@ namespace Balya_Yerleştirme
             }
         }
 
-        private async Task<Ambar> LayoutYükleDatabaseOperation(Layout layout, IProgress<float> progress)
+        private async Task<Ambar> LayoutYükleDatabaseOperation(Balya_Yerleştirme.Models.Layout layout, IProgress<float> progress)
         {
             using (var context = new DBContext())
             {
                 int ProgressBarValue = Main.progressBar.Value;
 
-                
+
                 var ambar = await (from x in context.Ambars
-                                    where x.LayoutId == layout.LayoutId
-                                    select x).FirstOrDefaultAsync();
+                                   where x.LayoutId == layout.LayoutId
+                                   select x).FirstOrDefaultAsync();
 
                 if (ambar != null)
                 {
@@ -128,8 +141,8 @@ namespace Balya_Yerleştirme
                     newAmbar.Zoomlevel = ambar.Zoomlevel;
 
                     var conveyors = await (from x in context.Conveyors
-                                            where x.AmbarId == newAmbar.AmbarId
-                                            select x).ToListAsync();
+                                           where x.AmbarId == newAmbar.AmbarId
+                                           select x).ToListAsync();
 
 
                     foreach (var conveyor in conveyors)
@@ -198,8 +211,8 @@ namespace Balya_Yerleştirme
                     }
 
                     var depos = await (from x in context.Depos
-                                        where x.AmbarId == newAmbar.AmbarId
-                                        select x).ToListAsync();
+                                       where x.AmbarId == newAmbar.AmbarId
+                                       select x).ToListAsync();
 
                     foreach (var depo in depos)
                     {
@@ -258,8 +271,8 @@ namespace Balya_Yerleştirme
                         newAmbar.depolar.Add(newDepo);
 
                         var cells = await (from x in context.Cells
-                                            where x.DepoId == depo.DepoId
-                                            select x).ToListAsync();
+                                           where x.DepoId == depo.DepoId
+                                           select x).ToListAsync();
 
                         foreach (var cell in cells)
                         {
@@ -302,7 +315,7 @@ namespace Balya_Yerleştirme
                             newCell.Zoomlevel = cell.Zoomlevel;
                             newCell.cell_Cm_X = cell.cell_Cm_X;
                             newCell.cell_Cm_Y = cell.cell_Cm_Y;
-                            
+
                             newDepo.nesneEni = cell.NesneEni;
                             newDepo.nesneBoyu = cell.NesneBoyu;
                             newDepo.nesneYuksekligi = cell.NesneYuksekligi;
@@ -310,8 +323,8 @@ namespace Balya_Yerleştirme
                             newDepo.gridmaps.Add(newCell);
 
                             var items = await (from x in context.Items
-                                                where x.CellId == newCell.CellId
-                                                select x).ToListAsync();
+                                               where x.CellId == newCell.CellId
+                                               select x).ToListAsync();
 
                             foreach (var item in items)
                             {
@@ -395,13 +408,13 @@ namespace Balya_Yerleştirme
                 if (Layout != null)
                 {
                     Panel panel = new Panel();
-                    panel.Size = new Size(600, 600);
+                    panel.Size = new System.Drawing.Size(750, 750);
                     panel.AutoScroll = true;
                     panel.BackColor = System.Drawing.Color.AliceBlue;
                     panel.BorderStyle = BorderStyle.Fixed3D;
 
                     PictureBox pictureBox = new PictureBox();
-                    pictureBox.Size = new Size(400, 380);
+                    pictureBox.Size = new System.Drawing.Size(550, 500);
                     pictureBox.Location = new System.Drawing.Point(100, 100);
                     pictureBox.BorderStyle = BorderStyle.FixedSingle;
                     GVisual.SetDoubleBuffered(pictureBox);
@@ -416,8 +429,8 @@ namespace Balya_Yerleştirme
                     tooltip.ShowAlways = true;
 
                     Krypton.Toolkit.KryptonWrapLabel LayoutTitle = new Krypton.Toolkit.KryptonWrapLabel();
-                    LayoutTitle.MaximumSize = new Size(350, 30);
-                    LayoutTitle.MinimumSize = new Size(350, 30);
+                    LayoutTitle.MaximumSize = new System.Drawing.Size(300, 30);
+                    LayoutTitle.MinimumSize = new System.Drawing.Size(100, 30);
                     LayoutTitle.TextAlign = ContentAlignment.MiddleCenter;
                     LayoutTitle.AutoSize = true;
                     LayoutTitle.Text = $"{Layout.Name}";
@@ -426,8 +439,9 @@ namespace Balya_Yerleştirme
                     LayoutTitle.StateCommon.Font = new System.Drawing.Font("Arial", 16);
 
                     Krypton.Toolkit.KryptonWrapLabel LayoutDesc = new Krypton.Toolkit.KryptonWrapLabel();
-                    LayoutDesc.MaximumSize = new Size(350, 300);
-                    LayoutDesc.MinimumSize = new Size(350, 50);
+
+                    LayoutDesc.Size = new System.Drawing.Size(300, 50);
+
                     LayoutDesc.TextAlign = ContentAlignment.MiddleCenter;
                     LayoutDesc.Text = $"{Layout.Description}";
                     LayoutDesc.Location = new System.Drawing.Point(25, 25);
@@ -435,7 +449,7 @@ namespace Balya_Yerleştirme
                     LayoutDesc.Font = new System.Drawing.Font("Arial", 12);
 
                     Panel panelDescription = new Panel();
-                    panelDescription.Size = new Size(LayoutDesc.Width + 50, LayoutDesc.Height + 50);
+                    panelDescription.Size = new System.Drawing.Size(LayoutDesc.Width + 50, LayoutDesc.Height + 50);
                     panelDescription.AutoScroll = true;
                     panelDescription.BackColor = System.Drawing.Color.Azure;
                     panelDescription.BorderStyle = BorderStyle.Fixed3D;
@@ -498,6 +512,7 @@ namespace Balya_Yerleştirme
                             }
                         }
                     }
+
                     panel.Controls.Add(LayoutTitle);
                     panelDescription.Controls.Add(LayoutDesc);
                     panel.Controls.Add(panelDescription);
@@ -505,11 +520,36 @@ namespace Balya_Yerleştirme
                     SelectLayoutPanel.Controls.Add(panel);
                     pictureBox.Paint += (sender, e) => Picture_Box_Paint(sender, e, ambar);
                     pictureBox.Tag = ambar;
-                    pictureBox.MouseMove += (sender, e) => Picture_Box_MouseMove(sender, e);
-                    pictureBox.MouseEnter += (sender, e) => PictureBox_MouseEnter(sender, e);
-                    pictureBox.MouseLeave += (sender, e) => PictureBox_MouseLeave(sender, e);
                     pictureBox.DoubleClick += (sender, e) => PictureBox_MouseDoubleClick(sender, e);
                     pictureBox.MouseDown += (sender, e) => PictureBox_MouseDown(sender, e);
+                    pictureBox.MouseEnter += (sender, e) => PictureBox_MouseEnter(sender, e);
+                    pictureBox.MouseLeave += (sender, e) => PictureBox_MouseLeave(sender, e);
+                }
+            }
+        }
+
+        private void PictureBox_MouseLeave(object sender, EventArgs e)
+        {
+            PictureBox pb = sender as PictureBox;
+
+            if (pb != null)
+            {
+                if (SelectedPB == null)
+                {
+                    pb.BackColor = System.Drawing.Color.White;
+                }
+            }
+        }
+
+        private void PictureBox_MouseEnter(object sender, EventArgs e)
+        {
+            PictureBox pb = sender as PictureBox;
+
+            if (pb != null)
+            {
+                if (SelectedPB == null)
+                {
+                    pb.BackColor = System.Drawing.Color.LightCyan;
                 }
             }
         }
@@ -524,6 +564,12 @@ namespace Balya_Yerleştirme
                 {
                     contextMenuStrip.Show(Cursor.Position);
                     SelectedPB = pictureBox;
+                }
+                if (e.Button == MouseButtons.Left)
+                {
+                    SelectedPB = pictureBox;
+                    SelectedPB.BackColor = System.Drawing.Color.LightCyan;
+                    OpenRightSide((Ambar)pictureBox.Tag);
                 }
             }
         }
@@ -540,50 +586,6 @@ namespace Balya_Yerleştirme
             }
         }
 
-        private void PictureBox_MouseLeave(object sender, EventArgs e)
-        {
-            PictureBox pictureBox = sender as PictureBox;
-
-            if (pictureBox != null)
-            {
-                LayoutPen.Color = System.Drawing.Color.Black;
-                pictureBox.Invalidate();
-                pictureBox.Update();
-            }
-        }
-
-        private void PictureBox_MouseEnter(object sender, EventArgs e)
-        {
-            PictureBox pictureBox = sender as PictureBox;
-
-            if (pictureBox != null)
-            {
-                LayoutPen.Color = System.Drawing.Color.Red;
-                pictureBox.Invalidate();
-            }
-        }
-
-        private void Picture_Box_MouseMove(object? sender, MouseEventArgs e)
-        {
-            PictureBox pictureBox = sender as PictureBox;
-
-            if (pictureBox != null)
-            {
-                if (pictureBox.ClientRectangle.Contains(e.Location))
-                {
-                    LayoutPen.Color = System.Drawing.Color.Red;
-                    pictureBox.Invalidate();
-                    pictureBox.Refresh();
-                }
-                else
-                {
-                    LayoutPen.Color = System.Drawing.Color.Black;
-                    pictureBox.Invalidate();
-                    pictureBox.Refresh();
-                }
-            }
-        }
-
         private void Picture_Box_Paint(object? sender, PaintEventArgs e, Ambar ambar)
         {
             int counter = 0;
@@ -593,14 +595,6 @@ namespace Balya_Yerleştirme
             Graphics g = e.Graphics;
             PictureBox pictureBox = sender as PictureBox;
             System.Drawing.Point mousePosition = pictureBox.PointToClient(Cursor.Position);
-            if (pictureBox.ClientRectangle.Contains(mousePosition))
-            {
-                LayoutPen.Color = System.Drawing.Color.Red;
-            }
-            else
-            {
-                LayoutPen.Color = System.Drawing.Color.Black;
-            }
 
             g.DrawRectangle(LayoutPen, ambar.Rectangle);
 
@@ -796,6 +790,377 @@ namespace Balya_Yerleştirme
                     GVisual.ShowControl(SelectLayoutPanel, this, PointSelectLayoutPanel);
                 }
             }
+        }
+
+        private void OpenRightSide(Ambar? ambar)
+        {
+            SelectLayoutPanel.Size = MainPanelSmallSize;
+            panel_LayoutMenu.Location = rightPanelLocation;
+            this.Controls.Add(panel_LayoutMenu);
+
+            foreach (var pb in SelectLayoutPanel.Controls)
+            {
+                if (pb is Panel)
+                {
+                    Panel pb1 = pb as Panel;
+
+                    if (pb1 != null)
+                    {
+                        System.Drawing.Size size = new System.Drawing.Size(pb1.Width,
+                            pb1.Height);
+
+                        pb1.Size = new System.Drawing.Size(600, 600);
+
+                        if (ambar != null)
+                        {
+                            EnlargeorShrinkInsidePanel(pb1, size, pb1.Size, ambar);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void CloseRightSide(Ambar? ambar)
+        {
+            SelectLayoutPanel.Size = MainPanelLargeSize;
+            this.Controls.Remove(panel_LayoutMenu);
+
+            foreach (var pb in SelectLayoutPanel.Controls)
+            {
+                if (pb is Panel)
+                {
+                    Panel pb1 = pb as Panel;
+
+                    if (pb1 != null)
+                    {
+                        System.Drawing.Size size = new System.Drawing.Size(pb1.Width,
+                            pb1.Height);
+
+                        pb1.Size = new System.Drawing.Size(750, 750);
+
+                        if (ambar != null)
+                        {
+                            EnlargeorShrinkInsidePanel(pb1, size, pb1.Size, ambar);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void SelectLayoutPanel_MouseDown(object sender, MouseEventArgs e)
+        {
+            bool isinside = false;
+            foreach (var pb in SelectLayoutPanel.Controls)
+            {
+                if (pb is Panel)
+                {
+                    Panel pb1 = pb as Panel;
+
+                    if (!pb1.ClientRectangle.Contains(e.Location))
+                    {
+                        isinside = true;
+                    }
+
+                    foreach (var control in pb1.Controls)
+                    {
+                        if (control is PictureBox)
+                        {
+                            PictureBox picture = control as PictureBox;
+
+                            Ambar ambar = (Ambar)picture.Tag;
+
+                            if (isinside)
+                            {
+                                CloseRightSide(ambar);
+                                isinside = false;
+                            }
+                            picture.BackColor = System.Drawing.Color.White;
+                            SelectedPB = null;
+                            picture.Invalidate();
+                            picture.Update();
+                        }
+                    }
+                }
+            }
+        }
+
+        private void EnlargeorShrinkInsidePanel(Panel panel, System.Drawing.Size before, System.Drawing.Size after, Ambar? ambar)
+        {
+            float widthRatio = (float)after.Width / before.Width;
+            float heightRatio = (float)after.Height / before.Height;
+
+            foreach (System.Windows.Forms.Control control in panel.Controls)
+            {
+                int newWidth = (int)(control.Width * widthRatio);
+                int newHeight = (int)(control.Height * heightRatio);
+
+                control.Size = new System.Drawing.Size(newWidth, newHeight);
+
+                // Optional: Adjust control position based on new panel size
+                int newX = (int)(control.Location.X * widthRatio);
+                int newY = (int)(control.Location.Y * heightRatio);
+
+                control.Location = new System.Drawing.Point(newX, newY);
+
+                if (control is PictureBox)
+                {
+                    PictureBox picture = control as PictureBox;
+
+                    Ambar ambar1 = (Ambar)picture.Tag;
+
+                    ScaleAmbar(ambar1, widthRatio, heightRatio);
+                }
+            }
+        }
+
+        private void ScaleAmbar(Ambar? ambar, float widthRatio, float heightRatio)
+        {
+            if (ambar != null)
+            {
+                ambar.Rectangle = new System.Drawing.RectangleF(ambar.Rectangle.X * widthRatio, ambar.Rectangle.Y * heightRatio, ambar.Rectangle.Width * widthRatio, ambar.Rectangle.Height * heightRatio);
+
+                foreach (var depo in ambar.depolar)
+                {
+                    depo.Rectangle = new System.Drawing.RectangleF(depo.Rectangle.X * widthRatio, depo.Rectangle.Y * heightRatio, depo.Rectangle.Width * widthRatio, depo.Rectangle.Height * heightRatio);
+
+                    foreach (var cell in depo.gridmaps)
+                    {
+                        cell.Rectangle = new System.Drawing.RectangleF(cell.Rectangle.X * widthRatio, cell.Rectangle.Y * heightRatio, cell.Rectangle.Width * widthRatio, cell.Rectangle.Height * heightRatio);
+
+                        foreach (var item in cell.items)
+                        {
+                            item.Rectangle = new System.Drawing.RectangleF(item.Rectangle.X * widthRatio, item.Rectangle.Y * heightRatio, item.Rectangle.Width * widthRatio, item.Rectangle.Height * heightRatio);
+                        }
+                    }
+                }
+                foreach (var conveyor in ambar.conveyors)
+                {
+                    conveyor.Rectangle = new System.Drawing.RectangleF(conveyor.Rectangle.X * widthRatio, conveyor.Rectangle.Y * heightRatio, conveyor.Rectangle.Width * widthRatio, conveyor.Rectangle.Height * heightRatio);
+
+                    foreach (var reff in conveyor.ConveyorReferencePoints)
+                    {
+                        reff.Rectangle = new System.Drawing.RectangleF(reff.Rectangle.X * widthRatio, reff.Rectangle.Y * heightRatio, reff.Rectangle.Width * widthRatio, reff.Rectangle.Height * heightRatio);
+                    }
+                }
+            }
+        }
+
+        private void btn_Layout_Duzenle_Click(object sender, EventArgs e)
+        {
+            bool isDepoEmpty = true;
+            if (SelectedPB != null)
+            {
+                Ambar ambar = (Ambar)SelectedPB.Tag;
+
+                if (ambar != null)
+                {
+                    LayoutOlusturma layout = new LayoutOlusturma(Main, ambar);
+
+                    foreach (var depo in ambar.depolar)
+                    {
+                        foreach (var cell in depo.gridmaps)
+                        {
+                            if (cell.items.Count > 0)
+                            {
+                                isDepoEmpty = false;
+                            }
+                        }
+                    }
+
+                    if (isDepoEmpty)
+                    {
+                        ambar.Rectangle = ambar.OriginalRectangle;
+                        float x = ambar.Rectangle.X;
+                        float y = ambar.Rectangle.Y;
+
+                        ambar.Rectangle = GVisual.CenterRectangletoParentRectangle(ambar.Rectangle, DrawingPanel.ClientRectangle);
+
+                        float ChangedX = ambar.Rectangle.X;
+                        float ChangedY = ambar.Rectangle.Y;
+
+                        float Move = ChangedX - x;
+                        float moveY = ChangedY - y;
+
+                        foreach (var depo in ambar.depolar)
+                        {
+                            depo.Rectangle = depo.OriginalRectangle;
+                            depo.layout = layout;
+                            depo.Rectangle = new RectangleF(depo.Rectangle.X + Move, depo.Rectangle.Y + moveY, depo.Rectangle.Width, depo.Rectangle.Height);
+
+                            foreach (var cell in depo.gridmaps)
+                            {
+                                cell.Rectangle = cell.OriginalRectangle;
+                                cell.Layout = layout;
+                                cell.Rectangle = new RectangleF(cell.Rectangle.X + Move, cell.Rectangle.Y + moveY, cell.Rectangle.Width, cell.Rectangle.Height);
+
+                                foreach (var item in cell.items)
+                                {
+                                    item.Rectangle = item.OriginalRectangle;
+                                    item.Rectangle = new RectangleF(item.Rectangle.X + Move, item.Rectangle.Y + moveY, item.Rectangle.Width, item.Rectangle.Height);
+                                }
+                            }
+                        }
+                        foreach (var conveyor in ambar.conveyors)
+                        {
+                            conveyor.Rectangle = conveyor.OriginalRectangle;
+                            conveyor.layout = layout;
+                            conveyor.Rectangle = new RectangleF(conveyor.Rectangle.X + Move, conveyor.Rectangle.Y + moveY, conveyor.Rectangle.Width, conveyor.Rectangle.Height);
+
+                            foreach (var reff in conveyor.ConveyorReferencePoints)
+                            {
+                                reff.Rectangle = reff.OriginalRectangle;
+                                reff.Layout = layout;
+                                reff.Rectangle = new RectangleF(reff.Rectangle.X + Move, reff.Rectangle.Y + moveY, reff.Rectangle.Width, reff.Rectangle.Height);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        CustomNotifyIcon notify = new CustomNotifyIcon();
+                        notify.showAlert("İçinde Nesneler olan bir layout'u değiştiremezsiniz.", CustomNotifyIcon.enmType.Warning);
+                    }
+
+                    if (layout.ShowDialog() == DialogResult.OK)
+                    {
+                        ambar.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(ambar.Rectangle, DrawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
+                        float BeforeX = ambar.Rectangle.X;
+
+                        ambar.Rectangle = GVisual.CenterRectangletoParentRectangle(ambar.Rectangle, SelectedPB.ClientRectangle);
+                        float AfterX = ambar.Rectangle.X;
+                        float moveX = BeforeX - AfterX;
+
+                        foreach (var conveyor in ambar.conveyors)
+                        {
+                            conveyor.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(conveyor.Rectangle, DrawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
+                            conveyor.Rectangle = new RectangleF
+                                            (conveyor.Rectangle.X - moveX,
+                                        conveyor.Rectangle.Y, conveyor.Rectangle.Width, conveyor.Rectangle.Height);
+                            conveyor.layout = null;
+
+                            foreach (var reff in conveyor.ConveyorReferencePoints)
+                            {
+                                reff.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(reff.Rectangle, DrawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
+                                reff.Rectangle = new RectangleF
+                                                (reff.Rectangle.X - moveX,
+                                            reff.Rectangle.Y, reff.Rectangle.Width, reff.Rectangle.Height);
+                                reff.Layout = null;
+                            }
+                        }
+
+                        foreach (var depo in ambar.depolar)
+                        {
+                            depo.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(depo.Rectangle, DrawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
+                            depo.Rectangle = new RectangleF
+                                            (depo.Rectangle.X - moveX,
+                                        depo.Rectangle.Y, depo.Rectangle.Width, depo.Rectangle.Height);
+                            depo.layout = null;
+
+                            foreach (var cell in depo.gridmaps)
+                            {
+                                cell.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(cell.Rectangle, DrawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
+                                cell.Rectangle = new RectangleF
+                                                (cell.Rectangle.X - moveX,
+                                            cell.Rectangle.Y, cell.Rectangle.Width, cell.Rectangle.Height);
+                                cell.Layout = null;
+
+                                foreach (var item in cell.items)
+                                {
+                                    item.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(item.Rectangle, DrawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
+                                    item.Rectangle = new RectangleF
+                                                    (item.Rectangle.X - moveX,
+                                                item.Rectangle.Y, item.Rectangle.Width, item.Rectangle.Height);
+
+                                    foreach (var reff in item.ItemReferencePoints)
+                                    {
+                                        reff.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(reff.Rectangle, DrawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
+                                        reff.Rectangle = new RectangleF
+                                                        (reff.Rectangle.X - moveX,
+                                                    reff.Rectangle.Y, reff.Rectangle.Width, reff.Rectangle.Height);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        ambar.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(ambar.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
+                        float BeforeX = ambar.Rectangle.X;
+
+                        ambar.Rectangle = GVisual.CenterRectangletoParentRectangle(ambar.Rectangle, SelectedPB.ClientRectangle);
+                        float AfterX = ambar.Rectangle.X;
+                        float moveX = BeforeX - AfterX;
+
+                        foreach (var conveyor in ambar.conveyors)
+                        {
+                            conveyor.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(conveyor.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
+                            conveyor.Rectangle = new RectangleF
+                                            (conveyor.Rectangle.X - moveX,
+                                        conveyor.Rectangle.Y, conveyor.Rectangle.Width, conveyor.Rectangle.Height);
+                            conveyor.layout = null;
+
+                            foreach (var reff in conveyor.ConveyorReferencePoints)
+                            {
+                                reff.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(reff.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
+                                reff.Rectangle = new RectangleF
+                                                (reff.Rectangle.X - moveX,
+                                            reff.Rectangle.Y, reff.Rectangle.Width, reff.Rectangle.Height);
+                                reff.Layout = null;
+                            }
+                        }
+
+                        foreach (var depo in ambar.depolar)
+                        {
+                            depo.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(depo.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
+                            depo.Rectangle = new RectangleF
+                                            (depo.Rectangle.X - moveX,
+                                        depo.Rectangle.Y, depo.Rectangle.Width, depo.Rectangle.Height);
+                            depo.layout = null;
+
+                            foreach (var cell in depo.gridmaps)
+                            {
+                                cell.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(cell.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
+                                cell.Rectangle = new RectangleF
+                                                (cell.Rectangle.X - moveX,
+                                            cell.Rectangle.Y, cell.Rectangle.Width, cell.Rectangle.Height);
+                                cell.Layout = null;
+
+                                foreach (var item in cell.items)
+                                {
+                                    item.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(item.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
+                                    item.Rectangle = new RectangleF
+                                                    (item.Rectangle.X - moveX,
+                                                item.Rectangle.Y, item.Rectangle.Width, item.Rectangle.Height);
+
+                                    foreach (var reff in item.ItemReferencePoints)
+                                    {
+                                        reff.Rectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(reff.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
+                                        reff.Rectangle = new RectangleF
+                                                        (reff.Rectangle.X - moveX,
+                                                    reff.Rectangle.Y, reff.Rectangle.Width, reff.Rectangle.Height);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            
+        }
+
+        private void btn_Sil_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_Isim_Degistir_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_Aciklama_Degistir_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

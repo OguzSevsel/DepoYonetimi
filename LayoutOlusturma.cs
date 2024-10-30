@@ -165,7 +165,7 @@ namespace Balya_Yerleştirme
         public bool menuProcess { get; set; } = false;
 
 
-        public LayoutOlusturma(MainForm main)
+        public LayoutOlusturma(MainForm main, Ambar? ambar)
         {
             InitializeComponent();
             System.Windows.Forms.ToolTip toolTip = new System.Windows.Forms.ToolTip();
@@ -189,6 +189,8 @@ namespace Balya_Yerleştirme
             CopyConveyor = new Conveyor();
             GVisual.SetDoubleBuffered(drawingPanel);
             Main = main;
+            Ambar = ambar;
+            
             timer.Tick += Timer_Tick;
 
             AlanNode = new TreeNode("Alan");
@@ -1769,11 +1771,11 @@ namespace Balya_Yerleştirme
             PointF pointDel = new PointF(10, drawingPanel.ClientRectangle.Height - textSizeRightClick.Height - textSizeDel.Height);
             PointF pointDelInfo = new PointF(10 + textSizeDel.Width, drawingPanel.ClientRectangle.Height - textSizeRightClickInfo.Height - textSizeDel.Height);
 
-            PointF pointCopy = new PointF(10, drawingPanel.ClientRectangle.Height - textSizeRightClick.Height - textSizeDel.Height - textSizeCopy.Height);
-            PointF pointCopyInfo = new PointF(10 + textSizeCopy.Width, drawingPanel.ClientRectangle.Height - textSizeRightClickInfo.Height - textSizeDelInfo.Height - textSizeCopyInfo.Height);
+            PointF pointPaste = new PointF(10, drawingPanel.ClientRectangle.Height - textSizeRightClick.Height - textSizeDel.Height - textSizeCopy.Height);
+            PointF pointPasteInfo = new PointF(10 + textSizeCopy.Width, drawingPanel.ClientRectangle.Height - textSizeRightClickInfo.Height - textSizeDelInfo.Height - textSizeCopyInfo.Height);
 
-            PointF pointPaste = new PointF(10, drawingPanel.ClientRectangle.Height - textSizeRightClick.Height - textSizeDel.Height - textSizeCopy.Height - textSizePaste.Height);
-            PointF pointPasteInfo = new PointF(10 + textSizePaste.Width, drawingPanel.ClientRectangle.Height - textSizeRightClickInfo.Height - textSizeDelInfo.Height - textSizeCopyInfo.Height - textSizePasteInfo.Height);
+            PointF pointCopy = new PointF(10, drawingPanel.ClientRectangle.Height - textSizeRightClick.Height - textSizeDel.Height - textSizeCopy.Height - textSizePaste.Height);
+            PointF pointCopyInfo = new PointF(10 + textSizePaste.Width, drawingPanel.ClientRectangle.Height - textSizeRightClickInfo.Height - textSizeDelInfo.Height - textSizeCopyInfo.Height - textSizePasteInfo.Height);
 
             if (obje is Ambar)
             {
@@ -1788,11 +1790,11 @@ namespace Balya_Yerleştirme
                 g.DrawString(Del, Font, RedBrush, pointDel);
                 g.DrawString(DelInfo, Font, BlueBrush, pointDelInfo);
 
-                g.DrawString(Copy, Font, RedBrush, pointCopy);
-                g.DrawString(CopyInfo, Font, BlueBrush, pointCopyInfo);
-
                 g.DrawString(Paste, Font, RedBrush, pointPaste);
                 g.DrawString(PasteInfo, Font, BlueBrush, pointPasteInfo);
+
+                g.DrawString(Copy, Font, RedBrush, pointCopy);
+                g.DrawString(CopyInfo, Font, BlueBrush, pointCopyInfo);
             }
         }
         private void SimulationPanel_Paint(object sender, PaintEventArgs e)
@@ -2327,24 +2329,24 @@ namespace Balya_Yerleştirme
 
         public RectangleF SnapRectangles(RectangleF rectangle, RectangleF refRectangle)
         {
-            System.Drawing.Point rectangleRightMiddle = GVisual.GetMiddleOfRightEdge(rectangle);
-            System.Drawing.Point rectangleLeftMiddle = GVisual.GetMiddleOfLeftEdge(rectangle);
-            System.Drawing.Point rectangleTopMiddle = GVisual.GetMiddleOfTopEdge(rectangle);
-            System.Drawing.Point rectangleBotMiddle = GVisual.GetMiddleOfBottomEdge(rectangle);
-            System.Drawing.Point rectangleTopLeftCorner = GVisual.GetTopLeftCorner(rectangle);
-            System.Drawing.Point rectangleTopRightCorner = GVisual.GetTopRightCorner(rectangle);
-            System.Drawing.Point rectangleBotLeftCorner = GVisual.GetBottomLeftCorner(rectangle);
-            System.Drawing.Point rectangleBotRightCorner = GVisual.GetBottomRightCorner(rectangle);
+            System.Drawing.PointF rectangleRightMiddle = GVisual.GetMiddleOfRightEdgeF(rectangle);
+            System.Drawing.PointF rectangleLeftMiddle = GVisual.GetMiddleOfLeftEdgeF(rectangle);
+            System.Drawing.PointF rectangleTopMiddle = GVisual.GetMiddleOfTopEdgeF(rectangle);
+            System.Drawing.PointF rectangleBotMiddle = GVisual.GetMiddleOfBottomEdgeF(rectangle);
+            System.Drawing.PointF rectangleTopLeftCorner = GVisual.GetTopLeftCornerF(rectangle);
+            System.Drawing.PointF rectangleTopRightCorner = GVisual.GetTopRightCornerF(rectangle);
+            System.Drawing.PointF rectangleBotLeftCorner = GVisual.GetBottomLeftCornerF(rectangle);
+            System.Drawing.PointF rectangleBotRightCorner = GVisual.GetBottomRightCornerF(rectangle);
 
 
-            System.Drawing.Point refRectangleRightMiddle = GVisual.GetMiddleOfRightEdge(refRectangle);
-            System.Drawing.Point refRectangleLeftMiddle = GVisual.GetMiddleOfLeftEdge(refRectangle);
-            System.Drawing.Point refRectangleTopMiddle = GVisual.GetMiddleOfTopEdge(refRectangle);
-            System.Drawing.Point refRectangleBotMiddle = GVisual.GetMiddleOfBottomEdge(refRectangle);
-            System.Drawing.Point refRectangleTopLeftCorner = GVisual.GetTopLeftCorner(refRectangle);
-            System.Drawing.Point refRectangleTopRightCorner = GVisual.GetTopRightCorner(refRectangle);
-            System.Drawing.Point refRectangleBotLeftCorner = GVisual.GetBottomLeftCorner(refRectangle);
-            System.Drawing.Point refRectangleBotRightCorner = GVisual.GetBottomRightCorner(refRectangle);
+            System.Drawing.PointF refRectangleRightMiddle = GVisual.GetMiddleOfRightEdgeF(refRectangle);
+            System.Drawing.PointF refRectangleLeftMiddle = GVisual.GetMiddleOfLeftEdgeF(refRectangle);
+            System.Drawing.PointF refRectangleTopMiddle = GVisual.GetMiddleOfTopEdgeF(refRectangle);
+            System.Drawing.PointF refRectangleBotMiddle = GVisual.GetMiddleOfBottomEdgeF(refRectangle);
+            System.Drawing.PointF refRectangleTopLeftCorner = GVisual.GetTopLeftCornerF(refRectangle);
+            System.Drawing.PointF refRectangleTopRightCorner = GVisual.GetTopRightCornerF(refRectangle);
+            System.Drawing.PointF refRectangleBotLeftCorner = GVisual.GetBottomLeftCornerF(refRectangle);
+            System.Drawing.PointF refRectangleBotRightCorner = GVisual.GetBottomRightCornerF(refRectangle);
 
 
             //Distance Between Bottom Left of the Rectangle and Top Left of the Reference Rectangle

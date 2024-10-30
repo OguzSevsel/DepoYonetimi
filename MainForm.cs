@@ -841,7 +841,7 @@ namespace Balya_Yerleştirme
             toolStripButtonShowCellTag.Enabled = true;
             btn_Layout_Olustur.Enabled = true;
 
-            using (var dia = new LayoutOlusturma(this))
+            using (var dia = new LayoutOlusturma(this, null))
             {
                 if (dia.ShowDialog() == DialogResult.OK)
                 {

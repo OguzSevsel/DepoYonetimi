@@ -310,6 +310,7 @@ namespace Balya_Yerleştirme.Models
                                 reff.MoveRectangle(deltaX, deltaY);
                             }
                             ConstrainMovementWithinParent();
+                            OriginalRectangle = Rectangle;
                             if (layout != null && layout.Manuel_Move == false)
                             {
                                 layout.UnchangedselectedConveyorRectangle = Rectangle;
@@ -349,6 +350,7 @@ namespace Balya_Yerleştirme.Models
                             reff.MoveRectangle(deltaX, deltaY);
                         }
                         ConstrainMovementWithinParent();
+                        OriginalRectangle = Rectangle;
                         if (layout != null && layout.Manuel_Move == false)
                         {
                             layout.UnchangedselectedConveyorRectangle = Rectangle;
