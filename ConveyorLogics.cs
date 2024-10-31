@@ -200,6 +200,7 @@ namespace Balya_Yerleştirme.Models
                 {
                     if (Rectangle.Contains(scaledPoint))
                     {
+                        layout.menuProcess = false;
                         layout.selectedConveyor = this;
                         if (!layout.Manuel_Move)
                         {
@@ -228,6 +229,7 @@ namespace Balya_Yerleştirme.Models
                     {
                         if (!layout.Fill_WareHouse && !layout.AddReferencePoint)
                         {
+                            layout.menuProcess = false;
                             layout.selectedConveyor = this;
                             
                             if (!layout.Manuel_Move)

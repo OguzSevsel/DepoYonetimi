@@ -163,6 +163,10 @@ public partial class DBContext : DbContext
             entity.Property(e => e.OriginalKareY).HasColumnName("original_Kare_Y");
             entity.Property(e => e.Pointsize).HasColumnName("pointsize");
             entity.Property(e => e.Zoomlevel).HasColumnName("zoomlevel");
+            entity.Property(e => e.OriginalLocationInsideParentX).HasColumnName("originalLocationInsideParentX");
+            entity.Property(e => e.OriginalLocationInsideParentY).HasColumnName("originalLocationInsideParentY");
+
+
 
             entity.HasOne(d => d.Conveyor).WithMany(p => p.ConveyorReferencePoints)
                 .HasForeignKey(d => d.ConveyorId)

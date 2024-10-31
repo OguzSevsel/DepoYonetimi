@@ -379,7 +379,7 @@ namespace Balya_Yerleştirme
             ConveyorNode.Nodes.Remove(deleteNode);
         }
 
-        private void AddDepoNode(Depo depo)
+        public void AddDepoNode(Depo depo)
         {
             TreeNode depoNode = new TreeNode($"{depo.DepoName}");
             depoNode.Tag = depo;
@@ -387,7 +387,7 @@ namespace Balya_Yerleştirme
             DepoNode.Nodes.Add(depoNode);
         }
 
-        private void AddConveyorNode(Conveyor conveyor)
+        public void AddConveyorNode(Conveyor conveyor)
         {
             TreeNode conveyorNode = new TreeNode($"Conveyor {conveyor.ConveyorId}");
             conveyorNode.Tag = conveyor;

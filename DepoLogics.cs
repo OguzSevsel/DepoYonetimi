@@ -272,6 +272,7 @@ namespace Balya_Yerleştirme.Models
                         }
                         if (!layout.Fill_WareHouse)
                         {
+                            layout.menuProcess = false;
                             layout.selectedDepo = this;
                             layout.SelectNode(null, null, this);
 
@@ -295,6 +296,7 @@ namespace Balya_Yerleştirme.Models
                     {
                         if (!layout.MovingParameter && !layout.Fill_WareHouse && !layout.Manuel_Move)
                         {
+                            layout.menuProcess = false;
                             layout.selectedDepo = this;
                             layout.isMoving = true;
                             layout.SelectNode(null, null, this);

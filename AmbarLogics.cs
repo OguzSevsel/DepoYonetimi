@@ -30,7 +30,7 @@ namespace Balya_Yerleştirme.Models
         [NotMapped]
         public bool DrawMeters { get; set; } = false;
         [NotMapped]
-        LayoutOlusturma ?layout { get; set; }
+        public LayoutOlusturma ?layout { get; set; }
 
 
         public Ambar(float x, float y, float width, float height, MainForm ?main, LayoutOlusturma ?Layout) 
@@ -198,6 +198,7 @@ namespace Balya_Yerleştirme.Models
                             layout.selectedConveyor == null &&
                             layout.selectedDepo == null)
                         {
+                            layout.menuProcess = false;
                             layout.SelectedAmbar = this;
                             layout.SelectedAmbarPen.Width = 3;
                             layout.SelectedAmbarPen.Color = System.Drawing.Color.Blue;
@@ -216,6 +217,7 @@ namespace Balya_Yerleştirme.Models
                             layout.selectedConveyor == null &&
                             layout.selectedDepo == null)
                         {
+                            layout.menuProcess = false;
                             layout.SelectedAmbar = this;
                             layout.SelectedAmbarPen.Width = 3;
                             layout.SelectedAmbarPen.Color = System.Drawing.Color.Blue;

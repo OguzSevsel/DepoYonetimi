@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Balya_Yerleştirme.Models;
 
 namespace Balya_Yerleştirme
 {
@@ -40,6 +41,20 @@ namespace Balya_Yerleştirme
             if (layout_isim.Length > 30)
             {
                 errorProvider.SetError(txt_Layout_Isim, "Layout'un ismi 30 karakterden uzun olamaz.");
+            }
+
+            using (var context = new DBContext())
+            {
+                var layout = (from x in context.Layout
+                              where x.Name == layout_isim
+                              select x).FirstOrDefault();
+
+                if (layout != null)
+                {
+                    errorProvider.SetError(txt_Layout_Isim, "Aynı isimli bir layout zaten bulunuyor lütfen başka bir isim seçin");
+
+                    txt_Layout_Isim.Clear();
+                }
             }
 
             if (!errorProvider.HasErrors)

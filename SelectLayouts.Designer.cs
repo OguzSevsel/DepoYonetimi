@@ -39,20 +39,29 @@
             timer = new System.Windows.Forms.Timer(components);
             panel_LayoutMenu = new Panel();
             InnerPanel1 = new Panel();
+            kryptonBorderEdge2 = new Krypton.Toolkit.KryptonBorderEdge();
+            kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
+            btn_ChangeLayoutDescription = new Button();
+            txt_ChangeLayoutDescription = new TextBox();
+            lbl_ChangeLayoutDescription = new Krypton.Toolkit.KryptonWrapLabel();
+            btn_ChangeLayoutName = new Button();
+            txt_ChangeLayoutName = new TextBox();
             InnerPanel = new Panel();
+            kryptonBorderEdge3 = new Krypton.Toolkit.KryptonBorderEdge();
             LayoutPanel_MenuButtons = new FlowLayoutPanel();
             btn_Layout_Duzenle = new Button();
             btn_Sil = new Button();
-            btn_Isim_Degistir = new Button();
-            btn_Aciklama_Degistir = new Button();
-            lbl_Layout_Name = new Krypton.Toolkit.KryptonWrapLabel();
+            btn_Layout_Yukle = new Button();
+            lbl_ChangeLayoutName = new Krypton.Toolkit.KryptonWrapLabel();
             lbl_LayoutMenu_Title = new Krypton.Toolkit.KryptonWrapLabel();
+            errorProvider = new ErrorProvider(components);
             progressBarPanel.SuspendLayout();
             contextMenuStrip.SuspendLayout();
             panel_LayoutMenu.SuspendLayout();
             InnerPanel1.SuspendLayout();
             InnerPanel.SuspendLayout();
             LayoutPanel_MenuButtons.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)errorProvider).BeginInit();
             SuspendLayout();
             // 
             // lbl_Layout_Sec_Title
@@ -61,7 +70,7 @@
             lbl_Layout_Sec_Title.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Bold, GraphicsUnit.Point, 162);
             lbl_Layout_Sec_Title.ForeColor = Color.Red;
             lbl_Layout_Sec_Title.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Layout_Sec_Title.Location = new Point(426, 9);
+            lbl_Layout_Sec_Title.Location = new Point(595, 9);
             lbl_Layout_Sec_Title.Name = "lbl_Layout_Sec_Title";
             lbl_Layout_Sec_Title.Size = new Size(394, 58);
             lbl_Layout_Sec_Title.StateCommon.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Bold, GraphicsUnit.Point, 162);
@@ -139,30 +148,118 @@
             // 
             // InnerPanel1
             // 
+            InnerPanel1.Controls.Add(kryptonBorderEdge2);
+            InnerPanel1.Controls.Add(kryptonBorderEdge1);
+            InnerPanel1.Controls.Add(btn_ChangeLayoutDescription);
+            InnerPanel1.Controls.Add(txt_ChangeLayoutDescription);
+            InnerPanel1.Controls.Add(lbl_ChangeLayoutDescription);
+            InnerPanel1.Controls.Add(btn_ChangeLayoutName);
+            InnerPanel1.Controls.Add(txt_ChangeLayoutName);
             InnerPanel1.Controls.Add(InnerPanel);
-            InnerPanel1.Controls.Add(lbl_Layout_Name);
+            InnerPanel1.Controls.Add(lbl_ChangeLayoutName);
             InnerPanel1.Location = new Point(3, 85);
             InnerPanel1.Name = "InnerPanel1";
             InnerPanel1.Size = new Size(308, 680);
             InnerPanel1.TabIndex = 2;
             // 
+            // kryptonBorderEdge2
+            // 
+            kryptonBorderEdge2.Location = new Point(23, 3);
+            kryptonBorderEdge2.Name = "kryptonBorderEdge2";
+            kryptonBorderEdge2.Size = new Size(262, 1);
+            kryptonBorderEdge2.Text = "kryptonBorderEdge2";
+            // 
+            // kryptonBorderEdge1
+            // 
+            kryptonBorderEdge1.Location = new Point(23, 101);
+            kryptonBorderEdge1.Name = "kryptonBorderEdge1";
+            kryptonBorderEdge1.Size = new Size(262, 1);
+            kryptonBorderEdge1.Text = "kryptonBorderEdge1";
+            // 
+            // btn_ChangeLayoutDescription
+            // 
+            btn_ChangeLayoutDescription.FlatAppearance.BorderSize = 0;
+            btn_ChangeLayoutDescription.FlatAppearance.MouseDownBackColor = Color.LightCyan;
+            btn_ChangeLayoutDescription.FlatAppearance.MouseOverBackColor = Color.FromArgb(192, 255, 255);
+            btn_ChangeLayoutDescription.FlatStyle = FlatStyle.Popup;
+            btn_ChangeLayoutDescription.Image = Resources.Resource1.Checked_Checkbox;
+            btn_ChangeLayoutDescription.Location = new Point(242, 217);
+            btn_ChangeLayoutDescription.Name = "btn_ChangeLayoutDescription";
+            btn_ChangeLayoutDescription.Size = new Size(60, 49);
+            btn_ChangeLayoutDescription.TabIndex = 15;
+            btn_ChangeLayoutDescription.UseVisualStyleBackColor = true;
+            btn_ChangeLayoutDescription.Click += btn_ChangeLayoutDescription_Click;
+            // 
+            // txt_ChangeLayoutDescription
+            // 
+            txt_ChangeLayoutDescription.Location = new Point(7, 148);
+            txt_ChangeLayoutDescription.Multiline = true;
+            txt_ChangeLayoutDescription.Name = "txt_ChangeLayoutDescription";
+            txt_ChangeLayoutDescription.ScrollBars = ScrollBars.Vertical;
+            txt_ChangeLayoutDescription.Size = new Size(207, 187);
+            txt_ChangeLayoutDescription.TabIndex = 14;
+            txt_ChangeLayoutDescription.TextChanged += txt_ChangeLayoutDescription_TextChanged;
+            // 
+            // lbl_ChangeLayoutDescription
+            // 
+            lbl_ChangeLayoutDescription.AutoSize = false;
+            lbl_ChangeLayoutDescription.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbl_ChangeLayoutDescription.ForeColor = Color.Navy;
+            lbl_ChangeLayoutDescription.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_ChangeLayoutDescription.Location = new Point(26, 112);
+            lbl_ChangeLayoutDescription.Name = "lbl_ChangeLayoutDescription";
+            lbl_ChangeLayoutDescription.Size = new Size(169, 33);
+            lbl_ChangeLayoutDescription.StateCommon.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbl_ChangeLayoutDescription.StateCommon.TextColor = Color.Navy;
+            lbl_ChangeLayoutDescription.Text = "Layout Açıklaması";
+            lbl_ChangeLayoutDescription.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // btn_ChangeLayoutName
+            // 
+            btn_ChangeLayoutName.FlatAppearance.BorderSize = 0;
+            btn_ChangeLayoutName.FlatAppearance.MouseDownBackColor = Color.LightCyan;
+            btn_ChangeLayoutName.FlatAppearance.MouseOverBackColor = Color.FromArgb(192, 255, 255);
+            btn_ChangeLayoutName.FlatStyle = FlatStyle.Popup;
+            btn_ChangeLayoutName.Image = Resources.Resource1.Checked_Checkbox;
+            btn_ChangeLayoutName.Location = new Point(242, 18);
+            btn_ChangeLayoutName.Name = "btn_ChangeLayoutName";
+            btn_ChangeLayoutName.Size = new Size(60, 49);
+            btn_ChangeLayoutName.TabIndex = 11;
+            btn_ChangeLayoutName.UseVisualStyleBackColor = true;
+            btn_ChangeLayoutName.Click += btn_ChangeLayoutName_Click;
+            // 
+            // txt_ChangeLayoutName
+            // 
+            txt_ChangeLayoutName.Location = new Point(7, 49);
+            txt_ChangeLayoutName.Name = "txt_ChangeLayoutName";
+            txt_ChangeLayoutName.Size = new Size(207, 23);
+            txt_ChangeLayoutName.TabIndex = 9;
+            txt_ChangeLayoutName.TextChanged += txt_ChangeLayoutName_TextChanged;
+            // 
             // InnerPanel
             // 
+            InnerPanel.Controls.Add(kryptonBorderEdge3);
             InnerPanel.Controls.Add(LayoutPanel_MenuButtons);
-            InnerPanel.Location = new Point(3, 93);
+            InnerPanel.Location = new Point(3, 353);
             InnerPanel.Name = "InnerPanel";
-            InnerPanel.Size = new Size(302, 584);
+            InnerPanel.Size = new Size(302, 324);
             InnerPanel.TabIndex = 7;
+            // 
+            // kryptonBorderEdge3
+            // 
+            kryptonBorderEdge3.Location = new Point(20, 3);
+            kryptonBorderEdge3.Name = "kryptonBorderEdge3";
+            kryptonBorderEdge3.Size = new Size(262, 1);
+            kryptonBorderEdge3.Text = "kryptonBorderEdge3";
             // 
             // LayoutPanel_MenuButtons
             // 
             LayoutPanel_MenuButtons.Controls.Add(btn_Layout_Duzenle);
             LayoutPanel_MenuButtons.Controls.Add(btn_Sil);
-            LayoutPanel_MenuButtons.Controls.Add(btn_Isim_Degistir);
-            LayoutPanel_MenuButtons.Controls.Add(btn_Aciklama_Degistir);
-            LayoutPanel_MenuButtons.Location = new Point(14, 82);
+            LayoutPanel_MenuButtons.Controls.Add(btn_Layout_Yukle);
+            LayoutPanel_MenuButtons.Location = new Point(14, 18);
             LayoutPanel_MenuButtons.Name = "LayoutPanel_MenuButtons";
-            LayoutPanel_MenuButtons.Size = new Size(274, 421);
+            LayoutPanel_MenuButtons.Size = new Size(274, 288);
             LayoutPanel_MenuButtons.TabIndex = 2;
             // 
             // btn_Layout_Duzenle
@@ -170,7 +267,7 @@
             btn_Layout_Duzenle.FlatStyle = FlatStyle.Flat;
             btn_Layout_Duzenle.Location = new Point(3, 3);
             btn_Layout_Duzenle.Name = "btn_Layout_Duzenle";
-            btn_Layout_Duzenle.Size = new Size(268, 99);
+            btn_Layout_Duzenle.Size = new Size(268, 90);
             btn_Layout_Duzenle.TabIndex = 2;
             btn_Layout_Duzenle.Text = "Layout'u Düzenle";
             btn_Layout_Duzenle.UseVisualStyleBackColor = true;
@@ -179,49 +276,38 @@
             // btn_Sil
             // 
             btn_Sil.FlatStyle = FlatStyle.Flat;
-            btn_Sil.Location = new Point(3, 108);
+            btn_Sil.Location = new Point(3, 99);
             btn_Sil.Name = "btn_Sil";
-            btn_Sil.Size = new Size(268, 99);
+            btn_Sil.Size = new Size(268, 90);
             btn_Sil.TabIndex = 3;
             btn_Sil.Text = "Sil";
             btn_Sil.UseVisualStyleBackColor = true;
             btn_Sil.Click += btn_Sil_Click;
             // 
-            // btn_Isim_Degistir
+            // btn_Layout_Yukle
             // 
-            btn_Isim_Degistir.FlatStyle = FlatStyle.Flat;
-            btn_Isim_Degistir.Location = new Point(3, 213);
-            btn_Isim_Degistir.Name = "btn_Isim_Degistir";
-            btn_Isim_Degistir.Size = new Size(268, 99);
-            btn_Isim_Degistir.TabIndex = 4;
-            btn_Isim_Degistir.Text = "İsmini Değiştir";
-            btn_Isim_Degistir.UseVisualStyleBackColor = true;
-            btn_Isim_Degistir.Click += btn_Isim_Degistir_Click;
+            btn_Layout_Yukle.FlatStyle = FlatStyle.Flat;
+            btn_Layout_Yukle.Location = new Point(3, 195);
+            btn_Layout_Yukle.Name = "btn_Layout_Yukle";
+            btn_Layout_Yukle.Size = new Size(268, 90);
+            btn_Layout_Yukle.TabIndex = 4;
+            btn_Layout_Yukle.Text = "Yükle";
+            btn_Layout_Yukle.UseVisualStyleBackColor = true;
+            btn_Layout_Yukle.Click += btn_Layout_Yukle_Click;
             // 
-            // btn_Aciklama_Degistir
+            // lbl_ChangeLayoutName
             // 
-            btn_Aciklama_Degistir.FlatStyle = FlatStyle.Flat;
-            btn_Aciklama_Degistir.Location = new Point(3, 318);
-            btn_Aciklama_Degistir.Name = "btn_Aciklama_Degistir";
-            btn_Aciklama_Degistir.Size = new Size(268, 99);
-            btn_Aciklama_Degistir.TabIndex = 5;
-            btn_Aciklama_Degistir.Text = "Açıklamasını Değiştir";
-            btn_Aciklama_Degistir.UseVisualStyleBackColor = true;
-            btn_Aciklama_Degistir.Click += btn_Aciklama_Degistir_Click;
-            // 
-            // lbl_Layout_Name
-            // 
-            lbl_Layout_Name.AutoSize = false;
-            lbl_Layout_Name.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbl_Layout_Name.ForeColor = Color.Navy;
-            lbl_Layout_Name.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Layout_Name.Location = new Point(10, 21);
-            lbl_Layout_Name.Name = "lbl_Layout_Name";
-            lbl_Layout_Name.Size = new Size(288, 52);
-            lbl_Layout_Name.StateCommon.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbl_Layout_Name.StateCommon.TextColor = Color.Navy;
-            lbl_Layout_Name.Text = "Layout İsmi";
-            lbl_Layout_Name.TextAlign = ContentAlignment.MiddleCenter;
+            lbl_ChangeLayoutName.AutoSize = false;
+            lbl_ChangeLayoutName.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbl_ChangeLayoutName.ForeColor = Color.Navy;
+            lbl_ChangeLayoutName.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_ChangeLayoutName.Location = new Point(29, 16);
+            lbl_ChangeLayoutName.Name = "lbl_ChangeLayoutName";
+            lbl_ChangeLayoutName.Size = new Size(154, 30);
+            lbl_ChangeLayoutName.StateCommon.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbl_ChangeLayoutName.StateCommon.TextColor = Color.Navy;
+            lbl_ChangeLayoutName.Text = "Layout İsmi";
+            lbl_ChangeLayoutName.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lbl_LayoutMenu_Title
             // 
@@ -236,6 +322,10 @@
             lbl_LayoutMenu_Title.StateCommon.TextColor = Color.Red;
             lbl_LayoutMenu_Title.Text = "Seçilen Layout";
             lbl_LayoutMenu_Title.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // errorProvider
+            // 
+            errorProvider.ContainerControl = this;
             // 
             // SelectLayouts
             // 
@@ -252,8 +342,11 @@
             contextMenuStrip.ResumeLayout(false);
             panel_LayoutMenu.ResumeLayout(false);
             InnerPanel1.ResumeLayout(false);
+            InnerPanel1.PerformLayout();
             InnerPanel.ResumeLayout(false);
+            InnerPanel.PerformLayout();
             LayoutPanel_MenuButtons.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)errorProvider).EndInit();
             ResumeLayout(false);
         }
 
@@ -272,10 +365,18 @@
         private FlowLayoutPanel LayoutPanel_MenuButtons;
         private Button btn_Layout_Duzenle;
         private Button btn_Sil;
-        private Button btn_Isim_Degistir;
         private Panel InnerPanel1;
-        private Button btn_Aciklama_Degistir;
-        private Krypton.Toolkit.KryptonWrapLabel lbl_Layout_Name;
+        private Krypton.Toolkit.KryptonWrapLabel lbl_ChangeLayoutName;
         private Panel InnerPanel;
+        private TextBox txt_ChangeLayoutName;
+        private Button btn_ChangeLayoutName;
+        private Krypton.Toolkit.KryptonWrapLabel lbl_ChangeLayoutDescription;
+        private Button btn_ChangeLayoutDescription;
+        private TextBox txt_ChangeLayoutDescription;
+        private Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge1;
+        private Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge2;
+        private Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge3;
+        private Button btn_Layout_Yukle;
+        private ErrorProvider errorProvider;
     }
 }

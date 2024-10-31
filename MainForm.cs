@@ -1340,7 +1340,7 @@ namespace Balya_Yerleştirme
                     Models.Layout newLayout = new Models.Layout(LayoutName, LayoutDescription, 0);
                     context.Layout.Add(newLayout);
                     context.SaveChanges();
-                    newLayout.LayoutId = newLayout.LayoutId;
+                    ambar.LayoutId = newLayout.LayoutId;
 
 
                     Ambar newAmbar = new Ambar(newLayout.LayoutId, "Ambar", "Ambar",
@@ -1430,7 +1430,7 @@ namespace Balya_Yerleştirme
                                 reff.Rectangle.Height, reff.OriginalRectangle.X,
                                 reff.OriginalRectangle.Y, reff.OriginalRectangle.Width,
                                 reff.OriginalRectangle.Height, reff.Zoomlevel,
-                                4);
+                                4, reff.OriginalLocationInsideParent.X, reff.OriginalLocationInsideParent.Y);
 
                             await context.ConveyorReferencePoints.AddAsync(point);
                             await context.SaveChangesAsync();
@@ -2292,6 +2292,7 @@ namespace Balya_Yerleştirme
                             context.SaveChanges();
                         }
                     }
+
                     using (var context = new DBContext())
                     {
                         var depo1 = (from x in context.Depos
@@ -2597,6 +2598,7 @@ namespace Balya_Yerleştirme
                                 point.ParentConveyor = newConveyor;
                                 point.Pointsize = 4;
                                 point.AmbarId = ambar.AmbarId;
+                                point.OriginalLocationInsideParent = new PointF(reff.OriginalLocationInsideParentX, reff.OriginalLocationInsideParentY);
 
                                 newConveyor.ConveyorReferencePoints.Add(point);
                             }

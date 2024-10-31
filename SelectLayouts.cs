@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GUI_Library;
+using String_Library;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Microsoft.Web.WebView2.Core;
 using DocumentFormat.OpenXml.Drawing;
@@ -26,6 +27,8 @@ using System.Security.Policy;
 using static Balya_Yerleştirme.Utilities.Utils;
 using Microsoft.Identity.Client;
 using CustomNotification;
+using Krypton.Toolkit;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
 
 namespace Balya_Yerleştirme
 {
@@ -48,7 +51,13 @@ namespace Balya_Yerleştirme
 
         public System.Drawing.Point PointSelectLayoutPanel = new System.Drawing.Point(12, 70);
 
-        public bool notClicked { get; set; } = false;
+        public System.Drawing.Point Btn_ChangeLayoutDescLocation = new System.Drawing.Point(242, 217);
+
+        public System.Drawing.Point Btn_ChangeLayoutNameLocation = new System.Drawing.Point(242, 18);
+
+        public System.Drawing.Point SmallTitleLocation = new System.Drawing.Point(426, 9);
+
+        public System.Drawing.Point LargeTitleLocation = new System.Drawing.Point(595, 9);
 
         public SelectLayouts(Panel drawingPanel, MainForm main)
         {
@@ -58,6 +67,9 @@ namespace Balya_Yerleştirme
             this.Main = main;
             DrawingPanel = drawingPanel;
             GVisual.HideControl(SelectLayoutPanel, this);
+            GVisual.HideControl(btn_ChangeLayoutName, InnerPanel1);
+            GVisual.HideControl(btn_ChangeLayoutDescription, InnerPanel1);
+            GVisual.HideControl(panel_LayoutMenu, this);
             GVisual.ShowControl(progressBarPanel, this, PointProgressBar);
             GetLayoutsFromDB();
         }
@@ -198,13 +210,13 @@ namespace Balya_Yerleştirme
                             newReff.OriginalKareY = reff.OriginalKareY;
                             newReff.OriginalKareEni = reff.OriginalKareEni;
                             newReff.OriginalKareBoyu = reff.OriginalKareBoyu;
-                            newReff.OriginalLocationInsideParent = reff.OriginalLocationInsideParent;
                             newReff.FixedPointLocation = reff.FixedPointLocation;
                             newReff.ConveyorId = reff.ConveyorId;
                             newReff.ReferenceId = reff.ReferenceId;
                             newReff.Pointsize = reff.Pointsize;
                             newReff.LocationX = reff.LocationX;
                             newReff.LocationY = reff.LocationY;
+                            newReff.OriginalLocationInsideParent = new PointF(reff.OriginalLocationInsideParentX, reff.OriginalLocationInsideParentY);
 
                             newConveyor.ConveyorReferencePoints.Add(newReff);
                         }
@@ -415,7 +427,7 @@ namespace Balya_Yerleştirme
 
                     PictureBox pictureBox = new PictureBox();
                     pictureBox.Size = new System.Drawing.Size(550, 500);
-                    pictureBox.Location = new System.Drawing.Point(100, 100);
+                    pictureBox.Location = new System.Drawing.Point(100, 50);
                     pictureBox.BorderStyle = BorderStyle.FixedSingle;
                     GVisual.SetDoubleBuffered(pictureBox);
 
@@ -431,6 +443,7 @@ namespace Balya_Yerleştirme
                     Krypton.Toolkit.KryptonWrapLabel LayoutTitle = new Krypton.Toolkit.KryptonWrapLabel();
                     LayoutTitle.MaximumSize = new System.Drawing.Size(300, 30);
                     LayoutTitle.MinimumSize = new System.Drawing.Size(100, 30);
+                    LayoutTitle.AccessibleName = "Layout Name";
                     LayoutTitle.TextAlign = ContentAlignment.MiddleCenter;
                     LayoutTitle.AutoSize = true;
                     LayoutTitle.Text = $"{Layout.Name}";
@@ -438,19 +451,23 @@ namespace Balya_Yerleştirme
                     LayoutTitle.StateCommon.TextColor = System.Drawing.Color.Red;
                     LayoutTitle.StateCommon.Font = new System.Drawing.Font("Arial", 16);
 
-                    Krypton.Toolkit.KryptonWrapLabel LayoutDesc = new Krypton.Toolkit.KryptonWrapLabel();
+                    System.Windows.Forms.RichTextBox LayoutDesc = new System.Windows.Forms.RichTextBox();
 
-                    LayoutDesc.Size = new System.Drawing.Size(300, 50);
-
-                    LayoutDesc.TextAlign = ContentAlignment.MiddleCenter;
+                    LayoutDesc.Size = new System.Drawing.Size(450, 180);
+                    LayoutDesc.MaximumSize = new System.Drawing.Size(450, 180);
+                    LayoutDesc.MinimumSize = new System.Drawing.Size(300, 100);
+                    LayoutDesc.AccessibleName = "Layout Desc";
+                    LayoutDesc.ReadOnly = true;
+                    LayoutDesc.WordWrap = true;
+                    LayoutDesc.Dock = DockStyle.Fill;
+                    LayoutDesc.BackColor = System.Drawing.Color.Azure;
                     LayoutDesc.Text = $"{Layout.Description}";
-                    LayoutDesc.Location = new System.Drawing.Point(25, 25);
                     LayoutDesc.ForeColor = System.Drawing.Color.Black;
                     LayoutDesc.Font = new System.Drawing.Font("Arial", 12);
 
                     Panel panelDescription = new Panel();
-                    panelDescription.Size = new System.Drawing.Size(LayoutDesc.Width + 50, LayoutDesc.Height + 50);
-                    panelDescription.AutoScroll = true;
+                    panelDescription.Size = new System.Drawing.Size(LayoutDesc.Width, LayoutDesc.Height);
+                    //panelDescription.AutoScroll = true;
                     panelDescription.BackColor = System.Drawing.Color.Azure;
                     panelDescription.BorderStyle = BorderStyle.Fixed3D;
                     panelDescription.Location = new System.Drawing.Point(pictureBox.Left + (pictureBox.Width / 2 - panelDescription.Width / 2), pictureBox.Bottom);
@@ -470,14 +487,14 @@ namespace Balya_Yerleştirme
                     {
                         conveyor.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(conveyor.Rectangle, DrawingPanel.ClientRectangle, pictureBox.ClientRectangle);
 
-                        conveyor.SelectLayoutRectangle = new RectangleF(conveyor.SelectLayoutRectangle.X - MoveX,      conveyor.SelectLayoutRectangle.Y, conveyor.SelectLayoutRectangle.Width,
+                        conveyor.SelectLayoutRectangle = new RectangleF(conveyor.SelectLayoutRectangle.X - MoveX, conveyor.SelectLayoutRectangle.Y, conveyor.SelectLayoutRectangle.Width,
                         conveyor.SelectLayoutRectangle.Height);
 
                         foreach (var reff in conveyor.ConveyorReferencePoints)
                         {
                             reff.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(reff.Rectangle, DrawingPanel.ClientRectangle, pictureBox.ClientRectangle);
 
-                            reff.SelectLayoutRectangle = new RectangleF(reff.SelectLayoutRectangle.X - MoveX, reff.SelectLayoutRectangle.Y,  reff.SelectLayoutRectangle.Width,
+                            reff.SelectLayoutRectangle = new RectangleF(reff.SelectLayoutRectangle.X - MoveX, reff.SelectLayoutRectangle.Y, reff.SelectLayoutRectangle.Width,
                         reff.SelectLayoutRectangle.Height);
 
                         }
@@ -566,7 +583,71 @@ namespace Balya_Yerleştirme
                 {
                     SelectedPB = pictureBox;
                     SelectedPB.BackColor = System.Drawing.Color.LightCyan;
+
+                    SetLayoutDescandNametoTextBoxes(SelectLayoutPanel, pictureBox, lbl_LayoutMenu_Title, txt_ChangeLayoutName, txt_ChangeLayoutDescription);
+                    string layoutName = getLayoutNameFromPanel(SelectLayoutPanel, pictureBox, true);
                     OpenRightSide((Ambar)pictureBox.Tag);
+                    lbl_Layout_Sec_Title.Location = SmallTitleLocation;
+                    lbl_Layout_Sec_Title.Text = $"{layoutName}";
+                }
+            }
+        }
+
+        private void SetLayoutDescandNametoTextBoxes(FlowLayoutPanel FlowPanel, PictureBox pictureBox, KryptonWrapLabel? lbl_ToWriteLayoutName, System.Windows.Forms.TextBox? txt_ToWriteLayoutName, System.Windows.Forms.TextBox? txt_ToWriteLayoutDesc)
+        {
+            foreach (var panel in FlowPanel.Controls)
+            {
+                if (panel is Panel)
+                {
+                    Panel panel1 = (Panel)panel;
+
+                    if (panel1.Controls.Contains(pictureBox))
+                    {
+                        foreach (var control in panel1.Controls)
+                        {
+                            if (control is Krypton.Toolkit.KryptonWrapLabel)
+                            {
+                                Krypton.Toolkit.KryptonWrapLabel txt = (KryptonWrapLabel)(control);
+
+                                if (txt.AccessibleName == "Layout Name")
+                                {
+                                    if (lbl_ToWriteLayoutName != null && txt_ToWriteLayoutName != null)
+                                    {
+                                        lbl_ToWriteLayoutName.Text = txt.Text;
+                                        txt_ToWriteLayoutName.Text = txt.Text;
+                                    }
+                                    else if (lbl_ToWriteLayoutName != null && txt_ToWriteLayoutName == null)
+                                    {
+                                        lbl_ToWriteLayoutName.Text = txt.Text;
+                                    }
+                                    else if (txt_ToWriteLayoutName != null && lbl_ToWriteLayoutName == null)
+                                    {
+                                        txt_ToWriteLayoutName.Text = txt.Text;
+                                    }
+                                }
+                            }
+                            else if (control is Panel)
+                            {
+                                Panel descPanel = (Panel)control;
+
+                                foreach (var txt in descPanel.Controls)
+                                {
+                                    if (txt is System.Windows.Forms.RichTextBox)
+                                    {
+                                        System.Windows.Forms.RichTextBox txt1 = (System.Windows.Forms.RichTextBox)txt;
+
+                                        if (txt1.AccessibleName == "Layout Desc")
+                                        {
+                                            if (txt_ToWriteLayoutDesc != null)
+                                            {
+                                                txt_ToWriteLayoutDesc.Text = txt1.Text;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -639,7 +720,8 @@ namespace Balya_Yerleştirme
 
                 foreach (var reff in conveyor.ConveyorReferencePoints)
                 {
-                    reff.Draw(g);
+                    g.DrawRectangle(new Pen(System.Drawing.Color.Red), reff.SelectLayoutRectangle);
+                    g.FillRectangle(new SolidBrush(System.Drawing.Color.Red), reff.SelectLayoutRectangle);
                 }
             }
         }
@@ -803,8 +885,7 @@ namespace Balya_Yerleştirme
         private void OpenRightSide(Ambar? ambar)
         {
             SelectLayoutPanel.Size = MainPanelSmallSize;
-            panel_LayoutMenu.Location = rightPanelLocation;
-            this.Controls.Add(panel_LayoutMenu);
+            GVisual.ShowControl(panel_LayoutMenu, this, rightPanelLocation);
 
             foreach (var pb in SelectLayoutPanel.Controls)
             {
@@ -831,7 +912,7 @@ namespace Balya_Yerleştirme
         private void CloseRightSide(Ambar? ambar)
         {
             SelectLayoutPanel.Size = MainPanelLargeSize;
-            this.Controls.Remove(panel_LayoutMenu);
+            GVisual.HideControl(panel_LayoutMenu, this);
 
             foreach (var pb in SelectLayoutPanel.Controls)
             {
@@ -880,6 +961,8 @@ namespace Balya_Yerleştirme
                             if (isinside)
                             {
                                 CloseRightSide(ambar);
+                                lbl_Layout_Sec_Title.Location = LargeTitleLocation;
+                                lbl_Layout_Sec_Title.Text = $"Layout Seçin";
                                 isinside = false;
                             }
                             picture.BackColor = System.Drawing.Color.White;
@@ -953,152 +1036,6 @@ namespace Balya_Yerleştirme
             }
         }
 
-        //private void btn_Layout_Duzenle_Click(object sender, EventArgs e)
-        //{
-        //    RectangleF AmbarRect = new RectangleF();
-        //    List<Depo> depos = new List<Depo>();
-        //    List<Models.Cell> cells = new List<Models.Cell>();
-
-        //    List<Conveyor> conveyors = new List<Conveyor>();
-        //    List<ConveyorReferencePoint> conveyorReffs = new List<ConveyorReferencePoint>();
-
-        //    bool isDepoEmpty = true;
-
-        //    Ambar ambar1 = (Ambar)SelectedPB.Tag;
-
-        //    foreach (var depo1 in ambar1.depolar)
-        //    {
-        //        depos.Add(depo1);
-        //    }
-
-
-        //    if (SelectedPB != null)
-        //    {
-        //        Ambar ambar = (Ambar)SelectedPB.Tag;
-
-        //        if (ambar != null)
-        //        {
-        //            AmbarRect = ambar.Rectangle;
-
-        //            LayoutOlusturma layout = null;
-
-        //            foreach (var depo in ambar.depolar)
-        //            {
-        //                foreach (var cell in depo.gridmaps)
-        //                {
-        //                    if (cell.items.Count > 0)
-        //                    {
-        //                        isDepoEmpty = false;
-        //                    }
-        //                }
-        //            }
-
-        //            if (isDepoEmpty)
-        //            {
-        //                layout = new LayoutOlusturma(Main, ambar);
-
-        //                foreach (var depo in ambar.depolar)
-        //                {
-        //                    depo.layout = layout;
-
-        //                    foreach (var cell in depo.gridmaps)
-        //                    {
-        //                        cells.Add(cell);
-        //                        cell.Layout = layout;
-        //                    }
-        //                }
-        //                foreach (var conveyor in ambar.conveyors)
-        //                {
-        //                    conveyors.Add(conveyor);
-        //                    conveyor.layout = layout;
-
-        //                    foreach (var reff in conveyor.ConveyorReferencePoints)
-        //                    {
-        //                        conveyorReffs.Add(reff);
-        //                        reff.Layout = layout;
-        //                    }
-        //                }
-        //            }
-        //            else
-        //            {
-        //                CustomNotifyIcon notify = new CustomNotifyIcon();
-        //                notify.showAlert("İçinde Nesneler olan bir layout'u değiştiremezsiniz.", CustomNotifyIcon.enmType.Warning);
-        //            }
-
-        //            if (layout != null)
-        //            {
-        //                if (layout.ShowDialog() == DialogResult.OK)
-        //                {
-        //                    ambar.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(ambar.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
-        //                    float BeforeX = ambar.SelectLayoutRectangle.X;
-
-        //                    ambar.SelectLayoutRectangle = GVisual.CenterRectangletoParentRectangle(ambar.SelectLayoutRectangle, SelectedPB.ClientRectangle);
-
-        //                    float AfterX = ambar.SelectLayoutRectangle.X;
-
-        //                    float MoveX = BeforeX - AfterX;
-
-        //                    foreach (var conveyor in ambar.conveyors)
-        //                    {
-        //                        conveyor.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(conveyor.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
-
-        //                        conveyor.SelectLayoutRectangle = new RectangleF(conveyor.SelectLayoutRectangle.X - MoveX, conveyor.SelectLayoutRectangle.Y, conveyor.SelectLayoutRectangle.Width,
-        //                        conveyor.SelectLayoutRectangle.Height);
-
-        //                        foreach (var reff in conveyor.ConveyorReferencePoints)
-        //                        {
-        //                            reff.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(reff.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
-
-        //                            reff.SelectLayoutRectangle = new RectangleF(reff.SelectLayoutRectangle.X - MoveX, reff.SelectLayoutRectangle.Y, reff.SelectLayoutRectangle.Width,
-        //                        reff.SelectLayoutRectangle.Height);
-        //                        }
-        //                    }
-
-        //                    foreach (var depo in ambar.depolar)
-        //                    {
-        //                        depo.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(depo.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
-
-        //                        depo.SelectLayoutRectangle = new RectangleF(depo.SelectLayoutRectangle.X - MoveX, depo.SelectLayoutRectangle.Y, depo.SelectLayoutRectangle.Width,
-        //                        depo.SelectLayoutRectangle.Height);
-
-        //                        foreach (var cell in depo.gridmaps)
-        //                        {
-        //                            cell.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(cell.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
-
-        //                            cell.SelectLayoutRectangle = new RectangleF(cell.SelectLayoutRectangle.X - MoveX, cell.SelectLayoutRectangle.Y, cell.SelectLayoutRectangle.Width,
-        //                       cell.SelectLayoutRectangle.Height);
-
-        //                            foreach (var item in cell.items)
-        //                            {
-        //                                item.SelectLayoutRectangle = GVisual.RatioRectangleBetweenTwoParentRectangles(item.Rectangle, layout.drawingPanel.ClientRectangle, SelectedPB.ClientRectangle);
-
-        //                                item.SelectLayoutRectangle = new RectangleF(item.SelectLayoutRectangle.X - MoveX, item.SelectLayoutRectangle.Y, item.SelectLayoutRectangle.Width,
-        //                       item.SelectLayoutRectangle.Height);
-        //                            }
-        //                        }
-        //                    }
-        //                    SelectedPB.Invalidate();
-        //                }
-        //                else
-        //                {
-        //                    ambar = layout.Ambar;
-
-        //                    foreach (var depo in ambar.depolar)
-        //                    {
-        //                        foreach (var depo1 in depos)
-        //                        {
-        //                            if (depo == depo1)
-        //                            {
-        //                                depo.Rectangle = depo1.Rectangle;
-        //                            }
-        //                        }
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-
         private void btn_Layout_Duzenle_Click(object sender, EventArgs e)
         {
             RectangleF AmbarRect = new RectangleF();
@@ -1164,10 +1101,15 @@ namespace Balya_Yerleştirme
 
                     if (isDepoEmpty)
                     {
+
                         layout = new LayoutOlusturma(Main, ambar);
+
+                        ambar.layout = layout;
+                        layout.AlanNode.Tag = ambar;
                         foreach (var depo in ambar.depolar)
                         {
                             depo.layout = layout;
+                            layout.AddDepoNode(depo);
                             foreach (var cell in depo.gridmaps)
                             {
                                 cells.Add(cell);
@@ -1178,6 +1120,7 @@ namespace Balya_Yerleştirme
                         {
                             conveyors.Add(conveyor);
                             conveyor.layout = layout;
+                            layout.AddConveyorNode(conveyor);
                             foreach (var reff in conveyor.ConveyorReferencePoints)
                             {
                                 conveyorReffs.Add(reff);
@@ -1274,17 +1217,347 @@ namespace Balya_Yerleştirme
 
         private void btn_Sil_Click(object sender, EventArgs e)
         {
+            List<System.Windows.Forms.Control> panels = new List<System.Windows.Forms.Control>();
+            using (var context = new DBContext())
+            {
+                Ambar ambar = (Ambar)SelectedPB.Tag;
+                var layout = (from x in context.Layout
+                              where x.LayoutId == ambar.LayoutId
+                              select x).FirstOrDefault();
+
+                var firstResult = MessageBox.Show($"{layout.Name} isimli Layout'u silmek istiyor musunuz?",
+                    "Devam etmek istiyor musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (firstResult == DialogResult.Yes)
+                {
+                    if (ambar != null)
+                    {
+                        if (Main.ambar != null)
+                        {
+                            if (ambar.AmbarId == Main.ambar.AmbarId)
+                            {
+                                var result = MessageBox.Show("Şu an yüklü olan Layout'u silmek istiyor musunuz?",
+                                    "Devam etmek istiyor musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                                if (result == DialogResult.Yes)
+                                {
+                                    if (layout != null)
+                                    {
+                                        context.Layout.Remove(layout);
+                                        context.SaveChanges();
+                                    }
+
+                                    foreach (Panel panel in SelectLayoutPanel.Controls)
+                                    {
+                                        foreach (var pb in panel.Controls)
+                                        {
+                                            if (pb == SelectedPB)
+                                            {
+                                                panels.Add(panel);
+                                            }
+                                        }
+                                    }
+                                    foreach (var panel in panels)
+                                    {
+                                        SelectLayoutPanel.Controls.Remove(panel);
+                                        SelectedPB = null;
+                                        Main.ambar = null;
+                                        if (Main.infopanel.Visible)
+                                        {
+                                            GVisual.HideControl(Main.infopanel, Main.DrawingPanel);
+                                        }
+                                        Main.DrawingPanel.Invalidate();
+                                    }
+                                    CloseRightSide(ambar);
+                                }
+                            }
+                            else
+                            {
+                                if (layout != null)
+                                {
+                                    context.Layout.Remove(layout);
+                                    context.SaveChanges();
+                                }
+
+                                foreach (Panel panel in SelectLayoutPanel.Controls)
+                                {
+                                    foreach (var pb in panel.Controls)
+                                    {
+                                        if (pb == SelectedPB)
+                                        {
+                                            panels.Add(panel);
+                                        }
+                                    }
+                                }
+                                foreach (var panel in panels)
+                                {
+                                    SelectLayoutPanel.Controls.Remove(panel);
+                                    SelectedPB = null;
+                                }
+                                CloseRightSide(ambar);
+                            }
+                        }
+                        else
+                        {
+                            if (layout != null)
+                            {
+                                context.Layout.Remove(layout);
+                                context.SaveChanges();
+                            }
+
+                            foreach (Panel panel in SelectLayoutPanel.Controls)
+                            {
+                                foreach (var pb in panel.Controls)
+                                {
+                                    if (pb == SelectedPB)
+                                    {
+                                        panels.Add(panel);
+                                    }
+                                }
+                            }
+                            foreach (var panel in panels)
+                            {
+                                SelectLayoutPanel.Controls.Remove(panel);
+                                SelectedPB = null;
+                            }
+                            CloseRightSide(ambar);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void txt_ChangeLayoutName_TextChanged(object sender, EventArgs e)
+        {
+            if (this.Controls.Contains(panel_LayoutMenu))
+            {
+                GVisual.ShowControl(btn_ChangeLayoutName, InnerPanel1);
+            }
+
+            if (txt_ChangeLayoutName.Text.Length == 0)
+            {
+                GVisual.HideControl(btn_ChangeLayoutName, InnerPanel1);
+            }
+        }
+
+        private void txt_ChangeLayoutDescription_TextChanged(object sender, EventArgs e)
+        {
+            if (this.Controls.Contains(panel_LayoutMenu))
+            {
+                GVisual.ShowControl(btn_ChangeLayoutDescription, InnerPanel1);
+            }
+
+            if (txt_ChangeLayoutDescription.Text.Length == 0)
+            {
+                GVisual.HideControl(btn_ChangeLayoutDescription, InnerPanel1);
+            }
+        }
+
+        private void btn_ChangeLayoutName_Click(object sender, EventArgs e)
+        {
+            errorProvider.Clear();
+
+            string layout_name = txt_ChangeLayoutName.Text;
+
+            if (string.IsNullOrWhiteSpace(layout_name))
+            {
+                errorProvider.SetError(txt_ChangeLayoutName, "Bu alan boş bırakılamaz.");
+            }
+            if (layout_name.Length > 30)
+            {
+                errorProvider.SetError(txt_ChangeLayoutName, "Layout'un ismi 30 karakterden uzun olamaz.");
+            }
+
+            using (var context = new DBContext())
+            {
+                var layout = (from x in context.Layout
+                              where x.Name == layout_name
+                              select x).FirstOrDefault();
+
+                if (layout != null)
+                {
+                    errorProvider.SetError(txt_ChangeLayoutName, "Aynı isimli bir layout zaten bulunuyor lütfen başka bir isim seçin");
+
+                    txt_ChangeLayoutName.Clear();
+                    txt_ChangeLayoutName.Focus();
+                }
+            }
+
+            if (!errorProvider.HasErrors)
+            {
+                string old_LayoutName = getLayoutNameFromPanel(SelectLayoutPanel, SelectedPB, true);
+
+                using (var context = new DBContext())
+                {
+                    var layout = (from x in context.Layout
+                                  where x.Name == old_LayoutName
+                                  select x).FirstOrDefault();
+
+                    if (layout != null)
+                    {
+                        layout.Name = layout_name;
+                        context.SaveChanges();
+                        GVisual.HideControl(btn_ChangeLayoutName, InnerPanel1);
+                        setLayoutNameDesc(SelectLayoutPanel, SelectedPB, true, layout_name);
+                        lbl_LayoutMenu_Title.Text = layout_name;
+
+                        CustomNotifyIcon notify = new CustomNotifyIcon();
+                        notify.showAlert("Layout ismi başarıyla değiştirildi", CustomNotifyIcon.enmType.Success);
+                    }
+                    else
+                    {
+                        CustomNotifyIcon notify = new CustomNotifyIcon();
+                        notify.showAlert("Layout ismi değiştirilemedi", CustomNotifyIcon.enmType.Error);
+                    }
+                }
+            }
 
         }
 
-        private void btn_Isim_Degistir_Click(object sender, EventArgs e)
+        private void btn_ChangeLayoutDescription_Click(object sender, EventArgs e)
         {
+            string layout_Description = txt_ChangeLayoutDescription.Text;
 
+            if (string.IsNullOrWhiteSpace(layout_Description))
+            {
+                errorProvider.SetError(txt_ChangeLayoutDescription, "Bu alan boş bırakılamaz.");
+            }
+
+            if (!errorProvider.HasErrors)
+            {
+                string old_LayoutName = getLayoutNameFromPanel(SelectLayoutPanel, SelectedPB, true);
+
+                using (var context = new DBContext())
+                {
+                    var layout = (from x in context.Layout
+                                  where x.Name == old_LayoutName
+                                  select x).FirstOrDefault();
+
+                    if (layout != null)
+                    {
+                        layout.Description = layout_Description;
+                        context.SaveChanges();
+                        GVisual.HideControl(btn_ChangeLayoutDescription, InnerPanel1);
+                        setLayoutNameDesc(SelectLayoutPanel, SelectedPB, false, layout_Description);
+                        CustomNotifyIcon notify = new CustomNotifyIcon();
+                        notify.showAlert("Layout açıklaması başarıyla değiştirildi", CustomNotifyIcon.enmType.Success);
+                    }
+                    else
+                    {
+                        CustomNotifyIcon notify = new CustomNotifyIcon();
+                        notify.showAlert("Layout açıklaması değiştirilemedi", CustomNotifyIcon.enmType.Error);
+                    }
+                }
+            }
         }
 
-        private void btn_Aciklama_Degistir_Click(object sender, EventArgs e)
+        private void setLayoutNameDesc(FlowLayoutPanel FlowPanel, PictureBox pictureBox, bool isName, string NameDesc)
         {
+            foreach (var panel in FlowPanel.Controls)
+            {
+                if (panel is Panel)
+                {
+                    Panel panel1 = (Panel)panel;
 
+                    if (panel1.Controls.Contains(pictureBox))
+                    {
+                        foreach (var control in panel1.Controls)
+                        {
+                            if (isName)
+                            {
+                                if (control is Krypton.Toolkit.KryptonWrapLabel)
+                                {
+                                    Krypton.Toolkit.KryptonWrapLabel txt = (KryptonWrapLabel)(control);
+
+                                    if (txt.AccessibleName == "Layout Name")
+                                    {
+                                        txt.Text = NameDesc;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (control is Panel)
+                                {
+                                    Panel descPanel = (Panel)control;
+
+                                    foreach (var txt in descPanel.Controls)
+                                    {
+                                        if (txt is System.Windows.Forms.RichTextBox)
+                                        {
+                                            System.Windows.Forms.RichTextBox txt1 = (System.Windows.Forms.RichTextBox)txt;
+
+                                            if (txt1.AccessibleName == "Layout Desc")
+                                            {
+                                                txt1.Text = NameDesc;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private string getLayoutNameFromPanel(FlowLayoutPanel FlowPanel, PictureBox pictureBox, bool isName)
+        {
+            foreach (var panel in FlowPanel.Controls)
+            {
+                if (panel is Panel)
+                {
+                    Panel panel1 = (Panel)panel;
+
+                    if (panel1.Controls.Contains(pictureBox))
+                    {
+                        foreach (var control in panel1.Controls)
+                        {
+                            if (isName)
+                            {
+                                if (control is Krypton.Toolkit.KryptonWrapLabel)
+                                {
+                                    Krypton.Toolkit.KryptonWrapLabel txt = (KryptonWrapLabel)(control);
+
+                                    if (txt.AccessibleName == "Layout Name")
+                                    {
+                                        return txt.Text;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (control is Panel)
+                                {
+                                    Panel descPanel = (Panel)control;
+
+                                    foreach (var txt in descPanel.Controls)
+                                    {
+                                        if (txt is System.Windows.Forms.RichTextBox)
+                                        {
+                                            System.Windows.Forms.RichTextBox txt1 = (System.Windows.Forms.RichTextBox)txt;
+
+                                            if (txt1.AccessibleName == "Layout Desc")
+                                            {
+                                                return txt1.Text;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return string.Empty;
+        }
+
+        private void btn_Layout_Yukle_Click(object sender, EventArgs e)
+        {
+            if (SelectedPB != null)
+            {
+                this.DialogResult = DialogResult.OK;
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ public partial class ConveyorReferencePoint
 
     public ConveyorReferencePoint(int conveyorId, int ambarId, float kareX, float kareY, 
         float kareEni, float kareBoyu, float originalKareX, float originalKareY, float originalKareEni, 
-        float originalKareBoyu, float zoomlevel, float pointsize)
+        float originalKareBoyu, float zoomlevel, float pointsize, float originalLocationInsideParentX, float originalLocationInsideParentY)
     {
         ConveyorId = conveyorId;
         AmbarId = ambarId;
@@ -23,6 +23,8 @@ public partial class ConveyorReferencePoint
         OriginalKareBoyu = originalKareBoyu;
         Zoomlevel = zoomlevel;
         Pointsize = pointsize;
+        this.OriginalLocationInsideParentX = originalLocationInsideParentX;
+        this.OriginalLocationInsideParentY = originalLocationInsideParentY;
     }
 
     public int ReferenceId { get; set; }
@@ -50,6 +52,10 @@ public partial class ConveyorReferencePoint
     public float Zoomlevel { get; set; }
 
     public float Pointsize { get; set; }
+
+    public float OriginalLocationInsideParentX { get; set; }
+
+    public float OriginalLocationInsideParentY { get; set; }
 
     public virtual Conveyor Conveyor { get; set; } = null!;
 }
