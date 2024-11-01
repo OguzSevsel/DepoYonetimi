@@ -54,8 +54,6 @@ namespace Balya_Yerleştirme
         public event EventHandler? PLCBaglantisiniAyarlaButtonClicked;
         public event EventHandler? PLCBaglantisiPaneliniKapat;
         public event EventHandler? ToolStripNesneYerlestirClicked;
-        public event EventHandler? MoveRightEvent;
-        public event EventHandler? MoveLeftEvent;
         #endregion
 
 
@@ -98,6 +96,13 @@ namespace Balya_Yerleştirme
         public Point rightSidePanelLocation { get; set; } = new Point(1528, 91);
         Point ProgressBarPoint = new Point(379, 12);
         Point ProgressBarPointLayoutOlustur = new Point(1423, 8);
+
+        public System.Drawing.Point drawingPanelLeftLocation { get; set; } = new System.Drawing.Point(12, 91);
+        public System.Drawing.Point drawingPanelMiddleLocation { get; set; } = new System.Drawing.Point(373, 91);
+
+        public System.Drawing.Size drawingPanelSmallSize { get; set; } = new System.Drawing.Size(1164, 909);
+        public System.Drawing.Size drawingPanelMiddleSize { get; set; } = new System.Drawing.Size(1522, 909);
+        public System.Drawing.Size drawingPanelLargeSize { get; set; } = new System.Drawing.Size(1880, 909);
         #endregion
 
 
@@ -578,7 +583,7 @@ namespace Balya_Yerleştirme
         }
         #endregion
 
-        
+
 
         //MainPanel's events, that Area rectangles are drawed 
         #region DrawingPanel Events
@@ -927,7 +932,7 @@ namespace Balya_Yerleştirme
                         }
                         foreach (var depo in ambar.depolar)
                         {
-                            
+
                             depo.OriginalDepoSizeWidth = depo.OriginalRectangle.Width;
                             depo.OriginalDepoSizeHeight = depo.OriginalRectangle.Height;
                             depo.KareX = depo.Rectangle.X;
@@ -1473,25 +1478,15 @@ namespace Balya_Yerleştirme
         }
         private void btn_PLC_Connection_Click(object sender, EventArgs e)
         {
-            if (!CheckPanelVisible(PLC_DB_AdressPanel))
-            {
-                PLCBaglantisiniAyarlaButtonClicked?.Invoke(sender, e);
-            }
-
-            if (!PLC_Connection_Panel.Controls.Contains(txt_PLC_IP_Address))
-            {
-                btn_PLC_ConnectionPanel_Kapat_Click(this, EventArgs.Empty);
-            }
-            MainPanelMakeSmaller(DrawingPanel);
-            Point LeftPanelLocation = GVisual.Point_Control_to_LeftSide_ofControl(PLC_DB_AdressPanel, DrawingPanel, 3);
-            GVisual.ShowControl(PLC_DB_AdressPanel, this, LeftPanelLocation);
+            MainPanelOpenLeftSide(leftLayoutPanel, this, leftSidePanelLocation);
+            GVisual.ShowControl(PLC_DB_AdressPanel, leftLayoutPanel);
             DrawingPanel.Invalidate();
         }
         private void btn_PLC_DB_AddressPanel_Kapat_Click(object sender, EventArgs e)
         {
-            GVisual.HideControl(PLC_DB_AdressPanel, this);
-            PLCBaglantisiPaneliniKapat?.Invoke(sender, e);
-            MainPanelMakeBigger(DrawingPanel);
+            MainPanelCloseLeftSide(leftLayoutPanel, this);
+            GVisual.HideControl(PLC_DB_AdressPanel, leftLayoutPanel);
+
             if (PLC_Connection_Panel.Controls.Contains(txt_PLC_IP_Address))
             {
                 btn_PLC_ConnectionPanel_Kapat_Click(this, EventArgs.Empty);
@@ -1500,9 +1495,9 @@ namespace Balya_Yerleştirme
         }
         private void btn_DB_Onayla_Click(object sender, EventArgs e)
         {
-            GVisual.HideControl(PLC_DB_AdressPanel, this);
-            PLCBaglantisiPaneliniKapat?.Invoke(sender, e);
-            MainPanelMakeBigger(DrawingPanel);
+            MainPanelCloseLeftSide(leftLayoutPanel, this);
+            GVisual.HideControl(PLC_DB_AdressPanel, leftLayoutPanel);
+
             if (PLC_Connection_Panel.Controls.Contains(txt_PLC_IP_Address))
             {
                 btn_PLC_ConnectionPanel_Kapat_Click(this, EventArgs.Empty);
@@ -1511,9 +1506,9 @@ namespace Balya_Yerleştirme
         }
         private void btn_DB_Vazgec_Click(object sender, EventArgs e)
         {
-            GVisual.HideControl(PLC_DB_AdressPanel, this);
-            PLCBaglantisiPaneliniKapat?.Invoke(sender, e);
-            MainPanelMakeBigger(DrawingPanel);
+            MainPanelCloseLeftSide(leftLayoutPanel, this);
+            GVisual.HideControl(PLC_DB_AdressPanel, leftLayoutPanel);
+
             if (PLC_Connection_Panel.Controls.Contains(txt_PLC_IP_Address))
             {
                 btn_PLC_ConnectionPanel_Kapat_Click(this, EventArgs.Empty);
@@ -1532,26 +1527,25 @@ namespace Balya_Yerleştirme
             {
                 if (ambar != null)
                 {
-                    if (!PLC_Sim_Panel.Visible && !Nesne_Yerlestirme_First_Panel.Visible && !Nesne_Al_First_Panel.Visible)
+                    if (leftLayoutPanel.Visible && !rightLayoutPanel.Visible)
                     {
-                        GVisual.ShowControl(PLC_Sim_Panel, this, rightSidePanelLocation);
-                        MainPanelMakeSmaller1(DrawingPanel);
+                        MainPanelCloseLeftSide(leftLayoutPanel, this);
+                        MainPanelOpenRightSide(rightLayoutPanel, this, rightSidePanelLocation);
+                        GVisual.ShowControl(PLC_Sim_Panel, rightLayoutPanel);
                     }
-                    else if (!PLC_Sim_Panel.Visible && Nesne_Yerlestirme_First_Panel.Visible && !Nesne_Al_First_Panel.Visible)
+                    else if (!leftLayoutPanel.Visible && rightLayoutPanel.Visible)
                     {
-                        GVisual.HideControl(Nesne_Yerlestirme_First_Panel, this);
-                        GVisual.ShowControl(PLC_Sim_Panel, this, rightSidePanelLocation);
-                        MainPanelMakeSmaller1(DrawingPanel);
+                        EmptyPLCSimPanel();
                     }
-                    else if (!PLC_Sim_Panel.Visible && !Nesne_Yerlestirme_First_Panel.Visible && Nesne_Al_First_Panel.Visible)
+                    else if (!leftLayoutPanel.Visible && !rightLayoutPanel.Visible)
                     {
-                        GVisual.HideControl(Nesne_Al_First_Panel, this);
-                        GVisual.ShowControl(PLC_Sim_Panel, this, rightSidePanelLocation);
-                        MainPanelMakeSmaller1(DrawingPanel);
+                        MainPanelOpenRightSide(rightLayoutPanel, this, rightSidePanelLocation);
+                        GVisual.ShowControl(PLC_Sim_Panel, rightLayoutPanel);
                     }
-                    if (MoveRightEvent != null)
+                    else if (leftLayoutPanel.Visible && rightLayoutPanel.Visible)
                     {
-                        MoveRightEvent.Invoke(sender, e);
+                        MainPanelCloseLeftSide(leftLayoutPanel, this);
+                        EmptyPLCSimPanel();
                     }
                 }
                 else
@@ -1588,25 +1582,8 @@ namespace Balya_Yerleştirme
         {
             if (ambar != null)
             {
-                if (!CheckPanelVisible(PLC_Sim_Panel))
-                {
-                    GVisual.ShowControl(PLC_Sim_Panel, this, rightSidePanelLocation);
-                    MainPanelMakeSmaller1(DrawingPanel);
-                    if (MoveLeftEvent != null)
-                    {
-                        MoveLeftEvent.Invoke(sender, e);
-                    }
-                }
-                else
-                {
-                    GVisual.ShowControl(PLC_Sim_Panel, this, rightSidePanelLocation);
-                    MainPanelMakeSmallest(DrawingPanel);
-                    if (MoveLeftEvent != null)
-                    {
-                        MoveLeftEvent.Invoke(sender, e);
-                    }
-                }
-                DrawingPanel.Invalidate();
+                MainPanelOpenRightSide(rightLayoutPanel, this, rightSidePanelLocation);
+                ShowOnLeftOrRightPanel(PLC_Sim_Panel, rightLayoutPanel);
             }
             else
             {
@@ -1617,20 +1594,9 @@ namespace Balya_Yerleştirme
         //This is the Button that Closes the Simulation Panel for PLC
         private void btn_PLC_Sim_Panel_Kapat_Click(object sender, EventArgs e)
         {
-            if (!CheckPanelVisible(PLC_Sim_Panel))
-            {
-                GVisual.HideControl(PLC_Sim_Panel, this);
-                MainPanelMakeBigger(DrawingPanel);
-                if (MoveRightEvent != null)
-                {
-                    MoveRightEvent.Invoke(sender, e);
-                }
-            }
-            else
-            {
-                GVisual.HideControl(PLC_Sim_Panel, this);
-                MainPanelMakeSmaller(DrawingPanel);
-            }
+            MainPanelCloseRightSide(rightLayoutPanel, this);
+
+            BlinkingCell = null;
             EmptyPLCSimPanel();
             nesneTimer.Stop();
             PLC_Timer.Stop();
@@ -1647,21 +1613,11 @@ namespace Balya_Yerleştirme
                     combo_Tur_Kodu.Items.Add(depo.ItemTuru);
                 }
             }
-            if (!CheckPanelVisible(PLC_Sim_Panel))
-            {
-                Show_ItemPlacementPanel();
-                MainPanelMakeSmallest(DrawingPanel);
-                GVisual.HideControl(Nesne_Yerlestirme_Second_Panel, Nesne_Yerlestirme_First_Panel);
-                if (MoveLeftEvent != null)
-                {
-                    MoveLeftEvent.Invoke(sender, e);
-                }
-            }
-            else
-            {
-                HideEverything();
-                Show_ItemPlacementPanel();
-            }
+
+            MainPanelOpenLeftSide(leftLayoutPanel, this, leftSidePanelLocation);
+            ShowOnLeftOrRightPanel(Nesne_Yerlestirme_First_Panel, leftLayoutPanel);
+
+
             Point point = GVisual.Point_Control_to_BottomSide_ofControl(PLC_Sim_YerSoyle_Panel, btn_PLC_Sim_Nesne_Bul, 10);
             GVisual.ShowControl(PLC_Sim_YerSoyle_Panel, PLC_Sim_Panel, point);
             btn_PLC_Sim_Nesne_Yerlestirildi.Text = "Nesne\nYerleştirildi";
@@ -1782,24 +1738,8 @@ namespace Balya_Yerleştirme
         //This is the Button that Closes Item Placement Panel
         private void btn_Balya_Yerlestirme_Paneli_Kapat_Click(object sender, EventArgs e)
         {
-            if (PLC_Sim_Panel.Visible)
-            {
-                Hide_ItemPlacementPanel();
-                MainPanelMakeSmaller1(DrawingPanel);
-                if (MoveRightEvent != null)
-                {
-                    MoveRightEvent.Invoke(sender, e);
-                }
-            }
-            else
-            {
-                Hide_ItemPlacementPanel();
-                MainPanelMakeBigger(DrawingPanel);
-                if (MoveRightEvent != null)
-                {
-                    MoveRightEvent.Invoke(sender, e);
-                }
-            }
+            MainPanelCloseLeftSide(leftLayoutPanel, this);
+            EmptyItemPlacementPanel();
             nesneTimer.Stop();
             PLC_Timer.Stop();
             DrawingPanel.Invalidate();
@@ -1807,28 +1747,23 @@ namespace Balya_Yerleştirme
         //This is the Button that Cancels Item Placement Process
         private void btn_Balya_Yerlestir_Vazgec_Click(object sender, EventArgs e)
         {
-            if (PLC_Sim_Panel.Visible)
+            if (rightLayoutPanel.Visible)
             {
-                Hide_ItemPlacementPanel();
-                GVisual.HideControl(PLC_Sim_Panel, this);
-                MainPanelMakeBigger(DrawingPanel);
-                if (MoveRightEvent != null)
-                {
-                    MoveRightEvent.Invoke(sender, e);
-                }
+                MainPanelCloseLeftSide(leftLayoutPanel, this);
+                MainPanelCloseRightSide(rightLayoutPanel, this);
             }
             else
             {
-                Hide_ItemPlacementPanel();
-                MainPanelMakeBigger(DrawingPanel);
-                if (MoveRightEvent != null)
-                {
-                    MoveRightEvent.Invoke(sender, e);
-                }
+                MainPanelCloseLeftSide(leftLayoutPanel, this);
             }
             DrawingPanel.Invalidate();
         }
-
+        //This is the Button that Returns to the First Item Placement Process Step
+        private void btn_Nesne_Yerlestir_Vazgec_Click(object sender, EventArgs e)
+        {
+            GVisual.HideControl(PLC_Sim_Yerlestiriliyor_Panel, PLC_Sim_Panel);
+            GVisual.HideControl(Nesne_Al_Second_Panel, Nesne_Al_First_Panel);
+        }
 
 
         //These are the timers that give information to the users
@@ -1857,7 +1792,7 @@ namespace Balya_Yerleştirme
             {
                 PLCCounter++;
 
-                if (PLCCounter > 20)
+                if (PLCCounter > 3)
                 {
                     Point point = GVisual.Point_Control_to_BottomSide_ofControl(PLC_Sim_Nesne_Buttons_Panel, PLC_Sim_Yerlestiriliyor_Panel, 25);
                     GVisual.ShowControl(PLC_Sim_Nesne_Buttons_Panel, PLC_Sim_Panel, point);
@@ -1887,7 +1822,7 @@ namespace Balya_Yerleştirme
                 }
             }
         }
-        
+
 
 
         //These are the Buttons that determines the state of the item placement for Simulation Purposes
@@ -1937,32 +1872,10 @@ namespace Balya_Yerleştirme
                 }
                 NesneKaldır = false;
                 EmptyPLCSimPanel();
+                EmptyItemPlacementPanel();
                 PLC_Timer.Stop();
-                if (PLC_Sim_Panel.Visible && Nesne_Al_First_Panel.Visible)
-                {
-                    if (MoveRightEvent != null)
-                    {
-                        MoveRightEvent.Invoke(sender, e);
-                        MoveRightEvent.Invoke(sender, e);
-                    }
-                }
-                else if (PLC_Sim_Panel.Visible && !Nesne_Al_First_Panel.Visible)
-                {
-                    if (MoveRightEvent != null)
-                    {
-                        MoveRightEvent.Invoke(sender, e);
-                    }
-                }
-                else
-                {
-                    if (MoveRightEvent != null)
-                    {
-                        MoveRightEvent.Invoke(sender, e);
-                    }
-                }
-                GVisual.HideControl(Nesne_Al_First_Panel, this);
-                GVisual.HideControl(PLC_Sim_Panel, this);
-                MainPanelMakeBigger(DrawingPanel);
+                MainPanelCloseLeftSide(leftLayoutPanel, this);
+                MainPanelCloseRightSide(rightLayoutPanel, this);
                 BlinkingCell = null;
                 DrawingPanel.Invalidate();
             }
@@ -1990,33 +1903,10 @@ namespace Balya_Yerleştirme
                     }
                 }
                 PLC_Timer.Stop();
-                if (PLC_Sim_Panel.Visible && Nesne_Yerlestirme_First_Panel.Visible)
-                {
-                    if (MoveRightEvent != null)
-                    {
-                        MoveRightEvent.Invoke(sender, e);
-                        MoveRightEvent.Invoke(sender, e);
-                    }
-                }
-                else if (PLC_Sim_Panel.Visible && !Nesne_Yerlestirme_First_Panel.Visible)
-                {
-                    if (MoveRightEvent != null)
-                    {
-                        MoveRightEvent.Invoke(sender, e);
-                    }
-                }
-                else
-                {
-                    if (MoveRightEvent != null)
-                    {
-                        MoveRightEvent.Invoke(sender, e);
-                        MoveRightEvent.Invoke(sender, e);
-                    }
-                }
-                GVisual.HideControl(Nesne_Yerlestirme_First_Panel, this);
-                GVisual.HideControl(PLC_Sim_Panel, this);
+                MainPanelCloseLeftSide(leftLayoutPanel, this);
+                MainPanelCloseRightSide(rightLayoutPanel, this);
                 EmptyPLCSimPanel();
-                MainPanelMakeBigger(DrawingPanel);
+                EmptyItemPlacementPanel();
                 BlinkingCell = null;
                 DrawingPanel.Invalidate();
             }
@@ -2049,21 +1939,9 @@ namespace Balya_Yerleştirme
         //This is for Starting Item Removal Simulation
         private void btn_PLC_Sim_Nesne_Bul_Click(object sender, EventArgs e)
         {
-            if (!CheckPanelVisible(PLC_Sim_Panel))
-            {
-                GVisual.ShowControl(Nesne_Al_First_Panel, this, leftSidePanelLocation);
-                MainPanelMakeSmallest(DrawingPanel);
-                GVisual.HideControl(Nesne_Al_Second_Panel, Nesne_Al_First_Panel);
-                if (MoveLeftEvent != null)
-                {
-                    MoveLeftEvent.Invoke(sender, e);
-                }
-            }
-            else
-            {
-                HideEverything();
-                Show_ItemPlacementPanel();
-            }
+            MainPanelOpenLeftSide(leftLayoutPanel, this, leftSidePanelLocation);
+            ShowOnLeftOrRightPanel(Nesne_Al_First_Panel, leftLayoutPanel);
+
             Point point = GVisual.Point_Control_to_BottomSide_ofControl(PLC_Sim_YerSoyle_Panel, btn_PLC_Sim_Nesne_Bul, 5);
             GVisual.ShowControl(PLC_Sim_YerSoyle_Panel, PLC_Sim_Panel, point);
             lbl_YerSoyle.Text = "Nesne Aranıyor...";
@@ -2082,6 +1960,11 @@ namespace Balya_Yerleştirme
             item_etiketi = txt_Nesne_Al_Etiket.Text;
             bool nesne_bulunmuyor = true;
 
+            Models.Cell? AlternateCell = null;
+            Models.Item? AlternateItem = null;
+            List<Models.Item> Items = new List<Models.Item>();
+
+
             if (ambar != null)
             {
                 foreach (var depo in ambar.depolar)
@@ -2094,31 +1977,59 @@ namespace Balya_Yerleştirme
 
                             foreach (var item in cell.items)
                             {
-                                if (item.ItemEtiketi == item_etiketi)
+                                if (item.ItemEtiketi == item_etiketi && item == cell.items.Last())
                                 {
-                                    if (item == cell.items.Last())
+                                    BlinkingCell = cell;
+                                    lbl_Nesne_Al_Tur_Kodu_Value.Text = $"{depo.ItemTuru}";
+                                    lbl_Nesne_Al_Aciklama_Value.Text = $"{item.ItemAciklamasi}";
+                                    lbl_Nesne_Al_Agirlik_Value.Text = $"{item.ItemAgirligi}";
+                                    lbl_Nesne_Al_Nesne_X_Value.Text = $"{item.Cm_X_Axis} cm";
+                                    lbl_Nesne_Al_Nesne_Y_Value.Text = $"{item.Cm_Y_Axis} cm";
+                                    lbl_Nesne_Al_Nesne_Z_Value.Text = $"{item.Cm_Z_Axis} cm";
+                                    nesneTimer.Start();
+                                    Point point = GVisual.Point_Control_to_BottomSide_ofControl(Nesne_Al_Second_Panel, BorderEdge_NesneAl, 5);
+                                    GVisual.ShowControl(Nesne_Al_Second_Panel, Nesne_Al_First_Panel, point);
+                                    if (!PLC_Sim_YerSoyle_Panel.Visible)
                                     {
-                                        BlinkingCell = cell;
-                                        lbl_Nesne_Al_Tur_Kodu_Value.Text = $"{depo.ItemTuru}";
-                                        lbl_Nesne_Al_Aciklama_Value.Text = $"{item.ItemAciklamasi}";
-                                        lbl_Nesne_Al_Agirlik_Value.Text = $"{item.ItemAgirligi}";
-                                        lbl_Nesne_Al_Nesne_X_Value.Text = $"{item.Cm_X_Axis} cm";
-                                        lbl_Nesne_Al_Nesne_Y_Value.Text = $"{item.Cm_Y_Axis} cm";
-                                        lbl_Nesne_Al_Nesne_Z_Value.Text = $"{item.Cm_Z_Axis} cm";
-                                        nesneTimer.Start();
-                                        Point point = GVisual.Point_Control_to_BottomSide_ofControl(Nesne_Al_Second_Panel, BorderEdge_NesneAl, 5);
-                                        GVisual.ShowControl(Nesne_Al_Second_Panel, Nesne_Al_First_Panel, point);
-                                        if (!PLC_Sim_YerSoyle_Panel.Visible)
-                                        {
-                                            Point point1 = GVisual.Point_Control_to_BottomSide_ofControl(PLC_Sim_YerSoyle_Panel, btn_PLC_Sim_Nesne_Bul, 5);
-                                            GVisual.ShowControl(PLC_Sim_YerSoyle_Panel, PLC_Sim_Panel, point1);
-                                            PLC_Timer.Start();
-                                        }
-                                        break;
+                                        Point point1 = GVisual.Point_Control_to_BottomSide_ofControl(PLC_Sim_YerSoyle_Panel, btn_PLC_Sim_Nesne_Bul, 5);
+                                        GVisual.ShowControl(PLC_Sim_YerSoyle_Panel, PLC_Sim_Panel, point1);
+                                        PLC_Timer.Start();
                                     }
-                                    else
+                                    break;
+                                }
+                                else if (item.ItemEtiketi == item_etiketi && item != cell.items.Last())
+                                {
+                                    foreach (var item1 in cell.items)
                                     {
-                                        MessageBox.Show("Nesne bulunduğu hücrede en yukarıda değil, lütfen önce üzerindeki nesneleri alın.", "Nesnenin üzeri dolu.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        if (item1 == cell.items.Last() && item1 != item)
+                                        {
+
+
+                                            BlinkingCell = cell;
+                                            lbl_Nesne_Al_Tur_Kodu_Value.Text = $"{depo.ItemTuru}";
+                                            lbl_Nesne_Al_Aciklama_Value.Text = $"{item.ItemAciklamasi}";
+                                            lbl_Nesne_Al_Agirlik_Value.Text = $"{item.ItemAgirligi}";
+                                            lbl_Nesne_Al_Nesne_X_Value.Text = $"{item.Cm_X_Axis} cm";
+                                            lbl_Nesne_Al_Nesne_Y_Value.Text = $"{item.Cm_Y_Axis} cm";
+                                            lbl_Nesne_Al_Nesne_Z_Value.Text = $"{item.Cm_Z_Axis} cm";
+                                            nesneTimer.Start();
+                                            Point point = GVisual.Point_Control_to_BottomSide_ofControl
+                                                (Nesne_Al_Second_Panel, BorderEdge_NesneAl, 5);
+                                            GVisual.ShowControl(Nesne_Al_Second_Panel, Nesne_Al_First_Panel,
+                                                point);
+                                            if (!PLC_Sim_YerSoyle_Panel.Visible)
+                                            {
+                                                Point point1 = GVisual.Point_Control_to_BottomSide_ofControl(PLC_Sim_YerSoyle_Panel, btn_PLC_Sim_Nesne_Bul, 5);
+                                                GVisual.ShowControl(PLC_Sim_YerSoyle_Panel, PLC_Sim_Panel, point1);
+                                                PLC_Timer.Start();
+                                            }
+
+                                            (AlternateItem, AlternateCell) = FindEmptyCellstoPlace(cell, depo, item1);
+                                            if (AlternateItem != null)
+                                            {
+                                                Items.Add(AlternateItem);
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -2130,40 +2041,309 @@ namespace Balya_Yerleştirme
             {
                 ShowNotification("Layout içinde kaldırılacak nesne bulunmuyor.", CustomNotifyIcon.enmType.Warning);
             }
+
+            if (AlternateCell != null && BlinkingCell != null)
+            {
+                var result = MessageBox.Show("Nesne bulunduğu hücrede en yukarıda değil, Üzerini boşaltıp almak istiyor musunuz?", "Üzerini boşaltmak istiyor musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (result == DialogResult.Yes)
+                {
+                    foreach (var item2 in Items)
+                    {
+                        BlinkingCell.items.Remove(item2);
+                        using (var context = new DBContext())
+                        {
+                            var item = (from x in context.Items
+                                        where x.ItemId == item2.ItemId
+                                        select x).FirstOrDefault();
+
+                            if (item != null)
+                            {
+                                context.Items.Remove(item);
+                                context.SaveChanges();
+                            }
+
+                        }
+                        item2.ItemId = 0;
+
+                        AddItemtoCell(AlternateCell, item2.ItemEtiketi, item2.ItemAciklamasi, item2.ItemAgirligi);
+                    }
+                }
+                else
+                {
+                    BlinkingCell = null;
+                    MainPanelCloseLeftSide(leftLayoutPanel, this);
+                    MainPanelCloseRightSide(rightLayoutPanel, this);
+                    EmptyPLCSimPanel();
+                }
+            }
+            DrawingPanel.Invalidate();
         }
+        private (Models.Item?, Models.Cell?) FindEmptyCellstoPlace(Models.Cell cell, Depo depo, Models.Item item)
+        {
+            Models.Cell? AlternateCell = null;
+
+            if (depo.itemDrop_StartLocation == "Ortadan")
+            {
+                if (depo.itemDrop_UpDown == "Yukarı Doğru")
+                {
+                    if (depo.itemDrop_LeftRight == "Sağa Doğru")
+                    {
+                        AlternateCell = SearchThroughRightReturnCell(true, true, depo, cell);
+                    }
+                    else if (depo.itemDrop_LeftRight == "Sola Doğru")
+                    {
+                        AlternateCell = SearchThroughLeftReturnCell(true, true, depo, cell);
+                    }
+                }
+                else if (depo.itemDrop_UpDown == "Aşağı Doğru")
+                {
+                    if (depo.itemDrop_LeftRight == "Sağa Doğru")
+                    {
+                        AlternateCell = SearchThroughRightReturnCell(true, false, depo, cell);
+                    }
+                    else if (depo.itemDrop_LeftRight == "Sola Doğru")
+                    {
+                        AlternateCell = SearchThroughLeftReturnCell(true, false, depo, cell);
+                    }
+                }
+            }
+            else if (depo.itemDrop_StartLocation == "Yukarıdan")
+            {
+                if (depo.itemDrop_LeftRight == "Sağa Doğru")
+                {
+                    AlternateCell = SearchThroughRightReturnCell(false, false, depo, cell);
+                }
+                else if (depo.itemDrop_LeftRight == "Sola Doğru")
+                {
+                    AlternateCell = SearchThroughLeftReturnCell(false, false, depo, cell);
+                }
+            }
+            else if (depo.itemDrop_StartLocation == "Aşağıdan")
+            {
+                if (depo.itemDrop_LeftRight == "Sağa Doğru")
+                {
+                    AlternateCell = SearchThroughRightReturnCell(false, true, depo, cell);
+                }
+                else if (depo.itemDrop_LeftRight == "Sola Doğru")
+                {
+                    AlternateCell = SearchThroughLeftReturnCell(false, true, depo, cell);
+                }
+            }
+
+            if (AlternateCell != null)
+            {
+                foreach (var item1 in cell.items)
+                {
+                    if (item1 == item)
+                    {
+                        return (item1, AlternateCell);
+                    }
+                }
+            }
+            return (null, null);
+        }
+
+
+
+
+
+        private void MainPanelOpenLeftSide(System.Windows.Forms.Control showControlLeft,
+            System.Windows.Forms.Control parentControl, System.Drawing.Point childControlLocationLeft)
+        {
+            if (!showControlLeft.Visible)
+            {
+                if (rightLayoutPanel.Visible)
+                {
+                    GVisual.ShowControl(showControlLeft, parentControl, childControlLocationLeft);
+                    GVisual.ChangeSize_of_Control(DrawingPanel, drawingPanelSmallSize);
+                    DrawingPanel.Location = drawingPanelMiddleLocation;
+                    MoveLeft();
+                }
+                else
+                {
+                    GVisual.ShowControl(showControlLeft, parentControl, childControlLocationLeft);
+                    GVisual.ChangeSize_of_Control(DrawingPanel, drawingPanelMiddleSize);
+                    DrawingPanel.Location = drawingPanelMiddleLocation;
+                    MoveLeft();
+                }
+            }
+        }
+        public void MainPanelOpenRightSide(System.Windows.Forms.Control showControlRight,
+            System.Windows.Forms.Control parentControl, System.Drawing.Point childControlLocationRight)
+        {
+            if (!showControlRight.Visible)
+            {
+                if (leftLayoutPanel.Visible)
+                {
+                    GVisual.ShowControl(showControlRight, parentControl, childControlLocationRight);
+                    GVisual.ChangeSize_of_Control(DrawingPanel, drawingPanelSmallSize);
+                    DrawingPanel.Location = drawingPanelMiddleLocation;
+                    MoveLeft();
+                }
+                else
+                {
+                    GVisual.ShowControl(showControlRight, parentControl, childControlLocationRight);
+                    GVisual.ChangeSize_of_Control(DrawingPanel, drawingPanelMiddleSize);
+                    DrawingPanel.Location = drawingPanelLeftLocation;
+                    MoveLeft();
+                }
+            }
+        }
+        public void MainPanelCloseRightSide(System.Windows.Forms.Control hideControlRight,
+            System.Windows.Forms.Control parentControl)
+        {
+            if (hideControlRight.Visible)
+            {
+                if (leftLayoutPanel.Visible)
+                {
+                    GVisual.HideControl(hideControlRight, parentControl);
+                    GVisual.ChangeSize_of_Control(DrawingPanel, drawingPanelMiddleSize);
+                    DrawingPanel.Location = drawingPanelMiddleLocation;
+                    MoveRight();
+                }
+                else
+                {
+                    GVisual.HideControl(hideControlRight, parentControl);
+                    GVisual.ChangeSize_of_Control(DrawingPanel, drawingPanelLargeSize);
+                    DrawingPanel.Location = drawingPanelLeftLocation;
+                    MoveRight();
+                }
+            }
+        }
+        public void MainPanelCloseLeftSide(System.Windows.Forms.Control hideControlLeft,
+            System.Windows.Forms.Control parentControl)
+        {
+            if (hideControlLeft.Visible)
+            {
+                if (rightLayoutPanel.Visible)
+                {
+                    GVisual.HideControl(hideControlLeft, parentControl);
+                    GVisual.ChangeSize_of_Control(DrawingPanel, drawingPanelMiddleSize);
+                    DrawingPanel.Location = drawingPanelLeftLocation;
+                    MoveRight();
+                }
+                else
+                {
+                    GVisual.HideControl(hideControlLeft, parentControl);
+                    GVisual.ChangeSize_of_Control(DrawingPanel, drawingPanelLargeSize);
+                    DrawingPanel.Location = drawingPanelLeftLocation;
+                    MoveRight();
+                }
+            }
+        }
+        public void MoveLeft()
+        {
+            if (ambar != null)
+            {
+                ambar.Rectangle = new RectangleF(ambar.Rectangle.X - drawingPanelMoveConst, ambar.Rectangle.Y, ambar.Rectangle.Width, ambar.Rectangle.Height);
+                ambar.OriginalRectangle = ambar.Rectangle;
+                foreach (var depo in ambar.depolar)
+                {
+                    depo.Rectangle = new RectangleF(depo.Rectangle.X - drawingPanelMoveConst, depo.Rectangle.Y, depo.Rectangle.Width, depo.Rectangle.Height);
+                    depo.OriginalRectangle = depo.Rectangle;
+                    depo.LocationofRect = new System.Drawing.Point((int)depo.Rectangle.X, (int)depo.Rectangle.Y);
+                    foreach (var cell in depo.gridmaps)
+                    {
+                        cell.Rectangle = new RectangleF(cell.Rectangle.X - drawingPanelMoveConst, cell.Rectangle.Y, cell.Rectangle.Width, cell.Rectangle.Height);
+                        cell.OriginalRectangle = cell.Rectangle;
+                        cell.LocationofRect = new System.Drawing.Point((int)cell.Rectangle.X, (int)cell.Rectangle.Y);
+
+                        foreach (var item in cell.items)
+                        {
+                            item.Rectangle = new RectangleF(item.Rectangle.X - drawingPanelMoveConst, item.Rectangle.Y, item.Rectangle.Width, item.Rectangle.Height);
+                            item.OriginalRectangle = item.Rectangle;
+                            item.LocationofRect = new System.Drawing.Point((int)item.Rectangle.X, (int)item.Rectangle.Y);
+                        }
+                    }
+                }
+                foreach (var conveyor in ambar.conveyors)
+                {
+                    conveyor.Rectangle = new RectangleF(conveyor.Rectangle.X - drawingPanelMoveConst, conveyor.Rectangle.Y, conveyor.Rectangle.Width, conveyor.Rectangle.Height);
+                    conveyor.OriginalRectangle = conveyor.Rectangle;
+
+                    conveyor.LocationofRect = new System.Drawing.Point((int)conveyor.Rectangle.X, (int)conveyor.Rectangle.Y);
+
+                    foreach (var reff in conveyor.ConveyorReferencePoints)
+                    {
+                        reff.Rectangle = new RectangleF(reff.Rectangle.X - drawingPanelMoveConst,
+                            reff.Rectangle.Y, reff.Rectangle.Width, reff.Rectangle.Height);
+                        reff.OriginalRectangle = reff.Rectangle;
+
+                        reff.LocationofRect = new System.Drawing.Point((int)reff.Rectangle.X, (int)reff.Rectangle.Y);
+                    }
+                }
+                DrawingPanel.Invalidate();
+            }
+        }
+        public void MoveRight()
+        {
+            if (ambar != null)
+            {
+                ambar.Rectangle = new RectangleF(ambar.Rectangle.X + drawingPanelMoveConst, ambar.Rectangle.Y, ambar.Rectangle.Width, ambar.Rectangle.Height);
+                ambar.OriginalRectangle = ambar.Rectangle;
+                foreach (var depo in ambar.depolar)
+                {
+                    depo.Rectangle = new RectangleF(depo.Rectangle.X + drawingPanelMoveConst, depo.Rectangle.Y, depo.Rectangle.Width, depo.Rectangle.Height);
+                    depo.OriginalRectangle = depo.Rectangle;
+                    depo.LocationofRect = new System.Drawing.Point((int)depo.Rectangle.X, (int)depo.Rectangle.Y);
+                    foreach (var cell in depo.gridmaps)
+                    {
+                        cell.Rectangle = new RectangleF(cell.Rectangle.X + drawingPanelMoveConst, cell.Rectangle.Y, cell.Rectangle.Width, cell.Rectangle.Height);
+                        cell.OriginalRectangle = cell.Rectangle;
+                        cell.LocationofRect = new System.Drawing.Point((int)cell.Rectangle.X, (int)cell.Rectangle.Y);
+
+                        foreach (var item in cell.items)
+                        {
+                            item.Rectangle = new RectangleF(item.Rectangle.X + drawingPanelMoveConst, item.Rectangle.Y, item.Rectangle.Width, item.Rectangle.Height);
+                            item.OriginalRectangle = item.Rectangle;
+                            item.LocationofRect = new System.Drawing.Point((int)item.Rectangle.X, (int)item.Rectangle.Y);
+                        }
+                    }
+                }
+                foreach (var conveyor in ambar.conveyors)
+                {
+                    conveyor.Rectangle = new RectangleF(conveyor.Rectangle.X + drawingPanelMoveConst, conveyor.Rectangle.Y, conveyor.Rectangle.Width, conveyor.Rectangle.Height);
+                    conveyor.OriginalRectangle = conveyor.Rectangle;
+
+                    conveyor.LocationofRect = new System.Drawing.Point((int)conveyor.Rectangle.X, (int)conveyor.Rectangle.Y);
+                    foreach (var reff in conveyor.ConveyorReferencePoints)
+                    {
+                        reff.Rectangle = new RectangleF(reff.Rectangle.X + drawingPanelMoveConst,
+                            reff.Rectangle.Y, reff.Rectangle.Width, reff.Rectangle.Height);
+                        reff.OriginalRectangle = reff.Rectangle;
+
+                        reff.LocationofRect = new System.Drawing.Point((int)reff.Rectangle.X, (int)reff.Rectangle.Y);
+                    }
+                }
+                DrawingPanel.Invalidate();
+            }
+        }
+
+        private void EmptyItemPlacementPanel()
+        {
+            GVisual.HideControl(Nesne_Yerlestirme_Second_Panel, Nesne_Yerlestirme_First_Panel);
+        }
+
+
+
         //This is for Canceling finding items to remove from depo
         private void btn_Nesne_Bul_Vazgec_Click(object sender, EventArgs e)
         {
             NesneKaldır = false;
             nesneTimer.Stop();
             PLC_Timer.Stop();
-            if (PLC_Sim_Panel.Visible)
+
+            if (rightLayoutPanel.Visible)
             {
-                GVisual.HideControl(Nesne_Al_First_Panel, this);
-                MainPanelMakeSmaller1(DrawingPanel);
-                if (MoveRightEvent != null)
-                {
-                    MoveRightEvent.Invoke(sender, e);
-                }
-            }
-            else if (!PLC_Sim_Panel.Visible)
-            {
-                GVisual.HideControl(Nesne_Al_First_Panel, this);
-                MainPanelMakeBigger(DrawingPanel);
-                if (MoveRightEvent != null)
-                {
-                    MoveRightEvent.Invoke(sender, e);
-                }
+                MainPanelCloseLeftSide(leftLayoutPanel, this);
+                MainPanelCloseRightSide(leftLayoutPanel, this);
             }
             else
             {
-                GVisual.HideControl(Nesne_Al_First_Panel, this);
-                MainPanelMakeBigger(DrawingPanel);
-                if (MoveRightEvent != null)
-                {
-                    MoveRightEvent(sender, e);
-                }
+                MainPanelCloseLeftSide(leftLayoutPanel, this);
             }
+
             DrawingPanel.Invalidate();
         }
         //This is for removing items from the depo
@@ -2194,33 +2374,7 @@ namespace Balya_Yerleştirme
             nesneTimer.Stop();
             PLC_Timer.Stop();
             EmptyPLCSimPanel();
-            if (PLC_Sim_Panel.Visible)
-            {
-                GVisual.HideControl(Nesne_Al_First_Panel, this);
-                MainPanelMakeSmaller1(DrawingPanel);
-                if (MoveRightEvent != null)
-                {
-                    MoveRightEvent.Invoke(sender, e);
-                }
-            }
-            else if (!PLC_Sim_Panel.Visible)
-            {
-                GVisual.HideControl(Nesne_Al_First_Panel, this);
-                MainPanelMakeBigger(DrawingPanel);
-                if (MoveRightEvent != null)
-                {
-                    MoveRightEvent.Invoke(sender, e);
-                }
-            }
-            else
-            {
-                GVisual.HideControl(Nesne_Al_First_Panel, this);
-                MainPanelMakeBigger(DrawingPanel);
-                if (MoveRightEvent != null)
-                {
-                    MoveRightEvent(sender, e);
-                }
-            }
+            MainPanelCloseLeftSide(leftLayoutPanel, this);
             DrawingPanel.Invalidate();
         }
 
@@ -2239,33 +2393,18 @@ namespace Balya_Yerleştirme
                 Zoomlevel = 1f;
                 ambar.ApplyZoom(Zoomlevel);
 
-                if ((Nesne_Yerlestirme_First_Panel.Visible || Nesne_Al_First_Panel.Visible) && !PLC_Sim_Panel.Visible)
+                if (rightLayoutPanel.Visible && leftLayoutPanel.Visible)
                 {
-                    HideEverything();
-                    MainPanelMakeBigger(DrawingPanel);
-                    if (ItemPlacementCancel != null)
-                    {
-                        ItemPlacementCancel.Invoke(sender, e);
-                    }
+                    MainPanelCloseLeftSide(leftLayoutPanel, this);
+                    MainPanelCloseRightSide(rightLayoutPanel, this);
                 }
-                else if (PLC_Sim_Panel.Visible && !Nesne_Yerlestirme_First_Panel.Visible && !Nesne_Al_First_Panel.Visible)
+                else if (rightLayoutPanel.Visible && !leftLayoutPanel.Visible)
                 {
-                    GVisual.HideControl(PLC_Sim_Panel, this);
-                    MainPanelMakeBigger(DrawingPanel);
-                    if (MoveRightEvent != null)
-                    {
-                        MoveRightEvent.Invoke(sender, e);
-                    }
+                    MainPanelCloseRightSide(rightLayoutPanel, this);
                 }
-                else if (PLC_Sim_Panel.Visible && (Nesne_Yerlestirme_First_Panel.Visible || Nesne_Al_First_Panel.Visible))
+                else if (leftLayoutPanel.Visible && !rightLayoutPanel.Visible)
                 {
-                    HideEverything();
-                    MainPanelMakeBigger(DrawingPanel);
-                    if (MoveRightEvent != null)
-                    {
-                        MoveRightEvent.Invoke(sender, e);
-                        MoveRightEvent.Invoke(sender, e);
-                    }
+                    MainPanelCloseLeftSide(leftLayoutPanel, this);
                 }
 
                 foreach (var depo in ambar.depolar)
@@ -2407,6 +2546,7 @@ namespace Balya_Yerleştirme
                             Dbambar.KareEni, Dbambar.KareBoyu, this, null);
 
                         loadedAmbar.AmbarId = Dbambar.AmbarId;
+                        loadedAmbar.LayoutId = Dbambar.LayoutId;
                         loadedAmbar.AmbarName = Dbambar.AmbarName;
                         loadedAmbar.AmbarDescription = Dbambar.AmbarDescription;
                         loadedAmbar.AmbarEni = Dbambar.AmbarEni;
@@ -2649,12 +2789,7 @@ namespace Balya_Yerleştirme
 
 
 
-
-
-
-        //Methods After This are the ERRORLESS Methods
-
-
+        #region ERRORLESS METHODS
 
         //Save Current Items in the whole Layout to Excel Sheet
         #region Save items to Excel
@@ -2876,6 +3011,8 @@ namespace Balya_Yerleştirme
             GVisual.HideControl(ProgressBarPanel, this);
             GVisual.HideControl(Nesne_Al_First_Panel, this);
             GVisual.HideControl(PLC_Sim_Panel, this);
+            GVisual.HideControl(rightLayoutPanel, this);
+            GVisual.HideControl(leftLayoutPanel, this);
             GVisual.HideControl(PLC_Sim_Nesne_Buttons_Panel, PLC_Sim_Panel);
             GVisual.HideControl(PLC_Sim_YerSoyle_Panel, PLC_Sim_Panel);
             GVisual.HideControl(PLC_Sim_Yerlestiriliyor_Panel, PLC_Sim_Panel);
@@ -2906,6 +3043,13 @@ namespace Balya_Yerleştirme
                 DrawingPanel.Invalidate();
                 Move = false;
             }
+        }
+
+        private void ShowOnLeftOrRightPanel(System.Windows.Forms.Control ShowControl, System.Windows.Forms.Control ParentControl)
+        {
+            ParentControl.Controls.Clear();
+
+            GVisual.ShowControl(ShowControl, ParentControl);
         }
         #endregion
         #region Show Notification
@@ -3077,6 +3221,13 @@ namespace Balya_Yerleştirme
             }
         }
         #endregion
+
+        #endregion
+
+
+
+
+
 
 
 
@@ -3499,5 +3650,7 @@ namespace Balya_Yerleştirme
         //    }
         //}
         #endregion
+
+        
     }
 }

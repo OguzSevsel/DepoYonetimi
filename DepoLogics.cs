@@ -96,8 +96,6 @@ namespace Balya_Yerleştirme.Models
                 Main.PLCBaglantisiniAyarlaButtonClicked += Depo_PlcConnectionButton;
                 Main.PLCBaglantisiPaneliniKapat += Depo_MoveRight_Event;
                 Main.ToolStripNesneYerlestirClicked += Depo_MoveLeft_Event;
-                Main.MoveRightEvent += Depo_MoveRight_Event;
-                Main.MoveLeftEvent += Depo_MoveLeft_Event;
             }
         }
 

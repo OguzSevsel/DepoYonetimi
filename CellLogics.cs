@@ -90,8 +90,6 @@ namespace Balya_Yerleştirme.Models
                 Main.PLCBaglantisiniAyarlaButtonClicked += Cell_PlcConnectionButton;
                 Main.PLCBaglantisiPaneliniKapat += Cell_MoveRight_Event;
                 Main.ToolStripNesneYerlestirClicked += Cell_MoveLeft_Event;
-                Main.MoveRightEvent += Cell_MoveRight_Event;
-                Main.MoveLeftEvent += Cell_MoveLeft_Event;
             }
         }
 

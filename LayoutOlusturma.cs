@@ -6945,15 +6945,22 @@ namespace Balya_Yerleştirme
                 MainPanelCloseBothSides(LeftSide_LayoutPanel, RightSide_LayoutPanel, this);
             }
 
-            using (var dialog = new LayoutNaming())
+            if (Ambar != null)
             {
-                if (dialog.ShowDialog() == DialogResult.OK)
+                using (var dialog = new LayoutNaming(Ambar))
                 {
-                    LayoutDescription = dialog.txt_Layout_Aciklama.Text;
-                    LayoutName = dialog.txt_Layout_Isim.Text;
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        LayoutDescription = dialog.txt_Layout_Aciklama.Text;
+                        LayoutName = dialog.txt_Layout_Isim.Text;
 
-                    this.DialogResult = DialogResult.OK;
+                        this.DialogResult = DialogResult.OK;
+                    }
                 }
+            }
+            else
+            {
+                this.DialogResult = DialogResult.Cancel;
             }
         }
 

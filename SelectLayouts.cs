@@ -581,14 +581,59 @@ namespace Balya_Yerleştirme
                 }
                 if (e.Button == MouseButtons.Left)
                 {
+                    MakePBsBackColorsWhite();
+                    
                     SelectedPB = pictureBox;
                     SelectedPB.BackColor = System.Drawing.Color.LightCyan;
 
                     SetLayoutDescandNametoTextBoxes(SelectLayoutPanel, pictureBox, lbl_LayoutMenu_Title, txt_ChangeLayoutName, txt_ChangeLayoutDescription);
+
                     string layoutName = getLayoutNameFromPanel(SelectLayoutPanel, pictureBox, true);
+                    
                     OpenRightSide((Ambar)pictureBox.Tag);
+                    
+                    ScrollPanelIntoView(pictureBox, SelectLayoutPanel);
+                    
+                    SelectLayoutPanel.ScrollControlIntoView(SelectedPB);
+                    
                     lbl_Layout_Sec_Title.Location = SmallTitleLocation;
                     lbl_Layout_Sec_Title.Text = $"{layoutName}";
+                }
+            }
+        }
+
+        private void MakePBsBackColorsWhite()
+        {
+            foreach (var control in SelectLayoutPanel.Controls)
+            {
+                if (control is Panel)
+                {
+                    Panel panel = (Panel)control;
+
+                    foreach (var control1 in panel.Controls)
+                    {
+                        if (control1 is PictureBox)
+                        {
+                            PictureBox pb = (PictureBox)control1;
+
+                            pb.BackColor = System.Drawing.Color.White;
+                        }
+                    }
+                }
+            }
+        }
+        private void ScrollPanelIntoView(PictureBox pb, FlowLayoutPanel FlowPanel)
+        {
+            foreach (var control in FlowPanel.Controls)
+            {
+                if (control is Panel)
+                {
+                    Panel panel = (Panel)control;
+
+                    if (panel.Controls.Contains(pb))
+                    {
+                        FlowPanel.ScrollControlIntoView(panel);
+                    }
                 }
             }
         }
@@ -1039,24 +1084,17 @@ namespace Balya_Yerleştirme
         private void btn_Layout_Duzenle_Click(object sender, EventArgs e)
         {
             RectangleF AmbarRect = new RectangleF();
-            List<Depo> depos = new List<Depo>();
-            List<Models.Cell> cells = new List<Models.Cell>();
-            List<Conveyor> conveyors = new List<Conveyor>();
-            List<ConveyorReferencePoint> conveyorReffs = new List<ConveyorReferencePoint>();
 
             // Backups for reverting if necessary
             List<RectangleF> depoRectBackup = new List<RectangleF>();
             List<RectangleF> conveyorRectBackup = new List<RectangleF>();
             List<RectangleF> cellRectBackup = new List<RectangleF>();
             List<RectangleF> itemRectBackup = new List<RectangleF>();
+            List<RectangleF> conveyorReferenceRectBackup = new List<RectangleF>();
+
 
             bool isDepoEmpty = true;
             Ambar ambar1 = (Ambar)SelectedPB.Tag;
-
-            foreach (var depo1 in ambar1.depolar)
-            {
-                depos.Add(depo1);
-            }
 
             if (SelectedPB != null)
             {
@@ -1064,7 +1102,7 @@ namespace Balya_Yerleştirme
                 if (ambar != null)
                 {
                     AmbarRect = ambar.Rectangle;
-                    LayoutOlusturma layout = null;
+                    LayoutOlusturma ?layout = null;
 
                     // Backup rectangles
                     foreach (var depo in ambar.depolar)
@@ -1084,7 +1122,7 @@ namespace Balya_Yerleştirme
                         conveyorRectBackup.Add(conveyor.Rectangle);
                         foreach (var reff in conveyor.ConveyorReferencePoints)
                         {
-                            conveyorReffs.Add(reff);
+                            conveyorReferenceRectBackup.Add(reff.Rectangle);
                         }
                     }
 
@@ -1112,18 +1150,15 @@ namespace Balya_Yerleştirme
                             layout.AddDepoNode(depo);
                             foreach (var cell in depo.gridmaps)
                             {
-                                cells.Add(cell);
                                 cell.Layout = layout;
                             }
                         }
                         foreach (var conveyor in ambar.conveyors)
                         {
-                            conveyors.Add(conveyor);
                             conveyor.layout = layout;
                             layout.AddConveyorNode(conveyor);
                             foreach (var reff in conveyor.ConveyorReferencePoints)
                             {
-                                conveyorReffs.Add(reff);
                                 reff.Layout = layout;
                             }
                         }
@@ -1174,6 +1209,28 @@ namespace Balya_Yerleştirme
                                     }
                                 }
                             }
+
+                            using (var context = new DBContext())
+                            {
+                                var layout1 = (from x in context.Layout
+                                               where x.LayoutId == ambar.LayoutId
+                                               select x).FirstOrDefault();
+
+                                if (layout1 != null)
+                                {
+                                    if (layout.LayoutName != layout1.Name)
+                                    {
+                                        layout1.Name = layout.LayoutName;
+                                    }
+                                    if (layout.LayoutDescription != layout1.Description)
+                                    {
+                                        layout1.Description = layout.LayoutDescription;
+                                    }
+                                    context.SaveChanges();
+                                    setLayoutNameDesc(SelectLayoutPanel, SelectedPB, true, layout1.Name);
+                                    setLayoutNameDesc(SelectLayoutPanel, SelectedPB, false, layout1.Description);
+                                }
+                            }
                             SelectedPB.Invalidate();
                         }
                         else
@@ -1208,6 +1265,16 @@ namespace Balya_Yerleştirme
                             for (int i = 0; i < ambar.conveyors.Count; i++)
                             {
                                 ambar.conveyors[i].Rectangle = conveyorRectBackup[i];
+                            }
+
+                            int ReferenceIndex = 0;
+                            foreach (var conveyor in ambar.conveyors)
+                            {
+                                foreach (var reff in conveyor.ConveyorReferencePoints)
+                                {
+                                    
+                                    reff.Rectangle = conveyorReferenceRectBackup[ReferenceIndex++];
+                                }
                             }
                         }
                     }

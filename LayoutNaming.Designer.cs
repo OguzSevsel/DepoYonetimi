@@ -152,7 +152,6 @@
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "LayoutNaming";
             StartPosition = FormStartPosition.CenterScreen;
-            Load += LayoutNaming_Load;
             ((System.ComponentModel.ISupportInitialize)errorProvider).EndInit();
             ResumeLayout(false);
             PerformLayout();

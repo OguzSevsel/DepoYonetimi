@@ -48,8 +48,6 @@ namespace Balya_Yerleştirme.Models
             Main.PLCBaglantisiniAyarlaButtonClicked += Item_PlcConnectionButton;
             Main.PLCBaglantisiPaneliniKapat += Item_MoveRight_Event;
             Main.ToolStripNesneYerlestirClicked += Item_MoveLeft_Event;
-            Main.MoveRightEvent += Item_MoveRight_Event;
-            Main.MoveLeftEvent += Item_MoveLeft_Event;
         }
 
         private void Item_MoveLeft_Event(object? sender, EventArgs e)

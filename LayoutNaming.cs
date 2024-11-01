@@ -13,14 +13,11 @@ namespace Balya_Yerleştirme
 {
     public partial class LayoutNaming : Form
     {
-        public LayoutNaming()
+        Ambar Ambar { get; set; }
+        public LayoutNaming(Ambar ambar)
         {
             InitializeComponent();
-        }
-
-        private void LayoutNaming_Load(object sender, EventArgs e)
-        {
-
+            this.Ambar = ambar;
         }
 
         private void btn_Layout_Onayla_Click(object sender, EventArgs e)
@@ -51,9 +48,12 @@ namespace Balya_Yerleştirme
 
                 if (layout != null)
                 {
-                    errorProvider.SetError(txt_Layout_Isim, "Aynı isimli bir layout zaten bulunuyor lütfen başka bir isim seçin");
+                    if (layout.LayoutId != Ambar.LayoutId)
+                    {
+                        errorProvider.SetError(txt_Layout_Isim, "Aynı isimli bir layout zaten bulunuyor lütfen başka bir isim seçin");
 
-                    txt_Layout_Isim.Clear();
+                        txt_Layout_Isim.Clear();
+                    }
                 }
             }
 

@@ -59,8 +59,6 @@ namespace Balya_Yerleştirme.Models
                 Main.PLCBaglantisiniAyarlaButtonClicked += Conveyor_PlcConnectionButton;
                 Main.PLCBaglantisiPaneliniKapat += Conveyor_MoveRight_Event;
                 Main.ToolStripNesneYerlestirClicked += Conveyor_MoveLeft_Event;
-                Main.MoveRightEvent += Conveyor_MoveRight_Event;
-                Main.MoveLeftEvent += Conveyor_MoveLeft_Event;
             }
         }
 

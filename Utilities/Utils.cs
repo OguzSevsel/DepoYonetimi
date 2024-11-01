@@ -1127,5 +1127,271 @@ namespace Balya_Yerleştirme.Utilities
             }
         }
 
+
+        public static Models.Cell? SearchThroughRightReturnCell(bool isMiddle, bool toUp, Depo depo, Models.Cell CurrentCell)
+        {
+            List<Models.Cell> cells = new List<Models.Cell>();
+            int RowCount = 0;
+
+            if (depo.RowCount % 2 == 0)
+            {
+                if (isMiddle && toUp)
+                {
+                    RowCount = depo.RowCount / 2;
+                }
+                else if (isMiddle && !toUp)
+                {
+                    RowCount = depo.RowCount / 2 + 1;
+                }
+            }
+            else
+            {
+                RowCount = depo.RowCount / 2 + 1;
+            }
+
+            if (isMiddle && toUp)
+            {
+                for (int row = RowCount; row > 0; row--)
+                {
+                    for (int column = 1; column < depo.ColumnCount + 1; column++)
+                    {
+                        foreach (var cell in depo.gridmaps)
+                        {
+                            if (cell.Row == row && cell.Column == column)
+                            {
+                                cells.Add(cell);
+                            }
+                        }
+                    }
+                }
+            }
+            else if (isMiddle && !toUp)
+            {
+                for (int row = RowCount; row < depo.RowCount + 1; row++)
+                {
+                    for (int column = 1; column < depo.ColumnCount + 1; column++)
+                    {
+                        foreach (var cell in depo.gridmaps.AsEnumerable().Reverse())
+                        {
+                            if (cell.Row == row && cell.Column == column)
+                            {
+                                cells.Add(cell);
+                            }
+                        }
+                    }
+                }
+            }
+            else if (!isMiddle && toUp)
+            {
+                for (int row = depo.RowCount; row > 0; row--)
+                {
+                    for (int column = 1; column < depo.ColumnCount + 1; column++)
+                    {
+                        foreach (var cell in depo.gridmaps.AsEnumerable().Reverse())
+                        {
+                            if (cell.Row == row && cell.Column == column)
+                            {
+                                cells.Add(cell);
+                            }
+                        }
+                    }
+                }
+            }
+            else if (!isMiddle && !toUp)
+            {
+                for (int row = 0; row < depo.RowCount + 1; row++)
+                {
+                    for (int column = 1; column < depo.ColumnCount + 1; column++)
+                    {
+                        foreach (var cell in depo.gridmaps)
+                        {
+                            if (cell.Row == row && cell.Column == column)
+                            {
+                                cells.Add(cell);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (depo.currentStage == 1)
+            {
+                foreach (var addedCell in cells)
+                {
+                    if (addedCell.items.Count < depo.asama1_ItemSayisi && addedCell.items.Count > 0)
+                    {
+                        //depo.currentColumn = addedCell.Column;
+                        //depo.currentRow = addedCell.Row;
+                        if (addedCell != CurrentCell)
+                        {
+                            return addedCell;
+                        }
+                    }
+                    else if (addedCell.items.Count == 0)
+                    {
+                        //depo.currentColumn = addedCell.Column;
+                        //depo.currentRow = addedCell.Row;
+                        if (addedCell != CurrentCell)
+                        {
+                            return addedCell;
+                        }
+                    }
+                }
+            }
+            else if (depo.currentStage == 2)
+            {
+                foreach (var addedCell in cells)
+                {
+                    if (addedCell.items.Count >= depo.asama1_ItemSayisi &&
+                        addedCell.items.Count < depo.asama2_ToplamItemSayisi)
+                    {
+                        //depo.currentColumn = addedCell.Column;
+                        //depo.currentRow = addedCell.Row;
+                        if (addedCell != CurrentCell)
+                        {
+                            return addedCell;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                return null;
+            }
+            return null;
+        }
+
+        public static Models.Cell? SearchThroughLeftReturnCell(bool isMiddle, bool toUp, Depo depo, Models.Cell CurrentCell)
+        {
+            List<Models.Cell> cells = new List<Models.Cell>();
+            int RowCount = 0;
+
+            if (depo.RowCount % 2 == 0)
+            {
+                if (isMiddle && toUp)
+                {
+                    RowCount = depo.RowCount / 2;
+                }
+                else if (isMiddle && !toUp)
+                {
+                    RowCount = depo.RowCount / 2 + 1;
+                }
+            }
+            else
+            {
+                RowCount = depo.RowCount / 2 + 1;
+            }
+
+            if (isMiddle && toUp)
+            {
+                for (int row = RowCount; row > 0; row--)
+                {
+                    for (int column = depo.ColumnCount; column > 0; column--)
+                    {
+                        foreach (var cell in depo.gridmaps)
+                        {
+                            if (cell.Row == row && cell.Column == column)
+                            {
+                                cells.Add(cell);
+                            }
+                        }
+                    }
+                }
+            }
+            else if (isMiddle && !toUp)
+            {
+                for (int row = RowCount; row < depo.RowCount + 1; row++)
+                {
+                    for (int column = depo.ColumnCount; column > 0; column--)
+                    {
+                        foreach (var cell in depo.gridmaps.AsEnumerable().Reverse())
+                        {
+                            if (cell.Row == row && cell.Column == column)
+                            {
+                                cells.Add(cell);
+                            }
+                        }
+                    }
+                }
+            }
+            else if (!isMiddle && toUp)
+            {
+                for (int row = depo.RowCount; row > 0; row--)
+                {
+                    for (int column = depo.ColumnCount; column > 0; column--)
+                    {
+                        foreach (var cell in depo.gridmaps.AsEnumerable().Reverse())
+                        {
+                            if (cell.Row == row && cell.Column == column)
+                            {
+                                cells.Add(cell);
+                            }
+                        }
+                    }
+                }
+            }
+            else if (!isMiddle && !toUp)
+            {
+                for (int row = 0; row < depo.RowCount + 1; row++)
+                {
+                    for (int column = depo.ColumnCount; column > 0; column--)
+                    {
+                        foreach (var cell in depo.gridmaps)
+                        {
+                            if (cell.Row == row && cell.Column == column)
+                            {
+                                cells.Add(cell);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (depo.currentStage == 1)
+            {
+                foreach (var addedCell in cells)
+                {
+                    if (addedCell.items.Count < depo.asama1_ItemSayisi && addedCell.items.Count > 0)
+                    {
+                        //depo.currentColumn = addedCell.Column;
+                        //depo.currentRow = addedCell.Row;
+                        if (addedCell != CurrentCell)
+                        {
+                            return addedCell;
+                        }
+                    }
+                    else if (addedCell.items.Count == 0)
+                    {
+                        //depo.currentColumn = addedCell.Column;
+                        //depo.currentRow = addedCell.Row;
+                        if (addedCell != CurrentCell)
+                        {
+                            return addedCell;
+                        }
+                    }
+                }
+            }
+            else if (depo.currentStage == 2)
+            {
+                foreach (var addedCell in cells)
+                {
+                    if (addedCell.items.Count >= depo.asama1_ItemSayisi &&
+                        addedCell.items.Count < depo.asama2_ToplamItemSayisi)
+                    {
+                        //depo.currentColumn = addedCell.Column;
+                        //depo.currentRow = addedCell.Row;
+                        if (addedCell != CurrentCell)
+                        {
+                            return addedCell;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                return null;
+            }
+            return null;
+        }
     }
 }
