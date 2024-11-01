@@ -244,7 +244,7 @@
             Nesne_Yerlestirme_First_Panel.Controls.Add(Line_Mal_2);
             Nesne_Yerlestirme_First_Panel.Controls.Add(txt_Item_Agirligi);
             Nesne_Yerlestirme_First_Panel.Controls.Add(btn_Nesne_Yerlestirme_First_Panel_Kapat);
-            Nesne_Yerlestirme_First_Panel.Location = new Point(332, 3);
+            Nesne_Yerlestirme_First_Panel.Location = new Point(404, 1020);
             Nesne_Yerlestirme_First_Panel.Name = "Nesne_Yerlestirme_First_Panel";
             Nesne_Yerlestirme_First_Panel.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
             Nesne_Yerlestirme_First_Panel.Size = new Size(358, 903);
@@ -661,7 +661,6 @@
             // 
             DrawingPanel.BackColor = Color.Azure;
             DrawingPanel.Controls.Add(infopanel);
-            DrawingPanel.Controls.Add(Nesne_Yerlestirme_First_Panel);
             DrawingPanel.Location = new Point(12, 91);
             DrawingPanel.Name = "DrawingPanel";
             DrawingPanel.Size = new Size(1880, 909);
@@ -703,7 +702,7 @@
             infopanel.Controls.Add(lbl_Info_Balya_Aciklamasi);
             infopanel.Controls.Add(lbl_Info_Title);
             infopanel.Controls.Add(lbl_Info_Balya_Etiketi);
-            infopanel.Location = new Point(1117, 440);
+            infopanel.Location = new Point(1543, 632);
             infopanel.Name = "infopanel";
             infopanel.Size = new Size(334, 274);
             infopanel.TabIndex = 19;
@@ -1285,7 +1284,7 @@
             Nesne_Al_First_Panel.Controls.Add(btn_Nesne_Bul_Vazgec);
             Nesne_Al_First_Panel.Controls.Add(btn_Nesne_Bul);
             Nesne_Al_First_Panel.Controls.Add(btn_Nesne_Al_First_Panel_Kapat);
-            Nesne_Al_First_Panel.Location = new Point(1132, 1020);
+            Nesne_Al_First_Panel.Location = new Point(717, 37);
             Nesne_Al_First_Panel.Name = "Nesne_Al_First_Panel";
             Nesne_Al_First_Panel.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
             Nesne_Al_First_Panel.Size = new Size(358, 903);
@@ -2326,6 +2325,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightGray;
             ClientSize = new Size(1904, 1041);
+            Controls.Add(Nesne_Yerlestirme_First_Panel);
             Controls.Add(PLC_Sim_Panel);
             Controls.Add(leftLayoutPanel);
             Controls.Add(Nesne_Al_First_Panel);

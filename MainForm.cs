@@ -1452,6 +1452,7 @@ namespace Balya_Yerleştirme
 
         //Connection to the PLC Operations
         #region Connect to the PLC Events
+
         //Connecting to the PLC
         private void btn_PLC_ConnectionPanel_Kapat_Click(object sender, EventArgs e)
         {
@@ -1569,6 +1570,7 @@ namespace Balya_Yerleştirme
             btn_Connect_to_PLC.Text = "Bağlanılamadı";
             btn_PLC_ConnectionPanel_Kapat.BackColor = System.Drawing.Color.Red;
         }
+
         #endregion
 
 
@@ -1761,6 +1763,7 @@ namespace Balya_Yerleştirme
         //This is the Button that Returns to the First Item Placement Process Step
         private void btn_Nesne_Yerlestir_Vazgec_Click(object sender, EventArgs e)
         {
+            BlinkingCell = null;
             GVisual.HideControl(PLC_Sim_Yerlestiriliyor_Panel, PLC_Sim_Panel);
             GVisual.HideControl(Nesne_Al_Second_Panel, Nesne_Al_First_Panel);
         }
@@ -1821,6 +1824,21 @@ namespace Balya_Yerleştirme
                     DrawingPanel.Invalidate();
                 }
             }
+            else
+            {
+                foreach (var depo in ambar.depolar)
+                {
+                    foreach (var cell in depo.gridmaps)
+                    {
+                        if (cell.HoverPen.Color == System.Drawing.Color.Lime)
+                        {
+                            cell.HoverPen = new Pen(System.Drawing.Color.DarkGray);
+                            cell.HoverPen.DashStyle = DashStyle.DashDot;
+                            DrawingPanel.Invalidate();
+                        }
+                    }
+                }
+            }
         }
 
 
@@ -1872,12 +1890,17 @@ namespace Balya_Yerleştirme
                 }
                 NesneKaldır = false;
                 EmptyPLCSimPanel();
-                EmptyItemPlacementPanel();
+                EmptyItemRemovePanel();
                 PLC_Timer.Stop();
                 MainPanelCloseLeftSide(leftLayoutPanel, this);
                 MainPanelCloseRightSide(rightLayoutPanel, this);
-                BlinkingCell = null;
-                DrawingPanel.Invalidate();
+                if (BlinkingCell != null)
+                {
+                    BlinkingCell.HoverPen = new Pen(System.Drawing.Color.DarkGray);
+                    BlinkingCell.HoverPen.DashStyle = DashStyle.DashDot;
+                    BlinkingCell = null;
+                    DrawingPanel.Invalidate();
+                }
             }
             else
             {
@@ -1907,8 +1930,13 @@ namespace Balya_Yerleştirme
                 MainPanelCloseRightSide(rightLayoutPanel, this);
                 EmptyPLCSimPanel();
                 EmptyItemPlacementPanel();
-                BlinkingCell = null;
-                DrawingPanel.Invalidate();
+                if (BlinkingCell != null)
+                {
+                    BlinkingCell.HoverPen = new Pen(System.Drawing.Color.DarkGray);
+                    BlinkingCell.HoverPen.DashStyle = DashStyle.DashDot;
+                    BlinkingCell = null;
+                    DrawingPanel.Invalidate();
+                }
             }
         }
         private void btn_PLC_Sim_Nesne_Yerlestirilemedi_Click(object sender, EventArgs e)
@@ -2324,7 +2352,10 @@ namespace Balya_Yerleştirme
         {
             GVisual.HideControl(Nesne_Yerlestirme_Second_Panel, Nesne_Yerlestirme_First_Panel);
         }
-
+        private void EmptyItemRemovePanel()
+        {
+            GVisual.HideControl(Nesne_Al_Second_Panel, Nesne_Al_First_Panel);
+        }
 
 
         //This is for Canceling finding items to remove from depo
@@ -2361,6 +2392,14 @@ namespace Balya_Yerleştirme
         //This is for canceling removing items from the depo
         private void btn_Nesne_Kaldır_Vazgec_Click(object sender, EventArgs e)
         {
+            if (BlinkingCell != null)
+            {
+                BlinkingCell.HoverPen = new Pen(System.Drawing.Color.DarkGray);
+                BlinkingCell.HoverPen.DashStyle = DashStyle.DashDot;
+                BlinkingCell = null;
+                DrawingPanel.Invalidate();
+            }
+
             NesneKaldır = false;
             nesneTimer.Stop();
             PLC_Timer.Stop();
@@ -3016,6 +3055,9 @@ namespace Balya_Yerleştirme
             GVisual.HideControl(PLC_Sim_Nesne_Buttons_Panel, PLC_Sim_Panel);
             GVisual.HideControl(PLC_Sim_YerSoyle_Panel, PLC_Sim_Panel);
             GVisual.HideControl(PLC_Sim_Yerlestiriliyor_Panel, PLC_Sim_Panel);
+            EmptyPLCSimPanel();
+            EmptyItemPlacementPanel();
+            EmptyItemRemovePanel();
         }
         private void EmptyPLCSimPanel()
         {
