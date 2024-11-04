@@ -382,14 +382,13 @@ namespace Balya_Yerleştirme.Models
                 cell.Rectangle =
                     GVisual.MoveRectangleToPoint(cell.Rectangle, (cell.Rectangle.X + Rectangle.X - depo_alani_x),
                     (cell.Rectangle.Y + Rectangle.Y - depo_alani_y));
-                Zoomlevel = 1f;
-                float x = cell.Rectangle.X / Zoomlevel;
-                float y = cell.Rectangle.Y / Zoomlevel;
+                float x = cell.Rectangle.X;
+                float y = cell.Rectangle.Y;
                 cell.OriginalRectangle = GVisual.MoveRectangleToPoint(cell.OriginalRectangle, (float)x, (float)y);
                 cell.LocationofRect = new Point((int)cell.Rectangle.X, (int)cell.Rectangle.Y);
 
-                var Location = ConvertRectanglesLocationtoCMInsideParentRectangle(cell.Rectangle,
-                    Parent.Rectangle, Parent.AmbarEni, Parent.AmbarBoyu, true);
+                var Location = ConvertRectanglesLocationtoCMInsideParentRectangle(cell.OriginalRectangle,
+                    Parent.OriginalRectangle, Parent.AmbarEni, Parent.AmbarBoyu, true);
 
                 cell.cell_Cm_X = Location.Item1;
                 cell.cell_Cm_Y = Location.Item2;
@@ -517,7 +516,6 @@ namespace Balya_Yerleştirme.Models
                     cell.OriginalRectangle = new RectangleF(OriginalRectangle.X + x,
                         OriginalRectangle.Y + y, izgaraEniPx, izgaraBoyuPx);
 
-                    cell.AdjustRectangletozoomlevel(Zoomlevel);
                     cell.DepoId = DepoId;
                     cell.CellId = 0;
 
@@ -536,11 +534,21 @@ namespace Balya_Yerleştirme.Models
                     cell.Zoomlevel = Zoomlevel;
                     cell.CellEni = izgaraEni;
                     cell.CellBoyu = izgaraBoyu;
+
                     if (layout != null)
                     {
-                        cell.NesneEni = layout.nesne_Eni;
-                        cell.NesneBoyu = layout.nesne_Boyu;
-                        cell.NesneYuksekligi = layout.nesne_Yuksekligi;
+                        if (layout.layout != null)
+                        {
+                            cell.NesneEni = nesneEni;
+                            cell.NesneBoyu = nesneBoyu;
+                            cell.NesneYuksekligi = nesneYuksekligi;
+                        }
+                        else
+                        {
+                            cell.NesneEni = layout.nesne_Eni;
+                            cell.NesneBoyu = layout.nesne_Boyu;
+                            cell.NesneYuksekligi = layout.nesne_Yuksekligi;
+                        }
 
                         if (cell.NesneYuksekligi * 2 < DepoAlaniYuksekligi)
                         {
@@ -583,10 +591,11 @@ namespace Balya_Yerleştirme.Models
                     }
 
                     var Location = ConvertRectanglesLocationtoCMInsideParentRectangle(cell.Rectangle,
-                    Parent.Rectangle, Parent.AmbarEni, Parent.AmbarBoyu, true);
+                   Parent.OriginalRectangle, Parent.AmbarEni, Parent.AmbarBoyu, true);
 
                     cell.cell_Cm_X = Location.Item1;
                     cell.cell_Cm_Y = Location.Item2;
+
                     cell.DikeyKenarBoslugu = dikey_kenar_boslugu;
                     cell.YatayKenarBoslugu = yatay_kenar_boslugu;
                     cell.CellYuksekligi = DepoAlaniYuksekligi;

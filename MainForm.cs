@@ -610,10 +610,10 @@ namespace Balya_Yerleştirme
                 if (ambar != null)
                 {
                     //string layoutRectangle1 = $"Ambar SelectLayoutRectangle: {ambar.SelectLayoutRectangle}";
-                    //string rectangle1 = $" Ambar Rectangle: {ambar.Rectangle}";
+                    string rectangle1 = $" Ambar Rectangle: {ambar.Rectangle}";
                     //string originalRectangle1 = $" Ambar OriginalRectangle: {ambar.OriginalRectangle}";
 
-                    //g.DrawString(rectangle1, font, brush, new System.Drawing.Point(point.X, point.Y + 20));
+                    g.DrawString(rectangle1, font, brush, new System.Drawing.Point(point.X, point.Y + 20));
 
                     //g.DrawString(originalRectangle1, font, brush, new System.Drawing.Point(point.X, point.Y + 40));
 
@@ -964,7 +964,7 @@ namespace Balya_Yerleştirme
 
                         newAmbar = (Ambar)dialog.SelectedPB.Tag;
 
-                        newAmbar.Rectangle = newAmbar.OriginalRectangle;
+                        newAmbar.Rectangle = newAmbar.Rectangle;
 
                         ambar = newAmbar;
                         ambar.AmbarId = newAmbar.AmbarId;
@@ -973,30 +973,21 @@ namespace Balya_Yerleştirme
                         foreach (var conveyor in ambar.conveyors)
                         {
                             conveyor.layout = null;
-                            conveyor.Rectangle = conveyor.OriginalRectangle;
                             foreach (var reff in conveyor.ConveyorReferencePoints)
                             {
                                 reff.Layout = null;
-                                reff.Rectangle = reff.OriginalRectangle;
                             }
                         }
 
                         foreach (var depo in ambar.depolar)
                         {
                             depo.layout = null;
-                            depo.Rectangle = depo.OriginalRectangle;
                             foreach (var cell in depo.gridmaps)
                             {
                                 cell.Layout = null;
-                                cell.Rectangle = cell.OriginalRectangle;
                                 foreach (var item in cell.items)
                                 {
                                     cell.toplam_Nesne_Yuksekligi = item.ItemYuksekligi * cell.items.Count;
-                                    item.Rectangle = item.OriginalRectangle;
-                                    foreach (var reff in item.ItemReferencePoints)
-                                    {
-                                        reff.Rectangle = reff.OriginalRectangle;
-                                    }
                                 }
                             }
                         }
@@ -1680,6 +1671,8 @@ namespace Balya_Yerleştirme
             {
                 MainPanelCloseLeftSide(leftLayoutPanel, this);
             }
+            nesneTimer.Stop();
+            PLC_Timer.Stop();
             DrawingPanel.Invalidate();
         }
         //This is the Button that Returns to the First Item Placement Process Step

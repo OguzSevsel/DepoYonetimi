@@ -1,5 +1,6 @@
 ﻿using Balya_Yerleştirme.Models;
 using CustomNotification;
+using DocumentFormat.OpenXml.Spreadsheet;
 using GUI_Library;
 using String_Library;
 using System.Drawing.Drawing2D;
@@ -144,7 +145,7 @@ namespace Balya_Yerleştirme
         public Pen SelectedConveyorPen { get; set; } = new Pen(System.Drawing.Color.Black);
         public Pen SelectedDepoEdgePen { get; set; } = new Pen(System.Drawing.Color.Red);
         public Pen SelectedConveyorEdgePen { get; set; } = new Pen(System.Drawing.Color.Red);
-        public Pen TransparentPen { get; set; } = new Pen(System.Drawing.Color.Black, 2);
+        public Pen TransparentPen { get; set; } = new Pen(System.Drawing.Color.Black, 0.3f);
 
         #endregion
 
@@ -1826,6 +1827,8 @@ namespace Balya_Yerleştirme
 
                 System.Drawing.Font font1 = new System.Drawing.Font("Arial", 8);
                 SolidBrush brush1 = new SolidBrush(System.Drawing.Color.Red);
+                string ambarRect = $"Ambar Rectangle: {Ambar.Rectangle}";
+                g.DrawString(ambarRect, font1, brush1 , new System.Drawing.Point(20, 20));
 
                 //System.Drawing.Point point = new System.Drawing.Point(drawingPanel.ClientRectangle.Left, drawingPanel.ClientRectangle.Top);
                 //g.DrawRectangle(TransparentPen, Ambar.SelectLayoutRectangle);
@@ -1894,7 +1897,15 @@ namespace Balya_Yerleştirme
                     System.Drawing.Font font = new System.Drawing.Font("Arial", 8);
                     SolidBrush brush = new SolidBrush(System.Drawing.Color.Red);
 
-                    g.DrawString(textDepoAdi, font, brush, depo.Rectangle.Location);
+                    var Location = ConvertRectanglesLocationtoCMInsideParentRectangle(depo.Rectangle,
+                   Ambar.Rectangle, Ambar.AmbarEni, Ambar.AmbarBoyu, true);
+
+                    string text = $"Depo Location CM: {Location.Item1}\n{Location.Item2}";
+                    string depoRect = $"Depo Rectangle: {depo.Rectangle}";
+                    g.DrawString(depoRect, font, brush, new PointF(Ambar.Rectangle.X - 400, Ambar.Rectangle.Y));
+
+
+                    //g.DrawString(textDepoAdi, font, brush, depo.Rectangle.Location);
 
 
                     //string layoutRectangle = $"Depo SelectLayoutRectangle: {depo.SelectLayoutRectangle}";
@@ -1912,6 +1923,11 @@ namespace Balya_Yerleştirme
                         Pen pen1 = new Pen(System.Drawing.Color.LightGray);
                         pen1.DashStyle = DashStyle.Dash;
                         g.DrawRectangle(pen1, cell.Rectangle);
+                        string Rectangle = $"{cell.Rectangle.X}\n{cell.Rectangle.Y}";
+                        g.DrawString(Rectangle, font1, brush1, new System.Drawing.PointF(cell.Rectangle.X, cell.Rectangle.Y));
+                        string Rectangle1 = $"{cell.Rectangle.Width}\n{cell.Rectangle.Height}";
+
+                        g.DrawString(Rectangle1, font1, brush1, new PointF(Ambar.Rectangle.X - 400, Ambar.Rectangle.Y + 20));
                     }
 
                     if (selectedDepo != null && selectedDepo == depo &&
@@ -2035,7 +2051,7 @@ namespace Balya_Yerleştirme
                 }
             }
         }
-        private static RectangleF GetSimulationRectangle(Cell cell)
+        private static RectangleF GetSimulationRectangle(Models.Cell cell)
         {
             RectangleF rect;
             float x = cell.Rectangle.X;
