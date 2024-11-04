@@ -44,72 +44,8 @@ namespace Balya_Yerleştirme.Models
             conveyors = new List<Conveyor>();
             depolar = new List<Depo>();
             LocationofRect = new Point((int)Rectangle.X, (int)Rectangle.Y);
-
-            if (Main != null)
-            {
-                Main.ItemPlacementCancel += Ambar_ItemPlacementCancelEventHandler;
-                Main.ItemPlacementToolStripButtonClicked += Ambar_ItemPlacementToolStripButtonClicked;
-                Main.ItemPlacementContextMenuStripButtonClicked += Ambar_ItemPlacementContextMenuStripButtonClicked;
-                Main.ExportToExcel += Ambar_ExportToExcelButtonClicked;
-                Main.AddItemReferencePoint += Ambar_AddItemReferencePoint;
-                Main.PLCBaglantisiniAyarlaButtonClicked += MoveLeft_Event;
-                Main.PLCBaglantisiPaneliniKapat += MoveRight_Event;
-                Main.ToolStripNesneYerlestirClicked += MoveLeft_Event;
-            }
         }
 
-        private void MoveLeft_Event(object? sender, EventArgs e)
-        {
-            MoveLeft();
-        }
-
-        private void MoveRight_Event(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-
-        private void Ambar_PlcConnectionButton(object? sender, EventArgs e)
-        {
-            MoveLeft();
-        }
-
-        private void Ambar_AddItemReferencePoint(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void Ambar_ExportToExcelButtonClicked(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void Ambar_ItemPlacementContextMenuStripButtonClicked(object? sender, EventArgs e)
-        {
-            MoveLeft();
-        }
-        private void Ambar_ItemObtainToolStripButtonClicked(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void Ambar_ItemPlacementToolStripButtonClicked(object? sender, EventArgs e)
-        {
-            MoveLeft();
-        }
-        private void Ambar_ItemPlacementCancelEventHandler(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void Ambar_ItemPlacementCloseEventHandler(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-
-        private void Ambar_ItemPlacementEventHandler(object? sender, EventArgs e)
-        {
-            var values = ShiftRight(Rectangle, OriginalRectangle, LocationofRect, 
-                drawingPanelMoveConst, Zoomlevel);
-            Rectangle = values.Item1;
-            OriginalRectangle = values.Item2;
-            LocationofRect = values.Item3;
-        }
         public void Draw(Graphics graphics)
         {
             using (Pen pen = new Pen(Color.Black, 2))

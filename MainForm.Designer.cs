@@ -244,7 +244,7 @@
             Nesne_Yerlestirme_First_Panel.Controls.Add(Line_Mal_2);
             Nesne_Yerlestirme_First_Panel.Controls.Add(txt_Item_Agirligi);
             Nesne_Yerlestirme_First_Panel.Controls.Add(btn_Nesne_Yerlestirme_First_Panel_Kapat);
-            Nesne_Yerlestirme_First_Panel.Location = new Point(404, 1020);
+            Nesne_Yerlestirme_First_Panel.Location = new Point(722, 42);
             Nesne_Yerlestirme_First_Panel.Name = "Nesne_Yerlestirme_First_Panel";
             Nesne_Yerlestirme_First_Panel.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
             Nesne_Yerlestirme_First_Panel.Size = new Size(358, 903);
@@ -1284,7 +1284,7 @@
             Nesne_Al_First_Panel.Controls.Add(btn_Nesne_Bul_Vazgec);
             Nesne_Al_First_Panel.Controls.Add(btn_Nesne_Bul);
             Nesne_Al_First_Panel.Controls.Add(btn_Nesne_Al_First_Panel_Kapat);
-            Nesne_Al_First_Panel.Location = new Point(717, 37);
+            Nesne_Al_First_Panel.Location = new Point(1132, 1020);
             Nesne_Al_First_Panel.Name = "Nesne_Al_First_Panel";
             Nesne_Al_First_Panel.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
             Nesne_Al_First_Panel.Size = new Size(358, 903);

@@ -80,75 +80,8 @@ namespace Balya_Yerleştirme.Models
 
                 toolitem = Main.Balya_Context_Menu_Strip.Items["referansNoktasıEkleToolStripMenuItem"];
                 toolitem1 = Main.Balya_Context_Menu_Strip.Items["balyalarınReferansNoktalarınıSilToolStripMenuItem"];
-
-                Main.ItemPlacementCancel += Cell_ItemPlacementCancelEventHandler;
-                Main.ItemPlacementToolStripButtonClicked += Cell_ItemPlacementToolStripButtonClicked;
-                Main.ItemPlacementContextMenuStripButtonClicked += Cell_ItemPlacementContextMenuStripButtonClicked;
-                Main.ExportToExcel += Cell_ExportToExcelButtonClicked;
-                Main.AddItemReferencePoint += Cell_AddItemReferencePoint;
-
-                Main.PLCBaglantisiniAyarlaButtonClicked += Cell_PlcConnectionButton;
-                Main.PLCBaglantisiPaneliniKapat += Cell_MoveRight_Event;
-                Main.ToolStripNesneYerlestirClicked += Cell_MoveLeft_Event;
             }
         }
-
-        private void Cell_MoveLeft_Event(object? sender, EventArgs e)
-        {
-            MoveLeft();
-        }
-
-        private void Cell_MoveRight_Event(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-
-        private void Cell_PlcConnectionButton(object? sender, EventArgs e)
-        {
-            MoveLeft();
-        }
-
-        private void Cell_AddItemReferencePoint(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void Cell_ExportToExcelButtonClicked(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void Cell_ItemObtainContextMenuStripButtonClicked(object? sender, 
-            EventArgs e)
-        {
-            
-        }
-        private void Cell_ItemPlacementContextMenuStripButtonClicked(object? sender, 
-            EventArgs e)
-        {
-            MoveLeft();
-        }
-        private void Cell_ItemObtainToolStripButtonClicked(object? sender, EventArgs e)
-        {
-            MoveRight();
-            itemremoval = true;
-        }
-        private void Cell_ItemPlacementToolStripButtonClicked(object? sender, EventArgs e)
-        {
-            MoveLeft();
-        }
-        private void Cell_ItemPlacementCancelEventHandler(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void Cell_ItemPlacementCloseEventHandler(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void Cell_ItemPlacementEventHandler(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-
-
         private void ConstrainMovementWithinParent()
         {
             if (Rectangle.Left < Parent.Rectangle.Left)

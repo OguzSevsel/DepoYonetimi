@@ -32,69 +32,7 @@ namespace Balya_Yerleştirme.Models
             LocationofRect = new Point((int)Rectangle.X, (int)Rectangle.Y);
             Zoomlevel = zoomlevel;
             Main = main;
-
-            Main.ItemPlacementCancel += ItemRefs_ItemPlacementCancelEventHandler;
-            Main.ItemPlacementToolStripButtonClicked += ItemRefs_ItemPlacementToolStripButtonClicked;
-            Main.ItemPlacementContextMenuStripButtonClicked += ItemRefs_ItemPlacementContextMenuStripButtonClicked;
-            Main.ExportToExcel += ItemRefs_ExportToExcelButtonClicked;
-            Main.AddItemReferencePoint += ItemRefs_AddItemReferencePoint;
-            Main.PLCBaglantisiniAyarlaButtonClicked += ItemRefs_PlcConnectionButton;
-            Main.PLCBaglantisiPaneliniKapat += ItemRefs_MoveRight_Event;
-            Main.ToolStripNesneYerlestirClicked += ItemRefs_MoveLeft_Event;
         }
-
-        private void ItemRefs_MoveLeft_Event(object? sender, EventArgs e)
-        {
-            MoveLeft();
-        }
-
-        private void ItemRefs_MoveRight_Event(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-
-        private void ItemRefs_PlcConnectionButton(object? sender, EventArgs e)
-        {
-            MoveLeft();
-        }
-
-        private void ItemRefs_AddItemReferencePoint(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void ItemRefs_ExportToExcelButtonClicked(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void ItemRefs_ItemPlacementContextMenuStripButtonClicked(object? sender, 
-            EventArgs e)
-        {
-            MoveLeft();
-        }
-        private void ItemRefs_ItemObtainToolStripButtonClicked
-            (object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void ItemRefs_ItemPlacementToolStripButtonClicked
-            (object? sender, EventArgs e)
-        {
-            MoveLeft();
-        }
-        private void ItemRefs_ItemPlacementCancelEventHandler(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void ItemRefs_ItemPlacementCloseEventHandler(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void ItemRefs_ItemPlacementEventHandler(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-
-
 
         public void Draw(Graphics graphics)
         {

@@ -39,72 +39,7 @@ namespace Balya_Yerleştirme.Models
             Zoomlevel = zoomlevel;
             LocationofRect = new Point((int)Rectangle.X, (int)Rectangle.Y);
             ReferencePoints = new List<ItemReferencePoint>();
-
-            Main.ItemPlacementCancel += Item_ItemPlacementCancelEventHandler;
-            Main.ItemPlacementToolStripButtonClicked += Item_ItemPlacementToolStripButtonClicked;
-            Main.ItemPlacementContextMenuStripButtonClicked += Item_ItemPlacementContextMenuStripButtonClicked;
-            Main.ExportToExcel += Item_ExportToExcelButtonClicked;
-            Main.AddItemReferencePoint += Item_AddItemReferencePoint;
-            Main.PLCBaglantisiniAyarlaButtonClicked += Item_PlcConnectionButton;
-            Main.PLCBaglantisiPaneliniKapat += Item_MoveRight_Event;
-            Main.ToolStripNesneYerlestirClicked += Item_MoveLeft_Event;
         }
-
-        private void Item_MoveLeft_Event(object? sender, EventArgs e)
-        {
-            MoveLeft();
-        }
-        private void Item_MoveRight_Event(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-
-
-
-        private void Item_PlcConnectionButton(object? sender, EventArgs e)
-        {
-            MoveLeft();
-        }
-
-        private void Item_AddItemReferencePoint(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void Item_ExportToExcelButtonClicked(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void Item_ItemPlacementContextMenuStripButtonClicked(object? sender, EventArgs e)
-        {
-            MoveLeft();
-        }
-        private void Item_ItemObtainToolStripButtonClicked(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void Item_ItemPlacementToolStripButtonClicked(object? sender, EventArgs e)
-        {
-            MoveLeft();
-        }
-        private void Item_ItemPlacementCancelEventHandler(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void Item_ItemPlacementCloseEventHandler(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void Item_ItemPlacementEventHandler(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-
-
-
-
-
-
-
         public void Draw(Graphics graphics, Pen pen)
         {
             graphics.DrawRectangle(pen, Rectangle);

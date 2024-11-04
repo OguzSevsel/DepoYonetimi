@@ -86,34 +86,8 @@ namespace Balya_Yerleştirme.Models
                 layout.izgaraHaritasiOlustur += Depo_IzgaraHaritasiOlustur;
             }
 
-            if (Main != null)
-            {
-                Main.ItemPlacementCancel += Depo_ItemPlacementCancelEventHandler;
-                Main.ItemPlacementToolStripButtonClicked += Depo_ItemPlacementToolStripButtonClicked;
-                Main.ItemPlacementContextMenuStripButtonClicked += Depo_ItemPlacementContextMenuStripButtonClicked;
-                Main.ExportToExcel += Depo_ExportToExcelButtonClicked;
-                Main.AddItemReferencePoint += Depo_AddItemReferencePoint;
-                Main.PLCBaglantisiniAyarlaButtonClicked += Depo_PlcConnectionButton;
-                Main.PLCBaglantisiPaneliniKapat += Depo_MoveRight_Event;
-                Main.ToolStripNesneYerlestirClicked += Depo_MoveLeft_Event;
-            }
+            
         }
-
-        private void Depo_MoveLeft_Event(object? sender, EventArgs e)
-        {
-            MoveLeft();
-        }
-
-        private void Depo_MoveRight_Event(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-
-        private void Depo_PlcConnectionButton(object? sender, EventArgs e)
-        {
-            MoveLeft();
-        }
-
         private void Depo_IzgaraHaritasiOlustur(object? sender, EventArgs e)
         {
             if (layout != null)
@@ -138,39 +112,7 @@ namespace Balya_Yerleştirme.Models
                 }
             }
         }
-        private void Depo_AddItemReferencePoint(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void Depo_ExportToExcelButtonClicked(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void Depo_ItemPlacementContextMenuStripButtonClicked(object? sender, 
-            EventArgs e)
-        {
-            MoveLeft();
-        }
-        private void Depo_ItemObtainToolStripButtonClicked(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void Depo_ItemPlacementToolStripButtonClicked(object? sender, EventArgs e)
-        {
-            MoveLeft();
-        }
-        private void Depo_ItemPlacementCancelEventHandler(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void Depo_ItemPlacementCloseEventHandler(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void Depo_ItemPlacementEventHandler(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
+       
 
         public void Draw(Graphics graphics)
         {
@@ -372,7 +314,6 @@ namespace Balya_Yerleştirme.Models
                     if (notCollidedwithConveyor == true && notCollidedwithDepo == true)
                     {
                         MoveRectangle(deltaX, deltaY);
-                        LocationofRect = new Point((int)Rectangle.X, (int)Rectangle.Y);
                     }
                 }
             }
@@ -384,7 +325,6 @@ namespace Balya_Yerleştirme.Models
         private void MoveRectangle(float deltaX, float deltaY)
         {
             Rectangle = GVisual.MoveRectangle(Rectangle, deltaX, deltaY);
-            OriginalRectangle = Rectangle;
             LocationofRect = new Point((int)Rectangle.X, (int)Rectangle.Y);
             depo_alani_x = Rectangle.X;
             depo_alani_y = Rectangle.Y;
@@ -395,20 +335,21 @@ namespace Balya_Yerleştirme.Models
                 cell.LocationofRect = new Point((int)cell.Rectangle.X, (int)cell.Rectangle.Y);
             }
             ConstrainMovementWithinParent();
+            OriginalRectangle = Rectangle;
         }
         private void ConstrainMovementWithinParent()
         {
             if (Rectangle.Left <= Parent.Rectangle.Left)
             {
                 Rectangle = 
-                    GVisual.MoveRectangleToPoint(Rectangle, Parent.Rectangle.Left, Rectangle.Y);
+                    GVisual.MoveRectangleToPoint(Rectangle, Parent.Rectangle.X, Rectangle.Y);
                 LocationofRect = new Point((int)Rectangle.X, (int)Rectangle.Y);
                 SyncGridMap();
             }
             if (Rectangle.Top <= Parent.Rectangle.Top)
             {
                 Rectangle = 
-                    GVisual.MoveRectangleToPoint(Rectangle, Rectangle.X, Parent.Rectangle.Top);
+                    GVisual.MoveRectangleToPoint(Rectangle, Rectangle.X, Parent.Rectangle.Y);
                 LocationofRect = new Point((int)Rectangle.X, (int)Rectangle.Y);
                 SyncGridMap();
             }
@@ -426,6 +367,13 @@ namespace Balya_Yerleştirme.Models
                 LocationofRect = new Point((int)Rectangle.X, (int)Rectangle.Y);
                 SyncGridMap();
             }
+            if (Rectangle.Left <= Parent.Rectangle.Left && Rectangle.Top <= Parent.Rectangle.Top)
+            {
+                Rectangle =
+                    GVisual.MoveRectangleToPoint(Rectangle, Parent.Rectangle.X, Parent.Rectangle.Top);
+                LocationofRect = new Point((int)Rectangle.X, (int)Rectangle.Y);
+                SyncGridMap();
+            }
         }
         private void SyncGridMap()
         {
@@ -439,9 +387,17 @@ namespace Balya_Yerleştirme.Models
                 float y = cell.Rectangle.Y / Zoomlevel;
                 cell.OriginalRectangle = GVisual.MoveRectangleToPoint(cell.OriginalRectangle, (float)x, (float)y);
                 cell.LocationofRect = new Point((int)cell.Rectangle.X, (int)cell.Rectangle.Y);
+
+                var Location = ConvertRectanglesLocationtoCMInsideParentRectangle(cell.Rectangle,
+                    Parent.Rectangle, Parent.AmbarEni, Parent.AmbarBoyu, true);
+
+                cell.cell_Cm_X = Location.Item1;
+                cell.cell_Cm_Y = Location.Item2;
             }
             depo_alani_x = Rectangle.X;
             depo_alani_y = Rectangle.Y;
+            
+            OriginalRectangle = Rectangle;
         }
         public void OnMouseUp(MouseEventArgs e)
         {
@@ -563,6 +519,7 @@ namespace Balya_Yerleştirme.Models
 
                     cell.AdjustRectangletozoomlevel(Zoomlevel);
                     cell.DepoId = DepoId;
+                    cell.CellId = 0;
 
                     cell.LocationofRect = new Point((int)cell.Rectangle.X, (int)cell.Rectangle.Y);
 

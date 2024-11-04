@@ -56,71 +56,7 @@ namespace Balya_Yerleştirme.Models
             Main = main;
             Layout = layout;
             ParentConveyor = parentConveyor;
-
-            if (Main != null)
-            {
-                Main.ItemPlacementCancel += ConveyorRefs_ItemPlacementCancelEventHandler;
-                Main.ItemPlacementToolStripButtonClicked += ConveyorRefs_ItemPlacementToolStripButtonClicked;
-                Main.ItemPlacementContextMenuStripButtonClicked += ConveyorRefs_ItemPlacementContextMenuStripButtonClicked;
-                Main.ExportToExcel += ConveyorRefs_ExportToExcelButtonClicked;
-                Main.AddItemReferencePoint += ConveyorRefs_AddItemReferencePoint;
-                Main.PLCBaglantisiniAyarlaButtonClicked += ConveyorRefs_PlcConnectionButton;
-                Main.PLCBaglantisiPaneliniKapat += ConveyorRefs_MoveRight_Event;
-                Main.ToolStripNesneYerlestirClicked += ConveyorRefs_MoveLeft_Event;
-            }
         }
-
-        private void ConveyorRefs_MoveLeft_Event(object? sender, EventArgs e)
-        {
-            MoveLeft();
-        }
-
-        private void ConveyorRefs_MoveRight_Event(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-
-        private void ConveyorRefs_PlcConnectionButton(object? sender, EventArgs e)
-        {
-            MoveLeft();
-        }
-        private void ConveyorRefs_AddItemReferencePoint(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void ConveyorRefs_ExportToExcelButtonClicked(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void ConveyorRefs_ItemPlacementContextMenuStripButtonClicked(object? sender, EventArgs e)
-        {
-            MoveLeft();
-        }
-        private void ConveyorRefs_ItemObtainToolStripButtonClicked(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void ConveyorRefs_ItemPlacementToolStripButtonClicked(object? sender, EventArgs e)
-        {
-            MoveLeft();
-        }
-        private void ConveyorRefs_ItemPlacementCancelEventHandler(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void ConveyorRefs_ItemPlacementCloseEventHandler(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void ConveyorRefs_ItemPlacementEventHandler(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-
-
-
-
-
         public void Draw(Graphics graphics)
         {
             Font font = new Font("Arial", 12);

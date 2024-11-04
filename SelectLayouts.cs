@@ -1081,7 +1081,7 @@ namespace Balya_Yerleştirme
             }
         }
 
-        private void btn_Layout_Duzenle_Click(object sender, EventArgs e)
+        private async void btn_Layout_Duzenle_Click(object sender, EventArgs e)
         {
             RectangleF AmbarRect = new RectangleF();
 
@@ -1137,31 +1137,43 @@ namespace Balya_Yerleştirme
                         }
                     }
 
+                    
+
                     if (isDepoEmpty)
                     {
-
-                        layout = new LayoutOlusturma(Main, ambar);
-
-                        ambar.layout = layout;
-                        layout.AlanNode.Tag = ambar;
-                        foreach (var depo in ambar.depolar)
+                        using (var context = new DBContext())
                         {
-                            depo.layout = layout;
-                            layout.AddDepoNode(depo);
-                            foreach (var cell in depo.gridmaps)
+                            var layout1 = (from x in context.Layout
+                                           where x.LayoutId == ambar.LayoutId
+                                           select x).FirstOrDefault();
+
+                            if (layout1 != null)
                             {
-                                cell.Layout = layout;
+                                layout = new LayoutOlusturma(Main, ambar, layout1);
+
+                                ambar.layout = layout;
+                                layout.AlanNode.Tag = ambar;
+                                foreach (var depo in ambar.depolar)
+                                {
+                                    depo.layout = layout;
+                                    layout.AddDepoNode(depo);
+                                    foreach (var cell in depo.gridmaps)
+                                    {
+                                        cell.Layout = layout;
+                                    }
+                                }
+                                foreach (var conveyor in ambar.conveyors)
+                                {
+                                    conveyor.layout = layout;
+                                    layout.AddConveyorNode(conveyor);
+                                    foreach (var reff in conveyor.ConveyorReferencePoints)
+                                    {
+                                        reff.Layout = layout;
+                                    }
+                                }
                             }
                         }
-                        foreach (var conveyor in ambar.conveyors)
-                        {
-                            conveyor.layout = layout;
-                            layout.AddConveyorNode(conveyor);
-                            foreach (var reff in conveyor.ConveyorReferencePoints)
-                            {
-                                reff.Layout = layout;
-                            }
-                        }
+                        
                     }
                     else
                     {
@@ -1229,8 +1241,16 @@ namespace Balya_Yerleştirme
                                     context.SaveChanges();
                                     setLayoutNameDesc(SelectLayoutPanel, SelectedPB, true, layout1.Name);
                                     setLayoutNameDesc(SelectLayoutPanel, SelectedPB, false, layout1.Description);
+
+                                    var progress1 = new Progress<int>(value =>
+                                    {
+                                        progressBar.Value = value;
+                                    });
+
+                                    await Main.LayoutOlusturSecondDatabaseOperation(progress1, layout1.Name, layout1.Description, layout1, ambar);
                                 }
                             }
+                            
                             SelectedPB.Invalidate();
                         }
                         else

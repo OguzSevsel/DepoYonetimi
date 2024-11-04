@@ -49,73 +49,8 @@ namespace Balya_Yerleştirme.Models
             Parent = ambar;
             LocationofRect = new Point((int)Rectangle.X, (int)Rectangle.Y);
 
-            if (Main != null)
-            {
-                Main.ItemPlacementCancel += Conveyor_ItemPlacementCancelEventHandler;
-                Main.ItemPlacementToolStripButtonClicked += Conveyor_ItemPlacementToolStripButtonClicked;
-                Main.ItemPlacementContextMenuStripButtonClicked += Conveyor_ItemPlacementContextMenuStripButtonClicked;
-                Main.ExportToExcel += Conveyor_ExportToExcelButtonClicked;
-                Main.AddItemReferencePoint += Conveyor_AddItemReferencePoint;
-                Main.PLCBaglantisiniAyarlaButtonClicked += Conveyor_PlcConnectionButton;
-                Main.PLCBaglantisiPaneliniKapat += Conveyor_MoveRight_Event;
-                Main.ToolStripNesneYerlestirClicked += Conveyor_MoveLeft_Event;
-            }
+            
         }
-
-        private void Conveyor_MoveLeft_Event(object? sender, EventArgs e)
-        {
-            MoveLeft();
-        }
-
-        private void Conveyor_MoveRight_Event(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-
-        private void Conveyor_PlcConnectionButton(object? sender, EventArgs e)
-        {
-            MoveLeft();
-        }
-
-        private void Conveyor_AddItemReferencePoint(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void Conveyor_ExportToExcelButtonClicked(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void Conveyor_ItemPlacementContextMenuStripButtonClicked(object? sender, EventArgs e)
-        {
-            MoveLeft();
-        }
-        private void Conveyor_ItemObtainToolStripButtonClicked(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void Conveyor_ItemPlacementToolStripButtonClicked(object? sender, EventArgs e)
-        {
-            MoveLeft();
-        }
-        private void Conveyor_ItemPlacementCancelEventHandler(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void Conveyor_ItemPlacementCloseEventHandler(object? sender, EventArgs e)
-        {
-            MoveRight();
-        }
-        private void Conveyor_ItemPlacementEventHandler(object? sender, EventArgs e)
-        {
-            var values = ShiftRight(Rectangle, OriginalRectangle, LocationofRect, 
-                drawingPanelMoveConst, Zoomlevel);
-            Rectangle = values.Item1;
-            OriginalRectangle = values.Item2;
-            LocationofRect = values.Item3;
-        }
-
-
-
         public void Draw(Graphics graphics)
         {
             using (Pen pen = new Pen(System.Drawing.Color.Black, 3))

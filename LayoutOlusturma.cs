@@ -165,8 +165,10 @@ namespace Balya_Yerleştirme
 
         public bool menuProcess { get; set; } = false;
 
+        public Layout ?layout { get; set; }
 
-        public LayoutOlusturma(MainForm main, Ambar? ambar)
+
+        public LayoutOlusturma(MainForm main, Ambar? ambar, Layout? layout)
         {
             InitializeComponent();
             System.Windows.Forms.ToolTip toolTip = new System.Windows.Forms.ToolTip();
@@ -191,7 +193,8 @@ namespace Balya_Yerleştirme
             GVisual.SetDoubleBuffered(drawingPanel);
             Main = main;
             Ambar = ambar;
-            
+            this.layout = layout;
+
             timer.Tick += Timer_Tick;
 
             AlanNode = new TreeNode("Alan");
@@ -632,7 +635,7 @@ namespace Balya_Yerleştirme
 
                             Depo CopiedDepo = new Depo(x, y, CopyDepo.Rectangle.Width, CopyDepo.Rectangle.Height, CopyDepo.Zoomlevel, Main, this, Ambar);
 
-
+                            CopiedDepo.DepoId = 0;
                             CopiedDepo.OriginalRectangle = CopiedDepo.Rectangle;
 
                             CopiedDepo.KareX = CopiedDepo.Rectangle.X;
@@ -696,7 +699,7 @@ namespace Balya_Yerleştirme
                                 Models.Cell CopiedCell = new Models.Cell(cellX, cellY, cell.Rectangle.Width, cell.Rectangle.Height, Main, CopiedDepo, this);
 
                                 CopiedCell.OriginalRectangle = CopiedCell.Rectangle;
-
+                                CopiedCell.CellId = 0;
                                 CopiedCell.KareX = CopiedCell.Rectangle.X;
                                 CopiedCell.KareY = CopiedCell.Rectangle.Y;
                                 CopiedCell.KareEni = CopiedCell.Rectangle.Width;
@@ -820,7 +823,7 @@ namespace Balya_Yerleştirme
                             Main, this, Ambar);
 
                             conveyor.OriginalRectangle = conveyor.Rectangle;
-
+                            conveyor.ConveyorId = 0;
                             conveyor.KareX = conveyor.Rectangle.X;
                             conveyor.KareY = conveyor.Rectangle.Y;
                             conveyor.KareEni = conveyor.Rectangle.Width;
@@ -841,6 +844,7 @@ namespace Balya_Yerleştirme
 
                                 ConveyorReferencePoint newReff = new ConveyorReferencePoint(reffX, reffY, reff.Rectangle.Width, reff.Rectangle.Height, reff.Zoomlevel, Main, conveyor, this);
 
+                                newReff.ReferenceId = 0;
                                 newReff.KareX = newReff.Rectangle.X;
                                 newReff.KareY = newReff.Rectangle.Y;
                                 newReff.KareEni = newReff.Rectangle.Width;
@@ -4463,6 +4467,11 @@ namespace Balya_Yerleştirme
                     {
                         Ambar ambar = new Ambar(0, 0, alan_eni, alan_boyu, Main, this);
 
+                        if (layout != null)
+                        {
+                            ambar.LayoutId = layout.LayoutId;
+                        }
+
                         ambar.Rectangle = GVisual.RatioRectangleToPanel(drawingPanel, ambar.Rectangle);
                         System.Drawing.Point point = GVisual.GetCenter(drawingPanel.ClientRectangle);
                         ambar.Rectangle = new RectangleF(point.X - ambar.Rectangle.Width / 2,
@@ -4500,6 +4509,11 @@ namespace Balya_Yerleştirme
                 if (!errorProvider.HasErrors)
                 {
                     Ambar ambar = new Ambar(0, 0, alan_eni, alan_boyu, Main, this);
+
+                    if (layout != null)
+                    {
+                        ambar.LayoutId = layout.LayoutId;
+                    }
 
                     ambar.Rectangle = GVisual.RatioRectangleToPanel(drawingPanel, ambar.Rectangle);
                     System.Drawing.Point point = GVisual.GetCenter(drawingPanel.ClientRectangle);
@@ -4547,6 +4561,11 @@ namespace Balya_Yerleştirme
                 if (!errorProvider.HasErrors)
                 {
                     Ambar ambar = new Ambar(0, 0, alan_eni, alan_boyu, Main, this);
+
+                    if (layout != null)
+                    {
+                        ambar.LayoutId = layout.LayoutId;
+                    }
 
                     ambar.Rectangle = GVisual.RatioRectangleToPanel(drawingPanel, ambar.Rectangle);
                     System.Drawing.Point point = GVisual.GetCenter(drawingPanel.ClientRectangle);
@@ -4604,6 +4623,11 @@ namespace Balya_Yerleştirme
                 if (!errorProvider.HasErrors)
                 {
                     Ambar ambar = new Ambar(0, 0, alan_eni, alan_boyu, Main, this);
+
+                    if (layout != null)
+                    {
+                        ambar.LayoutId = layout.LayoutId;
+                    }
 
                     ambar.Rectangle = GVisual.RatioRectangleToPanel(drawingPanel, ambar.Rectangle);
                     System.Drawing.Point point = GVisual.GetCenter(drawingPanel.ClientRectangle);
@@ -4823,6 +4847,7 @@ namespace Balya_Yerleştirme
                     depo.Rectangle = GVisual.RatioRectangleToParentRectangle(depo_eni,
                         depo_boyu, Ambar.AmbarEni, Ambar.AmbarBoyu, Ambar.Rectangle);
 
+                    depo.DepoId = 0;
                     depo.OriginalRectangle = depo.Rectangle;
                     depo.LocationofRect = new System.Drawing.Point((int)depo.Rectangle.X, (int)depo.Rectangle.Y);
                     depo.OriginalDepoSize = depo.Rectangle.Size;
