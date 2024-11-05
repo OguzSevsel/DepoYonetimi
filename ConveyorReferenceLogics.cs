@@ -57,6 +57,44 @@ namespace Balya_Yerleştirme.Models
             Layout = layout;
             ParentConveyor = parentConveyor;
         }
+        public ConveyorReferencePoint Clone()
+        {
+            return new ConveyorReferencePoint
+            {
+                SelectLayoutRectangle = this.SelectLayoutRectangle,
+                Rectangle = this.Rectangle,
+                OriginalRectangle = this.OriginalRectangle,
+                KareX = this.KareX,
+                KareY = this.KareY,
+                KareEni = this.KareEni,
+                KareBoyu = this.KareBoyu,
+                OriginalKareX = this.OriginalKareX,
+                OriginalKareY = this.OriginalKareY,
+                OriginalKareEni = this.OriginalKareEni,
+                OriginalKareBoyu = this.OriginalKareBoyu,
+                Info = this.Info,
+                LocationofRect = this.LocationofRect,
+                LocationX = this.LocationX,
+                LocationY = this.LocationY,
+                FixedPointLocation = this.FixedPointLocation,
+                OriginalLocationInsideParent = this.OriginalLocationInsideParent,
+                OriginalLocationInsideParentX = this.OriginalLocationInsideParentX,
+                OriginalLocationInsideParentY = this.OriginalLocationInsideParentY,
+                Zoomlevel = this.Zoomlevel,
+                Pointsize = this.Pointsize,
+                ParentConveyor = this.ParentConveyor,
+                Layout = this.Layout,
+                Main = this.Main,
+                drawingPanelMoveConst = this.drawingPanelMoveConst,
+                ReferenceId = this.ReferenceId,
+                Conveyor = this.Conveyor,
+                ConveyorId = this.ConveyorId,
+                Pen = this.Pen,
+
+                // Clone other properties...
+            };
+        }
+
         public void Draw(Graphics graphics)
         {
             Font font = new Font("Arial", 12);

@@ -40,6 +40,43 @@ namespace Balya_Yerleştirme.Models
             LocationofRect = new Point((int)Rectangle.X, (int)Rectangle.Y);
             ReferencePoints = new List<ItemReferencePoint>();
         }
+        public Item Clone()
+        {
+            return new Item
+            {
+                SelectLayoutRectangle = this.SelectLayoutRectangle,
+                Rectangle = this.Rectangle,
+                OriginalRectangle = this.OriginalRectangle,
+                KareX = this.KareX,
+                KareY = this.KareY,
+                KareEni = this.KareEni,
+                KareBoyu = this.KareBoyu,
+                OriginalKareX = this.OriginalKareX,
+                OriginalKareY = this.OriginalKareY,
+                OriginalKareEni = this.OriginalKareEni,
+                OriginalKareBoyu = this.OriginalKareBoyu,
+                LocationofRect = this.LocationofRect,
+                drawingPanelMoveConst = this.drawingPanelMoveConst,
+                Main = Main,
+                Zoomlevel = Zoomlevel,
+                ReferencePoints = this.ReferencePoints,
+                Pen = this.Pen,
+                CellId = this.CellId,
+                ItemEtiketi = this.ItemEtiketi,
+                ItemTuru = this.ItemTuru,
+                ItemEni = this.ItemEni,
+                ItemBoyu = this.ItemBoyu,
+                ItemYuksekligi = this.ItemYuksekligi,
+                ItemAgirligi = this.ItemAgirligi,
+                ItemAciklamasi = this.ItemAciklamasi,
+                Cm_X_Axis = this.Cm_X_Axis,
+                Cm_Y_Axis = this.Cm_Y_Axis,
+                Cm_Z_Axis = this.Cm_Z_Axis,
+
+                // Clone other properties...
+            };
+        }
+
         public void Draw(Graphics graphics, Pen pen)
         {
             graphics.DrawRectangle(pen, Rectangle);

@@ -85,10 +85,71 @@ namespace Balya_Yerleştirme.Models
             {
                 layout.izgaraHaritasiOlustur += Depo_IzgaraHaritasiOlustur;
             }
-
             
         }
-        private void Depo_IzgaraHaritasiOlustur(object? sender, EventArgs e)
+        public Depo Clone()
+        {
+            return new Depo
+            {
+                SelectLayoutRectangle = this.SelectLayoutRectangle,
+                Rectangle = this.Rectangle,
+                OriginalRectangle = this.OriginalRectangle,
+                KareX = this.KareX,
+                KareY = this.KareY,
+                KareEni = this.KareEni,
+                KareBoyu = this.KareBoyu,
+                OriginalKareX = this.OriginalKareX,
+                OriginalKareY = this.OriginalKareY,
+                OriginalKareEni = this.OriginalKareEni,
+                OriginalKareBoyu = this.OriginalKareBoyu,
+                AmbarId = this.AmbarId,
+                Ambar = this.Ambar,
+                DepoName = this.DepoName,
+                DepoDescription = this.DepoDescription,
+                DepoAlaniEni = this.DepoAlaniEni,
+                DepoAlaniBoyu = this.DepoAlaniBoyu,
+                DepoAlaniYuksekligi = this.DepoAlaniYuksekligi,
+                OriginalDepoSizeWidth = this.OriginalDepoSizeWidth,
+                OriginalDepoSizeHeight = this.OriginalDepoSizeHeight,
+                itemDrop_StartLocation = this.itemDrop_StartLocation,
+                itemDrop_UpDown = this.itemDrop_UpDown,
+                itemDrop_LeftRight = this.itemDrop_LeftRight,
+                asama1_Yuksekligi = this.asama1_Yuksekligi,
+                asama2_Yuksekligi = this.asama2_Yuksekligi,
+                Yerlestirilme_Sirasi = this.Yerlestirilme_Sirasi,
+                Depo_Alani_Boyu_Cm = this.Depo_Alani_Boyu_Cm,
+                Depo_Alani_Eni_Cm = this.Depo_Alani_Eni_Cm,
+                ColumnCount = this.ColumnCount,
+                RowCount = this.RowCount,
+                currentColumn = this.currentColumn,
+                currentRow = this.currentRow,
+                ItemTuru = this.ItemTuru,
+                asama1_ItemSayisi = this.asama1_ItemSayisi,
+                asama2_ToplamItemSayisi = this.asama2_ToplamItemSayisi,
+                currentStage = this.currentStage,
+                Cm_Width = this.Cm_Width,
+                Cm_Height = this.Cm_Height,
+                depo_alani_x = this.depo_alani_x,
+                depo_alani_y = this.depo_alani_y,
+                nesneEni = this.nesneEni,
+                nesneBoyu = this.nesneBoyu,
+                nesneYuksekligi = this.nesneYuksekligi,
+                OriginalDepoSize = this.OriginalDepoSize,
+                drawingPanelMoveConst = this.drawingPanelMoveConst,
+                itemDrop_Stage1 = this.itemDrop_Stage1,
+                itemDrop_Stage2 = this.itemDrop_Stage2,
+                Main = this.Main,
+                Parent = this.Parent,
+                layout = this.layout,
+
+
+                gridmaps = this.gridmaps.Select(d => d.Clone()).ToList(),
+
+                // Clone other properties...
+            };
+        }
+
+        public void Depo_IzgaraHaritasiOlustur(object? sender, EventArgs e)
         {
             if (layout != null)
             {
@@ -472,6 +533,9 @@ namespace Balya_Yerleştirme.Models
             //float izgaraEniPX = px * izgaraEniMeters;
             //float izgaraBoyuPX = px * izgaraBoyuMeters;
 
+            nesneEni = nesne_eni;
+            nesneBoyu = nesne_boyu;
+
             if (gridmaps.Count == 0)
             {
                 CreateGrid(izgaraEniPX, izgaraBoyuPX, OriginalDepoSize.Width, 
@@ -537,18 +601,9 @@ namespace Balya_Yerleştirme.Models
 
                     if (layout != null)
                     {
-                        if (layout.layout != null)
-                        {
-                            cell.NesneEni = nesneEni;
-                            cell.NesneBoyu = nesneBoyu;
-                            cell.NesneYuksekligi = nesneYuksekligi;
-                        }
-                        else
-                        {
-                            cell.NesneEni = layout.nesne_Eni;
-                            cell.NesneBoyu = layout.nesne_Boyu;
-                            cell.NesneYuksekligi = layout.nesne_Yuksekligi;
-                        }
+                        cell.NesneEni = layout.nesne_Eni;
+                        cell.NesneBoyu = layout.nesne_Boyu;
+                        cell.NesneYuksekligi = layout.nesne_Yuksekligi;
 
                         if (cell.NesneYuksekligi * 2 < DepoAlaniYuksekligi)
                         {

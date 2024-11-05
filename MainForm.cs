@@ -109,7 +109,7 @@ namespace Balya_Yerleştirme
             DrawingPanel.MouseWheel += DrawingPanel_MouseWheel;
             btn_PLC_ConnectionPanel_Kapat_Click(this, EventArgs.Empty);
         }
-
+        
 
 
         //Add Items to the Depos According to the Parameters choosed by user when creating Layout
@@ -124,6 +124,8 @@ namespace Balya_Yerleştirme
                 newItem.OriginalRectangle = GVisual.RatioRectangleToParentRectangle(cell1.NesneEni, cell1.NesneBoyu, cell1.CellEni, cell1.CellBoyu, cell1.OriginalRectangle);
 
                 newItem.Rectangle = GVisual.RatioRectangleToParentRectangle(cell1.NesneEni, cell1.NesneBoyu, cell1.CellEni, cell1.CellBoyu, cell1.Rectangle);
+
+                newItem.SelectLayoutRectangle = GVisual.RatioRectangleToParentRectangle(cell1.NesneEni, cell1.NesneBoyu, cell1.CellEni, cell1.CellBoyu, cell1.Rectangle);
 
                 newItem.CellId = cell1.CellId;
                 newItem.ItemAgirligi = item_agirligi;
@@ -1033,6 +1035,38 @@ namespace Balya_Yerleştirme
                         await context.SaveChangesAsync();
                         ambar.AmbarId = newAmbar.AmbarId;
 
+                        foreach (var depo in ambar.deletedDepos)
+                        {
+                            if (depo.DepoId != 0)
+                            {
+                                var depo1 = (from x in context.Depos
+                                             where x.DepoId == depo.DepoId
+                                             select x).FirstOrDefault();
+
+                                if (depo1 != null)
+                                {
+                                    context.Depos.Remove(depo1);
+                                    context.SaveChanges();
+                                }
+                            }
+                        }
+
+                        foreach (var conveyor in ambar.deletedConveyors)
+                        {
+                            if (conveyor.ConveyorId != 0)
+                            {
+                                var conveyor1 = (from x in context.Conveyors
+                                                 where x.ConveyorId == conveyor.ConveyorId
+                                                 select x).FirstOrDefault();
+
+                                if (conveyor1 != null)
+                                {
+                                    context.Conveyors.Remove(conveyor1);
+                                    context.SaveChanges();
+                                }
+                            }
+                        }
+
                         foreach (var depo in ambar.depolar)
                         {
                             if (ambar.depolar.Count * depo.gridmaps.Count < 100)
@@ -1152,10 +1186,42 @@ namespace Balya_Yerleştirme
                                 await context.SaveChangesAsync();
                             }
                         }
-                        
+
+                        foreach (var depo in ambar.deletedDepos)
+                        {
+                            if (depo.DepoId != 0)
+                            {
+                                var depo1 = (from x in context.Depos
+                                             where x.DepoId == depo.DepoId
+                                             select x).FirstOrDefault();
+
+                                if (depo1 != null)
+                                {
+                                    context.Depos.Remove(depo1);
+                                    context.SaveChanges();
+                                }
+                            }
+                        }
+
+                        foreach (var conveyor in ambar.deletedConveyors)
+                        {
+                            if (conveyor.ConveyorId != 0)
+                            {
+                                var conveyor1 = (from x in context.Conveyors
+                                             where x.ConveyorId == conveyor.ConveyorId
+                                             select x).FirstOrDefault();
+
+                                if (conveyor1 != null)
+                                {
+                                    context.Conveyors.Remove(conveyor1);
+                                    context.SaveChanges();
+                                }
+                            }
+                        }
+
                         foreach (var depo in ambar.depolar)
                         {
-                            if (depo.DepoId == 0)
+                            if (depo.DepoId == 0 && !ambar.deletedDepos.Contains(depo))
                             {
                                 Depo newDepo = new Depo(ambar.AmbarId,
                                     depo.DepoName, depo.DepoDescription, depo.DepoAlaniEni,
@@ -1176,67 +1242,27 @@ namespace Balya_Yerleştirme
 
                                 foreach (var cell in depo.gridmaps)
                                 {
-                                    Balya_Yerleştirme.Models.Cell newCell =
-                                   new Balya_Yerleştirme.Models.Cell(
-                                       depo.DepoId, cell.CellEtiketi,
-                                       cell.CellEni, cell.CellBoyu,
-                                       cell.CellYuksekligi, cell.CellMalSayisi,
-                                       cell.Rectangle.X, cell.Rectangle.Y, cell.Rectangle.Width,
-                                       cell.Rectangle.Height, cell.OriginalRectangle.X,
-                                       cell.OriginalRectangle.Y, cell.OriginalRectangle.Width,
-                                       cell.OriginalRectangle.Height, cell.Zoomlevel,
-                                       cell.ItemSayisi, cell.DikeyKenarBoslugu,
-                                       cell.YatayKenarBoslugu, cell.NesneEni,
-                                       cell.NesneBoyu, cell.NesneYuksekligi,
-                                       cell.Column, cell.Row, cell.toplam_Nesne_Yuksekligi, cell.cell_Cm_X, cell.cell_Cm_Y);
+                                    if (cell.CellId == 0)
+                                    {
+                                        Balya_Yerleştirme.Models.Cell newCell =
+                                  new Balya_Yerleştirme.Models.Cell(
+                                      depo.DepoId, cell.CellEtiketi,
+                                      cell.CellEni, cell.CellBoyu,
+                                      cell.CellYuksekligi, cell.CellMalSayisi,
+                                      cell.Rectangle.X, cell.Rectangle.Y, cell.Rectangle.Width,
+                                      cell.Rectangle.Height, cell.OriginalRectangle.X,
+                                      cell.OriginalRectangle.Y, cell.OriginalRectangle.Width,
+                                      cell.OriginalRectangle.Height, cell.Zoomlevel,
+                                      cell.ItemSayisi, cell.DikeyKenarBoslugu,
+                                      cell.YatayKenarBoslugu, cell.NesneEni,
+                                      cell.NesneBoyu, cell.NesneYuksekligi,
+                                      cell.Column, cell.Row, cell.toplam_Nesne_Yuksekligi, cell.cell_Cm_X, cell.cell_Cm_Y);
 
-                                    await context.Cells.AddAsync(newCell);
-                                    await context.SaveChangesAsync();
-                                    cell.CellId = newCell.CellId;
-                                }
-                            }
-                            else
-                            {
-                                var depo1 = await (from x in context.Depos
-                                                where x.DepoId == depo.DepoId
-                                                select x).FirstOrDefaultAsync();
-
-                                if (depo1 != null)
-                                {
-                                    depo1.KareX = depo.Rectangle.X;
-                                    depo1.KareY = depo.Rectangle.Y;
-                                    depo1.KareEni = depo.Rectangle.Width;
-                                    depo1.KareBoyu = depo.Rectangle.Height;
-                                    depo1.OriginalKareX = depo.OriginalRectangle.X;
-                                    depo1.OriginalKareY = depo.OriginalRectangle.Y;
-                                    depo1.OriginalKareEni = depo.OriginalRectangle.Width;
-                                    depo1.OriginalKareBoyu = depo.OriginalRectangle.Height;
-                                    depo1.itemDrop_LeftRight = depo.itemDrop_LeftRight;
-                                    depo1.itemDrop_Stage1 = depo.itemDrop_Stage1;
-                                    depo1.itemDrop_Stage2 = depo.itemDrop_Stage2;
-                                    depo1.itemDrop_StartLocation = depo.itemDrop_StartLocation;
-                                    depo1.itemDrop_UpDown = depo.itemDrop_UpDown;
-                                    depo1.asama1_ItemSayisi = depo.asama1_ItemSayisi;
-                                    depo1.asama2_ToplamItemSayisi = depo.asama2_ToplamItemSayisi;
-                                    depo1.currentStage = depo.currentStage;
-                                    depo1.currentRow = depo.currentRow;
-                                    depo1.currentColumn = depo.currentColumn;
-                                    depo1.Yerlestirilme_Sirasi = depo.Yerlestirilme_Sirasi;
-                                    depo1.OriginalDepoSizeHeight = depo.OriginalDepoSizeHeight;
-                                    depo1.OriginalDepoSizeWidth = depo.OriginalDepoSizeWidth;
-                                    depo1.DepoAlaniEni = depo.DepoAlaniEni;
-                                    depo1.DepoAlaniBoyu = depo.DepoAlaniBoyu;
-                                    depo1.DepoAlaniYuksekligi = depo.DepoAlaniYuksekligi;
-                                    depo1.DepoDescription = depo.DepoDescription;
-                                    depo1.DepoName = depo.DepoName;
-                                    depo1.Depo_Alani_Eni_Cm = depo.Depo_Alani_Eni_Cm;
-                                    depo1.Depo_Alani_Boyu_Cm = depo.Depo_Alani_Boyu_Cm;
-                                    depo1.ColumnCount = depo.ColumnCount;
-                                    depo1.RowCount = depo.RowCount;
-
-                                    await context.SaveChangesAsync();
-
-                                    foreach (var cell in depo.gridmaps)
+                                        await context.Cells.AddAsync(newCell);
+                                        await context.SaveChangesAsync();
+                                        cell.CellId = newCell.CellId;
+                                    }
+                                    else
                                     {
                                         var cell1 = await (from x in context.Cells
                                                            where x.CellId == cell.CellId
@@ -1274,10 +1300,115 @@ namespace Balya_Yerleştirme
                                     }
                                 }
                             }
+                            else
+                            {
+                                if (!ambar.deletedDepos.Contains(depo))
+                                {
+                                    var depo1 = await (from x in context.Depos
+                                                       where x.DepoId == depo.DepoId
+                                                       select x).FirstOrDefaultAsync();
+
+                                    if (depo1 != null)
+                                    {
+                                        depo1.KareX = depo.Rectangle.X;
+                                        depo1.KareY = depo.Rectangle.Y;
+                                        depo1.KareEni = depo.Rectangle.Width;
+                                        depo1.KareBoyu = depo.Rectangle.Height;
+                                        depo1.OriginalKareX = depo.OriginalRectangle.X;
+                                        depo1.OriginalKareY = depo.OriginalRectangle.Y;
+                                        depo1.OriginalKareEni = depo.OriginalRectangle.Width;
+                                        depo1.OriginalKareBoyu = depo.OriginalRectangle.Height;
+                                        depo1.itemDrop_LeftRight = depo.itemDrop_LeftRight;
+                                        depo1.itemDrop_Stage1 = depo.itemDrop_Stage1;
+                                        depo1.itemDrop_Stage2 = depo.itemDrop_Stage2;
+                                        depo1.itemDrop_StartLocation = depo.itemDrop_StartLocation;
+                                        depo1.itemDrop_UpDown = depo.itemDrop_UpDown;
+                                        depo1.asama1_ItemSayisi = depo.asama1_ItemSayisi;
+                                        depo1.asama2_ToplamItemSayisi = depo.asama2_ToplamItemSayisi;
+                                        depo1.currentStage = depo.currentStage;
+                                        depo1.currentRow = depo.currentRow;
+                                        depo1.currentColumn = depo.currentColumn;
+                                        depo1.Yerlestirilme_Sirasi = depo.Yerlestirilme_Sirasi;
+                                        depo1.OriginalDepoSizeHeight = depo.OriginalDepoSizeHeight;
+                                        depo1.OriginalDepoSizeWidth = depo.OriginalDepoSizeWidth;
+                                        depo1.DepoAlaniEni = depo.DepoAlaniEni;
+                                        depo1.DepoAlaniBoyu = depo.DepoAlaniBoyu;
+                                        depo1.DepoAlaniYuksekligi = depo.DepoAlaniYuksekligi;
+                                        depo1.DepoDescription = depo.DepoDescription;
+                                        depo1.DepoName = depo.DepoName;
+                                        depo1.Depo_Alani_Eni_Cm = depo.Depo_Alani_Eni_Cm;
+                                        depo1.Depo_Alani_Boyu_Cm = depo.Depo_Alani_Boyu_Cm;
+                                        depo1.ColumnCount = depo.ColumnCount;
+                                        depo1.RowCount = depo.RowCount;
+
+                                        await context.SaveChangesAsync();
+
+                                        foreach (var cell in depo.gridmaps)
+                                        {
+                                            if (cell.CellId == 0)
+                                            {
+                                                Balya_Yerleştirme.Models.Cell newCell =
+                                             new Balya_Yerleştirme.Models.Cell(
+                                                 depo.DepoId, cell.CellEtiketi,
+                                                 cell.CellEni, cell.CellBoyu,
+                                                 cell.CellYuksekligi, cell.CellMalSayisi,
+                                                 cell.Rectangle.X, cell.Rectangle.Y, cell.Rectangle.Width,
+                                                 cell.Rectangle.Height, cell.OriginalRectangle.X,
+                                                 cell.OriginalRectangle.Y, cell.OriginalRectangle.Width,
+                                                 cell.OriginalRectangle.Height, cell.Zoomlevel,
+                                                 cell.ItemSayisi, cell.DikeyKenarBoslugu,
+                                                 cell.YatayKenarBoslugu, cell.NesneEni,
+                                                 cell.NesneBoyu, cell.NesneYuksekligi,
+                                                 cell.Column, cell.Row, cell.toplam_Nesne_Yuksekligi, cell.cell_Cm_X, cell.cell_Cm_Y);
+
+                                                await context.Cells.AddAsync(newCell);
+                                                await context.SaveChangesAsync();
+                                                cell.CellId = newCell.CellId;
+                                            }
+                                            else
+                                            {
+                                                var cell1 = await (from x in context.Cells
+                                                                   where x.CellId == cell.CellId
+                                                                   select x).FirstOrDefaultAsync();
+
+                                                if (cell1 != null)
+                                                {
+                                                    cell1.KareX = cell.Rectangle.X;
+                                                    cell1.KareY = cell.Rectangle.Y;
+                                                    cell1.KareEni = cell.Rectangle.Width;
+                                                    cell1.KareBoyu = cell.Rectangle.Height;
+                                                    cell1.OriginalKareX = cell.OriginalRectangle.X;
+                                                    cell1.OriginalKareY = cell.OriginalRectangle.Y;
+                                                    cell1.OriginalKareEni = cell.OriginalRectangle.Width;
+                                                    cell1.OriginalKareBoyu = cell.OriginalRectangle.Height;
+                                                    cell1.CellEni = cell.CellEni;
+                                                    cell1.CellBoyu = cell.CellBoyu;
+                                                    cell1.CellYuksekligi = cell.CellYuksekligi;
+                                                    cell1.CellMalSayisi = cell.CellMalSayisi;
+                                                    cell1.ItemSayisi = cell.ItemSayisi;
+                                                    cell1.DikeyKenarBoslugu = cell.DikeyKenarBoslugu;
+                                                    cell1.YatayKenarBoslugu = cell.YatayKenarBoslugu;
+                                                    cell1.NesneEni = cell.NesneEni;
+                                                    cell1.NesneBoyu = cell.NesneBoyu;
+                                                    cell1.NesneYuksekligi = cell.NesneYuksekligi;
+                                                    cell1.Column = cell.Column;
+                                                    cell1.Row = cell.Row;
+                                                    cell1.toplam_Nesne_Yuksekligi = cell.toplam_Nesne_Yuksekligi;
+                                                    cell1.cell_Cm_X = cell.cell_Cm_X;
+                                                    cell1.cell_Cm_Y = cell.cell_Cm_Y;
+                                                    cell1.CellEtiketi = cell.CellEtiketi;
+
+                                                    await context.SaveChangesAsync();
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                         foreach (var conveyor in ambar.conveyors)
                         {
-                            if (conveyor.ConveyorId == 0)
+                            if (conveyor.ConveyorId == 0 && !ambar.deletedConveyors.Contains(conveyor))
                             {
                                 Conveyor conv = new Conveyor(ambar.AmbarId,
                                 null, conveyor.KareX, conveyor.KareY,
@@ -1308,52 +1439,55 @@ namespace Balya_Yerleştirme
                             }
                             else
                             {
-                                var conv = await (from x in context.Conveyors
-                                            where x.ConveyorId == conveyor.ConveyorId
-                                            select x).FirstOrDefaultAsync();
-
-                                if (conv != null)
+                                if (!ambar.deletedConveyors.Contains(conveyor))
                                 {
-                                    conv.KareX = conveyor.Rectangle.X;
-                                    conv.KareY = conveyor.Rectangle.Y;
-                                    conv.KareEni = conveyor.Rectangle.Width;
-                                    conv.KareBoyu = conveyor.Rectangle.Height;
-                                    conv.OriginalKareX = conveyor.OriginalRectangle.X;
-                                    conv.OriginalKareY = conveyor.OriginalRectangle.Y;
-                                    conv.OriginalKareEni = conveyor.OriginalRectangle.Width;
-                                    conv.OriginalKareBoyu = conveyor.OriginalRectangle.Height;
-                                    conv.ConveyorEni = conveyor.ConveyorEni;
-                                    conv.ConveyorBoyu = conveyor.ConveyorBoyu;
-                                    conv.LocationofRect = conveyor.LocationofRect;
-                                    conv.ConveyorAraligi = conveyor.ConveyorAraligi;
-                                    conv.Zoomlevel = conveyor.Zoomlevel;
+                                    var conv = await (from x in context.Conveyors
+                                                      where x.ConveyorId == conveyor.ConveyorId
+                                                      select x).FirstOrDefaultAsync();
 
-                                    await context.SaveChangesAsync();
-                                }
-                                foreach (var reff in conveyor.ConveyorReferencePoints)
-                                {
-                                    var reff1 = await (from x in context.ConveyorReferencePoints
-                                                       where x.ReferenceId == reff.ReferenceId
-                                                       select x).FirstOrDefaultAsync();
-
-                                    if (reff1 != null)
+                                    if (conv != null)
                                     {
-                                        reff1.KareX = reff.Rectangle.X;
-                                        reff1.KareY = reff.Rectangle.Y;
-                                        reff1.KareEni = reff.Rectangle.Width;
-                                        reff1.KareBoyu = reff.Rectangle.Height;
-                                        reff1.OriginalKareX = reff.OriginalRectangle.X;
-                                        reff1.OriginalKareY = reff.OriginalRectangle.Y;
-                                        reff1.OriginalKareEni = reff.OriginalRectangle.Width;
-                                        reff1.OriginalKareBoyu = reff.OriginalRectangle.Height;
-                                        reff1.LocationofRect = reff.LocationofRect;
-                                        reff1.Zoomlevel = reff.Zoomlevel;
-                                        reff1.OriginalLocationInsideParentX = reff.OriginalLocationInsideParentX;
-                                        reff1.OriginalLocationInsideParentY = reff.OriginalLocationInsideParentY;
-                                        reff1.Pointsize = reff.Pointsize;
-                                        reff1.ReferenceId = reff.ReferenceId;
+                                        conv.KareX = conveyor.Rectangle.X;
+                                        conv.KareY = conveyor.Rectangle.Y;
+                                        conv.KareEni = conveyor.Rectangle.Width;
+                                        conv.KareBoyu = conveyor.Rectangle.Height;
+                                        conv.OriginalKareX = conveyor.OriginalRectangle.X;
+                                        conv.OriginalKareY = conveyor.OriginalRectangle.Y;
+                                        conv.OriginalKareEni = conveyor.OriginalRectangle.Width;
+                                        conv.OriginalKareBoyu = conveyor.OriginalRectangle.Height;
+                                        conv.ConveyorEni = conveyor.ConveyorEni;
+                                        conv.ConveyorBoyu = conveyor.ConveyorBoyu;
+                                        conv.LocationofRect = conveyor.LocationofRect;
+                                        conv.ConveyorAraligi = conveyor.ConveyorAraligi;
+                                        conv.Zoomlevel = conveyor.Zoomlevel;
 
                                         await context.SaveChangesAsync();
+                                    }
+                                    foreach (var reff in conveyor.ConveyorReferencePoints)
+                                    {
+                                        var reff1 = await (from x in context.ConveyorReferencePoints
+                                                           where x.ReferenceId == reff.ReferenceId
+                                                           select x).FirstOrDefaultAsync();
+
+                                        if (reff1 != null)
+                                        {
+                                            reff1.KareX = reff.Rectangle.X;
+                                            reff1.KareY = reff.Rectangle.Y;
+                                            reff1.KareEni = reff.Rectangle.Width;
+                                            reff1.KareBoyu = reff.Rectangle.Height;
+                                            reff1.OriginalKareX = reff.OriginalRectangle.X;
+                                            reff1.OriginalKareY = reff.OriginalRectangle.Y;
+                                            reff1.OriginalKareEni = reff.OriginalRectangle.Width;
+                                            reff1.OriginalKareBoyu = reff.OriginalRectangle.Height;
+                                            reff1.LocationofRect = reff.LocationofRect;
+                                            reff1.Zoomlevel = reff.Zoomlevel;
+                                            reff1.OriginalLocationInsideParentX = reff.OriginalLocationInsideParentX;
+                                            reff1.OriginalLocationInsideParentY = reff.OriginalLocationInsideParentY;
+                                            reff1.Pointsize = reff.Pointsize;
+                                            reff1.ReferenceId = reff.ReferenceId;
+
+                                            await context.SaveChangesAsync();
+                                        }
                                     }
                                 }
                             }
@@ -1655,6 +1789,7 @@ namespace Balya_Yerleştirme
         {
             MainPanelCloseLeftSide(leftLayoutPanel, this);
             EmptyItemPlacementPanel();
+            EmptyPLCSimPanel();
             nesneTimer.Stop();
             PLC_Timer.Stop();
             DrawingPanel.Invalidate();
@@ -1673,6 +1808,7 @@ namespace Balya_Yerleştirme
             }
             nesneTimer.Stop();
             PLC_Timer.Stop();
+            EmptyPLCSimPanel();
             DrawingPanel.Invalidate();
         }
         //This is the Button that Returns to the First Item Placement Process Step
@@ -1919,6 +2055,7 @@ namespace Balya_Yerleştirme
         {
             item_etiketi = txt_Nesne_Al_Etiket.Text;
             bool nesne_bulunmuyor = true;
+            bool nesne_etiketi = false;
 
             Models.Cell? AlternateCell = null;
             Models.Item? AlternateItem = null;
@@ -1939,6 +2076,7 @@ namespace Balya_Yerleştirme
                             {
                                 if (item.ItemEtiketi == item_etiketi && item == cell.items.Last())
                                 {
+                                    nesne_etiketi = true;
                                     BlinkingCell = cell;
                                     lbl_Nesne_Al_Tur_Kodu_Value.Text = $"{depo.ItemTuru}";
                                     lbl_Nesne_Al_Aciklama_Value.Text = $"{item.ItemAciklamasi}";
@@ -1959,12 +2097,12 @@ namespace Balya_Yerleştirme
                                 }
                                 else if (item.ItemEtiketi == item_etiketi && item != cell.items.Last())
                                 {
+                                    nesne_etiketi = true;
                                     foreach (var item1 in cell.items)
                                     {
                                         if (item1 == cell.items.Last() && item1 != item)
                                         {
-
-
+                                            nesne_etiketi = true;
                                             BlinkingCell = cell;
                                             lbl_Nesne_Al_Tur_Kodu_Value.Text = $"{depo.ItemTuru}";
                                             lbl_Nesne_Al_Aciklama_Value.Text = $"{item.ItemAciklamasi}";
@@ -2000,6 +2138,10 @@ namespace Balya_Yerleştirme
             if (nesne_bulunmuyor)
             {
                 ShowNotification("Layout içinde kaldırılacak nesne bulunmuyor.", CustomNotifyIcon.enmType.Warning);
+            }
+            if (!nesne_etiketi)
+            {
+                MessageBox.Show("Aradığınız etikete sahip bir nesne bulunamadı.", "Nesne Bulunamadı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             if (AlternateCell != null && BlinkingCell != null)
@@ -2108,192 +2250,7 @@ namespace Balya_Yerleştirme
 
 
 
-        private void MainPanelOpenLeftSide(System.Windows.Forms.Control showControlLeft,
-            System.Windows.Forms.Control parentControl, System.Drawing.Point childControlLocationLeft, System.Windows.Forms.Control controltoShow)
-        {
-            showControlLeft.Controls.Clear();
-            GVisual.ShowControl(controltoShow, showControlLeft);
-            if (!showControlLeft.Visible)
-            {
-                if (rightLayoutPanel.Visible)
-                {
-                    GVisual.ShowControl(showControlLeft, parentControl, childControlLocationLeft);
-                    GVisual.ChangeSize_of_Control(DrawingPanel, drawingPanelSmallSize);
-                    DrawingPanel.Location = drawingPanelMiddleLocation;
-                    MoveLeft();
-                }
-                else
-                {
-                    GVisual.ShowControl(showControlLeft, parentControl, childControlLocationLeft);
-                    GVisual.ChangeSize_of_Control(DrawingPanel, drawingPanelMiddleSize);
-                    DrawingPanel.Location = drawingPanelMiddleLocation;
-                    MoveLeft();
-                }
-            }
-        }
-        public void MainPanelOpenRightSide(System.Windows.Forms.Control showControlRight,
-            System.Windows.Forms.Control parentControl, System.Drawing.Point childControlLocationRight, System.Windows.Forms.Control controltoShow)
-        {
-            showControlRight.Controls.Clear();
-            GVisual.ShowControl(controltoShow, showControlRight);
-
-            if (!showControlRight.Visible)
-            {
-                if (leftLayoutPanel.Visible)
-                {
-                    GVisual.ShowControl(showControlRight, parentControl, childControlLocationRight);
-                    GVisual.ChangeSize_of_Control(DrawingPanel, drawingPanelSmallSize);
-                    DrawingPanel.Location = drawingPanelMiddleLocation;
-                    MoveLeft();
-                }
-                else
-                {
-                    GVisual.ShowControl(showControlRight, parentControl, childControlLocationRight);
-                    GVisual.ChangeSize_of_Control(DrawingPanel, drawingPanelMiddleSize);
-                    DrawingPanel.Location = drawingPanelLeftLocation;
-                    MoveLeft();
-                }
-            }
-        }
-        public void MainPanelCloseRightSide(System.Windows.Forms.Control hideControlRight,
-            System.Windows.Forms.Control parentControl)
-        {
-            if (hideControlRight.Visible)
-            {
-                if (leftLayoutPanel.Visible)
-                {
-                    GVisual.HideControl(hideControlRight, parentControl);
-                    GVisual.ChangeSize_of_Control(DrawingPanel, drawingPanelMiddleSize);
-                    DrawingPanel.Location = drawingPanelMiddleLocation;
-                    MoveRight();
-                }
-                else
-                {
-                    GVisual.HideControl(hideControlRight, parentControl);
-                    GVisual.ChangeSize_of_Control(DrawingPanel, drawingPanelLargeSize);
-                    DrawingPanel.Location = drawingPanelLeftLocation;
-                    MoveRight();
-                }
-            }
-        }
-        public void MainPanelCloseLeftSide(System.Windows.Forms.Control hideControlLeft,
-            System.Windows.Forms.Control parentControl)
-        {
-            if (hideControlLeft.Visible)
-            {
-                if (rightLayoutPanel.Visible)
-                {
-                    GVisual.HideControl(hideControlLeft, parentControl);
-                    GVisual.ChangeSize_of_Control(DrawingPanel, drawingPanelMiddleSize);
-                    DrawingPanel.Location = drawingPanelLeftLocation;
-                    MoveRight();
-                }
-                else
-                {
-                    GVisual.HideControl(hideControlLeft, parentControl);
-                    GVisual.ChangeSize_of_Control(DrawingPanel, drawingPanelLargeSize);
-                    DrawingPanel.Location = drawingPanelLeftLocation;
-                    MoveRight();
-                }
-            }
-        }
-        public void MoveLeft()
-        {
-            if (ambar != null)
-            {
-                ambar.Rectangle = new RectangleF(ambar.Rectangle.X - drawingPanelMoveConst, ambar.Rectangle.Y, ambar.Rectangle.Width, ambar.Rectangle.Height);
-                ambar.OriginalRectangle = ambar.Rectangle;
-                foreach (var depo in ambar.depolar)
-                {
-                    depo.Rectangle = new RectangleF(depo.Rectangle.X - drawingPanelMoveConst, depo.Rectangle.Y, depo.Rectangle.Width, depo.Rectangle.Height);
-                    depo.OriginalRectangle = depo.Rectangle;
-                    depo.LocationofRect = new System.Drawing.Point((int)depo.Rectangle.X, (int)depo.Rectangle.Y);
-                    foreach (var cell in depo.gridmaps)
-                    {
-                        cell.Rectangle = new RectangleF(cell.Rectangle.X - drawingPanelMoveConst, cell.Rectangle.Y, cell.Rectangle.Width, cell.Rectangle.Height);
-                        cell.OriginalRectangle = cell.Rectangle;
-                        cell.LocationofRect = new System.Drawing.Point((int)cell.Rectangle.X, (int)cell.Rectangle.Y);
-
-                        foreach (var item in cell.items)
-                        {
-                            item.Rectangle = new RectangleF(item.Rectangle.X - drawingPanelMoveConst, item.Rectangle.Y, item.Rectangle.Width, item.Rectangle.Height);
-                            item.OriginalRectangle = item.Rectangle;
-                            item.LocationofRect = new System.Drawing.Point((int)item.Rectangle.X, (int)item.Rectangle.Y);
-                        }
-                    }
-                }
-                foreach (var conveyor in ambar.conveyors)
-                {
-                    conveyor.Rectangle = new RectangleF(conveyor.Rectangle.X - drawingPanelMoveConst, conveyor.Rectangle.Y, conveyor.Rectangle.Width, conveyor.Rectangle.Height);
-                    conveyor.OriginalRectangle = conveyor.Rectangle;
-
-                    conveyor.LocationofRect = new System.Drawing.Point((int)conveyor.Rectangle.X, (int)conveyor.Rectangle.Y);
-
-                    foreach (var reff in conveyor.ConveyorReferencePoints)
-                    {
-                        reff.Rectangle = new RectangleF(reff.Rectangle.X - drawingPanelMoveConst,
-                            reff.Rectangle.Y, reff.Rectangle.Width, reff.Rectangle.Height);
-                        reff.OriginalRectangle = reff.Rectangle;
-
-                        reff.LocationofRect = new System.Drawing.Point((int)reff.Rectangle.X, (int)reff.Rectangle.Y);
-                    }
-                }
-                DrawingPanel.Invalidate();
-            }
-        }
-        public void MoveRight()
-        {
-            if (ambar != null)
-            {
-                ambar.Rectangle = new RectangleF(ambar.Rectangle.X + drawingPanelMoveConst, ambar.Rectangle.Y, ambar.Rectangle.Width, ambar.Rectangle.Height);
-                ambar.OriginalRectangle = ambar.Rectangle;
-                foreach (var depo in ambar.depolar)
-                {
-                    depo.Rectangle = new RectangleF(depo.Rectangle.X + drawingPanelMoveConst, depo.Rectangle.Y, depo.Rectangle.Width, depo.Rectangle.Height);
-                    depo.OriginalRectangle = depo.Rectangle;
-                    depo.LocationofRect = new System.Drawing.Point((int)depo.Rectangle.X, (int)depo.Rectangle.Y);
-                    foreach (var cell in depo.gridmaps)
-                    {
-                        cell.Rectangle = new RectangleF(cell.Rectangle.X + drawingPanelMoveConst, cell.Rectangle.Y, cell.Rectangle.Width, cell.Rectangle.Height);
-                        cell.OriginalRectangle = cell.Rectangle;
-                        cell.LocationofRect = new System.Drawing.Point((int)cell.Rectangle.X, (int)cell.Rectangle.Y);
-
-                        foreach (var item in cell.items)
-                        {
-                            item.Rectangle = new RectangleF(item.Rectangle.X + drawingPanelMoveConst, item.Rectangle.Y, item.Rectangle.Width, item.Rectangle.Height);
-                            item.OriginalRectangle = item.Rectangle;
-                            item.LocationofRect = new System.Drawing.Point((int)item.Rectangle.X, (int)item.Rectangle.Y);
-                        }
-                    }
-                }
-                foreach (var conveyor in ambar.conveyors)
-                {
-                    conveyor.Rectangle = new RectangleF(conveyor.Rectangle.X + drawingPanelMoveConst, conveyor.Rectangle.Y, conveyor.Rectangle.Width, conveyor.Rectangle.Height);
-                    conveyor.OriginalRectangle = conveyor.Rectangle;
-
-                    conveyor.LocationofRect = new System.Drawing.Point((int)conveyor.Rectangle.X, (int)conveyor.Rectangle.Y);
-                    foreach (var reff in conveyor.ConveyorReferencePoints)
-                    {
-                        reff.Rectangle = new RectangleF(reff.Rectangle.X + drawingPanelMoveConst,
-                            reff.Rectangle.Y, reff.Rectangle.Width, reff.Rectangle.Height);
-                        reff.OriginalRectangle = reff.Rectangle;
-
-                        reff.LocationofRect = new System.Drawing.Point((int)reff.Rectangle.X, (int)reff.Rectangle.Y);
-                    }
-                }
-                DrawingPanel.Invalidate();
-            }
-        }
-
-        private void EmptyItemPlacementPanel()
-        {
-            GVisual.HideControl(Nesne_Yerlestirme_Second_Panel, Nesne_Yerlestirme_First_Panel);
-        }
-        private void EmptyItemRemovePanel()
-        {
-            GVisual.HideControl(Nesne_Al_Second_Panel, Nesne_Al_First_Panel);
-        }
-
+       
 
         //This is for Canceling finding items to remove from depo
         private void btn_Nesne_Bul_Vazgec_Click(object sender, EventArgs e)
@@ -2301,6 +2258,7 @@ namespace Balya_Yerleştirme
             NesneKaldır = false;
             nesneTimer.Stop();
             PLC_Timer.Stop();
+            EmptyPLCSimPanel();
 
             if (rightLayoutPanel.Visible)
             {
@@ -2984,6 +2942,192 @@ namespace Balya_Yerleştirme
 
 
         //UI Operations
+        private void MainPanelOpenLeftSide(System.Windows.Forms.Control showControlLeft,
+           System.Windows.Forms.Control parentControl, System.Drawing.Point childControlLocationLeft, System.Windows.Forms.Control controltoShow)
+        {
+            showControlLeft.Controls.Clear();
+            GVisual.ShowControl(controltoShow, showControlLeft);
+            if (!showControlLeft.Visible)
+            {
+                if (rightLayoutPanel.Visible)
+                {
+                    GVisual.ShowControl(showControlLeft, parentControl, childControlLocationLeft);
+                    GVisual.ChangeSize_of_Control(DrawingPanel, drawingPanelSmallSize);
+                    DrawingPanel.Location = drawingPanelMiddleLocation;
+                    MoveLeft();
+                }
+                else
+                {
+                    GVisual.ShowControl(showControlLeft, parentControl, childControlLocationLeft);
+                    GVisual.ChangeSize_of_Control(DrawingPanel, drawingPanelMiddleSize);
+                    DrawingPanel.Location = drawingPanelMiddleLocation;
+                    MoveLeft();
+                }
+            }
+        }
+        public void MainPanelOpenRightSide(System.Windows.Forms.Control showControlRight,
+            System.Windows.Forms.Control parentControl, System.Drawing.Point childControlLocationRight, System.Windows.Forms.Control controltoShow)
+        {
+            showControlRight.Controls.Clear();
+            GVisual.ShowControl(controltoShow, showControlRight);
+
+            if (!showControlRight.Visible)
+            {
+                if (leftLayoutPanel.Visible)
+                {
+                    GVisual.ShowControl(showControlRight, parentControl, childControlLocationRight);
+                    GVisual.ChangeSize_of_Control(DrawingPanel, drawingPanelSmallSize);
+                    DrawingPanel.Location = drawingPanelMiddleLocation;
+                    MoveLeft();
+                }
+                else
+                {
+                    GVisual.ShowControl(showControlRight, parentControl, childControlLocationRight);
+                    GVisual.ChangeSize_of_Control(DrawingPanel, drawingPanelMiddleSize);
+                    DrawingPanel.Location = drawingPanelLeftLocation;
+                    MoveLeft();
+                }
+            }
+        }
+        public void MainPanelCloseRightSide(System.Windows.Forms.Control hideControlRight,
+            System.Windows.Forms.Control parentControl)
+        {
+            if (hideControlRight.Visible)
+            {
+                if (leftLayoutPanel.Visible)
+                {
+                    GVisual.HideControl(hideControlRight, parentControl);
+                    GVisual.ChangeSize_of_Control(DrawingPanel, drawingPanelMiddleSize);
+                    DrawingPanel.Location = drawingPanelMiddleLocation;
+                    MoveRight();
+                }
+                else
+                {
+                    GVisual.HideControl(hideControlRight, parentControl);
+                    GVisual.ChangeSize_of_Control(DrawingPanel, drawingPanelLargeSize);
+                    DrawingPanel.Location = drawingPanelLeftLocation;
+                    MoveRight();
+                }
+            }
+        }
+        public void MainPanelCloseLeftSide(System.Windows.Forms.Control hideControlLeft,
+            System.Windows.Forms.Control parentControl)
+        {
+            if (hideControlLeft.Visible)
+            {
+                if (rightLayoutPanel.Visible)
+                {
+                    GVisual.HideControl(hideControlLeft, parentControl);
+                    GVisual.ChangeSize_of_Control(DrawingPanel, drawingPanelMiddleSize);
+                    DrawingPanel.Location = drawingPanelLeftLocation;
+                    MoveRight();
+                }
+                else
+                {
+                    GVisual.HideControl(hideControlLeft, parentControl);
+                    GVisual.ChangeSize_of_Control(DrawingPanel, drawingPanelLargeSize);
+                    DrawingPanel.Location = drawingPanelLeftLocation;
+                    MoveRight();
+                }
+            }
+        }
+        public void MoveLeft()
+        {
+            if (ambar != null)
+            {
+                ambar.Rectangle = new RectangleF(ambar.Rectangle.X - drawingPanelMoveConst, ambar.Rectangle.Y, ambar.Rectangle.Width, ambar.Rectangle.Height);
+                ambar.OriginalRectangle = ambar.Rectangle;
+                foreach (var depo in ambar.depolar)
+                {
+                    depo.Rectangle = new RectangleF(depo.Rectangle.X - drawingPanelMoveConst, depo.Rectangle.Y, depo.Rectangle.Width, depo.Rectangle.Height);
+                    depo.OriginalRectangle = depo.Rectangle;
+                    depo.LocationofRect = new System.Drawing.Point((int)depo.Rectangle.X, (int)depo.Rectangle.Y);
+                    foreach (var cell in depo.gridmaps)
+                    {
+                        cell.Rectangle = new RectangleF(cell.Rectangle.X - drawingPanelMoveConst, cell.Rectangle.Y, cell.Rectangle.Width, cell.Rectangle.Height);
+                        cell.OriginalRectangle = cell.Rectangle;
+                        cell.LocationofRect = new System.Drawing.Point((int)cell.Rectangle.X, (int)cell.Rectangle.Y);
+
+                        foreach (var item in cell.items)
+                        {
+                            item.Rectangle = new RectangleF(item.Rectangle.X - drawingPanelMoveConst, item.Rectangle.Y, item.Rectangle.Width, item.Rectangle.Height);
+                            item.OriginalRectangle = item.Rectangle;
+                            item.LocationofRect = new System.Drawing.Point((int)item.Rectangle.X, (int)item.Rectangle.Y);
+                        }
+                    }
+                }
+                foreach (var conveyor in ambar.conveyors)
+                {
+                    conveyor.Rectangle = new RectangleF(conveyor.Rectangle.X - drawingPanelMoveConst, conveyor.Rectangle.Y, conveyor.Rectangle.Width, conveyor.Rectangle.Height);
+                    conveyor.OriginalRectangle = conveyor.Rectangle;
+
+                    conveyor.LocationofRect = new System.Drawing.Point((int)conveyor.Rectangle.X, (int)conveyor.Rectangle.Y);
+
+                    foreach (var reff in conveyor.ConveyorReferencePoints)
+                    {
+                        reff.Rectangle = new RectangleF(reff.Rectangle.X - drawingPanelMoveConst,
+                            reff.Rectangle.Y, reff.Rectangle.Width, reff.Rectangle.Height);
+                        reff.OriginalRectangle = reff.Rectangle;
+
+                        reff.LocationofRect = new System.Drawing.Point((int)reff.Rectangle.X, (int)reff.Rectangle.Y);
+                    }
+                }
+                DrawingPanel.Invalidate();
+            }
+        }
+        public void MoveRight()
+        {
+            if (ambar != null)
+            {
+                ambar.Rectangle = new RectangleF(ambar.Rectangle.X + drawingPanelMoveConst, ambar.Rectangle.Y, ambar.Rectangle.Width, ambar.Rectangle.Height);
+                ambar.OriginalRectangle = ambar.Rectangle;
+                foreach (var depo in ambar.depolar)
+                {
+                    depo.Rectangle = new RectangleF(depo.Rectangle.X + drawingPanelMoveConst, depo.Rectangle.Y, depo.Rectangle.Width, depo.Rectangle.Height);
+                    depo.OriginalRectangle = depo.Rectangle;
+                    depo.LocationofRect = new System.Drawing.Point((int)depo.Rectangle.X, (int)depo.Rectangle.Y);
+                    foreach (var cell in depo.gridmaps)
+                    {
+                        cell.Rectangle = new RectangleF(cell.Rectangle.X + drawingPanelMoveConst, cell.Rectangle.Y, cell.Rectangle.Width, cell.Rectangle.Height);
+                        cell.OriginalRectangle = cell.Rectangle;
+                        cell.LocationofRect = new System.Drawing.Point((int)cell.Rectangle.X, (int)cell.Rectangle.Y);
+
+                        foreach (var item in cell.items)
+                        {
+                            item.Rectangle = new RectangleF(item.Rectangle.X + drawingPanelMoveConst, item.Rectangle.Y, item.Rectangle.Width, item.Rectangle.Height);
+                            item.OriginalRectangle = item.Rectangle;
+                            item.LocationofRect = new System.Drawing.Point((int)item.Rectangle.X, (int)item.Rectangle.Y);
+                        }
+                    }
+                }
+                foreach (var conveyor in ambar.conveyors)
+                {
+                    conveyor.Rectangle = new RectangleF(conveyor.Rectangle.X + drawingPanelMoveConst, conveyor.Rectangle.Y, conveyor.Rectangle.Width, conveyor.Rectangle.Height);
+                    conveyor.OriginalRectangle = conveyor.Rectangle;
+
+                    conveyor.LocationofRect = new System.Drawing.Point((int)conveyor.Rectangle.X, (int)conveyor.Rectangle.Y);
+                    foreach (var reff in conveyor.ConveyorReferencePoints)
+                    {
+                        reff.Rectangle = new RectangleF(reff.Rectangle.X + drawingPanelMoveConst,
+                            reff.Rectangle.Y, reff.Rectangle.Width, reff.Rectangle.Height);
+                        reff.OriginalRectangle = reff.Rectangle;
+
+                        reff.LocationofRect = new System.Drawing.Point((int)reff.Rectangle.X, (int)reff.Rectangle.Y);
+                    }
+                }
+                DrawingPanel.Invalidate();
+            }
+        }
+
+        private void EmptyItemPlacementPanel()
+        {
+            GVisual.HideControl(Nesne_Yerlestirme_Second_Panel, Nesne_Yerlestirme_First_Panel);
+        }
+        private void EmptyItemRemovePanel()
+        {
+            GVisual.HideControl(Nesne_Al_Second_Panel, Nesne_Al_First_Panel);
+        }
+
         #region Hide and Show
         private void HideEverything()
         {
@@ -3110,21 +3254,7 @@ namespace Balya_Yerleştirme
             DrawingPanel.Invalidate();
         }
         //Remove Item from depos but this is for myself to test the algoritm
-        private void balyayıAlToolStripMenuItem_Click_1(object sender, EventArgs e)
-        {
-            Models.Item deleteItem = new Models.Item();
-            foreach (var item in RightClickCell.items)
-            {
-                if (item == RightClickCell.items.Last())
-                {
-                    deleteItem = item;
-                }
-            }
-            selectedDepo.currentRow = RightClickCell.Row;
-            selectedDepo.currentColumn = RightClickCell.Column;
-            RightClickCell.items.Remove(deleteItem);
-            DrawingPanel.Invalidate();
-        }
+        
         #endregion
 
 

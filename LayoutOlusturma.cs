@@ -47,7 +47,7 @@ namespace Balya_Yerleştirme
 
         #endregion
 
-
+        
         //Manual Move Variables
         #region Changing Size and Location Variables
 
@@ -97,7 +97,7 @@ namespace Balya_Yerleştirme
         public System.Drawing.Size drawingPanelMiddleSize { get; set; } = new System.Drawing.Size(1550, 909);
         public System.Drawing.Size drawingPanelLargeSize { get; set; } = new System.Drawing.Size(1880, 909);
         #endregion
-
+        
 
         //Rectangle Variables for Various use cases such as Manuel Move with textboxes etc.
         #region PlaceHolder Rectangles
@@ -896,6 +896,7 @@ namespace Balya_Yerleştirme
                 {
                     if (selectedDepo != null)
                     {
+                        Ambar.deletedDepos.Add(selectedDepo);
                         Ambar.depolar.Remove(selectedDepo);
                         if (LeftSide_LayoutPanel.Visible)
                         {
@@ -919,6 +920,7 @@ namespace Balya_Yerleştirme
 
                     if (selectedConveyor != null)
                     {
+                        Ambar.deletedConveyors.Add(selectedConveyor);
                         Ambar.conveyors.Remove(selectedConveyor);
                         if (LeftSide_LayoutPanel.Visible)
                         {
@@ -1923,11 +1925,11 @@ namespace Balya_Yerleştirme
                         Pen pen1 = new Pen(System.Drawing.Color.LightGray);
                         pen1.DashStyle = DashStyle.Dash;
                         g.DrawRectangle(pen1, cell.Rectangle);
-                        string Rectangle = $"{cell.Rectangle.X}\n{cell.Rectangle.Y}";
-                        g.DrawString(Rectangle, font1, brush1, new System.Drawing.PointF(cell.Rectangle.X, cell.Rectangle.Y));
-                        string Rectangle1 = $"{cell.Rectangle.Width}\n{cell.Rectangle.Height}";
+                        //string Rectangle = $"{cell.Rectangle.X}\n{cell.Rectangle.Y}";
+                        //g.DrawString(Rectangle, font1, brush1, new System.Drawing.PointF(cell.Rectangle.X, cell.Rectangle.Y));
+                        //string Rectangle1 = $"{cell.Rectangle.Width}\n{cell.Rectangle.Height}";
 
-                        g.DrawString(Rectangle1, font1, brush1, new PointF(Ambar.Rectangle.X - 400, Ambar.Rectangle.Y + 20));
+                        //g.DrawString(Rectangle1, font1, brush1, new PointF(Ambar.Rectangle.X - 400, Ambar.Rectangle.Y + 20));
                     }
 
                     if (selectedDepo != null && selectedDepo == depo &&
@@ -2448,7 +2450,7 @@ namespace Balya_Yerleştirme
             double LeftTopSnapDistance = GVisual.CalculateDistance(rectangleTopRightCorner.X,
                 rectangleTopRightCorner.Y, refRectangleTopLeftCorner.X, refRectangleTopLeftCorner.Y);
 
-            int snapping = 4;
+            int snapping = 6;
 
             if (TopSideSnapDistance < snapping)
             {
@@ -2560,11 +2562,26 @@ namespace Balya_Yerleştirme
                 double leftBotTopRightDistance = GVisual.CalculateDistance(rectangleBotLeftCorner.X, rectangleBotLeftCorner.Y,
                     refRectangleTopRightCorner.X, refRectangleTopRightCorner.Y);
 
-                if (refRectangle.Contains(rectangleTopRightCorner) && !refRectangle.Contains(rectangleTopLeftCorner))
+                PointF refRectangleBottomSideLeftCorner = GVisual.GetCloseBottomSideLeftCornerF(refRectangle);
+                PointF refRectangleBottomLeftSideCorner = GVisual.GetCloseBottomLeftSideCornerF(refRectangle);
+
+                PointF refRectangleBottomSideRightCorner = GVisual.GetCloseBottomSideRightCornerF(refRectangle);
+                PointF refRectangleBottomRightSideCorner = GVisual.GetCloseBottomRightSideCornerF(refRectangle);
+
+                PointF refRectangleTopSideRightCorner = GVisual.GetCloseTopSideRightCornerF(refRectangle);
+                PointF refRectangleTopRightSideCorner = GVisual.GetCloseTopRightSideCornerF(refRectangle);
+
+                PointF refRectangleTopSideLeftCorner = GVisual.GetCloseTopSideLeftCornerF(refRectangle);
+                PointF refRectangleTopLeftSideCorner = GVisual.GetCloseTopLeftSideCornerF(refRectangle);
+
+
+                if (refRectangle.Contains(rectangleTopRightCorner) &&
+                    !rectangle.Contains(refRectangleBottomSideRightCorner) &&
+                    !refRectangle.Contains(rectangleTopLeftCorner))
                 {
                     if (rightTopBotLeftDistance <= snapping)
                     {
-                        rectangle = GVisual.MoveRectangleToPoint(rectangle, 
+                        rectangle = GVisual.MoveRectangleToPoint(rectangle,
                         refRectangle.X - rectangle.Width,
                         refRectangle.Y + refRectangle.Height);
                         snapped = true;
@@ -2585,7 +2602,9 @@ namespace Balya_Yerleştirme
                         }
                     }
                 }
-                else if (refRectangle.Contains(rectangleTopLeftCorner) && 
+
+                else if (refRectangle.Contains(rectangleTopLeftCorner) &&
+                    !rectangle.Contains(refRectangleBottomSideRightCorner) &&
                     !refRectangle.Contains(rectangleTopRightCorner))
                 {
                     if (leftTopBotRightDistance <= snapping)
@@ -2611,15 +2630,18 @@ namespace Balya_Yerleştirme
                         }
                     }
                 }
+
                 else if (refRectangle.Contains(rectangleTopMiddle) &&
-                    (refRectangle.Contains(rectangleTopRightCorner) || 
+                    (refRectangle.Contains(rectangleTopRightCorner) ||
                     refRectangle.Contains(rectangleTopLeftCorner)))
                 {
-                    
+
                     rectangle = GVisual.MoveRectangleToPoint(rectangle, rectangle.X, refRectangle.Y + refRectangle.Height);
                     return rectangle;
                 }
+
                 else if (refRectangle.Contains(rectangleBotRightCorner) &&
+                    !rectangle.Contains(refRectangleTopSideLeftCorner) &&
                     !refRectangle.Contains(rectangleBotLeftCorner))
                 {
                     if (rightBotTopLeftDistance <= snapping)
@@ -2645,7 +2667,9 @@ namespace Balya_Yerleştirme
                         }
                     }
                 }
+
                 else if (refRectangle.Contains(rectangleBotLeftCorner) &&
+                    !rectangle.Contains(refRectangleTopSideRightCorner) &&
                     !refRectangle.Contains(rectangleBotRightCorner))
                 {
                     if (leftBotTopRightDistance <= snapping)
@@ -2671,140 +2695,47 @@ namespace Balya_Yerleştirme
                         }
                     }
                 }
-                else if (refRectangle.Contains(rectangleBotMiddle) &&
-                    (refRectangle.Contains(rectangleBotLeftCorner) ||
-                    refRectangle.Contains(rectangleBotRightCorner)))
+
+                else if (refRectangle.Contains(rectangleBotMiddle) ||
+                    refRectangle.Contains(rectangleBotLeftCorner) ||
+                    refRectangle.Contains(rectangleBotRightCorner) ||
+                    rectangle.Contains(refRectangleTopSideRightCorner) ||
+                    rectangle.Contains(refRectangleTopSideLeftCorner))
                 {
 
                     rectangle = GVisual.MoveRectangleToPoint(rectangle, rectangle.X, refRectangle.Y - rectangle.Height);
                     return rectangle;
                 }
 
-
-                if (rectangle.Contains(refRectangleTopRightCorner) && !rectangle.Contains(refRectangleTopLeftCorner))
+                else if (refRectangle.Contains(rectangleTopMiddle) ||
+                    refRectangle.Contains(rectangleTopLeftCorner) ||
+                    refRectangle.Contains(rectangleTopRightCorner) ||
+                    rectangle.Contains(refRectangleBottomSideRightCorner) ||
+                    rectangle.Contains(refRectangleBottomSideLeftCorner))
                 {
-                    if (rightTopBotLeftDistance <= snapping)
-                    {
-                        rectangle = GVisual.MoveRectangleToPoint(rectangle,
-                        refRectangle.X - rectangle.Width,
-                        refRectangle.Y + refRectangle.Height);
-                        snapped = true;
-                        return rectangle;
-                    }
-                    else
-                    {
-                        if (refRectangle.X <= rectangle.X && refRectangle.Y >= rectangle.Y && refRectangle.Y <= rectangle.Bottom)
-                        {
-                            rectangle = GVisual.MoveRectangleToPoint(rectangle, 
-                                refRectangle.X + refRectangle.Width, rectangle.Y);
-                            return rectangle;
-                        }
-                        else if (refRectangle.Y >= rectangle.Bottom)
-                        {
-                            rectangle = GVisual.MoveRectangleToPoint(rectangle, rectangle.X,
-                            refRectangle.Y + refRectangle.Height);
-                            return rectangle;
-                        }
-                    }
-                }
-                else if (rectangle.Contains(refRectangleTopLeftCorner) &&
-                    !rectangle.Contains(refRectangleTopRightCorner))
-                {
-                    if (leftTopBotRightDistance <= snapping)
-                    {
-                        rectangle = GVisual.MoveRectangleToPoint(rectangle,
-                        refRectangle.X + refRectangle.Width,
-                        refRectangle.Y + refRectangle.Height);
-                        snapped = true;
-                        return rectangle;
-                    }
-                    else
-                    {
-                        if (rectangle.X <= refRectangle.X && refRectangle.Y >= rectangle.Y && refRectangle.Y <= rectangle.Bottom + snapping)
-                        {
-                            rectangle = GVisual.MoveRectangleToPoint(rectangle, 
-                                refRectangle.X - rectangle.Width, rectangle.Y);
-                            return rectangle;
-                        }
-                        else if (refRectangle.Y >= rectangle.Bottom - snapping)
-                        {
-                            rectangle = GVisual.MoveRectangleToPoint(rectangle, rectangle.X,
-                            refRectangle.Y + refRectangle.Height);
-                            return rectangle;
-                        }
-                    }
-                }
-                else if (rectangle.Contains(refRectangleTopMiddle) &&
-                    (rectangle.Contains(refRectangleTopRightCorner) ||
-                    rectangle.Contains(refRectangleTopLeftCorner)))
-                {
-
-                    rectangle = GVisual.MoveRectangleToPoint(rectangle, rectangle.X, refRectangle.Y - rectangle.Height);
-                    return rectangle;
-                }
-                //else if (rectangle.Contains(refRectangleBotRightCorner) &&
-                //    !rectangle.Contains(refRectangleBotLeftCorner))
-                //{
-                //    if (rightBotTopLeftDistance <= snapping)
-                //    {
-                //        rectangle = GVisual.MoveRectangleToPoint(rectangle,
-                //        refRectangle.X - rectangle.Width,
-                //        refRectangle.Y - rectangle.Height);
-                //        snapped = true;
-                //        return rectangle;
-                //    }
-                //    else
-                //    {
-                //        if (rectangle.X <= refRectangle.X && rectangle.Y <= refRectangle.Y && rectangle.Bottom >= refRectangle.Top)
-                //        {
-                //            rectangle = GVisual.MoveRectangleToPoint(rectangle, refRectangle.X - rectangle.Width, rectangle.Y);
-                //            return rectangle;
-                //        }
-                //        else if (rectangle.Bottom <= refRectangle.Y + snapping)
-                //        {
-                //            rectangle = GVisual.MoveRectangleToPoint(rectangle, rectangle.X,
-                //            refRectangle.Y - rectangle.Height);
-                //            return rectangle;
-                //        }
-                //    }
-                //}
-                //else if (rectangle.Contains(refRectangleBotLeftCorner) &&
-                //    !rectangle.Contains(refRectangleBotRightCorner))
-                //{
-                //    if (leftBotTopRightDistance <= snapping)
-                //    {
-                //        rectangle = GVisual.MoveRectangleToPoint(rectangle,
-                //        refRectangle.X + refRectangle.Width,
-                //        refRectangle.Y - rectangle.Height);
-                //        snapped = true;
-                //        return rectangle;
-                //    }
-                //    else
-                //    {
-                //        if (rectangle.X >= refRectangle.X && rectangle.Y <= refRectangle.Y && rectangle.Bottom >= refRectangle.Top)
-                //        {
-                //            rectangle = GVisual.MoveRectangleToPoint(rectangle, refRectangle.X + refRectangle.Width, rectangle.Y);
-                //            return rectangle;
-                //        }
-                //        else if (rectangle.Bottom <= refRectangle.Y + snapping)
-                //        {
-                //            rectangle = GVisual.MoveRectangleToPoint(rectangle, rectangle.X,
-                //            refRectangle.Y - rectangle.Height);
-                //            return rectangle;
-                //        }
-                //    }
-                //}
-                else if (rectangle.Contains(refRectangleBotMiddle) &&
-                    (rectangle.Contains(refRectangleBotLeftCorner) ||
-                    rectangle.Contains(refRectangleBotRightCorner)))
-                {
-
                     rectangle = GVisual.MoveRectangleToPoint(rectangle, rectangle.X, refRectangle.Y + refRectangle.Height);
                     return rectangle;
                 }
 
+                else if (refRectangle.Contains(rectangleLeftMiddle) ||
+                    refRectangle.Contains(rectangleTopLeftCorner) ||
+                    refRectangle.Contains(rectangleBotLeftCorner) ||
+                    rectangle.Contains(refRectangleBottomLeftSideCorner) ||
+                    rectangle.Contains(refRectangleTopLeftSideCorner))
+                {
+                    rectangle = GVisual.MoveRectangleToPoint(rectangle, refRectangle.X - rectangle.Width, rectangle.Y);
+                    return rectangle;
+                }
 
-
+                else if (refRectangle.Contains(rectangleRightMiddle) ||
+                    refRectangle.Contains(rectangleTopRightCorner) ||
+                    refRectangle.Contains(rectangleBotRightCorner) ||
+                    rectangle.Contains(refRectangleBottomRightSideCorner) ||
+                    rectangle.Contains(refRectangleTopRightSideCorner))
+                {
+                    rectangle = GVisual.MoveRectangleToPoint(rectangle, refRectangle.X + refRectangle.Width, rectangle.Y);
+                    return rectangle;
+                }
                 return rectangle;
             }
         }
@@ -5011,7 +4942,10 @@ namespace Balya_Yerleştirme
                     {
                         depo.gridmaps.Clear();
                     }
-                    izgaraHaritasiOlustur.Invoke(sender, EventArgs.Empty);
+                    if (izgaraHaritasiOlustur != null)
+                    {
+                        izgaraHaritasiOlustur.Invoke(sender, EventArgs.Empty);
+                    }
                     MainPanelCloseRightSide(RightSide_LayoutPanel, this);
                     ToolStripIzgara = false;
                 }
@@ -5187,6 +5121,18 @@ namespace Balya_Yerleştirme
         {
             if (Ambar != null)
             {
+                using (var context = new DBContext())
+                {
+                    var ambar = (from x in context.Ambars
+                                 where x.AmbarId == Ambar.AmbarId
+                                 select x).FirstOrDefault();
+
+                    if (ambar != null)
+                    {
+                        context.Ambars.Remove(ambar);
+                        context.SaveChanges();
+                    }
+                }
                 Ambar = null;
                 AlanNode.Tag = null;
                 drawingPanel.Invalidate();
@@ -5196,6 +5142,19 @@ namespace Balya_Yerleştirme
         {
             if (Ambar != null && SelectedAmbar != null)
             {
+                using (var context = new DBContext())
+                {
+                    var ambar = (from x in context.Ambars
+                                 where x.AmbarId == Ambar.AmbarId
+                                 select x).FirstOrDefault();
+
+                    if (ambar != null)
+                    {
+                        context.Ambars.Remove(ambar);
+                        context.SaveChanges();
+                    }
+                }
+
                 Ambar = null;
                 SelectedAmbar = null;
                 AlanNode.Tag = null;
@@ -5210,6 +5169,16 @@ namespace Balya_Yerleştirme
         {
             if (Ambar != null)
             {
+                foreach (var depo in Ambar.depolar)
+                {
+                    Ambar.deletedDepos.Add(depo);
+                }
+
+                foreach (var conveyor in Ambar.conveyors)
+                {
+                    Ambar.deletedConveyors.Add(conveyor);
+                }
+
                 Ambar.depolar.Clear();
                 Ambar.conveyors.Clear();
                 DepoNode.Nodes.Clear();
@@ -5221,6 +5190,16 @@ namespace Balya_Yerleştirme
         {
             if (Ambar != null && SelectedAmbar != null)
             {
+                foreach (var depo in Ambar.depolar)
+                {
+                    Ambar.deletedDepos.Add(depo);
+                }
+
+                foreach (var conveyor in Ambar.conveyors)
+                {
+                    Ambar.deletedConveyors.Add(conveyor);
+                }
+
                 Ambar.depolar.Clear();
                 Ambar.conveyors.Clear();
                 DepoNode.Nodes.Clear();
@@ -5336,6 +5315,7 @@ namespace Balya_Yerleştirme
             {
                 if (selectedDepo != null)
                 {
+                    Ambar.deletedDepos.Add(selectedDepo);
                     Ambar.depolar.Remove(selectedDepo);
                     DeleteDepoNode(selectedDepo);
                 }
@@ -5350,6 +5330,7 @@ namespace Balya_Yerleştirme
             {
                 if (Ambar != null)
                 {
+                    Ambar.deletedDepos.Add(selectedDepo);
                     Ambar.depolar.Remove(selectedDepo);
                     Show_DepoMenus("Depo");
                     MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
@@ -5471,6 +5452,7 @@ namespace Balya_Yerleştirme
             {
                 if (selectedConveyor != null)
                 {
+                    Ambar.deletedConveyors.Add(selectedConveyor);
                     Ambar.conveyors.Remove(selectedConveyor);
                     DeleteConveyorNode(selectedConveyor);
                 }
@@ -5485,6 +5467,7 @@ namespace Balya_Yerleştirme
             {
                 if (selectedConveyor != null)
                 {
+                    Ambar.deletedConveyors.Add(selectedConveyor);
                     Ambar.conveyors.Remove(selectedConveyor);
                     Show_ConveyorMenus("Conveyor");
                     MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);

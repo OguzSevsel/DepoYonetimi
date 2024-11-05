@@ -59,6 +59,8 @@ namespace Balya_Yerleştirme
 
         public System.Drawing.Point LargeTitleLocation = new System.Drawing.Point(595, 9);
 
+        public Ambar BeforeAmbar = new Ambar();
+
         public SelectLayouts(Panel drawingPanel, MainForm main)
         {
             InitializeComponent();
@@ -521,6 +523,8 @@ namespace Balya_Yerleştirme
 
                                 item.SelectLayoutRectangle = new RectangleF(item.SelectLayoutRectangle.X - MoveX, item.SelectLayoutRectangle.Y, item.SelectLayoutRectangle.Width,
                        item.SelectLayoutRectangle.Height);
+
+                                item.SelectLayoutRectangle = GVisual.CenterRectangletoParentRectangle(item.SelectLayoutRectangle, cell.SelectLayoutRectangle);
                             }
                         }
                     }
@@ -532,7 +536,7 @@ namespace Balya_Yerleştirme
                     panel.Controls.Add(panelDescription);
                     panel.Controls.Add(pictureBox);
                     SelectLayoutPanel.Controls.Add(panel);
-                    pictureBox.Paint += (sender, e) => Picture_Box_Paint(sender, e, ambar);
+                    pictureBox.Paint += (sender, e) => Picture_Box_Paint(sender, e);
                     pictureBox.Tag = ambar;
                     pictureBox.DoubleClick += (sender, e) => PictureBox_MouseDoubleClick(sender, e);
                     pictureBox.MouseDown += (sender, e) => PictureBox_MouseDown(sender, e);
@@ -591,7 +595,6 @@ namespace Balya_Yerleştirme
                     string layoutName = getLayoutNameFromPanel(SelectLayoutPanel, pictureBox, true);
                     
                     OpenRightSide((Ambar)pictureBox.Tag);
-                    
                     ScrollPanelIntoView(pictureBox, SelectLayoutPanel);
                     
                     SelectLayoutPanel.ScrollControlIntoView(SelectedPB);
@@ -622,6 +625,7 @@ namespace Balya_Yerleştirme
                 }
             }
         }
+
         private void ScrollPanelIntoView(PictureBox pb, FlowLayoutPanel FlowPanel)
         {
             foreach (var control in FlowPanel.Controls)
@@ -709,7 +713,7 @@ namespace Balya_Yerleştirme
             }
         }
 
-        private void Picture_Box_Paint(object? sender, PaintEventArgs e, Ambar ambar)
+        private void Picture_Box_Paint(object? sender, PaintEventArgs e)
         {
             int counter = 0;
             System.Drawing.Font font = new System.Drawing.Font("Arial", 8);
@@ -717,23 +721,21 @@ namespace Balya_Yerleştirme
             RectangleF rect = new RectangleF();
             Graphics g = e.Graphics;
             PictureBox pictureBox = sender as PictureBox;
+            Ambar ambar = (Ambar)pictureBox.Tag;
             System.Drawing.Point mousePosition = pictureBox.PointToClient(Cursor.Position);
             System.Drawing.Point point = new System.Drawing.Point(pictureBox.ClientRectangle.Left, pictureBox.ClientRectangle.Top);
 
             g.DrawRectangle(LayoutPen, ambar.SelectLayoutRectangle);
 
-            //string layoutRectangle1 = $"Ambar SelectLayoutRectangle: {ambar.SelectLayoutRectangle}";
-            //string rectangle1 = $" Ambar Rectangle: {ambar.Rectangle}";
-            //g.DrawString(rectangle1, font, brush, new System.Drawing.Point(point.X, point.Y + 20));
-            //g.DrawString(layoutRectangle1, font, brush, point);
+            System.Drawing.Font font1 = new System.Drawing.Font("Arial", 8);
+            SolidBrush brush1 = new SolidBrush(System.Drawing.Color.Red);
+
+            string layoutRectangle = $"ambar SelectLayoutRectangle: {ambar.SelectLayoutRectangle}";
+
+            g.DrawString(layoutRectangle, font1, brush1, new System.Drawing.Point(point.X, point.Y + 20));
 
             foreach (var depo in ambar.depolar)
             {
-                //string layoutRectangle = $"Depo SelectLayoutRectangle: {depo.SelectLayoutRectangle}";
-                //string rectangle = $"Depo Rectangle: {depo.Rectangle}";
-                //g.DrawString(rectangle, font, brush, new System.Drawing.Point(point.X, point.Y + 40));
-                //g.DrawString(layoutRectangle, font, brush, new System.Drawing.Point(point.X, point.Y + 60));
-
                 g.DrawRectangle(LayoutPen, depo.SelectLayoutRectangle);
 
                 foreach (var cell in depo.gridmaps)
@@ -1045,6 +1047,8 @@ namespace Balya_Yerleştirme
                     Ambar ambar1 = (Ambar)picture.Tag;
 
                     ScaleAmbar(ambar1, widthRatio, heightRatio);
+                    picture.Invalidate();
+                    picture.Update();
                 }
             }
         }
@@ -1083,48 +1087,17 @@ namespace Balya_Yerleştirme
 
         private async void btn_Layout_Duzenle_Click(object sender, EventArgs e)
         {
-            RectangleF AmbarRect = new RectangleF();
-
-            // Backups for reverting if necessary
-            List<RectangleF> depoRectBackup = new List<RectangleF>();
-            List<RectangleF> conveyorRectBackup = new List<RectangleF>();
-            List<RectangleF> cellRectBackup = new List<RectangleF>();
-            List<RectangleF> itemRectBackup = new List<RectangleF>();
-            List<RectangleF> conveyorReferenceRectBackup = new List<RectangleF>();
-
-
             bool isDepoEmpty = true;
-            Ambar ambar1 = (Ambar)SelectedPB.Tag;
 
             if (SelectedPB != null)
             {
                 Ambar ambar = (Ambar)SelectedPB.Tag;
+
                 if (ambar != null)
                 {
-                    AmbarRect = ambar.Rectangle;
+                    BeforeAmbar = ambar.Clone();
                     LayoutOlusturma ?layout = null;
-
-                    // Backup rectangles
-                    foreach (var depo in ambar.depolar)
-                    {
-                        depoRectBackup.Add(depo.Rectangle);
-                        foreach (var cell in depo.gridmaps)
-                        {
-                            cellRectBackup.Add(cell.Rectangle);
-                            foreach (var item in cell.items)
-                            {
-                                itemRectBackup.Add(item.Rectangle);
-                            }
-                        }
-                    }
-                    foreach (var conveyor in ambar.conveyors)
-                    {
-                        conveyorRectBackup.Add(conveyor.Rectangle);
-                        foreach (var reff in conveyor.ConveyorReferencePoints)
-                        {
-                            conveyorReferenceRectBackup.Add(reff.Rectangle);
-                        }
-                    }
+                    
 
                     foreach (var depo in ambar.depolar)
                     {
@@ -1156,6 +1129,7 @@ namespace Balya_Yerleştirme
                                 foreach (var depo in ambar.depolar)
                                 {
                                     depo.layout = layout;
+                                    depo.layout.izgaraHaritasiOlustur += depo.Depo_IzgaraHaritasiOlustur;
                                     layout.AddDepoNode(depo);
                                     foreach (var cell in depo.gridmaps)
                                     {
@@ -1173,7 +1147,6 @@ namespace Balya_Yerleştirme
                                 }
                             }
                         }
-                        
                     }
                     else
                     {
@@ -1253,49 +1226,12 @@ namespace Balya_Yerleştirme
                             
                             SelectedPB.Invalidate();
                         }
-                        else
+                        else if(layout.DialogResult == DialogResult.Cancel)
                         {
-                            // Revert to backup values if dialog is cancelled
-                            for (int i = 0; i < ambar.depolar.Count; i++)
-                            {
-                                ambar.depolar[i].Rectangle = depoRectBackup[i];
-                            }
-
-                            int cellIndex = 0;
-                            foreach (var depo in ambar.depolar)
-                            {
-                                foreach (var cell in depo.gridmaps)
-                                {
-                                    cell.Rectangle = cellRectBackup[cellIndex++];
-                                }
-                            }
-
-                            int itemIndex = 0;
-                            foreach (var depo in ambar.depolar)
-                            {
-                                foreach (var cell in depo.gridmaps)
-                                {
-                                    foreach (var item in cell.items)
-                                    {
-                                        item.Rectangle = itemRectBackup[itemIndex++];
-                                    }
-                                }
-                            }
-
-                            for (int i = 0; i < ambar.conveyors.Count; i++)
-                            {
-                                ambar.conveyors[i].Rectangle = conveyorRectBackup[i];
-                            }
-
-                            int ReferenceIndex = 0;
-                            foreach (var conveyor in ambar.conveyors)
-                            {
-                                foreach (var reff in conveyor.ConveyorReferencePoints)
-                                {
-                                    
-                                    reff.Rectangle = conveyorReferenceRectBackup[ReferenceIndex++];
-                                }
-                            }
+                            ambar = BeforeAmbar.Clone();
+                            SelectedPB.Tag = null;
+                            SelectedPB.Tag = ambar;
+                            SelectedPB.Invalidate();
                         }
                     }
                 }

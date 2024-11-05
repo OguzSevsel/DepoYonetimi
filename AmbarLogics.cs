@@ -22,6 +22,10 @@ namespace Balya_Yerleştirme.Models
         [NotMapped]
         public List<Depo> depolar {  get; set; }
         [NotMapped]
+        public List<Depo> deletedDepos { get; set; }
+        [NotMapped]
+        public List<Conveyor> deletedConveyors { get; set; }
+        [NotMapped]
         MainForm ?Main { get; set; }
         [NotMapped]
         public Point LocationofRect { get; set; }
@@ -43,7 +47,35 @@ namespace Balya_Yerleştirme.Models
             layout = Layout;
             conveyors = new List<Conveyor>();
             depolar = new List<Depo>();
+            deletedConveyors = new List<Conveyor>();
+            deletedDepos = new List<Depo>();
             LocationofRect = new Point((int)Rectangle.X, (int)Rectangle.Y);
+        }
+        public Ambar Clone()
+        {
+            return new Ambar
+            {
+                SelectLayoutRectangle = this.SelectLayoutRectangle,
+                Rectangle = this.Rectangle,
+                OriginalRectangle = this.OriginalRectangle,
+                layout = this.layout,
+                LayoutId = this.LayoutId,
+                KareX = this.KareX,
+                KareY = this.KareY,
+                KareEni = this.KareEni,
+                KareBoyu = this.KareBoyu,
+                OriginalKareX = this.OriginalKareX,
+                OriginalKareY = this.OriginalKareY,
+                OriginalKareEni = this.OriginalKareEni,
+                OriginalKareBoyu = this.OriginalKareBoyu,
+                AmbarEni = this.AmbarEni,
+                AmbarBoyu = this.AmbarBoyu,
+                AmbarName = this.AmbarName,
+                AmbarDescription = this.AmbarDescription,
+                Zoomlevel = this.Zoomlevel,
+                depolar = this.depolar.Select(d => d.Clone()).ToList(),
+                conveyors = this.conveyors.Select(c => c.Clone()).ToList()
+            };
         }
 
         public void Draw(Graphics graphics)

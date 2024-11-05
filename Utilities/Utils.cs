@@ -1260,7 +1260,6 @@ namespace Balya_Yerleştirme.Utilities
             }
             return null;
         }
-
         public static Models.Cell? SearchThroughLeftReturnCell(bool isMiddle, bool toUp, Depo depo, Models.Cell CurrentCell)
         {
             List<Models.Cell> cells = new List<Models.Cell>();
@@ -1393,5 +1392,6 @@ namespace Balya_Yerleştirme.Utilities
             }
             return null;
         }
+
     }
 }

@@ -177,7 +177,6 @@
             toolStripButton1 = new ToolStripButton();
             Balya_Context_Menu_Strip = new ContextMenuStrip(components);
             depodakiNesneleriGörüntüleToolStripMenuItem = new ToolStripMenuItem();
-            balyayıAlToolStripMenuItem = new ToolStripMenuItem();
             errorProvider = new ErrorProvider(components);
             notify = new NotifyIcon(components);
             saveFileDialog = new SaveFileDialog();
@@ -2104,9 +2103,9 @@
             // Balya_Context_Menu_Strip
             // 
             Balya_Context_Menu_Strip.Font = new Font("Segoe UI", 9F);
-            Balya_Context_Menu_Strip.Items.AddRange(new ToolStripItem[] { depodakiNesneleriGörüntüleToolStripMenuItem, balyayıAlToolStripMenuItem });
+            Balya_Context_Menu_Strip.Items.AddRange(new ToolStripItem[] { depodakiNesneleriGörüntüleToolStripMenuItem });
             Balya_Context_Menu_Strip.Name = "contextMenuStrip1";
-            Balya_Context_Menu_Strip.Size = new Size(182, 48);
+            Balya_Context_Menu_Strip.Size = new Size(182, 26);
             // 
             // depodakiNesneleriGörüntüleToolStripMenuItem
             // 
@@ -2115,13 +2114,6 @@
             depodakiNesneleriGörüntüleToolStripMenuItem.Size = new Size(181, 22);
             depodakiNesneleriGörüntüleToolStripMenuItem.Text = "Özellikleri Görüntüle";
             depodakiNesneleriGörüntüleToolStripMenuItem.Click += depodakiNesneleriGörüntüleToolStripMenuItem_Click;
-            // 
-            // balyayıAlToolStripMenuItem
-            // 
-            balyayıAlToolStripMenuItem.Name = "balyayıAlToolStripMenuItem";
-            balyayıAlToolStripMenuItem.Size = new Size(181, 22);
-            balyayıAlToolStripMenuItem.Text = "balyayı al";
-            balyayıAlToolStripMenuItem.Click += balyayıAlToolStripMenuItem_Click_1;
             // 
             // errorProvider
             // 
@@ -2555,7 +2547,6 @@
         public Krypton.Toolkit.KryptonBorderEdge BorderEdge_NesneAl;
         private Krypton.Toolkit.KryptonComboBox combo_Tur_Kodu;
         private ToolStripButton toolStripButton1;
-        private ToolStripMenuItem balyayıAlToolStripMenuItem;
         private FlowLayoutPanel rightLayoutPanel;
         private FlowLayoutPanel leftLayoutPanel;
     }

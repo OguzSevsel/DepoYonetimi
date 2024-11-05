@@ -82,6 +82,45 @@ namespace Balya_Yerleştirme.Models
                 toolitem1 = Main.Balya_Context_Menu_Strip.Items["balyalarınReferansNoktalarınıSilToolStripMenuItem"];
             }
         }
+        public Cell Clone()
+        {
+            return new Cell
+            {
+                SelectLayoutRectangle = this.SelectLayoutRectangle,
+                Rectangle = this.Rectangle,
+                OriginalRectangle = this.OriginalRectangle,
+                KareX = this.KareX,
+                KareY = this.KareY,
+                KareEni = this.KareEni,
+                KareBoyu = this.KareBoyu,
+                OriginalKareX = this.OriginalKareX,
+                OriginalKareY = this.OriginalKareY,
+                OriginalKareEni = this.OriginalKareEni,
+                OriginalKareBoyu = this.OriginalKareBoyu,
+                Layout = this.Layout,
+                Parent = this.Parent,
+                CellEtiketi = this.CellEtiketi,
+                CellEni = this.CellEni,
+                CellBoyu = this.CellBoyu,
+                CellYuksekligi = this.CellYuksekligi,
+                CellMalSayisi = this.CellMalSayisi,
+                DepoId = this.DepoId,
+                ItemSayisi = this.ItemSayisi,
+                DikeyKenarBoslugu = this.DikeyKenarBoslugu,
+                YatayKenarBoslugu = this.YatayKenarBoslugu,
+                NesneEni = this.NesneEni,
+                NesneBoyu = this.NesneBoyu,
+                NesneYuksekligi = this.NesneYuksekligi,
+                Column = this.Column,
+                Row = this.Row,
+                toplam_Nesne_Yuksekligi = this.toplam_Nesne_Yuksekligi,
+                cell_Cm_X = this.cell_Cm_X,
+                cell_Cm_Y = this.cell_Cm_Y,
+                Zoomlevel = 1f,
+                items = this.items.Select(d => d.Clone()).ToList()
+            };
+        }
+
         private void ConstrainMovementWithinParent()
         {
             if (Rectangle.Left < Parent.Rectangle.Left)

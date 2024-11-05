@@ -48,9 +48,40 @@ namespace Balya_Yerleştirme.Models
             layout = Layout;
             Parent = ambar;
             LocationofRect = new Point((int)Rectangle.X, (int)Rectangle.Y);
-
-            
         }
+
+        public Conveyor Clone()
+        {
+            return new Conveyor
+            {
+                SelectLayoutRectangle = this.SelectLayoutRectangle,
+                Rectangle = this.Rectangle,
+                OriginalRectangle = this.OriginalRectangle,
+                KareX = this.KareX,
+                KareY = this.KareY,
+                KareEni = this.KareEni,
+                KareBoyu = this.KareBoyu,
+                OriginalKareX = this.OriginalKareX,
+                OriginalKareY = this.OriginalKareY,
+                OriginalKareEni = this.OriginalKareEni,
+                OriginalKareBoyu = this.OriginalKareBoyu,
+                ConveyorId = this.ConveyorId,
+                AmbarId = this.AmbarId,
+                Ambar = this.Ambar,
+                Parent = this.Parent,
+                LocationofRect = this.LocationofRect,
+                drawingPanelMoveConst = this.drawingPanelMoveConst,
+                Main = this.Main,
+                Zoomlevel = this.Zoomlevel,
+                ConveyorAraligi = this.ConveyorAraligi,
+                ConveyorBoyu = this.ConveyorBoyu,
+                ConveyorEni = this.ConveyorEni,
+
+                ConveyorReferencePoints = this.ConveyorReferencePoints.Select(d => d.Clone()).ToList(),
+                // Clone other properties...
+            };
+        }
+
         public void Draw(Graphics graphics)
         {
             using (Pen pen = new Pen(System.Drawing.Color.Black, 3))
