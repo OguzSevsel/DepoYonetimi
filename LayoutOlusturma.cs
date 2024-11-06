@@ -145,7 +145,7 @@ namespace Balya_Yerleştirme
         public Pen SelectedConveyorPen { get; set; } = new Pen(System.Drawing.Color.Black);
         public Pen SelectedDepoEdgePen { get; set; } = new Pen(System.Drawing.Color.Red);
         public Pen SelectedConveyorEdgePen { get; set; } = new Pen(System.Drawing.Color.Red);
-        public Pen TransparentPen { get; set; } = new Pen(System.Drawing.Color.Black, 0.3f);
+        public Pen TransparentPen { get; set; } = new Pen(System.Drawing.Color.Black, 2);
 
         #endregion
 
@@ -249,6 +249,7 @@ namespace Balya_Yerleştirme
                 SelectedAmbarPen.Color = System.Drawing.Color.Blue;
 
                 SortFlowLayoutPanel(layoutPanel_Ambar);
+                AlanTreeView.ExpandAll();
 
                 drawingPanel.Invalidate();
             }
@@ -393,7 +394,7 @@ namespace Balya_Yerleştirme
 
         public void AddConveyorNode(Conveyor conveyor)
         {
-            TreeNode conveyorNode = new TreeNode($"Conveyor {conveyor.ConveyorId}");
+            TreeNode conveyorNode = new TreeNode($"Conveyor");
             conveyorNode.Tag = conveyor;
             conveyorNode.ForeColor = System.Drawing.Color.Blue;
             ConveyorNode.Nodes.Add(conveyorNode);
@@ -434,6 +435,12 @@ namespace Balya_Yerleştirme
                     }
                 }
             }
+        }
+
+        public void UnselectNodes()
+        {
+            AlanTreeView.SelectedNode = null;
+            AlanTreeView.CollapseAll();
         }
 
         #endregion
@@ -1827,25 +1834,6 @@ namespace Balya_Yerleştirme
             {
                 g.DrawRectangle(TransparentPen, Ambar.Rectangle);
 
-                System.Drawing.Font font1 = new System.Drawing.Font("Arial", 8);
-                SolidBrush brush1 = new SolidBrush(System.Drawing.Color.Red);
-                string ambarRect = $"Ambar Rectangle: {Ambar.Rectangle}";
-                g.DrawString(ambarRect, font1, brush1 , new System.Drawing.Point(20, 20));
-
-                //System.Drawing.Point point = new System.Drawing.Point(drawingPanel.ClientRectangle.Left, drawingPanel.ClientRectangle.Top);
-                //g.DrawRectangle(TransparentPen, Ambar.SelectLayoutRectangle);
-
-
-                //string layoutRectangle1 = $"Ambar SelectLayoutRectangle: {Ambar.SelectLayoutRectangle}";
-                //string rectangle1 = $" Ambar Rectangle: {Ambar.Rectangle}";
-                //string originalRectangle1 = $" Ambar OriginalRectangle: {Ambar.OriginalRectangle}";
-
-                //g.DrawString(rectangle1, font1, brush1, new System.Drawing.Point(point.X, point.Y + 20));
-
-                //g.DrawString(originalRectangle1, font1, brush1, new System.Drawing.Point(point.X, point.Y + 40));
-
-                //g.DrawString(layoutRectangle1, font1, brush1, point);
-
                 PointF AmbarTop = GVisual.GetMiddleOfTopEdgeF(Ambar.Rectangle);
                 PointF AmbarBottom = GVisual.GetMiddleOfBottomEdgeF(Ambar.Rectangle);
 
@@ -1869,9 +1857,7 @@ namespace Balya_Yerleştirme
                         Fill_WareHouse == false)
                     {
                         g.DrawRectangle(SelectedConveyorPen, conv.Rectangle);
-
-                        //g.FillRectangle(new SolidBrush(System.Drawing.Color.AliceBlue),
-                        //    conv.Rectangle);
+                        
                         SelectedConveyorEdgePen.DashStyle = DashStyle.Dash;
                         DrawLeftLines(SelectedConveyorEdgePen, g, rects, conv.Rectangle,
                             Ambar.Rectangle);
@@ -1894,52 +1880,19 @@ namespace Balya_Yerleştirme
                 {
                     g.DrawRectangle(TransparentPen, depo.Rectangle);
 
-                    string textDepoAdi = $"{depo.DepoName}";
-
-                    System.Drawing.Font font = new System.Drawing.Font("Arial", 8);
-                    SolidBrush brush = new SolidBrush(System.Drawing.Color.Red);
-
-                    var Location = ConvertRectanglesLocationtoCMInsideParentRectangle(depo.Rectangle,
-                   Ambar.Rectangle, Ambar.AmbarEni, Ambar.AmbarBoyu, true);
-
-                    string text = $"Depo Location CM: {Location.Item1}\n{Location.Item2}";
-                    string depoRect = $"Depo Rectangle: {depo.Rectangle}";
-                    g.DrawString(depoRect, font, brush, new PointF(Ambar.Rectangle.X - 400, Ambar.Rectangle.Y));
-
-
-                    //g.DrawString(textDepoAdi, font, brush, depo.Rectangle.Location);
-
-
-                    //string layoutRectangle = $"Depo SelectLayoutRectangle: {depo.SelectLayoutRectangle}";
-                    //string rectangle = $" Depo Rectangle: {depo.Rectangle}";
-                    //string originalRectangle = $" Depo OriginalRectangle: {depo.OriginalRectangle}";
-
-                    //g.DrawString(rectangle, font1, brush1, new System.Drawing.Point(point.X, point.Y + 60));
-
-                    //g.DrawString(originalRectangle, font1, brush1, new System.Drawing.Point(point.X, point.Y + 80));
-
-                    //g.DrawString(layoutRectangle, font1, brush1, new System.Drawing.Point(point.X, point.Y + 100));
-
                     foreach (var cell in depo.gridmaps)
                     {
                         Pen pen1 = new Pen(System.Drawing.Color.LightGray);
                         pen1.DashStyle = DashStyle.Dash;
                         g.DrawRectangle(pen1, cell.Rectangle);
-                        //string Rectangle = $"{cell.Rectangle.X}\n{cell.Rectangle.Y}";
-                        //g.DrawString(Rectangle, font1, brush1, new System.Drawing.PointF(cell.Rectangle.X, cell.Rectangle.Y));
-                        //string Rectangle1 = $"{cell.Rectangle.Width}\n{cell.Rectangle.Height}";
-
-                        //g.DrawString(Rectangle1, font1, brush1, new PointF(Ambar.Rectangle.X - 400, Ambar.Rectangle.Y + 20));
                     }
 
                     if (selectedDepo != null && selectedDepo == depo &&
                         Fill_WareHouse == false)
                     {
                         g.DrawRectangle(SelectedDepoPen, depo.Rectangle);
-
-                        //g.FillRectangle(new SolidBrush(System.Drawing.Color.AliceBlue),
-                        //    depo.Rectangle);
                         SelectedDepoEdgePen.DashStyle = DashStyle.Dash;
+
                         DrawLeftLines(SelectedDepoEdgePen, g, rects, depo.Rectangle, Ambar.Rectangle);
                         DrawRightLines(SelectedDepoEdgePen, g, rects, depo.Rectangle, Ambar.Rectangle);
                         DrawTopLines(SelectedDepoEdgePen, g, rects, depo.Rectangle, Ambar.Rectangle);
@@ -2202,6 +2155,7 @@ namespace Balya_Yerleştirme
                         SelectedDepoEdgePen.Width = 2;
                         SelectedDepoPen.Width = 2;
                         SelectedDepoPen.Color = System.Drawing.Color.Black;
+
                     }
 
                     foreach (var conveyor in Ambar.conveyors)
@@ -2218,6 +2172,7 @@ namespace Balya_Yerleştirme
                         SelectedConveyorEdgePen.Width = 2;
                         SelectedConveyorPen.Width = 2;
                         SelectedConveyorPen.Color = System.Drawing.Color.Black;
+                        UnselectNodes();
                     }
 
                     Ambar.OnMouseDown(e);
@@ -2227,6 +2182,7 @@ namespace Balya_Yerleştirme
                         SelectedAmbar = null;
                         SelectedAmbarPen.Width = 2;
                         SelectedAmbarPen.Color = System.Drawing.Color.Black;
+                        UnselectNodes();
                     }
 
                     if (!conveyornull && !deponull && SelectedAmbar == null)
@@ -2236,6 +2192,7 @@ namespace Balya_Yerleştirme
                         {
                             MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
                             Clear_AddControltoLeftSidePanel(LayoutPanel_Alan_Hierarchy);
+                            UnselectNodes();
                         }
                     }
                 }
@@ -6379,22 +6336,6 @@ namespace Balya_Yerleştirme
             {
                 MainPanelOpenRightSide(RightSide_LayoutPanel, this, rightSidePanelLocation);
             }
-        }
-        public void DrawingPanelEnlarge(System.Windows.Forms.Control hideControl,
-            System.Windows.Forms.Control parentControl)
-        {
-            GVisual.HideControl(hideControl, parentControl);
-            GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelLargeSize);
-            drawingPanel.Location = drawingPanelLeftLocation;
-            MoveRight();
-        }
-        public void DrawingPanelShrink(System.Windows.Forms.Control showControl,
-            System.Windows.Forms.Control parentControl, System.Drawing.Point childControlLocation)
-        {
-            GVisual.ShowControl(showControl, parentControl, childControlLocation);
-            GVisual.ChangeSize_of_Control(drawingPanel, drawingPanelMiddleSize);
-            drawingPanel.Location = drawingPanelMiddleLocation;
-            MoveLeft();
         }
         public void MainPanelOpenLeftSide(System.Windows.Forms.Control showControlLeft,
             System.Windows.Forms.Control parentControl, System.Drawing.Point childControlLocationLeft)

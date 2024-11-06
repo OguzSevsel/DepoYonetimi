@@ -227,22 +227,6 @@ namespace Balya_Yerleştirme.Models
                 depo.OnMouseDoubleClick(e);
             }
         }
-        public void MoveLeft()
-        {
-            var values = ShiftLeft(Rectangle, OriginalRectangle, LocationofRect, 
-                drawingPanelMoveConst, Zoomlevel);
-            Rectangle = values.Item1;
-            OriginalRectangle = values.Item2;
-            LocationofRect = values.Item3;
-        }
-        public void MoveRight()
-        {
-            var values = ShiftRight(Rectangle, OriginalRectangle, LocationofRect, 
-                drawingPanelMoveConst, Zoomlevel);
-            Rectangle = values.Item1;
-            OriginalRectangle = values.Item2;
-            LocationofRect = values.Item3;
-        }
         public Conveyor CreateConveyor(float x, float y, float width, float height, float metersChild_Width,
             float metersChild_Height, float metersParent_Width, float metersParent_Height)
         {

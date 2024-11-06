@@ -401,20 +401,6 @@ namespace Balya_Yerleştirme.Models
             // Draw the tag in the center of the cell
             g.DrawString(tag, font, brush, rect, format);
         }
-        public void MoveLeft()
-        {
-            var values = ShiftLeft(Rectangle, OriginalRectangle, LocationofRect, drawingPanelMoveConst, Zoomlevel);
-            Rectangle = values.Item1;
-            OriginalRectangle = values.Item2;
-            LocationofRect = values.Item3;
-        }
-        public void MoveRight()
-        {
-            var values = ShiftRight(Rectangle, OriginalRectangle, LocationofRect, drawingPanelMoveConst, Zoomlevel);
-            Rectangle = values.Item1;
-            OriginalRectangle = values.Item2;
-            LocationofRect = values.Item3;
-        }
         public void ApplyZoom(float zoomlevel)
         {
             Zoomlevel = zoomlevel;
