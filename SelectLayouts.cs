@@ -369,6 +369,9 @@ namespace Balya_Yerleştirme
                                 newItem.OriginalKareBoyu = item.OriginalKareBoyu;
                                 newItem.LocationofRect = item.LocationofRect;
                                 newItem.CellId = item.CellId;
+                                newItem.Cm_X_Axis = item.Cm_X_Axis;
+                                newItem.Cm_Y_Axis = item.Cm_Y_Axis;
+                                newItem.Cm_Z_Axis = item.Cm_Z_Axis;
 
                                 newCell.items.Add(newItem);
 

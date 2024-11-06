@@ -3322,6 +3322,7 @@ namespace Balya_Yerleştirme
                                 yatay_kenar_boslugu = DataCell.YatayKenarBoslugu;
                                 nesne_eni = DataCell.NesneEni;
                                 nesne_boyu = DataCell.NesneBoyu;
+                                nesne_Yuksekligi = DataCell.NesneYuksekligi;
                             }
 
                             selectedDepo.Rectangle = new RectangleF(selectedDepo.Rectangle.X,
@@ -3340,7 +3341,7 @@ namespace Balya_Yerleştirme
                             selectedDepo.Cm_Width = txt_width * 100;
 
                             selectedDepo.CreateGridMapMenuItem(cell_eni, cell_boyu, dikey_kenar_boslugu,
-                                yatay_kenar_boslugu, nesne_eni, nesne_boyu);
+                                yatay_kenar_boslugu, nesne_eni, nesne_boyu, nesne_Yuksekligi);
 
                             colCount = selectedDepo.ColumnCount;
                             rowCount = selectedDepo.RowCount;
@@ -3416,6 +3417,7 @@ namespace Balya_Yerleştirme
                                 yatay_kenar_boslugu = DataCell.YatayKenarBoslugu;
                                 nesne_eni = DataCell.NesneEni;
                                 nesne_boyu = DataCell.NesneBoyu;
+                                nesne_Yuksekligi = DataCell.NesneYuksekligi;
                             }
 
                             selectedDepo.Rectangle = new RectangleF(selectedDepo.Rectangle.X, selectedDepo.Rectangle.Y,
@@ -3434,7 +3436,7 @@ namespace Balya_Yerleştirme
                             selectedDepo.Cm_Height = txt_height * 100;
 
                             selectedDepo.CreateGridMapMenuItem(cell_eni, cell_boyu, dikey_kenar_boslugu,
-                               yatay_kenar_boslugu, nesne_eni, nesne_boyu);
+                               yatay_kenar_boslugu, nesne_eni, nesne_boyu, nesne_Yuksekligi);
 
                             colCount = selectedDepo.ColumnCount;
                             rowCount = selectedDepo.RowCount;
@@ -3582,7 +3584,7 @@ namespace Balya_Yerleştirme
 
                             selectedDepo.CreateGridMapMenuItem(DataCell.CellEni, DataCell.CellBoyu,
                                 DataCell.DikeyKenarBoslugu, DataCell.YatayKenarBoslugu, DataCell.NesneEni,
-                                DataCell.NesneBoyu);
+                                DataCell.NesneBoyu, DataCell.NesneYuksekligi);
                         }
 
                         drawingPanel.Invalidate();
@@ -3683,7 +3685,7 @@ namespace Balya_Yerleştirme
 
                             selectedDepo.CreateGridMapMenuItem(DataCell.CellEni, DataCell.CellBoyu,
                                 DataCell.DikeyKenarBoslugu, DataCell.YatayKenarBoslugu, DataCell.NesneEni,
-                                DataCell.NesneBoyu);
+                                DataCell.NesneBoyu, DataCell.NesneYuksekligi);
                         }
 
                         drawingPanel.Invalidate();
@@ -3790,7 +3792,7 @@ namespace Balya_Yerleştirme
 
                             selectedDepo.CreateGridMapMenuItem(DataCell.CellEni, DataCell.CellBoyu,
                                 DataCell.DikeyKenarBoslugu, DataCell.YatayKenarBoslugu, DataCell.NesneEni,
-                                DataCell.NesneBoyu);
+                                DataCell.NesneBoyu, DataCell.NesneYuksekligi);
                         }
 
                         drawingPanel.Invalidate();
@@ -3891,7 +3893,7 @@ namespace Balya_Yerleştirme
 
                             selectedDepo.CreateGridMapMenuItem(DataCell.CellEni, DataCell.CellBoyu,
                                 DataCell.DikeyKenarBoslugu, DataCell.YatayKenarBoslugu, DataCell.NesneEni,
-                                DataCell.NesneBoyu);
+                                DataCell.NesneBoyu, DataCell.NesneYuksekligi);
                         }
 
                         drawingPanel.Invalidate();
@@ -4919,7 +4921,7 @@ namespace Balya_Yerleştirme
                         selectedDepo.nesneBoyu = nesne_Boyu;
                         selectedDepo.nesneYuksekligi = nesne_Yuksekligi;
                         selectedDepo.CreateGridMapMenuItem(total_Cell_Width, total_Cell_Height,
-                            hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu);
+                            hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu, nesne_Yuksekligi);
                         MainPanelCloseRightSide(RightSide_LayoutPanel, this);
                         colCount = selectedDepo.ColumnCount;
                         rowCount = selectedDepo.RowCount;
@@ -4930,7 +4932,7 @@ namespace Balya_Yerleştirme
                         selectedDepo.nesneBoyu = nesne_Boyu;
                         selectedDepo.nesneYuksekligi = nesne_Yuksekligi;
                         selectedDepo.CreateGridMapMenuItem(total_Cell_Width, total_Cell_Height,
-                            hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu);
+                            hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu, nesne_Yuksekligi);
                         MainPanelCloseRightSide(RightSide_LayoutPanel, this);
                         colCount = selectedDepo.ColumnCount;
                         rowCount = selectedDepo.RowCount;
@@ -5014,7 +5016,7 @@ namespace Balya_Yerleştirme
                         selectedDepo.nesneBoyu = nesne_Boyu;
                         selectedDepo.nesneYuksekligi = nesne_Yuksekligi;
                         selectedDepo.CreateGridMapMenuItem(total_Cell_Width, total_Cell_Height,
-                            hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu);
+                            hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu, nesne_Yuksekligi);
 
 
                         if (menuProcess)
@@ -5039,7 +5041,7 @@ namespace Balya_Yerleştirme
                         selectedDepo.nesneBoyu = nesne_Boyu;
                         selectedDepo.nesneYuksekligi = nesne_Yuksekligi;
                         selectedDepo.CreateGridMapMenuItem(total_Cell_Width, total_Cell_Height,
-                            hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu);
+                            hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu, nesne_Yuksekligi);
 
                         if (menuProcess)
                         {
@@ -5073,7 +5075,7 @@ namespace Balya_Yerleştirme
                             depo.nesneBoyu = nesne_Boyu;
                             depo.nesneYuksekligi = nesne_Yuksekligi;
                             depo.CreateGridMapMenuItem(total_Cell_Width, total_Cell_Height,
-                                hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu);
+                                hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu, nesne_Yuksekligi);
 
                             SortFlowLayoutPanel(layoutPanel_Ambar);
                             Show_AreaMenus("Alan");

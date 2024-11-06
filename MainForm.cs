@@ -114,7 +114,7 @@ namespace Balya_Yerleştirme
 
         //Add Items to the Depos According to the Parameters choosed by user when creating Layout
         #region Item Adding Algoritm
-        public void AddItemtoCell(Models.Cell? cell1, string item_etiketi, string item_aciklamasi,
+        public void AddItemtoCell(Ambar ambar, Models.Cell? cell1, string item_etiketi, string item_aciklamasi,
             float item_agirligi)
         {
             if (cell1 != null)
@@ -199,7 +199,7 @@ namespace Balya_Yerleştirme
                     {
                         if (placeOnce && !yerBul)
                         {
-                            AddItemtoCell(cell, item_etiketi, item_aciklamasi, item_agirligi);
+                            AddItemtoCell(depo.Parent, cell, item_etiketi, item_aciklamasi, item_agirligi);
                             placeOnce = false;
                             cell.HoverPen = new Pen(System.Drawing.Color.DarkGray);
                             cell.HoverPen.DashStyle = DashStyle.DashDot;
@@ -230,7 +230,7 @@ namespace Balya_Yerleştirme
                     {
                         if (placeOnce && !yerBul)
                         {
-                            AddItemtoCell(cell, item_etiketi, item_aciklamasi, item_agirligi);
+                            AddItemtoCell(depo.Parent, cell, item_etiketi, item_aciklamasi, item_agirligi);
                             placeOnce = false;
                             cell.HoverPen = new Pen(System.Drawing.Color.DarkGray);
                             cell.HoverPen.DashStyle = DashStyle.DashDot;
@@ -260,7 +260,7 @@ namespace Balya_Yerleştirme
                     {
                         if (placeOnce && !yerBul)
                         {
-                            AddItemtoCell(cell, item_etiketi, item_aciklamasi, item_agirligi);
+                            AddItemtoCell(depo.Parent, cell, item_etiketi, item_aciklamasi, item_agirligi);
                             placeOnce = false;
                             cell.HoverPen = new Pen(System.Drawing.Color.DarkGray);
                             cell.HoverPen.DashStyle = DashStyle.DashDot;
@@ -290,7 +290,7 @@ namespace Balya_Yerleştirme
                     {
                         if (placeOnce && !yerBul)
                         {
-                            AddItemtoCell(cell, item_etiketi, item_aciklamasi, item_agirligi);
+                            AddItemtoCell(depo.Parent, cell, item_etiketi, item_aciklamasi, item_agirligi);
                             placeOnce = false;
                             cell.HoverPen = new Pen(System.Drawing.Color.DarkGray);
                             cell.HoverPen.DashStyle = DashStyle.DashDot;
@@ -320,7 +320,7 @@ namespace Balya_Yerleştirme
                     {
                         if (placeOnce && !yerBul)
                         {
-                            AddItemtoCell(cell, item_etiketi, item_aciklamasi, item_agirligi);
+                            AddItemtoCell(depo.Parent, cell, item_etiketi, item_aciklamasi, item_agirligi);
                             placeOnce = false;
                             cell.HoverPen = new Pen(System.Drawing.Color.DarkGray);
                             cell.HoverPen.DashStyle = DashStyle.DashDot;
@@ -350,7 +350,7 @@ namespace Balya_Yerleştirme
                     {
                         if (placeOnce && !yerBul)
                         {
-                            AddItemtoCell(cell, item_etiketi, item_aciklamasi, item_agirligi);
+                            AddItemtoCell(depo.Parent, cell, item_etiketi, item_aciklamasi, item_agirligi);
                             placeOnce = false;
                             cell.HoverPen = new Pen(System.Drawing.Color.DarkGray);
                             cell.HoverPen.DashStyle = DashStyle.DashDot;
@@ -380,7 +380,7 @@ namespace Balya_Yerleştirme
                     {
                         if (placeOnce && !yerBul)
                         {
-                            AddItemtoCell(cell, item_etiketi, item_aciklamasi, item_agirligi);
+                            AddItemtoCell(depo.Parent, cell, item_etiketi, item_aciklamasi, item_agirligi);
                             placeOnce = false;
                             cell.HoverPen = new Pen(System.Drawing.Color.DarkGray);
                             cell.HoverPen.DashStyle = DashStyle.DashDot;
@@ -410,7 +410,7 @@ namespace Balya_Yerleştirme
                     {
                         if (placeOnce && !yerBul)
                         {
-                            AddItemtoCell(cell, item_etiketi, item_aciklamasi, item_agirligi);
+                            AddItemtoCell(depo.Parent, cell, item_etiketi, item_aciklamasi, item_agirligi);
                             placeOnce = false;
                             cell.HoverPen = new Pen(System.Drawing.Color.DarkGray);
                             cell.HoverPen.DashStyle = DashStyle.DashDot;
@@ -1898,7 +1898,7 @@ namespace Balya_Yerleştirme
             }
         }
 
-
+        
 
         //These are the Buttons that determines the state of the item placement for Simulation Purposes
         //(These are also works for Item Removal Simulation only their text changes between two simulation)
@@ -2033,7 +2033,6 @@ namespace Balya_Yerleştirme
         #region PLC Simulation for Removing Items
 
         //This is Simulation Panel Button Events
-        //This is for Starting Item Removal Simulation
         private void btn_PLC_Sim_Nesne_Bul_Click(object sender, EventArgs e)
         {
             MainPanelOpenLeftSide(leftLayoutPanel, this, leftSidePanelLocation, Nesne_Al_First_Panel);
@@ -2050,7 +2049,6 @@ namespace Balya_Yerleştirme
 
 
         //These are Item Removal Panel Button Events
-        //This button is for finding Items to Remove from depo
         private void btn_Nesne_Bul_Click(object sender, EventArgs e)
         {
             item_etiketi = txt_Nesne_Al_Etiket.Text;
@@ -2168,7 +2166,13 @@ namespace Balya_Yerleştirme
                         }
                         item2.ItemId = 0;
 
-                        AddItemtoCell(AlternateCell, item2.ItemEtiketi, item2.ItemAciklamasi, item2.ItemAgirligi);
+                        MainPanelCloseLeftSide(leftLayoutPanel, this);
+                        MainPanelCloseRightSide(rightLayoutPanel, this);
+
+                        AddItemtoCell(ambar, AlternateCell, item2.ItemEtiketi, item2.ItemAciklamasi, item2.ItemAgirligi);
+
+                        MainPanelOpenRightSide(rightLayoutPanel, this, rightSidePanelLocation, PLC_Sim_Panel);
+                        MainPanelOpenLeftSide(leftLayoutPanel, this, leftSidePanelLocation, Nesne_Al_First_Panel);
                     }
                 }
                 else

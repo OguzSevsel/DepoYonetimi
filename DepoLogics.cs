@@ -167,9 +167,11 @@ namespace Balya_Yerleştirme.Models
 
                     CreateGridMapMenuItem(layout.total_Cell_Width,
                         layout.total_Cell_Height, dikey_kenar_boslugu, yatay_kenar_boslugu,
-                        layout.nesne_Eni, layout.nesne_Boyu);
+                        layout.nesne_Eni, layout.nesne_Boyu, layout.nesne_Yuksekligi);
 
                     nesneYuksekligi = layout.nesne_Yuksekligi;
+                    nesneEni = layout.nesne_Eni;
+                    nesneBoyu = layout.nesne_Boyu;
                 }
             }
         }
@@ -517,7 +519,7 @@ namespace Balya_Yerleştirme.Models
 
         public void CreateGridMapMenuItem(float izgaraEni, float izgaraBoyu,
             float dikey_kenar_boslugu, float yatay_kenar_boslugu, float nesne_eni,
-            float nesne_boyu)
+            float nesne_boyu, int nesne_yuksekligi)
         {
             float izgaraEniMeters = (float)izgaraEni / 100.0f;
             float izgaraBoyuMeters = (float)izgaraBoyu / 100.0f;
@@ -535,24 +537,25 @@ namespace Balya_Yerleştirme.Models
 
             nesneEni = nesne_eni;
             nesneBoyu = nesne_boyu;
+            nesneYuksekligi = nesne_yuksekligi;
 
             if (gridmaps.Count == 0)
             {
                 CreateGrid(izgaraEniPX, izgaraBoyuPX, OriginalDepoSize.Width, 
                     OriginalDepoSize.Height, izgaraEni, izgaraBoyu, nesne_eni,
-                    nesne_boyu, dikey_kenar_boslugu, yatay_kenar_boslugu);
-            }
+                    nesne_boyu, nesne_yuksekligi, dikey_kenar_boslugu, yatay_kenar_boslugu);
+            } 
             else
             {
                 gridmaps.Clear();
                 CreateGrid(izgaraEniPX, izgaraBoyuPX, OriginalDepoSize.Width,
                     OriginalDepoSize.Height, izgaraEni, izgaraBoyu, nesne_eni,
-                    nesne_boyu, dikey_kenar_boslugu, yatay_kenar_boslugu);
+                    nesne_boyu, nesne_yuksekligi, dikey_kenar_boslugu, yatay_kenar_boslugu);
             }
         }
         public void CreateGrid(float izgaraEniPx, float izgaraBoyuPx, float depoAlanininEni, 
             float depoAlanininBoyu, float izgaraEni, float izgaraBoyu, float nesne_eni,
-            float nesne_boyu, float dikey_kenar_boslugu, float yatay_kenar_boslugu)
+            float nesne_boyu, int nesne_yuksekligi, float dikey_kenar_boslugu, float yatay_kenar_boslugu)
         {
             int counter = 0;
             int columnCount = (int)Math.Floor((float)OriginalDepoSize.Width / izgaraEniPx);
@@ -601,9 +604,9 @@ namespace Balya_Yerleştirme.Models
 
                     if (layout != null)
                     {
-                        cell.NesneEni = layout.nesne_Eni;
-                        cell.NesneBoyu = layout.nesne_Boyu;
-                        cell.NesneYuksekligi = layout.nesne_Yuksekligi;
+                        cell.NesneEni = nesne_eni;
+                        cell.NesneBoyu = nesne_boyu;
+                        cell.NesneYuksekligi = nesne_yuksekligi;
 
                         if (cell.NesneYuksekligi * 2 < DepoAlaniYuksekligi)
                         {
