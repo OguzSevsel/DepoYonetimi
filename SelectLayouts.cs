@@ -730,13 +730,6 @@ namespace Balya_Yerleştirme
 
             g.DrawRectangle(LayoutPen, ambar.SelectLayoutRectangle);
 
-            System.Drawing.Font font1 = new System.Drawing.Font("Arial", 8);
-            SolidBrush brush1 = new SolidBrush(System.Drawing.Color.Red);
-
-            string layoutRectangle = $"ambar SelectLayoutRectangle: {ambar.SelectLayoutRectangle}";
-
-            g.DrawString(layoutRectangle, font1, brush1, new System.Drawing.Point(point.X, point.Y + 20));
-
             foreach (var depo in ambar.depolar)
             {
                 g.DrawRectangle(LayoutPen, depo.SelectLayoutRectangle);
