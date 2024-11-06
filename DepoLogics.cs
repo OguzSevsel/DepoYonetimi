@@ -277,7 +277,6 @@ namespace Balya_Yerleştirme.Models
                         {
                             layout.menuProcess = false;
                             layout.selectedDepo = this;
-                            layout.SelectNode(null, null, this);
 
                             layout.SelectedDepoPen.Color = System.Drawing.Color.Blue;
                             layout.SelectedDepoPen.Width = 3;
@@ -287,9 +286,10 @@ namespace Balya_Yerleştirme.Models
                             layout.MenuStrip.Show(Cursor.Position);
                             if (layout.LeftSide_LayoutPanel.Visible)
                             {
-                                layout.SortFlowLayoutPanel(layout.LayoutPanel_SelectedDepo);
                                 layout.Show_DepoMenus("Depo");
+                                layout.SortFlowLayoutPanel(layout.LayoutPanel_SelectedDepo);
                             }
+                            layout.SelectNode(null, null, this);
                         }
                     }
                 }
@@ -302,7 +302,6 @@ namespace Balya_Yerleştirme.Models
                             layout.menuProcess = false;
                             layout.selectedDepo = this;
                             layout.isMoving = true;
-                            layout.SelectNode(null, null, this);
                             layout.SelectedDepoPen.Width = 3;
                             layout.SelectedDepoEdgePen.Width = 3;
                             layout.SelectedDepoPen.Color = System.Drawing.Color.Blue;
@@ -310,9 +309,10 @@ namespace Balya_Yerleştirme.Models
                             DragStartPoint = e.Location;
                             if (layout.LeftSide_LayoutPanel.Visible)
                             {
-                                layout.SortFlowLayoutPanel(layout.LayoutPanel_SelectedDepo);
                                 layout.Show_DepoMenus("Depo");
+                                layout.SortFlowLayoutPanel(layout.LayoutPanel_SelectedDepo);
                             }
+                            layout.SelectNode(null, null, this);
                         }
                     }
                 }

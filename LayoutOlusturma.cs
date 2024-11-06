@@ -283,6 +283,8 @@ namespace Balya_Yerleştirme
                         UnchangedselectedDepoRectangle = selectedDepo.Rectangle;
 
                         SortFlowLayoutPanel(LayoutPanel_SelectedDepo);
+                        AlanTreeView.ExpandAll();
+
 
                         drawingPanel.Invalidate();
                     }
@@ -318,6 +320,7 @@ namespace Balya_Yerleştirme
                         UnchangedselectedConveyorRectangle = selectedConveyor.Rectangle;
 
                         SortFlowLayoutPanel(layoutPanel_SelectedConveyor);
+                        AlanTreeView.ExpandAll();
 
                         drawingPanel.Invalidate();
                     }
@@ -435,6 +438,7 @@ namespace Balya_Yerleştirme
                     }
                 }
             }
+            AlanTreeView.Refresh();
         }
 
         public void UnselectNodes()
@@ -2172,7 +2176,6 @@ namespace Balya_Yerleştirme
                         SelectedConveyorEdgePen.Width = 2;
                         SelectedConveyorPen.Width = 2;
                         SelectedConveyorPen.Color = System.Drawing.Color.Black;
-                        UnselectNodes();
                     }
 
                     Ambar.OnMouseDown(e);
@@ -2182,7 +2185,6 @@ namespace Balya_Yerleştirme
                         SelectedAmbar = null;
                         SelectedAmbarPen.Width = 2;
                         SelectedAmbarPen.Color = System.Drawing.Color.Black;
-                        UnselectNodes();
                     }
 
                     if (!conveyornull && !deponull && SelectedAmbar == null)
@@ -2191,7 +2193,7 @@ namespace Balya_Yerleştirme
                         if (LeftSide_LayoutPanel.Visible)
                         {
                             MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
-                            Clear_AddControltoLeftSidePanel(LayoutPanel_Alan_Hierarchy);
+                            SortFlowLayoutPanel(LayoutPanel_Alan_Hierarchy);
                             UnselectNodes();
                         }
                     }
@@ -3996,7 +3998,7 @@ namespace Balya_Yerleştirme
                     Manuel_Move = false;
                     if (menuProcess)
                     {
-                        Clear_AddControltoLeftSidePanel(LayoutPanel_SelectedDepo);
+                        SortFlowLayoutPanel(LayoutPanel_SelectedDepo);
                         Show_DepoMenus("Depo");
                         menuProcess = false;
                     }
@@ -4033,7 +4035,7 @@ namespace Balya_Yerleştirme
 
                     if (menuProcess)
                     {
-                        Clear_AddControltoLeftSidePanel(LayoutPanel_SelectedDepo);
+                        SortFlowLayoutPanel(LayoutPanel_SelectedDepo);
                         Show_DepoMenus("Depo");
                         menuProcess = false;
                     }
@@ -4067,7 +4069,7 @@ namespace Balya_Yerleştirme
 
                     if (menuProcess)
                     {
-                        Clear_AddControltoLeftSidePanel(layoutPanel_SelectedConveyor);
+                        SortFlowLayoutPanel(layoutPanel_SelectedConveyor);
                         Show_ConveyorMenus("Conveyor");
                         menuProcess = false;
                     }
@@ -4100,7 +4102,7 @@ namespace Balya_Yerleştirme
 
                     if (menuProcess)
                     {
-                        Clear_AddControltoLeftSidePanel(LayoutPanel_SelectedDepo);
+                        SortFlowLayoutPanel(LayoutPanel_SelectedDepo);
                         Show_DepoMenus("Depo");
                         menuProcess = false;
                     }
@@ -6028,12 +6030,12 @@ namespace Balya_Yerleştirme
         #region Depo SubMenu Events
         private void depoMenuAcBTN_Click(object sender, EventArgs e)
         {
-            SortFlowLayoutPanel(LayoutPanel_SelectedDepo);
-            Show_DepoMenus("Depo");
             if (!LeftSide_LayoutPanel.Visible)
             {
                 MainPanelOpenLeftSide(LeftSide_LayoutPanel, this, leftSidePanelLocation);
             }
+            Show_DepoMenus("Depo");
+            SortFlowLayoutPanel(LayoutPanel_SelectedDepo);
         }
         private void btn_Depo_SubMenu_Click(object sender, EventArgs e)
         {
@@ -6463,10 +6465,22 @@ namespace Balya_Yerleştirme
         }
         public void SortFlowLayoutPanel(System.Windows.Forms.Control ShowControl)
         {
-            LeftSide_LayoutPanel.Controls.Clear();
+            List<System.Windows.Forms.Control> controls = new List<System.Windows.Forms.Control>();
+            foreach (System.Windows.Forms.Control control in LeftSide_LayoutPanel.Controls)
+            {
+                controls.Add(control);
+            }
 
+            foreach (System.Windows.Forms.Control control in controls)
+            {
+                if (control != LayoutPanel_Alan_Hierarchy)
+                {
+                    LeftSide_LayoutPanel.Controls.Remove(control);
+                }
+            }
             GVisual.ShowControl(ShowControl, LeftSide_LayoutPanel);
             GVisual.ShowControl(LayoutPanel_Alan_Hierarchy, LeftSide_LayoutPanel);
+            LeftSide_LayoutPanel.Controls.SetChildIndex(LayoutPanel_Alan_Hierarchy, 1);
         }
         public void Clear_AddControltoLeftSidePanel(System.Windows.Forms.Control ShowControl)
         {

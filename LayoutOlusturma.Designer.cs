@@ -46,9 +46,6 @@
             chk_Conveyor_Reference_Top = new CheckBox();
             lbl_Conveyor_Reference_Fixed_Title = new Krypton.Toolkit.KryptonWrapLabel();
             btn_Conveyor_Reference_Fixed_Onayla = new Button();
-            LayoutPanel_Alan_Hierarchy = new FlowLayoutPanel();
-            groupBox_Hierarchy_TreeView = new GroupBox();
-            AlanTreeView = new TreeView();
             layoutPanel_Ambar = new FlowLayoutPanel();
             groupBox_Ambar = new GroupBox();
             panel_Alan_SubMenu = new Panel();
@@ -132,6 +129,9 @@
             radio_To_Up = new RadioButton();
             lbl_Placement_UpDown_Title = new Krypton.Toolkit.KryptonWrapLabel();
             kryptonBorderEdge33 = new Krypton.Toolkit.KryptonBorderEdge();
+            LayoutPanel_Alan_Hierarchy = new FlowLayoutPanel();
+            groupBox_Hierarchy_TreeView = new GroupBox();
+            AlanTreeView = new TreeView();
             PaddingPanel = new Panel();
             btn_PaddingPanel_Kapat = new Button();
             kryptonBorderEdge30 = new Krypton.Toolkit.KryptonBorderEdge();
@@ -317,18 +317,12 @@
             btn_Layout_Kaydet = new Krypton.Toolkit.KryptonButton();
             LeftSide_LayoutPanel = new FlowLayoutPanel();
             LayoutPanel_SelectedDepo = new FlowLayoutPanel();
-            Panel_SelectedDepo = new Panel();
-            lbl_Depo_Selection = new Krypton.Toolkit.KryptonWrapLabel();
-            comboBox_DepoSelection = new ComboBox();
             groupBox_SelectedDepo = new GroupBox();
             panel_Depo_Menu = new Panel();
             btn_Depo_SubMenu = new Button();
             btn_Depo_SubMenu_Izgara_Haritasi = new Button();
             btn_Depo_Menu_Nesne_Yerlestirme_Siralamasi = new Button();
             layoutPanel_SelectedConveyor = new FlowLayoutPanel();
-            Panel_SelectedConveyor = new Panel();
-            lbl_SelectedConveyor = new Krypton.Toolkit.KryptonWrapLabel();
-            comboBox_SelectedConveyor = new ComboBox();
             groupBox_SelectedConveyor = new GroupBox();
             panel_Conveyor_SubMenu_Referans = new Panel();
             btn_Conveyor_SubMenu_Referans_Sil = new Button();
@@ -356,8 +350,6 @@
             drawingPanel.SuspendLayout();
             Conveyor_Reference_FixedorManuel_Panel.SuspendLayout();
             Conveyor_Reference_Fixed_Panel.SuspendLayout();
-            LayoutPanel_Alan_Hierarchy.SuspendLayout();
-            groupBox_Hierarchy_TreeView.SuspendLayout();
             layoutPanel_Ambar.SuspendLayout();
             groupBox_Ambar.SuspendLayout();
             panel_Alan_SubMenu.SuspendLayout();
@@ -372,6 +364,8 @@
             Placement_UpDown_Panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            LayoutPanel_Alan_Hierarchy.SuspendLayout();
+            groupBox_Hierarchy_TreeView.SuspendLayout();
             PaddingPanel.SuspendLayout();
             LeftPanel_Izgara_Olusturma.SuspendLayout();
             panel_Depo_SubMenu_Izgara_Haritasi.SuspendLayout();
@@ -388,11 +382,9 @@
             ambarMenuStrip.SuspendLayout();
             LeftSide_LayoutPanel.SuspendLayout();
             LayoutPanel_SelectedDepo.SuspendLayout();
-            Panel_SelectedDepo.SuspendLayout();
             groupBox_SelectedDepo.SuspendLayout();
             panel_Depo_Menu.SuspendLayout();
             layoutPanel_SelectedConveyor.SuspendLayout();
-            Panel_SelectedConveyor.SuspendLayout();
             groupBox_SelectedConveyor.SuspendLayout();
             panel_Conveyor_SubMenu_Referans.SuspendLayout();
             panel_Conveyor_Submenu.SuspendLayout();
@@ -608,37 +600,6 @@
             btn_Conveyor_Reference_Fixed_Onayla.TextAlign = ContentAlignment.MiddleLeft;
             btn_Conveyor_Reference_Fixed_Onayla.UseVisualStyleBackColor = false;
             btn_Conveyor_Reference_Fixed_Onayla.Click += btn_Conveyor_Reference_Fixed_Onayla_Click;
-            // 
-            // LayoutPanel_Alan_Hierarchy
-            // 
-            LayoutPanel_Alan_Hierarchy.AutoScroll = true;
-            LayoutPanel_Alan_Hierarchy.Controls.Add(groupBox_Hierarchy_TreeView);
-            LayoutPanel_Alan_Hierarchy.Location = new Point(965, 1021);
-            LayoutPanel_Alan_Hierarchy.Margin = new Padding(1);
-            LayoutPanel_Alan_Hierarchy.Name = "LayoutPanel_Alan_Hierarchy";
-            LayoutPanel_Alan_Hierarchy.Size = new Size(324, 450);
-            LayoutPanel_Alan_Hierarchy.TabIndex = 41;
-            // 
-            // groupBox_Hierarchy_TreeView
-            // 
-            groupBox_Hierarchy_TreeView.BackColor = Color.LightCyan;
-            groupBox_Hierarchy_TreeView.Controls.Add(AlanTreeView);
-            groupBox_Hierarchy_TreeView.Font = new Font("Sans Serif Collection", 10F, FontStyle.Bold);
-            groupBox_Hierarchy_TreeView.ForeColor = Color.Red;
-            groupBox_Hierarchy_TreeView.Location = new Point(3, 3);
-            groupBox_Hierarchy_TreeView.Name = "groupBox_Hierarchy_TreeView";
-            groupBox_Hierarchy_TreeView.Size = new Size(318, 444);
-            groupBox_Hierarchy_TreeView.TabIndex = 34;
-            groupBox_Hierarchy_TreeView.TabStop = false;
-            groupBox_Hierarchy_TreeView.Text = "Alan Hiyerarşisi";
-            // 
-            // AlanTreeView
-            // 
-            AlanTreeView.BackColor = Color.LightCyan;
-            AlanTreeView.Location = new Point(0, 39);
-            AlanTreeView.Name = "AlanTreeView";
-            AlanTreeView.Size = new Size(318, 404);
-            AlanTreeView.TabIndex = 0;
             // 
             // layoutPanel_Ambar
             // 
@@ -1666,6 +1627,37 @@
             kryptonBorderEdge33.Name = "kryptonBorderEdge33";
             kryptonBorderEdge33.Size = new Size(219, 1);
             kryptonBorderEdge33.Text = "kryptonBorderEdge33";
+            // 
+            // LayoutPanel_Alan_Hierarchy
+            // 
+            LayoutPanel_Alan_Hierarchy.AutoScroll = true;
+            LayoutPanel_Alan_Hierarchy.Controls.Add(groupBox_Hierarchy_TreeView);
+            LayoutPanel_Alan_Hierarchy.Location = new Point(965, 1021);
+            LayoutPanel_Alan_Hierarchy.Margin = new Padding(1);
+            LayoutPanel_Alan_Hierarchy.Name = "LayoutPanel_Alan_Hierarchy";
+            LayoutPanel_Alan_Hierarchy.Size = new Size(324, 450);
+            LayoutPanel_Alan_Hierarchy.TabIndex = 41;
+            // 
+            // groupBox_Hierarchy_TreeView
+            // 
+            groupBox_Hierarchy_TreeView.BackColor = Color.LightCyan;
+            groupBox_Hierarchy_TreeView.Controls.Add(AlanTreeView);
+            groupBox_Hierarchy_TreeView.Font = new Font("Sans Serif Collection", 10F, FontStyle.Bold);
+            groupBox_Hierarchy_TreeView.ForeColor = Color.Red;
+            groupBox_Hierarchy_TreeView.Location = new Point(3, 3);
+            groupBox_Hierarchy_TreeView.Name = "groupBox_Hierarchy_TreeView";
+            groupBox_Hierarchy_TreeView.Size = new Size(318, 444);
+            groupBox_Hierarchy_TreeView.TabIndex = 34;
+            groupBox_Hierarchy_TreeView.TabStop = false;
+            groupBox_Hierarchy_TreeView.Text = "Alan Hiyerarşisi";
+            // 
+            // AlanTreeView
+            // 
+            AlanTreeView.BackColor = Color.LightCyan;
+            AlanTreeView.Location = new Point(0, 39);
+            AlanTreeView.Name = "AlanTreeView";
+            AlanTreeView.Size = new Size(318, 404);
+            AlanTreeView.TabIndex = 0;
             // 
             // PaddingPanel
             // 
@@ -4032,45 +4024,12 @@
             // LayoutPanel_SelectedDepo
             // 
             LayoutPanel_SelectedDepo.AutoScroll = true;
-            LayoutPanel_SelectedDepo.Controls.Add(Panel_SelectedDepo);
             LayoutPanel_SelectedDepo.Controls.Add(groupBox_SelectedDepo);
             LayoutPanel_SelectedDepo.Location = new Point(1, 1);
             LayoutPanel_SelectedDepo.Margin = new Padding(1);
             LayoutPanel_SelectedDepo.Name = "LayoutPanel_SelectedDepo";
             LayoutPanel_SelectedDepo.Size = new Size(324, 450);
             LayoutPanel_SelectedDepo.TabIndex = 35;
-            // 
-            // Panel_SelectedDepo
-            // 
-            Panel_SelectedDepo.BackColor = Color.LightCyan;
-            Panel_SelectedDepo.Controls.Add(lbl_Depo_Selection);
-            Panel_SelectedDepo.Controls.Add(comboBox_DepoSelection);
-            Panel_SelectedDepo.Location = new Point(3, 3);
-            Panel_SelectedDepo.Name = "Panel_SelectedDepo";
-            Panel_SelectedDepo.Size = new Size(318, 30);
-            Panel_SelectedDepo.TabIndex = 36;
-            // 
-            // lbl_Depo_Selection
-            // 
-            lbl_Depo_Selection.AutoSize = false;
-            lbl_Depo_Selection.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbl_Depo_Selection.ForeColor = Color.FromArgb(30, 57, 91);
-            lbl_Depo_Selection.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Depo_Selection.Location = new Point(40, 4);
-            lbl_Depo_Selection.Name = "lbl_Depo_Selection";
-            lbl_Depo_Selection.Size = new Size(89, 23);
-            lbl_Depo_Selection.StateCommon.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbl_Depo_Selection.Text = "Depo Seçin";
-            lbl_Depo_Selection.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // comboBox_DepoSelection
-            // 
-            comboBox_DepoSelection.FormattingEnabled = true;
-            comboBox_DepoSelection.Location = new Point(135, 4);
-            comboBox_DepoSelection.Name = "comboBox_DepoSelection";
-            comboBox_DepoSelection.Size = new Size(144, 23);
-            comboBox_DepoSelection.TabIndex = 0;
-            comboBox_DepoSelection.TabStop = false;
             // 
             // groupBox_SelectedDepo
             // 
@@ -4081,9 +4040,9 @@
             groupBox_SelectedDepo.Controls.Add(btn_Depo_Menu_Go_Back);
             groupBox_SelectedDepo.Font = new Font("Sans Serif Collection", 10F, FontStyle.Bold);
             groupBox_SelectedDepo.ForeColor = Color.Red;
-            groupBox_SelectedDepo.Location = new Point(3, 39);
+            groupBox_SelectedDepo.Location = new Point(3, 3);
             groupBox_SelectedDepo.Name = "groupBox_SelectedDepo";
-            groupBox_SelectedDepo.Size = new Size(318, 408);
+            groupBox_SelectedDepo.Size = new Size(318, 443);
             groupBox_SelectedDepo.TabIndex = 34;
             groupBox_SelectedDepo.TabStop = false;
             groupBox_SelectedDepo.Text = "Depo";
@@ -4154,45 +4113,12 @@
             // layoutPanel_SelectedConveyor
             // 
             layoutPanel_SelectedConveyor.AutoScroll = true;
-            layoutPanel_SelectedConveyor.Controls.Add(Panel_SelectedConveyor);
             layoutPanel_SelectedConveyor.Controls.Add(groupBox_SelectedConveyor);
             layoutPanel_SelectedConveyor.Location = new Point(1, 453);
             layoutPanel_SelectedConveyor.Margin = new Padding(1);
             layoutPanel_SelectedConveyor.Name = "layoutPanel_SelectedConveyor";
             layoutPanel_SelectedConveyor.Size = new Size(324, 450);
             layoutPanel_SelectedConveyor.TabIndex = 36;
-            // 
-            // Panel_SelectedConveyor
-            // 
-            Panel_SelectedConveyor.BackColor = Color.LightCyan;
-            Panel_SelectedConveyor.Controls.Add(lbl_SelectedConveyor);
-            Panel_SelectedConveyor.Controls.Add(comboBox_SelectedConveyor);
-            Panel_SelectedConveyor.Location = new Point(3, 3);
-            Panel_SelectedConveyor.Name = "Panel_SelectedConveyor";
-            Panel_SelectedConveyor.Size = new Size(318, 30);
-            Panel_SelectedConveyor.TabIndex = 36;
-            // 
-            // lbl_SelectedConveyor
-            // 
-            lbl_SelectedConveyor.AutoSize = false;
-            lbl_SelectedConveyor.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbl_SelectedConveyor.ForeColor = Color.FromArgb(30, 57, 91);
-            lbl_SelectedConveyor.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_SelectedConveyor.Location = new Point(25, 4);
-            lbl_SelectedConveyor.Name = "lbl_SelectedConveyor";
-            lbl_SelectedConveyor.Size = new Size(119, 23);
-            lbl_SelectedConveyor.StateCommon.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbl_SelectedConveyor.Text = "Conveyor Seçin";
-            lbl_SelectedConveyor.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // comboBox_SelectedConveyor
-            // 
-            comboBox_SelectedConveyor.FormattingEnabled = true;
-            comboBox_SelectedConveyor.Location = new Point(150, 4);
-            comboBox_SelectedConveyor.Name = "comboBox_SelectedConveyor";
-            comboBox_SelectedConveyor.Size = new Size(144, 23);
-            comboBox_SelectedConveyor.TabIndex = 0;
-            comboBox_SelectedConveyor.TabStop = false;
             // 
             // groupBox_SelectedConveyor
             // 
@@ -4203,9 +4129,9 @@
             groupBox_SelectedConveyor.Controls.Add(panel_Conveyor_Menu);
             groupBox_SelectedConveyor.Font = new Font("Sans Serif Collection", 10F, FontStyle.Bold);
             groupBox_SelectedConveyor.ForeColor = Color.Red;
-            groupBox_SelectedConveyor.Location = new Point(3, 39);
+            groupBox_SelectedConveyor.Location = new Point(3, 3);
             groupBox_SelectedConveyor.Name = "groupBox_SelectedConveyor";
-            groupBox_SelectedConveyor.Size = new Size(318, 408);
+            groupBox_SelectedConveyor.Size = new Size(318, 443);
             groupBox_SelectedConveyor.TabIndex = 34;
             groupBox_SelectedConveyor.TabStop = false;
             groupBox_SelectedConveyor.Text = "Conveyor";
@@ -4570,8 +4496,6 @@
             Conveyor_Reference_FixedorManuel_Panel.ResumeLayout(false);
             Conveyor_Reference_Fixed_Panel.ResumeLayout(false);
             Conveyor_Reference_Fixed_Panel.PerformLayout();
-            LayoutPanel_Alan_Hierarchy.ResumeLayout(false);
-            groupBox_Hierarchy_TreeView.ResumeLayout(false);
             layoutPanel_Ambar.ResumeLayout(false);
             groupBox_Ambar.ResumeLayout(false);
             panel_Alan_SubMenu.ResumeLayout(false);
@@ -4592,6 +4516,8 @@
             Placement_UpDown_Panel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            LayoutPanel_Alan_Hierarchy.ResumeLayout(false);
+            groupBox_Hierarchy_TreeView.ResumeLayout(false);
             PaddingPanel.ResumeLayout(false);
             PaddingPanel.PerformLayout();
             LeftPanel_Izgara_Olusturma.ResumeLayout(false);
@@ -4614,11 +4540,9 @@
             ambarMenuStrip.ResumeLayout(false);
             LeftSide_LayoutPanel.ResumeLayout(false);
             LayoutPanel_SelectedDepo.ResumeLayout(false);
-            Panel_SelectedDepo.ResumeLayout(false);
             groupBox_SelectedDepo.ResumeLayout(false);
             panel_Depo_Menu.ResumeLayout(false);
             layoutPanel_SelectedConveyor.ResumeLayout(false);
-            Panel_SelectedConveyor.ResumeLayout(false);
             groupBox_SelectedConveyor.ResumeLayout(false);
             panel_Conveyor_SubMenu_Referans.ResumeLayout(false);
             panel_Conveyor_Submenu.ResumeLayout(false);
@@ -4867,13 +4791,7 @@
         public FlowLayoutPanel LeftSide_LayoutPanel;
         public GroupBox groupBox_SelectedDepo;
         public FlowLayoutPanel LayoutPanel_SelectedDepo;
-        public Panel Panel_SelectedDepo;
-        public Krypton.Toolkit.KryptonWrapLabel lbl_Depo_Selection;
-        public ComboBox comboBox_DepoSelection;
         public FlowLayoutPanel layoutPanel_SelectedConveyor;
-        public Panel Panel_SelectedConveyor;
-        public Krypton.Toolkit.KryptonWrapLabel lbl_SelectedConveyor;
-        public ComboBox comboBox_SelectedConveyor;
         public GroupBox groupBox_SelectedConveyor;
         public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge48;
         public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge47;

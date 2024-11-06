@@ -190,8 +190,8 @@ namespace Balya_Yerleştirme.Models
                             layout.SelectNode(this, null, null);
                             if (layout.LeftSide_LayoutPanel.Visible)
                             {
-                                layout.SortFlowLayoutPanel(layout.layoutPanel_Ambar);
                                 layout.Show_AreaMenus("Alan");
+                                layout.SortFlowLayoutPanel(layout.layoutPanel_Ambar);
                             }
                         }
                     }
