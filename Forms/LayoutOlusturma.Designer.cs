@@ -203,24 +203,27 @@
             btn_Alan_Olustur_Vazgec = new Krypton.Toolkit.KryptonButton();
             btn_Alan_Olustur = new Krypton.Toolkit.KryptonButton();
             Depo_Olusturma_Paneli = new Panel();
-            kryptonBorderEdge43 = new Krypton.Toolkit.KryptonBorderEdge();
-            kryptonBorderEdge40 = new Krypton.Toolkit.KryptonBorderEdge();
-            btn_Depo_Olustur_Vazgec = new Krypton.Toolkit.KryptonButton();
-            kryptonBorderEdge39 = new Krypton.Toolkit.KryptonBorderEdge();
-            btn_Depo_Olustur = new Krypton.Toolkit.KryptonButton();
-            kryptonBorderEdge38 = new Krypton.Toolkit.KryptonBorderEdge();
-            txt_Depo_Yuksekligi = new Krypton.Toolkit.KryptonTextBox();
-            lbl_Depo_Title = new Krypton.Toolkit.KryptonWrapLabel();
-            kryptonBorderEdge37 = new Krypton.Toolkit.KryptonBorderEdge();
-            txt_Depo_Boyu = new Krypton.Toolkit.KryptonTextBox();
-            lbl_Depo_Yuksekligi = new Krypton.Toolkit.KryptonWrapLabel();
-            kryptonBorderEdge36 = new Krypton.Toolkit.KryptonBorderEdge();
-            txt_Depo_Item_Turu = new Krypton.Toolkit.KryptonTextBox();
-            lbl_Depo_Item_Turu = new Krypton.Toolkit.KryptonWrapLabel();
-            lbl_Depo_Boyu = new Krypton.Toolkit.KryptonWrapLabel();
-            btn_Depo_Olusturma_Kapat = new Button();
-            txt_Depo_Eni = new Krypton.Toolkit.KryptonTextBox();
+            kryptonBorderEdge58 = new Krypton.Toolkit.KryptonBorderEdge();
+            txt_Depo_Item_2_Tur_Kodu = new Krypton.Toolkit.KryptonTextBox();
+            lbl_Depo_Item_2_Tur_Kodu = new Krypton.Toolkit.KryptonWrapLabel();
             lbl_Depo_Eni = new Krypton.Toolkit.KryptonWrapLabel();
+            kryptonBorderEdge40 = new Krypton.Toolkit.KryptonBorderEdge();
+            kryptonBorderEdge43 = new Krypton.Toolkit.KryptonBorderEdge();
+            txt_Depo_Eni = new Krypton.Toolkit.KryptonTextBox();
+            kryptonBorderEdge38 = new Krypton.Toolkit.KryptonBorderEdge();
+            btn_Depo_Olustur_Vazgec = new Krypton.Toolkit.KryptonButton();
+            lbl_Depo_Title = new Krypton.Toolkit.KryptonWrapLabel();
+            lbl_Depo_Boyu = new Krypton.Toolkit.KryptonWrapLabel();
+            kryptonBorderEdge37 = new Krypton.Toolkit.KryptonBorderEdge();
+            kryptonBorderEdge39 = new Krypton.Toolkit.KryptonBorderEdge();
+            kryptonBorderEdge36 = new Krypton.Toolkit.KryptonBorderEdge();
+            lbl_Depo_Yuksekligi = new Krypton.Toolkit.KryptonWrapLabel();
+            txt_Depo_Item_Turu = new Krypton.Toolkit.KryptonTextBox();
+            btn_Depo_Olustur = new Krypton.Toolkit.KryptonButton();
+            lbl_Depo_Item_Turu = new Krypton.Toolkit.KryptonWrapLabel();
+            txt_Depo_Boyu = new Krypton.Toolkit.KryptonTextBox();
+            btn_Depo_Olusturma_Kapat = new Button();
+            txt_Depo_Yuksekligi = new Krypton.Toolkit.KryptonTextBox();
             lbl_Depo_Bilgi_Panel_Title = new Krypton.Toolkit.KryptonWrapLabel();
             lbl_Depo_Aciklamasi = new Krypton.Toolkit.KryptonWrapLabel();
             lbl_Depo_Adi = new Krypton.Toolkit.KryptonWrapLabel();
@@ -2442,7 +2445,7 @@
             Alan_Olusturma_Paneli.Controls.Add(txt_Alan_Boyu);
             Alan_Olusturma_Paneli.Controls.Add(btn_Alan_Olustur_Vazgec);
             Alan_Olusturma_Paneli.Controls.Add(btn_Alan_Olustur);
-            Alan_Olusturma_Paneli.Location = new Point(156, 0);
+            Alan_Olusturma_Paneli.Location = new Point(1294, 1024);
             Alan_Olusturma_Paneli.Name = "Alan_Olusturma_Paneli";
             Alan_Olusturma_Paneli.Size = new Size(310, 388);
             Alan_Olusturma_Paneli.TabIndex = 7;
@@ -2593,33 +2596,93 @@
             // Depo_Olusturma_Paneli
             // 
             Depo_Olusturma_Paneli.BackColor = Color.LightBlue;
-            Depo_Olusturma_Paneli.Controls.Add(kryptonBorderEdge43);
-            Depo_Olusturma_Paneli.Controls.Add(kryptonBorderEdge40);
-            Depo_Olusturma_Paneli.Controls.Add(btn_Depo_Olustur_Vazgec);
-            Depo_Olusturma_Paneli.Controls.Add(kryptonBorderEdge39);
-            Depo_Olusturma_Paneli.Controls.Add(btn_Depo_Olustur);
-            Depo_Olusturma_Paneli.Controls.Add(kryptonBorderEdge38);
-            Depo_Olusturma_Paneli.Controls.Add(txt_Depo_Yuksekligi);
-            Depo_Olusturma_Paneli.Controls.Add(lbl_Depo_Title);
-            Depo_Olusturma_Paneli.Controls.Add(kryptonBorderEdge37);
-            Depo_Olusturma_Paneli.Controls.Add(txt_Depo_Boyu);
-            Depo_Olusturma_Paneli.Controls.Add(lbl_Depo_Yuksekligi);
-            Depo_Olusturma_Paneli.Controls.Add(kryptonBorderEdge36);
-            Depo_Olusturma_Paneli.Controls.Add(txt_Depo_Item_Turu);
-            Depo_Olusturma_Paneli.Controls.Add(lbl_Depo_Item_Turu);
-            Depo_Olusturma_Paneli.Controls.Add(lbl_Depo_Boyu);
-            Depo_Olusturma_Paneli.Controls.Add(btn_Depo_Olusturma_Kapat);
-            Depo_Olusturma_Paneli.Controls.Add(txt_Depo_Eni);
+            Depo_Olusturma_Paneli.Controls.Add(kryptonBorderEdge58);
+            Depo_Olusturma_Paneli.Controls.Add(txt_Depo_Item_2_Tur_Kodu);
+            Depo_Olusturma_Paneli.Controls.Add(lbl_Depo_Item_2_Tur_Kodu);
             Depo_Olusturma_Paneli.Controls.Add(lbl_Depo_Eni);
+            Depo_Olusturma_Paneli.Controls.Add(kryptonBorderEdge40);
+            Depo_Olusturma_Paneli.Controls.Add(kryptonBorderEdge43);
+            Depo_Olusturma_Paneli.Controls.Add(txt_Depo_Eni);
+            Depo_Olusturma_Paneli.Controls.Add(kryptonBorderEdge38);
+            Depo_Olusturma_Paneli.Controls.Add(btn_Depo_Olustur_Vazgec);
+            Depo_Olusturma_Paneli.Controls.Add(lbl_Depo_Title);
+            Depo_Olusturma_Paneli.Controls.Add(lbl_Depo_Boyu);
+            Depo_Olusturma_Paneli.Controls.Add(kryptonBorderEdge37);
+            Depo_Olusturma_Paneli.Controls.Add(kryptonBorderEdge39);
+            Depo_Olusturma_Paneli.Controls.Add(kryptonBorderEdge36);
+            Depo_Olusturma_Paneli.Controls.Add(lbl_Depo_Yuksekligi);
+            Depo_Olusturma_Paneli.Controls.Add(txt_Depo_Item_Turu);
+            Depo_Olusturma_Paneli.Controls.Add(btn_Depo_Olustur);
+            Depo_Olusturma_Paneli.Controls.Add(lbl_Depo_Item_Turu);
+            Depo_Olusturma_Paneli.Controls.Add(txt_Depo_Boyu);
+            Depo_Olusturma_Paneli.Controls.Add(btn_Depo_Olusturma_Kapat);
+            Depo_Olusturma_Paneli.Controls.Add(txt_Depo_Yuksekligi);
             Depo_Olusturma_Paneli.Controls.Add(lbl_Depo_Bilgi_Panel_Title);
             Depo_Olusturma_Paneli.Controls.Add(lbl_Depo_Aciklamasi);
             Depo_Olusturma_Paneli.Controls.Add(lbl_Depo_Adi);
             Depo_Olusturma_Paneli.Controls.Add(txt_Depo_Adi);
             Depo_Olusturma_Paneli.Controls.Add(txt_Depo_Aciklamasi);
-            Depo_Olusturma_Paneli.Location = new Point(1875, 1021);
+            Depo_Olusturma_Paneli.Location = new Point(1780, 1017);
             Depo_Olusturma_Paneli.Name = "Depo_Olusturma_Paneli";
             Depo_Olusturma_Paneli.Size = new Size(310, 883);
             Depo_Olusturma_Paneli.TabIndex = 33;
+            // 
+            // kryptonBorderEdge58
+            // 
+            kryptonBorderEdge58.Location = new Point(67, 319);
+            kryptonBorderEdge58.Name = "kryptonBorderEdge58";
+            kryptonBorderEdge58.Size = new Size(175, 1);
+            kryptonBorderEdge58.Text = "kryptonBorderEdge58";
+            // 
+            // txt_Depo_Item_2_Tur_Kodu
+            // 
+            txt_Depo_Item_2_Tur_Kodu.Location = new Point(117, 276);
+            txt_Depo_Item_2_Tur_Kodu.Name = "txt_Depo_Item_2_Tur_Kodu";
+            txt_Depo_Item_2_Tur_Kodu.Size = new Size(162, 27);
+            txt_Depo_Item_2_Tur_Kodu.StateCommon.Content.Color1 = SystemColors.GrayText;
+            txt_Depo_Item_2_Tur_Kodu.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            txt_Depo_Item_2_Tur_Kodu.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            txt_Depo_Item_2_Tur_Kodu.TabIndex = 18;
+            txt_Depo_Item_2_Tur_Kodu.Text = "depo";
+            txt_Depo_Item_2_Tur_Kodu.ToolTipValues.Description = "Depoya konulacak nesnelerin ikinci tür kodu. Eğer bunu girmek istiyorsanız ilk tür kodunu da girmelisiniz veya her ikisini de boş bırakmalısınız.";
+            txt_Depo_Item_2_Tur_Kodu.ToolTipValues.EnableToolTips = true;
+            txt_Depo_Item_2_Tur_Kodu.ToolTipValues.Heading = "";
+            txt_Depo_Item_2_Tur_Kodu.ToolTipValues.ShowIntervalDelay = 100;
+            // 
+            // lbl_Depo_Item_2_Tur_Kodu
+            // 
+            lbl_Depo_Item_2_Tur_Kodu.AutoSize = false;
+            lbl_Depo_Item_2_Tur_Kodu.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Depo_Item_2_Tur_Kodu.ForeColor = Color.Black;
+            lbl_Depo_Item_2_Tur_Kodu.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_Depo_Item_2_Tur_Kodu.Location = new Point(13, 262);
+            lbl_Depo_Item_2_Tur_Kodu.Name = "lbl_Depo_Item_2_Tur_Kodu";
+            lbl_Depo_Item_2_Tur_Kodu.Size = new Size(98, 54);
+            lbl_Depo_Item_2_Tur_Kodu.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Depo_Item_2_Tur_Kodu.StateCommon.TextColor = Color.Black;
+            lbl_Depo_Item_2_Tur_Kodu.Text = "Tür Kodu 2. Etiket: ";
+            lbl_Depo_Item_2_Tur_Kodu.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Depo_Eni
+            // 
+            lbl_Depo_Eni.AutoSize = false;
+            lbl_Depo_Eni.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Depo_Eni.ForeColor = Color.Black;
+            lbl_Depo_Eni.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_Depo_Eni.Location = new Point(5, 544);
+            lbl_Depo_Eni.Name = "lbl_Depo_Eni";
+            lbl_Depo_Eni.Size = new Size(171, 66);
+            lbl_Depo_Eni.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Depo_Eni.StateCommon.TextColor = Color.Black;
+            lbl_Depo_Eni.Text = "Depo Alanının Eni (Metre):";
+            lbl_Depo_Eni.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // kryptonBorderEdge40
+            // 
+            kryptonBorderEdge40.Location = new Point(67, 701);
+            kryptonBorderEdge40.Name = "kryptonBorderEdge40";
+            kryptonBorderEdge40.Size = new Size(175, 1);
+            kryptonBorderEdge40.Text = "kryptonBorderEdge40";
             // 
             // kryptonBorderEdge43
             // 
@@ -2628,17 +2691,31 @@
             kryptonBorderEdge43.Size = new Size(175, 1);
             kryptonBorderEdge43.Text = "kryptonBorderEdge43";
             // 
-            // kryptonBorderEdge40
+            // txt_Depo_Eni
             // 
-            kryptonBorderEdge40.Location = new Point(68, 692);
-            kryptonBorderEdge40.Name = "kryptonBorderEdge40";
-            kryptonBorderEdge40.Size = new Size(175, 1);
-            kryptonBorderEdge40.Text = "kryptonBorderEdge40";
+            txt_Depo_Eni.Location = new Point(182, 564);
+            txt_Depo_Eni.Name = "txt_Depo_Eni";
+            txt_Depo_Eni.Size = new Size(97, 27);
+            txt_Depo_Eni.StateCommon.Content.Color1 = SystemColors.GrayText;
+            txt_Depo_Eni.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            txt_Depo_Eni.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            txt_Depo_Eni.TabIndex = 3;
+            txt_Depo_Eni.Text = "6";
+            txt_Depo_Eni.TextChanged += textBoxFloat_TextChanged;
+            txt_Depo_Eni.Enter += FocusEntertoTXTs;
+            txt_Depo_Eni.KeyPress += textBoxFloat_KeyPress;
+            // 
+            // kryptonBorderEdge38
+            // 
+            kryptonBorderEdge38.Location = new Point(67, 535);
+            kryptonBorderEdge38.Name = "kryptonBorderEdge38";
+            kryptonBorderEdge38.Size = new Size(175, 1);
+            kryptonBorderEdge38.Text = "kryptonBorderEdge38";
             // 
             // btn_Depo_Olustur_Vazgec
             // 
             btn_Depo_Olustur_Vazgec.CornerRoundingRadius = 20F;
-            btn_Depo_Olustur_Vazgec.Location = new Point(154, 788);
+            btn_Depo_Olustur_Vazgec.Location = new Point(154, 784);
             btn_Depo_Olustur_Vazgec.Name = "btn_Depo_Olustur_Vazgec";
             btn_Depo_Olustur_Vazgec.Size = new Size(143, 89);
             btn_Depo_Olustur_Vazgec.StateCommon.Back.Image = (Image)resources.GetObject("btn_Depo_Olustur_Vazgec.StateCommon.Back.Image");
@@ -2660,17 +2737,90 @@
             btn_Depo_Olustur_Vazgec.Values.Text = "Vazgeç";
             btn_Depo_Olustur_Vazgec.Click += btn_Depo_Olustur_Vazgec_Click;
             // 
+            // lbl_Depo_Title
+            // 
+            lbl_Depo_Title.AutoSize = false;
+            lbl_Depo_Title.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Depo_Title.ForeColor = Color.Red;
+            lbl_Depo_Title.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_Depo_Title.Location = new Point(5, 497);
+            lbl_Depo_Title.Name = "lbl_Depo_Title";
+            lbl_Depo_Title.Size = new Size(300, 35);
+            lbl_Depo_Title.StateCommon.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Depo_Title.StateCommon.TextColor = Color.Red;
+            lbl_Depo_Title.Text = "Boyutlarını Giriniz";
+            lbl_Depo_Title.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lbl_Depo_Boyu
+            // 
+            lbl_Depo_Boyu.AutoSize = false;
+            lbl_Depo_Boyu.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Depo_Boyu.ForeColor = Color.Black;
+            lbl_Depo_Boyu.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_Depo_Boyu.Location = new Point(5, 627);
+            lbl_Depo_Boyu.Name = "lbl_Depo_Boyu";
+            lbl_Depo_Boyu.Size = new Size(171, 66);
+            lbl_Depo_Boyu.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Depo_Boyu.StateCommon.TextColor = Color.Black;
+            lbl_Depo_Boyu.Text = "Depo Alanının Boyu (Metre):";
+            lbl_Depo_Boyu.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // kryptonBorderEdge37
+            // 
+            kryptonBorderEdge37.Location = new Point(67, 258);
+            kryptonBorderEdge37.Name = "kryptonBorderEdge37";
+            kryptonBorderEdge37.Size = new Size(175, 1);
+            kryptonBorderEdge37.Text = "kryptonBorderEdge37";
+            // 
             // kryptonBorderEdge39
             // 
-            kryptonBorderEdge39.Location = new Point(68, 591);
+            kryptonBorderEdge39.Location = new Point(67, 618);
             kryptonBorderEdge39.Name = "kryptonBorderEdge39";
             kryptonBorderEdge39.Size = new Size(175, 1);
             kryptonBorderEdge39.Text = "kryptonBorderEdge39";
             // 
+            // kryptonBorderEdge36
+            // 
+            kryptonBorderEdge36.Location = new Point(67, 194);
+            kryptonBorderEdge36.Name = "kryptonBorderEdge36";
+            kryptonBorderEdge36.Size = new Size(175, 1);
+            kryptonBorderEdge36.Text = "kryptonBorderEdge36";
+            // 
+            // lbl_Depo_Yuksekligi
+            // 
+            lbl_Depo_Yuksekligi.AutoSize = false;
+            lbl_Depo_Yuksekligi.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Depo_Yuksekligi.ForeColor = Color.Black;
+            lbl_Depo_Yuksekligi.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_Depo_Yuksekligi.Location = new Point(5, 710);
+            lbl_Depo_Yuksekligi.Name = "lbl_Depo_Yuksekligi";
+            lbl_Depo_Yuksekligi.Size = new Size(171, 66);
+            lbl_Depo_Yuksekligi.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Depo_Yuksekligi.StateCommon.TextColor = Color.Black;
+            lbl_Depo_Yuksekligi.Text = "Depo Alanının Yüksekliği (Cm): ";
+            lbl_Depo_Yuksekligi.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // txt_Depo_Item_Turu
+            // 
+            txt_Depo_Item_Turu.Location = new Point(117, 215);
+            txt_Depo_Item_Turu.Name = "txt_Depo_Item_Turu";
+            txt_Depo_Item_Turu.Size = new Size(162, 27);
+            txt_Depo_Item_Turu.StateCommon.Content.Color1 = SystemColors.GrayText;
+            txt_Depo_Item_Turu.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            txt_Depo_Item_Turu.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            txt_Depo_Item_Turu.TabIndex = 1;
+            txt_Depo_Item_Turu.Text = "depo";
+            txt_Depo_Item_Turu.ToolTipValues.Description = "Depoya konulacak nesnelerin tür kodu. Eğer ikinci tür kodunu da girmek istiyorsanız bunu da girmelisiniz veya her ikisini de boş bırakmalısınız.";
+            txt_Depo_Item_Turu.ToolTipValues.EnableToolTips = true;
+            txt_Depo_Item_Turu.ToolTipValues.Heading = "";
+            txt_Depo_Item_Turu.ToolTipValues.ShowIntervalDelay = 100;
+            txt_Depo_Item_Turu.TextChanged += TextChangedTXTs;
+            txt_Depo_Item_Turu.Enter += FocusEntertoTXTs;
+            // 
             // btn_Depo_Olustur
             // 
             btn_Depo_Olustur.CornerRoundingRadius = 20F;
-            btn_Depo_Olustur.Location = new Point(13, 788);
+            btn_Depo_Olustur.Location = new Point(13, 784);
             btn_Depo_Olustur.Name = "btn_Depo_Olustur";
             btn_Depo_Olustur.Size = new Size(134, 89);
             btn_Depo_Olustur.StateCommon.Back.Image = Resources.Resource1.Warehouse;
@@ -2691,52 +2841,25 @@
             btn_Depo_Olustur.Values.Text = "Depo\r\nOluştur";
             btn_Depo_Olustur.Click += btn_Depo_Olustur_Click;
             // 
-            // kryptonBorderEdge38
+            // lbl_Depo_Item_Turu
             // 
-            kryptonBorderEdge38.Location = new Point(68, 490);
-            kryptonBorderEdge38.Name = "kryptonBorderEdge38";
-            kryptonBorderEdge38.Size = new Size(175, 1);
-            kryptonBorderEdge38.Text = "kryptonBorderEdge38";
-            // 
-            // txt_Depo_Yuksekligi
-            // 
-            txt_Depo_Yuksekligi.Location = new Point(191, 730);
-            txt_Depo_Yuksekligi.Name = "txt_Depo_Yuksekligi";
-            txt_Depo_Yuksekligi.Size = new Size(89, 27);
-            txt_Depo_Yuksekligi.StateCommon.Content.Color1 = SystemColors.GrayText;
-            txt_Depo_Yuksekligi.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            txt_Depo_Yuksekligi.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            txt_Depo_Yuksekligi.TabIndex = 5;
-            txt_Depo_Yuksekligi.Text = "500";
-            txt_Depo_Yuksekligi.TextChanged += TextChangedTXTs;
-            txt_Depo_Yuksekligi.Enter += FocusEntertoTXTs;
-            // 
-            // lbl_Depo_Title
-            // 
-            lbl_Depo_Title.AutoSize = false;
-            lbl_Depo_Title.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            lbl_Depo_Title.ForeColor = Color.Red;
-            lbl_Depo_Title.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Depo_Title.Location = new Point(5, 452);
-            lbl_Depo_Title.Name = "lbl_Depo_Title";
-            lbl_Depo_Title.Size = new Size(300, 35);
-            lbl_Depo_Title.StateCommon.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            lbl_Depo_Title.StateCommon.TextColor = Color.Red;
-            lbl_Depo_Title.Text = "Boyutlarını Giriniz";
-            lbl_Depo_Title.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // kryptonBorderEdge37
-            // 
-            kryptonBorderEdge37.Location = new Point(67, 260);
-            kryptonBorderEdge37.Name = "kryptonBorderEdge37";
-            kryptonBorderEdge37.Size = new Size(175, 1);
-            kryptonBorderEdge37.Text = "kryptonBorderEdge37";
+            lbl_Depo_Item_Turu.AutoSize = false;
+            lbl_Depo_Item_Turu.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Depo_Item_Turu.ForeColor = Color.Black;
+            lbl_Depo_Item_Turu.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_Depo_Item_Turu.Location = new Point(13, 201);
+            lbl_Depo_Item_Turu.Name = "lbl_Depo_Item_Turu";
+            lbl_Depo_Item_Turu.Size = new Size(98, 54);
+            lbl_Depo_Item_Turu.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Depo_Item_Turu.StateCommon.TextColor = Color.Black;
+            lbl_Depo_Item_Turu.Text = "Tür Kodu:";
+            lbl_Depo_Item_Turu.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // txt_Depo_Boyu
             // 
-            txt_Depo_Boyu.Location = new Point(191, 629);
+            txt_Depo_Boyu.Location = new Point(182, 647);
             txt_Depo_Boyu.Name = "txt_Depo_Boyu";
-            txt_Depo_Boyu.Size = new Size(89, 27);
+            txt_Depo_Boyu.Size = new Size(97, 27);
             txt_Depo_Boyu.StateCommon.Content.Color1 = SystemColors.GrayText;
             txt_Depo_Boyu.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
             txt_Depo_Boyu.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
@@ -2745,72 +2868,6 @@
             txt_Depo_Boyu.TextChanged += textBoxFloat_TextChanged;
             txt_Depo_Boyu.Enter += FocusEntertoTXTs;
             txt_Depo_Boyu.KeyPress += textBoxFloat_KeyPress;
-            // 
-            // lbl_Depo_Yuksekligi
-            // 
-            lbl_Depo_Yuksekligi.AutoSize = false;
-            lbl_Depo_Yuksekligi.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            lbl_Depo_Yuksekligi.ForeColor = Color.Black;
-            lbl_Depo_Yuksekligi.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Depo_Yuksekligi.Location = new Point(14, 710);
-            lbl_Depo_Yuksekligi.Name = "lbl_Depo_Yuksekligi";
-            lbl_Depo_Yuksekligi.Size = new Size(171, 66);
-            lbl_Depo_Yuksekligi.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            lbl_Depo_Yuksekligi.StateCommon.TextColor = Color.Black;
-            lbl_Depo_Yuksekligi.Text = "Depo Alanının Yüksekliği (Cm): ";
-            lbl_Depo_Yuksekligi.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // kryptonBorderEdge36
-            // 
-            kryptonBorderEdge36.Location = new Point(67, 194);
-            kryptonBorderEdge36.Name = "kryptonBorderEdge36";
-            kryptonBorderEdge36.Size = new Size(175, 1);
-            kryptonBorderEdge36.Text = "kryptonBorderEdge36";
-            // 
-            // txt_Depo_Item_Turu
-            // 
-            txt_Depo_Item_Turu.Location = new Point(117, 214);
-            txt_Depo_Item_Turu.Name = "txt_Depo_Item_Turu";
-            txt_Depo_Item_Turu.Size = new Size(162, 27);
-            txt_Depo_Item_Turu.StateCommon.Content.Color1 = SystemColors.GrayText;
-            txt_Depo_Item_Turu.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            txt_Depo_Item_Turu.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            txt_Depo_Item_Turu.TabIndex = 1;
-            txt_Depo_Item_Turu.Text = "depo";
-            txt_Depo_Item_Turu.ToolTipValues.Description = "Depoya konulacak nesnelerin tür kodu";
-            txt_Depo_Item_Turu.ToolTipValues.EnableToolTips = true;
-            txt_Depo_Item_Turu.ToolTipValues.Heading = "";
-            txt_Depo_Item_Turu.ToolTipValues.ShowIntervalDelay = 100;
-            txt_Depo_Item_Turu.TextChanged += TextChangedTXTs;
-            txt_Depo_Item_Turu.Enter += FocusEntertoTXTs;
-            // 
-            // lbl_Depo_Item_Turu
-            // 
-            lbl_Depo_Item_Turu.AutoSize = false;
-            lbl_Depo_Item_Turu.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            lbl_Depo_Item_Turu.ForeColor = Color.Black;
-            lbl_Depo_Item_Turu.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Depo_Item_Turu.Location = new Point(13, 200);
-            lbl_Depo_Item_Turu.Name = "lbl_Depo_Item_Turu";
-            lbl_Depo_Item_Turu.Size = new Size(98, 54);
-            lbl_Depo_Item_Turu.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            lbl_Depo_Item_Turu.StateCommon.TextColor = Color.Black;
-            lbl_Depo_Item_Turu.Text = "Tür Kodu:";
-            lbl_Depo_Item_Turu.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // lbl_Depo_Boyu
-            // 
-            lbl_Depo_Boyu.AutoSize = false;
-            lbl_Depo_Boyu.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            lbl_Depo_Boyu.ForeColor = Color.Black;
-            lbl_Depo_Boyu.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Depo_Boyu.Location = new Point(14, 609);
-            lbl_Depo_Boyu.Name = "lbl_Depo_Boyu";
-            lbl_Depo_Boyu.Size = new Size(171, 66);
-            lbl_Depo_Boyu.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            lbl_Depo_Boyu.StateCommon.TextColor = Color.Black;
-            lbl_Depo_Boyu.Text = "Depo Alanının Boyu (Metre):";
-            lbl_Depo_Boyu.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // btn_Depo_Olusturma_Kapat
             // 
@@ -2824,33 +2881,18 @@
             btn_Depo_Olusturma_Kapat.UseVisualStyleBackColor = true;
             btn_Depo_Olusturma_Kapat.Click += btn_Depo_Olusturma_Kapat_Click;
             // 
-            // txt_Depo_Eni
+            // txt_Depo_Yuksekligi
             // 
-            txt_Depo_Eni.Location = new Point(191, 528);
-            txt_Depo_Eni.Name = "txt_Depo_Eni";
-            txt_Depo_Eni.Size = new Size(89, 27);
-            txt_Depo_Eni.StateCommon.Content.Color1 = SystemColors.GrayText;
-            txt_Depo_Eni.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            txt_Depo_Eni.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            txt_Depo_Eni.TabIndex = 3;
-            txt_Depo_Eni.Text = "6";
-            txt_Depo_Eni.TextChanged += textBoxFloat_TextChanged;
-            txt_Depo_Eni.Enter += FocusEntertoTXTs;
-            txt_Depo_Eni.KeyPress += textBoxFloat_KeyPress;
-            // 
-            // lbl_Depo_Eni
-            // 
-            lbl_Depo_Eni.AutoSize = false;
-            lbl_Depo_Eni.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            lbl_Depo_Eni.ForeColor = Color.Black;
-            lbl_Depo_Eni.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Depo_Eni.Location = new Point(14, 508);
-            lbl_Depo_Eni.Name = "lbl_Depo_Eni";
-            lbl_Depo_Eni.Size = new Size(171, 66);
-            lbl_Depo_Eni.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            lbl_Depo_Eni.StateCommon.TextColor = Color.Black;
-            lbl_Depo_Eni.Text = "Depo Alanının Eni (Metre):";
-            lbl_Depo_Eni.TextAlign = ContentAlignment.MiddleCenter;
+            txt_Depo_Yuksekligi.Location = new Point(182, 730);
+            txt_Depo_Yuksekligi.Name = "txt_Depo_Yuksekligi";
+            txt_Depo_Yuksekligi.Size = new Size(97, 27);
+            txt_Depo_Yuksekligi.StateCommon.Content.Color1 = SystemColors.GrayText;
+            txt_Depo_Yuksekligi.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            txt_Depo_Yuksekligi.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            txt_Depo_Yuksekligi.TabIndex = 5;
+            txt_Depo_Yuksekligi.Text = "500";
+            txt_Depo_Yuksekligi.TextChanged += TextChangedTXTs;
+            txt_Depo_Yuksekligi.Enter += FocusEntertoTXTs;
             // 
             // lbl_Depo_Bilgi_Panel_Title
             // 
@@ -2872,7 +2914,7 @@
             lbl_Depo_Aciklamasi.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
             lbl_Depo_Aciklamasi.ForeColor = Color.Black;
             lbl_Depo_Aciklamasi.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Depo_Aciklamasi.Location = new Point(13, 318);
+            lbl_Depo_Aciklamasi.Location = new Point(13, 364);
             lbl_Depo_Aciklamasi.Name = "lbl_Depo_Aciklamasi";
             lbl_Depo_Aciklamasi.Size = new Size(98, 77);
             lbl_Depo_Aciklamasi.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
@@ -2909,7 +2951,7 @@
             // 
             // txt_Depo_Aciklamasi
             // 
-            txt_Depo_Aciklamasi.Location = new Point(117, 280);
+            txt_Depo_Aciklamasi.Location = new Point(117, 326);
             txt_Depo_Aciklamasi.Multiline = true;
             txt_Depo_Aciklamasi.Name = "txt_Depo_Aciklamasi";
             txt_Depo_Aciklamasi.Size = new Size(162, 152);
@@ -2931,11 +2973,10 @@
             Conveyor_Olusturma_Paneli.Controls.Add(lbl_Conveyor_Boyu);
             Conveyor_Olusturma_Paneli.Controls.Add(lbl_Conveyor_Eni);
             Conveyor_Olusturma_Paneli.Controls.Add(txt_Conveyor_Eni);
-            Conveyor_Olusturma_Paneli.Controls.Add(Alan_Olusturma_Paneli);
             Conveyor_Olusturma_Paneli.Controls.Add(txt_Conveyor_Boyu);
             Conveyor_Olusturma_Paneli.Controls.Add(btn_Conveyor_Olustur_Vazgec);
             Conveyor_Olusturma_Paneli.Controls.Add(btn_Conveyor_Olustur);
-            Conveyor_Olusturma_Paneli.Location = new Point(1487, 1021);
+            Conveyor_Olusturma_Paneli.Location = new Point(1572, 1024);
             Conveyor_Olusturma_Paneli.Name = "Conveyor_Olusturma_Paneli";
             Conveyor_Olusturma_Paneli.Size = new Size(310, 420);
             Conveyor_Olusturma_Paneli.TabIndex = 8;
@@ -3108,7 +3149,7 @@
             Izgara_Olusturma_Paneli.Controls.Add(txt_Nesnenin_Eni);
             Izgara_Olusturma_Paneli.Controls.Add(btn_Izgara_Olustur);
             Izgara_Olusturma_Paneli.Controls.Add(txt_Nesnenin_Boyu);
-            Izgara_Olusturma_Paneli.Location = new Point(1702, 1021);
+            Izgara_Olusturma_Paneli.Location = new Point(1456, 1017);
             Izgara_Olusturma_Paneli.Name = "Izgara_Olusturma_Paneli";
             Izgara_Olusturma_Paneli.Size = new Size(310, 883);
             Izgara_Olusturma_Paneli.TabIndex = 10;
@@ -4476,17 +4517,18 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Azure;
             ClientSize = new Size(1904, 1041);
+            Controls.Add(Alan_Olusturma_Paneli);
+            Controls.Add(Conveyor_Olusturma_Paneli);
+            Controls.Add(Izgara_Olusturma_Paneli);
             Controls.Add(LeftSide_Alan_Boyut_Degistirme_Paneli);
             Controls.Add(LayoutPanel_Alan_Hierarchy);
             Controls.Add(LeftPanel_Izgara_Olusturma);
-            Controls.Add(Izgara_Olusturma_Paneli);
             Controls.Add(Depo_Olusturma_Paneli);
             Controls.Add(RightSide_LayoutPanel);
             Controls.Add(ButtonPanel);
             Controls.Add(LeftSide_LayoutPanel);
             Controls.Add(btn_Layout_Kaydet);
             Controls.Add(PaddingPanel);
-            Controls.Add(Conveyor_Olusturma_Paneli);
             Controls.Add(lbl_Layout_Title);
             Controls.Add(drawingPanel);
             Name = "LayoutOlusturma";
@@ -4873,5 +4915,8 @@
         public Krypton.Toolkit.KryptonButton btn_Left_Alan_Boyut_Degistir_Vazgec;
         public Krypton.Toolkit.KryptonButton btn_Left_Alan_Boyut_Degistir;
         public TreeView AlanTreeView;
+        public Krypton.Toolkit.KryptonTextBox txt_Depo_Item_2_Tur_Kodu;
+        public Krypton.Toolkit.KryptonWrapLabel lbl_Depo_Item_2_Tur_Kodu;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge58;
     }
 }

@@ -213,6 +213,7 @@ public partial class DBContext : DbContext
             entity.Property(e => e.asama1_ItemSayisi).HasColumnName("asama1_ItemSayisi");
             entity.Property(e => e.asama2_ToplamItemSayisi).HasColumnName("asama2_ToplamItemSayisi");
             entity.Property(e => e.currentStage).HasColumnName("current_Stage");
+            entity.Property(e => e.ItemTuruSecondary).HasColumnName("item_Turu_Secondary");
 
             entity.HasOne(d => d.Ambar).WithMany(p => p.Depos)
                 .HasForeignKey(d => d.AmbarId)

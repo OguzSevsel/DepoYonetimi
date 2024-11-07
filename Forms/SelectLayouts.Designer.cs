@@ -31,12 +31,6 @@
             components = new System.ComponentModel.Container();
             lbl_Layout_Sec_Title = new Krypton.Toolkit.KryptonWrapLabel();
             SelectLayoutPanel = new FlowLayoutPanel();
-            progressBarPanel = new Panel();
-            kryptonWrapLabel1 = new Krypton.Toolkit.KryptonWrapLabel();
-            progressBar = new ProgressBar();
-            contextMenuStrip = new ContextMenuStrip(components);
-            layoutuSilToolStripMenuItem = new ToolStripMenuItem();
-            timer = new System.Windows.Forms.Timer(components);
             panel_LayoutMenu = new Panel();
             InnerPanel1 = new Panel();
             kryptonBorderEdge2 = new Krypton.Toolkit.KryptonBorderEdge();
@@ -54,13 +48,19 @@
             btn_Layout_Yukle = new Button();
             lbl_ChangeLayoutName = new Krypton.Toolkit.KryptonWrapLabel();
             lbl_LayoutMenu_Title = new Krypton.Toolkit.KryptonWrapLabel();
+            progressBarPanel = new Panel();
+            kryptonWrapLabel1 = new Krypton.Toolkit.KryptonWrapLabel();
+            progressBar = new ProgressBar();
+            contextMenuStrip = new ContextMenuStrip(components);
+            layoutuSilToolStripMenuItem = new ToolStripMenuItem();
+            timer = new System.Windows.Forms.Timer(components);
             errorProvider = new ErrorProvider(components);
-            progressBarPanel.SuspendLayout();
-            contextMenuStrip.SuspendLayout();
             panel_LayoutMenu.SuspendLayout();
             InnerPanel1.SuspendLayout();
             InnerPanel.SuspendLayout();
             LayoutPanel_MenuButtons.SuspendLayout();
+            progressBarPanel.SuspendLayout();
+            contextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)errorProvider).BeginInit();
             SuspendLayout();
             // 
@@ -87,54 +87,6 @@
             SelectLayoutPanel.TabIndex = 1;
             SelectLayoutPanel.Scroll += SelectLayoutPanel_Scroll;
             SelectLayoutPanel.MouseDown += SelectLayoutPanel_MouseDown;
-            // 
-            // progressBarPanel
-            // 
-            progressBarPanel.Controls.Add(kryptonWrapLabel1);
-            progressBarPanel.Controls.Add(progressBar);
-            progressBarPanel.Location = new Point(12, 844);
-            progressBarPanel.Name = "progressBarPanel";
-            progressBarPanel.Size = new Size(1228, 588);
-            progressBarPanel.TabIndex = 0;
-            // 
-            // kryptonWrapLabel1
-            // 
-            kryptonWrapLabel1.AutoSize = false;
-            kryptonWrapLabel1.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            kryptonWrapLabel1.ForeColor = Color.FromArgb(30, 57, 91);
-            kryptonWrapLabel1.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            kryptonWrapLabel1.Location = new Point(458, 178);
-            kryptonWrapLabel1.Name = "kryptonWrapLabel1";
-            kryptonWrapLabel1.Size = new Size(313, 59);
-            kryptonWrapLabel1.StateCommon.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            kryptonWrapLabel1.Text = "Yükleniyor...";
-            kryptonWrapLabel1.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // progressBar
-            // 
-            progressBar.Location = new Point(458, 265);
-            progressBar.Name = "progressBar";
-            progressBar.Size = new Size(313, 59);
-            progressBar.TabIndex = 0;
-            // 
-            // contextMenuStrip
-            // 
-            contextMenuStrip.Font = new Font("Segoe UI", 9F);
-            contextMenuStrip.Items.AddRange(new ToolStripItem[] { layoutuSilToolStripMenuItem });
-            contextMenuStrip.Name = "contextMenuStrip";
-            contextMenuStrip.Size = new Size(136, 26);
-            // 
-            // layoutuSilToolStripMenuItem
-            // 
-            layoutuSilToolStripMenuItem.Name = "layoutuSilToolStripMenuItem";
-            layoutuSilToolStripMenuItem.Size = new Size(135, 22);
-            layoutuSilToolStripMenuItem.Text = "Layout'u Sil";
-            layoutuSilToolStripMenuItem.Click += layoutuSilToolStripMenuItem_Click;
-            // 
-            // timer
-            // 
-            timer.Interval = 150;
-            timer.Tick += timer_Tick;
             // 
             // panel_LayoutMenu
             // 
@@ -323,6 +275,54 @@
             lbl_LayoutMenu_Title.Text = "Seçilen Layout";
             lbl_LayoutMenu_Title.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // progressBarPanel
+            // 
+            progressBarPanel.Controls.Add(kryptonWrapLabel1);
+            progressBarPanel.Controls.Add(progressBar);
+            progressBarPanel.Location = new Point(12, 844);
+            progressBarPanel.Name = "progressBarPanel";
+            progressBarPanel.Size = new Size(1228, 588);
+            progressBarPanel.TabIndex = 0;
+            // 
+            // kryptonWrapLabel1
+            // 
+            kryptonWrapLabel1.AutoSize = false;
+            kryptonWrapLabel1.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            kryptonWrapLabel1.ForeColor = Color.FromArgb(30, 57, 91);
+            kryptonWrapLabel1.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            kryptonWrapLabel1.Location = new Point(458, 178);
+            kryptonWrapLabel1.Name = "kryptonWrapLabel1";
+            kryptonWrapLabel1.Size = new Size(313, 59);
+            kryptonWrapLabel1.StateCommon.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            kryptonWrapLabel1.Text = "Yükleniyor...";
+            kryptonWrapLabel1.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // progressBar
+            // 
+            progressBar.Location = new Point(458, 265);
+            progressBar.Name = "progressBar";
+            progressBar.Size = new Size(313, 59);
+            progressBar.TabIndex = 0;
+            // 
+            // contextMenuStrip
+            // 
+            contextMenuStrip.Font = new Font("Segoe UI", 9F);
+            contextMenuStrip.Items.AddRange(new ToolStripItem[] { layoutuSilToolStripMenuItem });
+            contextMenuStrip.Name = "contextMenuStrip";
+            contextMenuStrip.Size = new Size(136, 26);
+            // 
+            // layoutuSilToolStripMenuItem
+            // 
+            layoutuSilToolStripMenuItem.Name = "layoutuSilToolStripMenuItem";
+            layoutuSilToolStripMenuItem.Size = new Size(135, 22);
+            layoutuSilToolStripMenuItem.Text = "Layout'u Sil";
+            layoutuSilToolStripMenuItem.Click += layoutuSilToolStripMenuItem_Click;
+            // 
+            // timer
+            // 
+            timer.Interval = 150;
+            timer.Tick += timer_Tick;
+            // 
             // errorProvider
             // 
             errorProvider.ContainerControl = this;
@@ -338,14 +338,14 @@
             Controls.Add(lbl_Layout_Sec_Title);
             Name = "SelectLayouts";
             Text = "Layout";
-            progressBarPanel.ResumeLayout(false);
-            contextMenuStrip.ResumeLayout(false);
             panel_LayoutMenu.ResumeLayout(false);
             InnerPanel1.ResumeLayout(false);
             InnerPanel1.PerformLayout();
             InnerPanel.ResumeLayout(false);
             InnerPanel.PerformLayout();
             LayoutPanel_MenuButtons.ResumeLayout(false);
+            progressBarPanel.ResumeLayout(false);
+            contextMenuStrip.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)errorProvider).EndInit();
             ResumeLayout(false);
         }

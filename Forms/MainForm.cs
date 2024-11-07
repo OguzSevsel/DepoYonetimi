@@ -51,6 +51,7 @@ namespace Balya_Yerleştirme
         public string item_etiketi { get; set; } = string.Empty;
         public string item_aciklamasi { get; set; } = string.Empty;
         public string item_turu { get; set; } = string.Empty;
+        public string item_turu_secondary { get; set; } = string.Empty;
         public float item_agirligi { get; set; } = 0;
         #endregion
 
@@ -111,7 +112,7 @@ namespace Balya_Yerleştirme
             PanelSize = new Size(DrawingPanel.ClientRectangle.Width, DrawingPanel.ClientRectangle.Height);
             btn_PLC_ConnectionPanel_Kapat_Click(this, EventArgs.Empty);
         }
-        
+
 
 
         //Add Items to the Depos According to the Parameters choosed by user when creating Layout
@@ -185,7 +186,7 @@ namespace Balya_Yerleştirme
                 }
             }
         }
-        public void PlaceItem(Depo depo)
+        public void PlaceItem(Depo depo, string item_etiketi, string item_aciklamasi, float item_agirligi)
         {
             bool isStageChanged = CheckifDepoStageChanged(depo);
             string param = CheckDepoParameters(depo);
@@ -472,7 +473,7 @@ namespace Balya_Yerleştirme
                 return false;
             }
         }
-        public Depo? GetDepotoPlaceItem(string item_turu)
+        public Depo? GetDepotoPlaceItem(string item_turu, string item_turu_secondary)
         {
             List<int> Q = new List<int>();
             if (ambar != null)
@@ -481,8 +482,23 @@ namespace Balya_Yerleştirme
                 {
                     string depo_stage = CheckDepoStage(depo);
 
-                    if (depo.ItemTuru == item_turu && (depo.currentStage == 1 || depo.currentStage == 2))
+                    if (depo.ItemTuru == item_turu && depo.ItemTuruSecondary == item_turu_secondary && (depo.currentStage == 1 || depo.currentStage == 2))
                     {
+                        //MessageBox.Show
+                        //        ("item turu ve secondary item turu tuttu", "item turu ve secondary item turu tuttu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        if (depo_stage != "full")
+                        {
+                            Q.Add(depo.Yerlestirilme_Sirasi);
+                        }
+                    }
+                    else if (depo.ItemTuru == item_turu &&
+                        depo.ItemTuru.Length > 0 &&
+                        depo.ItemTuruSecondary == item_turu_secondary &&
+                        depo.ItemTuruSecondary.Length == 0 &&
+                        (depo.currentStage == 1 || depo.currentStage == 2))
+                    {
+                        //MessageBox.Show
+                        //       ("item turu tuttu ve secondary item turu bos", "item turu tuttu ve secondary item turu bos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         if (depo_stage != "full")
                         {
                             Q.Add(depo.Yerlestirilme_Sirasi);
@@ -766,118 +782,94 @@ namespace Balya_Yerleştirme
         #region Layout Events
 
         //Button event that opens dialog for Creating Layouts
-        private async void btn_Layout_Olustur_Click(object sender, EventArgs e)
+        private void btn_Layout_Olustur_Click(object sender, EventArgs e)
         {
-            using (var dia = new LayoutOlusturma(this, null, null))
-            {
-                if (dia.ShowDialog() == DialogResult.OK)
-                {
-                    if (dia.Ambar != null)
-                    {
-                        if (ambar != null)
-                        {
-                            ambar = null;
-                        }
+            LayoutOlusturma dia = new LayoutOlusturma(this, null, null);
+            dia.Show();
 
-                        ambar = dia.Ambar;
+            //if (dia.Ambar != null)
+            //{
+            //    if (ambar != null)
+            //    {
+            //        ambar = null;
+            //    }
 
-                        ambar.KareX = dia.Ambar.Rectangle.X;
-                        ambar.KareY = dia.Ambar.Rectangle.Y;
-                        ambar.KareEni = dia.Ambar.Rectangle.Width;
-                        ambar.KareBoyu = dia.Ambar.Rectangle.Height;
-                        ambar.OriginalKareX = dia.Ambar.OriginalRectangle.X;
-                        ambar.OriginalKareY = dia.Ambar.OriginalRectangle.Y;
-                        ambar.OriginalKareEni = dia.Ambar.OriginalRectangle.Width;
-                        ambar.OriginalKareBoyu = dia.Ambar.OriginalRectangle.Height;
-                        ambar.Zoomlevel = Zoomlevel;
+            //    ambar = dia.Ambar;
 
-                        foreach (var conveyor in ambar.conveyors)
-                        {
-                            conveyor.layout = null;
+            //    ambar.KareX = dia.Ambar.Rectangle.X;
+            //    ambar.KareY = dia.Ambar.Rectangle.Y;
+            //    ambar.KareEni = dia.Ambar.Rectangle.Width;
+            //    ambar.KareBoyu = dia.Ambar.Rectangle.Height;
+            //    ambar.OriginalKareX = dia.Ambar.OriginalRectangle.X;
+            //    ambar.OriginalKareY = dia.Ambar.OriginalRectangle.Y;
+            //    ambar.OriginalKareEni = dia.Ambar.OriginalRectangle.Width;
+            //    ambar.OriginalKareBoyu = dia.Ambar.OriginalRectangle.Height;
+            //    ambar.Zoomlevel = Zoomlevel;
 
-                            conveyor.KareX = conveyor.Rectangle.X;
-                            conveyor.KareY = conveyor.Rectangle.Y;
-                            conveyor.KareEni = conveyor.Rectangle.Width;
-                            conveyor.KareBoyu = conveyor.Rectangle.Height;
-                            conveyor.OriginalKareX = conveyor.OriginalRectangle.X;
-                            conveyor.OriginalKareY = conveyor.OriginalRectangle.Y;
-                            conveyor.OriginalKareEni = conveyor.OriginalRectangle.Width;
-                            conveyor.OriginalKareBoyu = conveyor.OriginalRectangle.Height;
-                            conveyor.Zoomlevel = Zoomlevel;
+            //    foreach (var conveyor in ambar.conveyors)
+            //    {
+            //        conveyor.layout = null;
 
+            //        conveyor.KareX = conveyor.Rectangle.X;
+            //        conveyor.KareY = conveyor.Rectangle.Y;
+            //        conveyor.KareEni = conveyor.Rectangle.Width;
+            //        conveyor.KareBoyu = conveyor.Rectangle.Height;
+            //        conveyor.OriginalKareX = conveyor.OriginalRectangle.X;
+            //        conveyor.OriginalKareY = conveyor.OriginalRectangle.Y;
+            //        conveyor.OriginalKareEni = conveyor.OriginalRectangle.Width;
+            //        conveyor.OriginalKareBoyu = conveyor.OriginalRectangle.Height;
+            //        conveyor.Zoomlevel = Zoomlevel;
 
-                            foreach (var reff in conveyor.ConveyorReferencePoints)
-                            {
+            //        foreach (var reff in conveyor.ConveyorReferencePoints)
+            //        {
 
-                                reff.KareX = reff.Rectangle.X;
-                                reff.KareY = reff.Rectangle.Y;
-                                reff.KareEni = reff.Rectangle.Width;
-                                reff.KareBoyu = reff.Rectangle.Height;
-                                reff.OriginalKareX = reff.OriginalRectangle.X;
-                                reff.OriginalKareY = reff.OriginalRectangle.Y;
-                                reff.OriginalKareEni = reff.OriginalRectangle.Width;
-                                reff.OriginalKareBoyu = reff.OriginalRectangle.Height;
-                                reff.Zoomlevel = Zoomlevel;
-                                reff.Layout = null;
-                            }
-                        }
-                        foreach (var depo in ambar.depolar)
-                        {
+            //            reff.KareX = reff.Rectangle.X;
+            //            reff.KareY = reff.Rectangle.Y;
+            //            reff.KareEni = reff.Rectangle.Width;
+            //            reff.KareBoyu = reff.Rectangle.Height;
+            //            reff.OriginalKareX = reff.OriginalRectangle.X;
+            //            reff.OriginalKareY = reff.OriginalRectangle.Y;
+            //            reff.OriginalKareEni = reff.OriginalRectangle.Width;
+            //            reff.OriginalKareBoyu = reff.OriginalRectangle.Height;
+            //            reff.Zoomlevel = Zoomlevel;
+            //            reff.Layout = null;
+            //        }
+            //    }
+            //    foreach (var depo in ambar.depolar)
+            //    {
 
-                            depo.OriginalDepoSizeWidth = depo.OriginalRectangle.Width;
-                            depo.OriginalDepoSizeHeight = depo.OriginalRectangle.Height;
-                            depo.KareX = depo.Rectangle.X;
-                            depo.KareY = depo.Rectangle.Y;
-                            depo.KareEni = depo.Rectangle.Width;
-                            depo.KareBoyu = depo.Rectangle.Height;
-                            depo.OriginalKareX = depo.OriginalRectangle.X;
-                            depo.OriginalKareY = depo.OriginalRectangle.Y;
-                            depo.OriginalKareEni = depo.OriginalRectangle.Width;
-                            depo.OriginalKareBoyu = depo.OriginalRectangle.Height;
-                            depo.Zoomlevel = Zoomlevel;
-                            depo.layout = null;
+            //        depo.OriginalDepoSizeWidth = depo.OriginalRectangle.Width;
+            //        depo.OriginalDepoSizeHeight = depo.OriginalRectangle.Height;
+            //        depo.KareX = depo.Rectangle.X;
+            //        depo.KareY = depo.Rectangle.Y;
+            //        depo.KareEni = depo.Rectangle.Width;
+            //        depo.KareBoyu = depo.Rectangle.Height;
+            //        depo.OriginalKareX = depo.OriginalRectangle.X;
+            //        depo.OriginalKareY = depo.OriginalRectangle.Y;
+            //        depo.OriginalKareEni = depo.OriginalRectangle.Width;
+            //        depo.OriginalKareBoyu = depo.OriginalRectangle.Height;
+            //        depo.Zoomlevel = Zoomlevel;
+            //        depo.layout = null;
 
-                            foreach (var cell in depo.gridmaps)
-                            {
-                                cell.KareX = cell.Rectangle.X;
-                                cell.KareY = cell.Rectangle.Y;
-                                cell.KareEni = cell.Rectangle.Width;
-                                cell.KareBoyu = cell.Rectangle.Height;
-                                cell.OriginalKareX = cell.OriginalRectangle.X;
-                                cell.OriginalKareY = cell.OriginalRectangle.Y;
-                                cell.OriginalKareEni = cell.OriginalRectangle.Width;
-                                cell.OriginalKareBoyu = cell.OriginalRectangle.Height;
-                                cell.Zoomlevel = Zoomlevel;
-                                cell.Layout = null;
-                            }
-                        }
+            //        foreach (var cell in depo.gridmaps)
+            //        {
+            //            cell.KareX = cell.Rectangle.X;
+            //            cell.KareY = cell.Rectangle.Y;
+            //            cell.KareEni = cell.Rectangle.Width;
+            //            cell.KareBoyu = cell.Rectangle.Height;
+            //            cell.OriginalKareX = cell.OriginalRectangle.X;
+            //            cell.OriginalKareY = cell.OriginalRectangle.Y;
+            //            cell.OriginalKareEni = cell.OriginalRectangle.Width;
+            //            cell.OriginalKareBoyu = cell.OriginalRectangle.Height;
+            //            cell.Zoomlevel = Zoomlevel;
+            //            cell.Layout = null;
+            //        }
+            //    }
 
-                        ProgressBar_Title.Text = "Layout Yükleniyor...";
-                        toolStripBTN_ExportToExcel.Enabled = false;
-                        toolStripBTN_Layout_Sec.Enabled = false;
-                        toolStripButtonShowCellTag.Enabled = false;
-                        btn_Layout_Olustur.Enabled = false;
+            //    await Task.Run(() => LayoutOlusturSecondDatabaseOperation(dia.LayoutName, dia.LayoutDescription, dia.layout, ambar));
 
-                        GVisual.ShowControl(ProgressBarPanel, this, ProgressBarPointLayoutOlustur);
-
-                        var progress1 = new Progress<int>(value =>
-                        {
-                            progressBar.Value = value;
-                        });
-
-                        await Task.Run(() => LayoutOlusturSecondDatabaseOperation(progress1, dia.LayoutName, dia.LayoutDescription, dia.layout, ambar));
-                        GVisual.HideControl(ProgressBarPanel, this);
-                        progressBar.Value = 0;
-
-                        toolStripBTN_ExportToExcel.Enabled = true;
-                        toolStripBTN_Layout_Sec.Enabled = true;
-                        toolStripButtonShowCellTag.Enabled = true;
-                        btn_Layout_Olustur.Enabled = true;
-
-                        DrawingPanel.Invalidate();
-                    }
-                }
-            }
+            //    DrawingPanel.Invalidate();
+            //}
         }
 
 
@@ -887,80 +879,84 @@ namespace Balya_Yerleştirme
         {
             if (ambar != null)
             {
-                DrawingPanel.AutoScrollMinSize = new Size(0, 0);
-                ambar.ApplyZoom(1f);
+                Zoomlevel = 1f;
+                ambar.ApplyZoom(Zoomlevel);
                 foreach (var depo in ambar.depolar)
                 {
-                    depo.ApplyZoom(1f);
+                    depo.ApplyZoom(Zoomlevel);
                     foreach (var cell in depo.gridmaps)
                     {
-                        cell.ApplyZoom(1f);
+                        cell.ApplyZoom(Zoomlevel);
                         foreach (var item in cell.items)
                         {
-                            item.ApplyZoom(1f);
-
+                            item.ApplyZoom(Zoomlevel);
                         }
                     }
                 }
 
                 foreach (var conveyor in ambar.conveyors)
                 {
-                    conveyor.ApplyZoom(1f);
+                    conveyor.ApplyZoom(Zoomlevel);
                     foreach (var reff in conveyor.ConveyorReferencePoints)
                     {
-                        reff.ApplyZoom(1f);
+                        reff.ApplyZoom(Zoomlevel);
                     }
                 }
+                DrawingPanel.AutoScrollMinSize = new Size(0, 0);
             }
-
-            using (var dialog = new SelectLayouts(DrawingPanel, this))
+            SelectLayouts dialog = new SelectLayouts(DrawingPanel, this);
+            if (dialog.DialogResult != DialogResult.Cancel)
             {
-                if (dialog.DialogResult == DialogResult.Cancel)
-                {
-                    dialog.Hide();
-                    dialog.Close();
-                }
-
-                if (!dialog.IsDisposed)
-                {
-                    if (dialog.ShowDialog() == DialogResult.OK && dialog.DialogResult != DialogResult.Cancel)
-                    {
-                        Ambar newAmbar = new Ambar();
-
-                        newAmbar = (Ambar)dialog.SelectedPB.Tag;
-
-                        newAmbar.Rectangle = newAmbar.Rectangle;
-
-                        ambar = newAmbar;
-                        ambar.AmbarId = newAmbar.AmbarId;
-                        ambar.layout = null;
-
-                        foreach (var conveyor in ambar.conveyors)
-                        {
-                            conveyor.layout = null;
-                            foreach (var reff in conveyor.ConveyorReferencePoints)
-                            {
-                                reff.Layout = null;
-                            }
-                        }
-
-                        foreach (var depo in ambar.depolar)
-                        {
-                            depo.layout = null;
-                            foreach (var cell in depo.gridmaps)
-                            {
-                                cell.Layout = null;
-                                foreach (var item in cell.items)
-                                {
-                                    cell.toplam_Nesne_Yuksekligi = item.ItemYuksekligi * cell.items.Count;
-                                }
-                            }
-                        }
-                        DrawingPanel.Invalidate();
-                        opcount = 0;
-                    }
-                }
+                dialog.Show();
             }
+            //using (var dialog = new SelectLayouts(DrawingPanel, this))
+            //{
+            //    if (dialog.DialogResult == DialogResult.Cancel)
+            //    {
+            //        dialog.Hide();
+            //        dialog.Close();
+            //    }
+
+            //    if (!dialog.IsDisposed)
+            //    {
+            //        if (dialog.ShowDialog() == DialogResult.OK && dialog.DialogResult != DialogResult.Cancel)
+            //        {
+            //            Ambar newAmbar = new Ambar();
+
+            //            newAmbar = (Ambar)dialog.SelectedPB.Tag;
+
+            //            newAmbar.Rectangle = newAmbar.Rectangle;
+
+            //            ambar = newAmbar;
+            //            ambar.AmbarId = newAmbar.AmbarId;
+            //            ambar.layout = null;
+
+            //            foreach (var conveyor in ambar.conveyors)
+            //            {
+            //                conveyor.layout = null;
+            //                foreach (var reff in conveyor.ConveyorReferencePoints)
+            //                {
+            //                    reff.Layout = null;
+            //                }
+            //            }
+
+            //            foreach (var depo in ambar.depolar)
+            //            {
+            //                depo.layout = null;
+            //                foreach (var cell in depo.gridmaps)
+            //                {
+            //                    cell.Layout = null;
+            //                    foreach (var item in cell.items)
+            //                    {
+            //                        cell.toplam_Nesne_Yuksekligi = item.ItemYuksekligi * cell.items.Count;
+            //                    }
+            //                }
+            //            }
+            //            DrawingPanel.Invalidate();
+            //            opcount = 0;
+            //        }
+            //    }
+            //}
         }
 
         #endregion
@@ -971,13 +967,10 @@ namespace Balya_Yerleştirme
         #region Async Database Tasks
 
         //This is for when user clicked to the save and load layout button in the layout creation form it creates the layout in the database
-        public async Task LayoutOlusturSecondDatabaseOperation(IProgress<int> progress, string LayoutName, string LayoutDescription,Layout ?layout, Ambar ambar)
+        public async Task LayoutOlusturSecondDatabaseOperation(string LayoutName, string LayoutDescription, Layout? layout, Ambar ambar)
         {
             if (ambar != null)
             {
-                int totalProgress = 0;
-                int progressStep = 0;
-
                 using (var context = new DBContext())
                 {
                     if (layout == null)
@@ -1032,21 +1025,6 @@ namespace Balya_Yerleştirme
 
                         foreach (var depo in ambar.depolar)
                         {
-                            if (ambar.depolar.Count * depo.gridmaps.Count < 100)
-                            {
-                                progressStep = 100 / ambar.depolar.Count * depo.gridmaps.Count;
-                            }
-                            else
-                            {
-                                progressStep = 10;
-                            }
-
-                            if (progressBar.Value < 100 - progressStep)
-                            {
-                                totalProgress += progressStep;
-                                progress.Report(totalProgress);
-                            }
-
                             Depo newDepo = new Depo(newAmbar.AmbarId,
                                 depo.DepoName, depo.DepoDescription, depo.DepoAlaniEni,
                                 depo.DepoAlaniBoyu, depo.DepoAlaniYuksekligi,
@@ -1058,7 +1036,7 @@ namespace Balya_Yerleştirme
                                 depo.itemDrop_LeftRight, depo.asama1_Yuksekligi, depo.asama2_Yuksekligi,
                                 depo.Yerlestirilme_Sirasi, depo.DepoAlaniEni * 100, depo.DepoAlaniBoyu * 100,
                                 depo.ColumnCount, depo.RowCount, depo.currentColumn, depo.currentRow, depo.ItemTuru,
-                                depo.asama1_ItemSayisi, depo.asama2_ToplamItemSayisi, depo.currentStage);
+                                depo.asama1_ItemSayisi, depo.asama2_ToplamItemSayisi, depo.currentStage, depo.ItemTuruSecondary);
 
                             await context.Depos.AddAsync(newDepo);
                             await context.SaveChangesAsync();
@@ -1171,8 +1149,8 @@ namespace Balya_Yerleştirme
                             if (conveyor.ConveyorId != 0)
                             {
                                 var conveyor1 = (from x in context.Conveyors
-                                             where x.ConveyorId == conveyor.ConveyorId
-                                             select x).FirstOrDefault();
+                                                 where x.ConveyorId == conveyor.ConveyorId
+                                                 select x).FirstOrDefault();
 
                                 if (conveyor1 != null)
                                 {
@@ -1197,7 +1175,7 @@ namespace Balya_Yerleştirme
                                     depo.itemDrop_LeftRight, depo.asama1_Yuksekligi, depo.asama2_Yuksekligi,
                                     depo.Yerlestirilme_Sirasi, depo.DepoAlaniEni * 100, depo.DepoAlaniBoyu * 100,
                                     depo.ColumnCount, depo.RowCount, depo.currentColumn, depo.currentRow, depo.ItemTuru,
-                                    depo.asama1_ItemSayisi, depo.asama2_ToplamItemSayisi, depo.currentStage);
+                                    depo.asama1_ItemSayisi, depo.asama2_ToplamItemSayisi, depo.currentStage, depo.ItemTuruSecondary);
 
                                 await context.Depos.AddAsync(newDepo);
                                 await context.SaveChangesAsync();
@@ -1281,6 +1259,8 @@ namespace Balya_Yerleştirme
                                         depo1.OriginalKareY = depo.OriginalRectangle.Y;
                                         depo1.OriginalKareEni = depo.OriginalRectangle.Width;
                                         depo1.OriginalKareBoyu = depo.OriginalRectangle.Height;
+                                        depo1.ItemTuru = depo.ItemTuru;
+                                        depo1.ItemTuruSecondary = depo.ItemTuruSecondary;
                                         depo1.itemDrop_LeftRight = depo.itemDrop_LeftRight;
                                         depo1.itemDrop_Stage1 = depo.itemDrop_Stage1;
                                         depo1.itemDrop_Stage2 = depo.itemDrop_Stage2;
@@ -1625,6 +1605,10 @@ namespace Balya_Yerleştirme
                 {
                     combo_Tur_Kodu.Items.Add(depo.ItemTuru);
                 }
+                if (!combo_Tur_Kodu_2_Etiket.Items.Contains(depo.ItemTuruSecondary))
+                {
+                    combo_Tur_Kodu_2_Etiket.Items.Add(depo.ItemTuruSecondary);
+                }
             }
 
             MainPanelOpenLeftSide(leftLayoutPanel, this, leftSidePanelLocation, Nesne_Yerlestirme_First_Panel);
@@ -1650,6 +1634,7 @@ namespace Balya_Yerleştirme
             item_etiketi = txt_Item_Etiketi.Text;
             item_aciklamasi = txt_Item_Aciklamasi.Text;
             item_turu = combo_Tur_Kodu.Text;
+            item_turu_secondary = combo_Tur_Kodu_2_Etiket.Text;
             item_agirligi = 20;
 
             errorProvider.SetError(txt_Item_Agirligi, string.Empty);
@@ -1710,7 +1695,7 @@ namespace Balya_Yerleştirme
                 {
                     if (ambar.depolar.Count > 0)
                     {
-                        Depo newDepo = GetDepotoPlaceItem(item_turu);
+                        Depo newDepo = GetDepotoPlaceItem(item_turu, item_turu_secondary);
 
                         if (newDepo != null)
                         {
@@ -1723,8 +1708,8 @@ namespace Balya_Yerleştirme
                                 //SetRowStartPosition(newDepo);
                             }
                             yerBul = true;
-                            PlaceItem(newDepo);
-                            Point location = new Point(7, 505);
+                            PlaceItem(newDepo, item_etiketi, item_aciklamasi, item_agirligi);
+                            Point location = new Point(3, 548);
                             GVisual.ShowControl(Nesne_Yerlestirme_Second_Panel, Nesne_Yerlestirme_First_Panel, location);
                             DrawingPanel.Invalidate();
                         }
@@ -1745,7 +1730,7 @@ namespace Balya_Yerleştirme
             GVisual.ShowControl(PLC_Sim_Yerlestiriliyor_Panel, PLC_Sim_Panel, point);
             lbl_YerSoyle.StateCommon.TextColor = System.Drawing.Color.MidnightBlue;
             ShowNesneButtons = true;
-            
+
         }
         //This is the Button that Closes Item Placement Panel
         private void btn_Balya_Yerlestirme_Paneli_Kapat_Click(object sender, EventArgs e)
@@ -1861,7 +1846,7 @@ namespace Balya_Yerleştirme
             }
         }
 
-        
+
 
         //These are the Buttons that determines the state of the item placement for Simulation Purposes
         //(These are also works for Item Removal Simulation only their text changes between two simulation)
@@ -1942,7 +1927,7 @@ namespace Balya_Yerleştirme
                 {
                     if (ambar.depolar.Count > 0)
                     {
-                        Depo newDepo = GetDepotoPlaceItem(item_turu);
+                        Depo newDepo = GetDepotoPlaceItem(item_turu, item_turu_secondary);
 
                         if (newDepo != null)
                         {
@@ -1955,7 +1940,7 @@ namespace Balya_Yerleştirme
                                 //SetRowStartPosition(newDepo);
                             }
                             yerBul = false;
-                            PlaceItem(newDepo);
+                            PlaceItem(newDepo, item_etiketi, item_aciklamasi, item_agirligi);
                         }
                     }
                 }
@@ -2217,7 +2202,7 @@ namespace Balya_Yerleştirme
 
 
 
-       
+
 
         //This is for Canceling finding items to remove from depo
         private void btn_Nesne_Bul_Vazgec_Click(object sender, EventArgs e)
@@ -2360,68 +2345,68 @@ namespace Balya_Yerleştirme
                                 context.SaveChanges();
                             }
                         }
-                        foreach (var item in cell.items)
-                        {
-                            if (item.ItemId == 0)
-                            {
-                                Models.Item Dbitem = new Models.Item(cell.CellId, item.ItemEtiketi,
-                                    item.ItemTuru, item.ItemEni, item.ItemBoyu, item.ItemYuksekligi,
-                                    item.Rectangle.X, item.Rectangle.Y, item.Rectangle.Width, item.Rectangle.Height,
-                                    item.OriginalRectangle.X, item.OriginalRectangle.Y, item.OriginalRectangle.Width,
-                                    item.OriginalRectangle.Height, item.Zoomlevel, item.ItemAgirligi, item.ItemAciklamasi,
-                                    item.Cm_X_Axis, item.Cm_Y_Axis, item.Cm_Z_Axis);
+                        //foreach (var item in cell.items)
+                        //{
+                        //    if (item.ItemId == 0)
+                        //    {
+                        //        Models.Item Dbitem = new Models.Item(cell.CellId, item.ItemEtiketi,
+                        //            item.ItemTuru, item.ItemEni, item.ItemBoyu, item.ItemYuksekligi,
+                        //            item.Rectangle.X, item.Rectangle.Y, item.Rectangle.Width, item.Rectangle.Height,
+                        //            item.OriginalRectangle.X, item.OriginalRectangle.Y, item.OriginalRectangle.Width,
+                        //            item.OriginalRectangle.Height, item.Zoomlevel, item.ItemAgirligi, item.ItemAciklamasi,
+                        //            item.Cm_X_Axis, item.Cm_Y_Axis, item.Cm_Z_Axis);
 
-                                using (var context = new DBContext())
-                                {
-                                    context.Items.Add(Dbitem);
-                                    context.SaveChanges();
-                                }
-                            }
-                            else
-                            {
-                                using (var context = new DBContext())
-                                {
-                                    var item1 = (from x in context.Items
-                                                 where x.ItemId == item.ItemId
-                                                 select x).FirstOrDefault();
+                        //        using (var context = new DBContext())
+                        //        {
+                        //            context.Items.Add(Dbitem);
+                        //            context.SaveChanges();
+                        //        }
+                        //    }
+                        //    else
+                        //    {
+                        //        using (var context = new DBContext())
+                        //        {
+                        //            var item1 = (from x in context.Items
+                        //                         where x.ItemId == item.ItemId
+                        //                         select x).FirstOrDefault();
 
-                                    if (item1 != null)
-                                    {
-                                        Models.Item Dbitem = new Models.Item(cell.CellId, item.ItemEtiketi,
-                                           item.ItemTuru, item.ItemEni, item.ItemBoyu, item.ItemYuksekligi,
-                                           item.Rectangle.X, item.Rectangle.Y, item.KareEni, item.KareBoyu,
-                                           item.OriginalRectangle.X, item.OriginalRectangle.Y, item.OriginalRectangle.Width,
-                                           item.OriginalRectangle.Height, item.Zoomlevel, item.ItemAgirligi, item.ItemAciklamasi,
-                                           item.Cm_X_Axis, item.Cm_Y_Axis, item.Cm_Z_Axis);
+                        //            if (item1 != null)
+                        //            {
+                        //                Models.Item Dbitem = new Models.Item(cell.CellId, item.ItemEtiketi,
+                        //                   item.ItemTuru, item.ItemEni, item.ItemBoyu, item.ItemYuksekligi,
+                        //                   item.Rectangle.X, item.Rectangle.Y, item.KareEni, item.KareBoyu,
+                        //                   item.OriginalRectangle.X, item.OriginalRectangle.Y, item.OriginalRectangle.Width,
+                        //                   item.OriginalRectangle.Height, item.Zoomlevel, item.ItemAgirligi, item.ItemAciklamasi,
+                        //                   item.Cm_X_Axis, item.Cm_Y_Axis, item.Cm_Z_Axis);
 
-                                        item1.KareX = item.Rectangle.X;
-                                        item1.KareY = item.Rectangle.Y;
-                                        //item1.KareEni = item.KareEni;
-                                        //item1.KareBoyu = item.KareBoyu;
-                                        item1.OriginalKareX = item.OriginalRectangle.X;
-                                        item1.OriginalKareY = item.OriginalRectangle.Y;
-                                        //item1.OriginalKareEni = item.OriginalKareEni;
-                                        //item1.OriginalKareBoyu = item.OriginalKareBoyu;
-                                        context.SaveChanges();
-                                    }
-                                }
-                            }
+                        //                item1.KareX = item.Rectangle.X;
+                        //                item1.KareY = item.Rectangle.Y;
+                        //                //item1.KareEni = item.KareEni;
+                        //                //item1.KareBoyu = item.KareBoyu;
+                        //                item1.OriginalKareX = item.OriginalRectangle.X;
+                        //                item1.OriginalKareY = item.OriginalRectangle.Y;
+                        //                //item1.OriginalKareEni = item.OriginalKareEni;
+                        //                //item1.OriginalKareBoyu = item.OriginalKareBoyu;
+                        //                context.SaveChanges();
+                        //            }
+                        //        }
+                        //    }
 
-                            using (var context = new DBContext())
-                            {
-                                foreach (var reff in item.ItemReferencePoints)
-                                {
+                        //    using (var context = new DBContext())
+                        //    {
+                        //        foreach (var reff in item.ItemReferencePoints)
+                        //        {
 
-                                    Models.ItemReferencePoint DBreff = new Models.ItemReferencePoint(item.ItemId, reff.Rectangle.X, reff.Rectangle.Y,
-                                        reff.Rectangle.Width, reff.Rectangle.Height, reff.OriginalRectangle.X, reff.OriginalRectangle.Y,
-                                        reff.OriginalRectangle.Width, reff.OriginalRectangle.Height, reff.Zoomlevel, reff.Pointsize);
+                        //            Models.ItemReferencePoint DBreff = new Models.ItemReferencePoint(item.ItemId, reff.Rectangle.X, reff.Rectangle.Y,
+                        //                reff.Rectangle.Width, reff.Rectangle.Height, reff.OriginalRectangle.X, reff.OriginalRectangle.Y,
+                        //                reff.OriginalRectangle.Width, reff.OriginalRectangle.Height, reff.Zoomlevel, reff.Pointsize);
 
-                                    context.ItemReferencePoints.Add(DBreff);
-                                    context.SaveChanges();
-                                    reff.ReferenceId = DBreff.ReferenceId;
-                                }
-                            }
-                        }
+                        //            context.ItemReferencePoints.Add(DBreff);
+                        //            context.SaveChanges();
+                        //            reff.ReferenceId = DBreff.ReferenceId;
+                        //        }
+                        //    }
+                        //}
                     }
                 }
             }
@@ -2494,6 +2479,7 @@ namespace Balya_Yerleştirme
                             newDepo.asama1_ItemSayisi = depo.asama1_ItemSayisi;
                             newDepo.asama2_ToplamItemSayisi = depo.asama2_ToplamItemSayisi;
                             newDepo.ItemTuru = depo.ItemTuru;
+                            newDepo.ItemTuruSecondary = depo.ItemTuruSecondary;
 
                             newDepo.nesneEni = depo.nesneEni;
                             newDepo.nesneBoyu = depo.nesneBoyu;
@@ -2654,8 +2640,162 @@ namespace Balya_Yerleştirme
 
 
 
+        //Add Items From Orders
+        #region AddItemsFromOrders
+        private void toolstripBTN_addItemFromOrders_Click(object sender, EventArgs e)
+        {
+            var paths = CreateFolders();
+            ProcessCsvFiles(paths.Item1, paths.Item2);
+        }
+        public string GetDesktopPath()
+        {
+            // Get the path to the Desktop folder
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            return desktopPath;
+        }
+        public string CreateAndGetDirectoryPath(string subfolderName)
+        {
+            string rootPath = GetDesktopPath();
+
+            string fullPath = Path.Combine(rootPath, subfolderName);
+
+            if (!Directory.Exists(fullPath))
+            {
+                Directory.CreateDirectory(fullPath);
+            }
+
+            return fullPath;
+        }
+        public (string, string) CreateFolders()
+        {
+            string rootPath = CreateAndGetDirectoryPath("İş Emirleri");
+
+            var comingWorkOrders = Path.Combine(rootPath, "Gelen iş emirleri");
+            var doneWorkOrders = Path.Combine(rootPath, "Biten iş emirleri");
+
+            if (!Directory.Exists(comingWorkOrders))
+            {
+                Directory.CreateDirectory(comingWorkOrders);
+            }
+
+            if (!Directory.Exists(doneWorkOrders))
+            {
+                Directory.CreateDirectory(doneWorkOrders);
+            }
+            return (comingWorkOrders, doneWorkOrders);
+        }
+        public void ProcessCsvFiles(string inputFolderPath, string outputFolderPath)
+        {
+            // Get all CSV files (txt files) in the specified folder
+            string[] files = Directory.GetFiles(inputFolderPath, "*.txt");
+            List<List<string>> fileData = new List<List<string>>();
 
 
+            foreach (var file in files)
+            {
+                var lineData = ReadCsvFile(file);
+                fileData.Add(lineData);
+
+                ProcessData(fileData);
+
+                string excelFileName = Path.GetFileNameWithoutExtension(file) + ".xlsx"; 
+                string excelFilePath = Path.Combine(outputFolderPath, excelFileName);
+                WriteToExcel(fileData, excelFilePath, excelFileName);
+
+                // Delete the processed CSV file
+                //File.Delete(file);
+            }
+        }
+
+        public List<string> ReadCsvFile(string filePath)
+        {
+            var data = new List<string>();
+
+            using (var reader = new StreamReader(filePath))
+            {
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    if (line != null)
+                    {
+                        data.Add(line);
+                    }
+                }
+            }
+            return data;
+        }
+
+        // Example of a data processing function
+        public void ProcessData(List<List<string>> data)
+        {
+            bool firstLine = true;
+            foreach (var dataLines in data)
+            {
+                foreach (var line in dataLines)
+                {
+                    if (firstLine)
+                    {
+                        firstLine = false;
+                    }
+                    else
+                    {
+                        var values = line.Split('/'); // Adjust delimiter if needed
+
+                        string item_etiketi = values[0];
+                        string tur_kodu = values[1];
+                        string tur_kodu_2 = values[2];
+                        string item_aciklamasi = values[3];
+                        string item_agirligi_string = values[4];
+                        float item_agirligi = 0;
+
+                        if (float.TryParse(item_agirligi_string, out float agirlik))
+                        {
+                            item_agirligi += agirlik;
+                        }
+
+                        Depo newDepo = GetDepotoPlaceItem(tur_kodu, tur_kodu_2);
+
+                        if (newDepo != null)
+                        {
+                            yerBul = false;
+                            PlaceItem(newDepo, item_etiketi, item_aciklamasi, item_agirligi);
+                            DrawingPanel.Invalidate();
+                        }
+                        else
+                        {
+                            MessageBox.Show
+                                ("Tür kodu bulunamadı, lütfen eşleşen bir tür kodu girin ya da boş bırakın.",
+                                "Tür kodu bulunamadı.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                    }
+                }
+            }
+        }
+
+        public void WriteToExcel(List<List<string>> data, string outputPath, string fileName)
+        {
+            var wb = new XLWorkbook();
+            var ws = wb.AddWorksheet($"{fileName}");
+
+            foreach (var lineList in data)
+            {
+                int row = 1;
+                foreach (var line in lineList)
+                {
+                    int col = 1;
+                    var values = line.Split('/'); // Adjust delimiter if needed
+                    foreach (var value in values)
+                    {
+                        ws.Cell(row, col).Value = value;
+                        col++;
+                    }
+                    row++;
+                }
+            }
+
+            wb.SaveAs(outputPath); // Save the workbook as an Excel file
+        }
+        #endregion
 
 
 
@@ -3212,7 +3352,7 @@ namespace Balya_Yerleştirme
             {
                 if (ambar.depolar.Count > 0)
                 {
-                    Depo newDepo = GetDepotoPlaceItem("depo");
+                    Depo newDepo = GetDepotoPlaceItem("depo", "depo");
 
                     if (newDepo != null)
                     {
@@ -3225,14 +3365,14 @@ namespace Balya_Yerleştirme
                             //SetRowStartPosition(newDepo);
                         }
                         yerBul = false;
-                        PlaceItem(newDepo);
+                        PlaceItem(newDepo, item_etiketi, item_aciklamasi, item_agirligi);
                     }
                 }
             }
             DrawingPanel.Invalidate();
         }
         //Remove Item from depos but this is for myself to test the algoritm
-        
+
         #endregion
 
 
@@ -3721,6 +3861,7 @@ namespace Balya_Yerleştirme
         //    }
         //}
         #endregion
+
 
 
         

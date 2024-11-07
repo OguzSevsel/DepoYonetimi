@@ -31,6 +31,10 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             Nesne_Yerlestirme_First_Panel = new Krypton.Toolkit.KryptonPanel();
+            combo_Tur_Kodu_2_Etiket = new Krypton.Toolkit.KryptonComboBox();
+            lbl_Tur_Kodu_2_Etiket = new Krypton.Toolkit.KryptonWrapLabel();
+            kryptonBorderEdge46 = new Krypton.Toolkit.KryptonBorderEdge();
+            kryptonBorderEdge25 = new Krypton.Toolkit.KryptonBorderEdge();
             combo_Tur_Kodu = new Krypton.Toolkit.KryptonComboBox();
             Nesne_Yerlestirme_Second_Panel = new Krypton.Toolkit.KryptonPanel();
             kryptonBorderEdge37 = new Krypton.Toolkit.KryptonBorderEdge();
@@ -195,8 +199,10 @@
             PLC_Timer = new System.Windows.Forms.Timer(components);
             rightLayoutPanel = new FlowLayoutPanel();
             leftLayoutPanel = new FlowLayoutPanel();
+            toolstripBTN_addItemFromOrders = new ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)Nesne_Yerlestirme_First_Panel).BeginInit();
             Nesne_Yerlestirme_First_Panel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)combo_Tur_Kodu_2_Etiket).BeginInit();
             ((System.ComponentModel.ISupportInitialize)combo_Tur_Kodu).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Nesne_Yerlestirme_Second_Panel).BeginInit();
             Nesne_Yerlestirme_Second_Panel.SuspendLayout();
@@ -226,6 +232,10 @@
             // 
             // Nesne_Yerlestirme_First_Panel
             // 
+            Nesne_Yerlestirme_First_Panel.Controls.Add(combo_Tur_Kodu_2_Etiket);
+            Nesne_Yerlestirme_First_Panel.Controls.Add(lbl_Tur_Kodu_2_Etiket);
+            Nesne_Yerlestirme_First_Panel.Controls.Add(kryptonBorderEdge46);
+            Nesne_Yerlestirme_First_Panel.Controls.Add(kryptonBorderEdge25);
             Nesne_Yerlestirme_First_Panel.Controls.Add(combo_Tur_Kodu);
             Nesne_Yerlestirme_First_Panel.Controls.Add(Nesne_Yerlestirme_Second_Panel);
             Nesne_Yerlestirme_First_Panel.Controls.Add(kryptonBorderEdge29);
@@ -243,13 +253,51 @@
             Nesne_Yerlestirme_First_Panel.Controls.Add(Line_Mal_2);
             Nesne_Yerlestirme_First_Panel.Controls.Add(txt_Item_Agirligi);
             Nesne_Yerlestirme_First_Panel.Controls.Add(btn_Nesne_Yerlestirme_First_Panel_Kapat);
-            Nesne_Yerlestirme_First_Panel.Location = new Point(722, 42);
+            Nesne_Yerlestirme_First_Panel.Location = new Point(404, 1020);
             Nesne_Yerlestirme_First_Panel.Name = "Nesne_Yerlestirme_First_Panel";
             Nesne_Yerlestirme_First_Panel.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
             Nesne_Yerlestirme_First_Panel.Size = new Size(358, 903);
             Nesne_Yerlestirme_First_Panel.StateCommon.ColorAlign = Krypton.Toolkit.PaletteRectangleAlign.Local;
             Nesne_Yerlestirme_First_Panel.StateCommon.ColorStyle = Krypton.Toolkit.PaletteColorStyle.SolidInside;
             Nesne_Yerlestirme_First_Panel.TabIndex = 16;
+            // 
+            // combo_Tur_Kodu_2_Etiket
+            // 
+            combo_Tur_Kodu_2_Etiket.DropDownWidth = 119;
+            combo_Tur_Kodu_2_Etiket.IntegralHeight = false;
+            combo_Tur_Kodu_2_Etiket.Location = new Point(184, 301);
+            combo_Tur_Kodu_2_Etiket.Name = "combo_Tur_Kodu_2_Etiket";
+            combo_Tur_Kodu_2_Etiket.Size = new Size(119, 22);
+            combo_Tur_Kodu_2_Etiket.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            combo_Tur_Kodu_2_Etiket.TabIndex = 49;
+            // 
+            // lbl_Tur_Kodu_2_Etiket
+            // 
+            lbl_Tur_Kodu_2_Etiket.AutoSize = false;
+            lbl_Tur_Kodu_2_Etiket.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Tur_Kodu_2_Etiket.ForeColor = Color.FromArgb(0, 0, 64);
+            lbl_Tur_Kodu_2_Etiket.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_Tur_Kodu_2_Etiket.Location = new Point(55, 287);
+            lbl_Tur_Kodu_2_Etiket.Name = "lbl_Tur_Kodu_2_Etiket";
+            lbl_Tur_Kodu_2_Etiket.Size = new Size(101, 50);
+            lbl_Tur_Kodu_2_Etiket.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_Tur_Kodu_2_Etiket.StateCommon.TextColor = Color.FromArgb(0, 0, 64);
+            lbl_Tur_Kodu_2_Etiket.Text = "Tür Kodu:";
+            lbl_Tur_Kodu_2_Etiket.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // kryptonBorderEdge46
+            // 
+            kryptonBorderEdge46.Location = new Point(63, 454);
+            kryptonBorderEdge46.Name = "kryptonBorderEdge46";
+            kryptonBorderEdge46.Size = new Size(225, 1);
+            kryptonBorderEdge46.Text = "kryptonBorderEdge10";
+            // 
+            // kryptonBorderEdge25
+            // 
+            kryptonBorderEdge25.Location = new Point(63, 275);
+            kryptonBorderEdge25.Name = "kryptonBorderEdge25";
+            kryptonBorderEdge25.Size = new Size(225, 1);
+            kryptonBorderEdge25.Text = "kryptonBorderEdge10";
             // 
             // combo_Tur_Kodu
             // 
@@ -276,17 +324,17 @@
             Nesne_Yerlestirme_Second_Panel.Controls.Add(lbl_Nesne_Yerlestir_Value_Y);
             Nesne_Yerlestirme_Second_Panel.Controls.Add(lbl_Nesne_Yerlestir_Value_X);
             Nesne_Yerlestirme_Second_Panel.Controls.Add(lbl_Nesne_Yerlestir_Value_Z);
-            Nesne_Yerlestirme_Second_Panel.Location = new Point(4, 507);
+            Nesne_Yerlestirme_Second_Panel.Location = new Point(3, 548);
             Nesne_Yerlestirme_Second_Panel.Name = "Nesne_Yerlestirme_Second_Panel";
             Nesne_Yerlestirme_Second_Panel.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
-            Nesne_Yerlestirme_Second_Panel.Size = new Size(351, 387);
+            Nesne_Yerlestirme_Second_Panel.Size = new Size(351, 334);
             Nesne_Yerlestirme_Second_Panel.StateCommon.ColorAlign = Krypton.Toolkit.PaletteRectangleAlign.Local;
             Nesne_Yerlestirme_Second_Panel.StateCommon.ColorStyle = Krypton.Toolkit.PaletteColorStyle.SolidInside;
             Nesne_Yerlestirme_Second_Panel.TabIndex = 23;
             // 
             // kryptonBorderEdge37
             // 
-            kryptonBorderEdge37.Location = new Point(63, 275);
+            kryptonBorderEdge37.Location = new Point(63, 251);
             kryptonBorderEdge37.Name = "kryptonBorderEdge37";
             kryptonBorderEdge37.Size = new Size(225, 1);
             kryptonBorderEdge37.Text = "kryptonBorderEdge10";
@@ -297,7 +345,7 @@
             lbl_Nesne_Yerlestir_Title.Font = new Font("Microsoft Sans Serif", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 162);
             lbl_Nesne_Yerlestir_Title.ForeColor = Color.Red;
             lbl_Nesne_Yerlestir_Title.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Nesne_Yerlestir_Title.Location = new Point(8, 21);
+            lbl_Nesne_Yerlestir_Title.Location = new Point(8, 10);
             lbl_Nesne_Yerlestir_Title.Name = "lbl_Nesne_Yerlestir_Title";
             lbl_Nesne_Yerlestir_Title.Size = new Size(334, 70);
             lbl_Nesne_Yerlestir_Title.StateCommon.Font = new Font("Microsoft Sans Serif", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 162);
@@ -307,7 +355,7 @@
             // 
             // kryptonBorderEdge28
             // 
-            kryptonBorderEdge28.Location = new Point(63, 219);
+            kryptonBorderEdge28.Location = new Point(63, 195);
             kryptonBorderEdge28.Name = "kryptonBorderEdge28";
             kryptonBorderEdge28.Size = new Size(225, 1);
             kryptonBorderEdge28.Text = "kryptonBorderEdge10";
@@ -318,7 +366,7 @@
             lbl_Nesne_Yerlestir_Info_X.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
             lbl_Nesne_Yerlestir_Info_X.ForeColor = Color.FromArgb(0, 0, 64);
             lbl_Nesne_Yerlestir_Info_X.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Nesne_Yerlestir_Info_X.Location = new Point(43, 111);
+            lbl_Nesne_Yerlestir_Info_X.Location = new Point(43, 87);
             lbl_Nesne_Yerlestir_Info_X.Name = "lbl_Nesne_Yerlestir_Info_X";
             lbl_Nesne_Yerlestir_Info_X.Size = new Size(125, 49);
             lbl_Nesne_Yerlestir_Info_X.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
@@ -329,7 +377,7 @@
             // btn_Nesne_Yerlestir_Vazgec
             // 
             btn_Nesne_Yerlestir_Vazgec.CornerRoundingRadius = 20F;
-            btn_Nesne_Yerlestir_Vazgec.Location = new Point(174, 298);
+            btn_Nesne_Yerlestir_Vazgec.Location = new Point(174, 258);
             btn_Nesne_Yerlestir_Vazgec.Name = "btn_Nesne_Yerlestir_Vazgec";
             btn_Nesne_Yerlestir_Vazgec.Size = new Size(134, 67);
             btn_Nesne_Yerlestir_Vazgec.StateCommon.Back.Image = (Image)resources.GetObject("btn_Nesne_Yerlestir_Vazgec.StateCommon.Back.Image");
@@ -353,7 +401,7 @@
             // 
             // kryptonBorderEdge27
             // 
-            kryptonBorderEdge27.Location = new Point(63, 163);
+            kryptonBorderEdge27.Location = new Point(63, 139);
             kryptonBorderEdge27.Name = "kryptonBorderEdge27";
             kryptonBorderEdge27.Size = new Size(225, 1);
             kryptonBorderEdge27.Text = "kryptonBorderEdge10";
@@ -361,7 +409,7 @@
             // btn_Nesne_Yerlestir
             // 
             btn_Nesne_Yerlestir.CornerRoundingRadius = 20F;
-            btn_Nesne_Yerlestir.Location = new Point(34, 298);
+            btn_Nesne_Yerlestir.Location = new Point(34, 258);
             btn_Nesne_Yerlestir.Name = "btn_Nesne_Yerlestir";
             btn_Nesne_Yerlestir.Size = new Size(134, 67);
             btn_Nesne_Yerlestir.StateCommon.Back.Image = Resources.Resource1.Square_Bale1;
@@ -388,7 +436,7 @@
             lbl_Nesne_Yerlestir_Info_Y.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
             lbl_Nesne_Yerlestir_Info_Y.ForeColor = Color.FromArgb(0, 0, 64);
             lbl_Nesne_Yerlestir_Info_Y.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Nesne_Yerlestir_Info_Y.Location = new Point(43, 167);
+            lbl_Nesne_Yerlestir_Info_Y.Location = new Point(43, 143);
             lbl_Nesne_Yerlestir_Info_Y.Name = "lbl_Nesne_Yerlestir_Info_Y";
             lbl_Nesne_Yerlestir_Info_Y.Size = new Size(125, 49);
             lbl_Nesne_Yerlestir_Info_Y.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
@@ -398,7 +446,7 @@
             // 
             // kryptonBorderEdge26
             // 
-            kryptonBorderEdge26.Location = new Point(63, 107);
+            kryptonBorderEdge26.Location = new Point(63, 83);
             kryptonBorderEdge26.Name = "kryptonBorderEdge26";
             kryptonBorderEdge26.Size = new Size(225, 1);
             kryptonBorderEdge26.Text = "kryptonBorderEdge10";
@@ -409,7 +457,7 @@
             lbl_Nesne_Yerlestir_Info_Z.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
             lbl_Nesne_Yerlestir_Info_Z.ForeColor = Color.FromArgb(0, 0, 64);
             lbl_Nesne_Yerlestir_Info_Z.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Nesne_Yerlestir_Info_Z.Location = new Point(43, 223);
+            lbl_Nesne_Yerlestir_Info_Z.Location = new Point(43, 199);
             lbl_Nesne_Yerlestir_Info_Z.Name = "lbl_Nesne_Yerlestir_Info_Z";
             lbl_Nesne_Yerlestir_Info_Z.Size = new Size(125, 49);
             lbl_Nesne_Yerlestir_Info_Z.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
@@ -423,7 +471,7 @@
             lbl_Nesne_Yerlestir_Value_Y.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
             lbl_Nesne_Yerlestir_Value_Y.ForeColor = Color.FromArgb(255, 128, 0);
             lbl_Nesne_Yerlestir_Value_Y.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Nesne_Yerlestir_Value_Y.Location = new Point(174, 171);
+            lbl_Nesne_Yerlestir_Value_Y.Location = new Point(174, 147);
             lbl_Nesne_Yerlestir_Value_Y.Name = "lbl_Nesne_Yerlestir_Value_Y";
             lbl_Nesne_Yerlestir_Value_Y.Size = new Size(125, 41);
             lbl_Nesne_Yerlestir_Value_Y.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
@@ -437,7 +485,7 @@
             lbl_Nesne_Yerlestir_Value_X.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
             lbl_Nesne_Yerlestir_Value_X.ForeColor = Color.FromArgb(255, 128, 0);
             lbl_Nesne_Yerlestir_Value_X.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Nesne_Yerlestir_Value_X.Location = new Point(174, 115);
+            lbl_Nesne_Yerlestir_Value_X.Location = new Point(174, 91);
             lbl_Nesne_Yerlestir_Value_X.Name = "lbl_Nesne_Yerlestir_Value_X";
             lbl_Nesne_Yerlestir_Value_X.Size = new Size(125, 41);
             lbl_Nesne_Yerlestir_Value_X.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
@@ -451,7 +499,7 @@
             lbl_Nesne_Yerlestir_Value_Z.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
             lbl_Nesne_Yerlestir_Value_Z.ForeColor = Color.FromArgb(255, 128, 0);
             lbl_Nesne_Yerlestir_Value_Z.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Nesne_Yerlestir_Value_Z.Location = new Point(174, 227);
+            lbl_Nesne_Yerlestir_Value_Z.Location = new Point(174, 203);
             lbl_Nesne_Yerlestir_Value_Z.Name = "lbl_Nesne_Yerlestir_Value_Z";
             lbl_Nesne_Yerlestir_Value_Z.Size = new Size(125, 41);
             lbl_Nesne_Yerlestir_Value_Z.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
@@ -461,7 +509,7 @@
             // 
             // kryptonBorderEdge29
             // 
-            kryptonBorderEdge29.Location = new Point(67, 332);
+            kryptonBorderEdge29.Location = new Point(63, 397);
             kryptonBorderEdge29.Name = "kryptonBorderEdge29";
             kryptonBorderEdge29.Size = new Size(225, 1);
             kryptonBorderEdge29.Text = "kryptonBorderEdge10";
@@ -473,7 +521,7 @@
             lbl_Item_Aciklamasi.ForeColor = Color.FromArgb(0, 0, 64);
             errorProvider.SetIconAlignment(lbl_Item_Aciklamasi, ErrorIconAlignment.BottomRight);
             lbl_Item_Aciklamasi.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Item_Aciklamasi.Location = new Point(55, 279);
+            lbl_Item_Aciklamasi.Location = new Point(55, 344);
             lbl_Item_Aciklamasi.Name = "lbl_Item_Aciklamasi";
             lbl_Item_Aciklamasi.Size = new Size(101, 50);
             lbl_Item_Aciklamasi.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
@@ -484,7 +532,7 @@
             // txt_Item_Aciklamasi
             // 
             errorProvider.SetIconAlignment(txt_Item_Aciklamasi, ErrorIconAlignment.BottomRight);
-            txt_Item_Aciklamasi.Location = new Point(184, 291);
+            txt_Item_Aciklamasi.Location = new Point(184, 356);
             txt_Item_Aciklamasi.Name = "txt_Item_Aciklamasi";
             txt_Item_Aciklamasi.Size = new Size(119, 27);
             txt_Item_Aciklamasi.StateCommon.Content.Color1 = SystemColors.ButtonShadow;
@@ -507,7 +555,7 @@
             // btn_Balya_Yerlestir_Vazgec
             // 
             btn_Balya_Yerlestir_Vazgec.CornerRoundingRadius = 20F;
-            btn_Balya_Yerlestir_Vazgec.Location = new Point(182, 424);
+            btn_Balya_Yerlestir_Vazgec.Location = new Point(182, 461);
             btn_Balya_Yerlestir_Vazgec.Name = "btn_Balya_Yerlestir_Vazgec";
             btn_Balya_Yerlestir_Vazgec.Size = new Size(134, 67);
             btn_Balya_Yerlestir_Vazgec.StateCommon.Back.Image = (Image)resources.GetObject("btn_Balya_Yerlestir_Vazgec.StateCommon.Back.Image");
@@ -532,7 +580,7 @@
             // btn_Balya_Yerlestir_Devam_Et
             // 
             btn_Balya_Yerlestir_Devam_Et.CornerRoundingRadius = 20F;
-            btn_Balya_Yerlestir_Devam_Et.Location = new Point(42, 424);
+            btn_Balya_Yerlestir_Devam_Et.Location = new Point(42, 461);
             btn_Balya_Yerlestir_Devam_Et.Name = "btn_Balya_Yerlestir_Devam_Et";
             btn_Balya_Yerlestir_Devam_Et.Size = new Size(134, 67);
             btn_Balya_Yerlestir_Devam_Et.StateCommon.Back.Image = Resources.Resource1.Grid;
@@ -573,7 +621,7 @@
             lbl_Item_Agirligi.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
             lbl_Item_Agirligi.ForeColor = Color.FromArgb(0, 0, 64);
             lbl_Item_Agirligi.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Item_Agirligi.Location = new Point(55, 336);
+            lbl_Item_Agirligi.Location = new Point(55, 401);
             lbl_Item_Agirligi.Name = "lbl_Item_Agirligi";
             lbl_Item_Agirligi.Size = new Size(101, 50);
             lbl_Item_Agirligi.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
@@ -611,28 +659,28 @@
             // 
             // Mal_Title_Border
             // 
-            Mal_Title_Border.Location = new Point(67, 161);
+            Mal_Title_Border.Location = new Point(63, 161);
             Mal_Title_Border.Name = "Mal_Title_Border";
             Mal_Title_Border.Size = new Size(225, 1);
             Mal_Title_Border.Text = "kryptonBorderEdge11";
             // 
             // Line_Mal_1
             // 
-            Line_Mal_1.Location = new Point(67, 218);
+            Line_Mal_1.Location = new Point(63, 218);
             Line_Mal_1.Name = "Line_Mal_1";
             Line_Mal_1.Size = new Size(225, 1);
             Line_Mal_1.Text = "kryptonBorderEdge11";
             // 
             // Line_Mal_2
             // 
-            Line_Mal_2.Location = new Point(67, 275);
+            Line_Mal_2.Location = new Point(63, 340);
             Line_Mal_2.Name = "Line_Mal_2";
             Line_Mal_2.Size = new Size(225, 1);
             Line_Mal_2.Text = "kryptonBorderEdge10";
             // 
             // txt_Item_Agirligi
             // 
-            txt_Item_Agirligi.Location = new Point(184, 348);
+            txt_Item_Agirligi.Location = new Point(184, 413);
             txt_Item_Agirligi.Name = "txt_Item_Agirligi";
             txt_Item_Agirligi.Size = new Size(119, 27);
             txt_Item_Agirligi.StateCommon.Content.Color1 = SystemColors.ButtonShadow;
@@ -2028,7 +2076,7 @@
             ToolStrip.Dock = DockStyle.None;
             ToolStrip.Font = new Font("Segoe UI", 9F);
             ToolStrip.ImageScalingSize = new Size(30, 30);
-            ToolStrip.Items.AddRange(new ToolStripItem[] { toolStripSeparator, toolStripBTN_Layout_Sec, toolStripSeparator1, btn_PLC_Connection, toolStripButtonShowCellTag, toolStripBTN_ExportToExcel, toolStripButton1 });
+            ToolStrip.Items.AddRange(new ToolStripItem[] { toolStripSeparator, toolStripBTN_Layout_Sec, toolStripSeparator1, toolstripBTN_addItemFromOrders, toolStripButtonShowCellTag, toolStripBTN_ExportToExcel, btn_PLC_Connection, toolStripButton1 });
             ToolStrip.Location = new Point(12, 12);
             ToolStrip.Name = "ToolStrip";
             ToolStrip.Size = new Size(364, 73);
@@ -2095,7 +2143,7 @@
             toolStripButton1.Image = (Image)resources.GetObject("toolStripButton1.Image");
             toolStripButton1.ImageTransparentColor = Color.Magenta;
             toolStripButton1.Name = "toolStripButton1";
-            toolStripButton1.Size = new Size(59, 70);
+            toolStripButton1.Size = new Size(59, 19);
             toolStripButton1.Text = "addDepo";
             toolStripButton1.TextImageRelation = TextImageRelation.TextBeforeImage;
             toolStripButton1.Click += toolStripButton1_Click;
@@ -2311,6 +2359,17 @@
             leftLayoutPanel.Size = new Size(364, 909);
             leftLayoutPanel.TabIndex = 24;
             // 
+            // toolstripBTN_addItemFromOrders
+            // 
+            toolstripBTN_addItemFromOrders.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolstripBTN_addItemFromOrders.Image = Resources.Resource1.Square_Bale1;
+            toolstripBTN_addItemFromOrders.ImageScaling = ToolStripItemImageScaling.None;
+            toolstripBTN_addItemFromOrders.ImageTransparentColor = Color.Magenta;
+            toolstripBTN_addItemFromOrders.Name = "toolstripBTN_addItemFromOrders";
+            toolstripBTN_addItemFromOrders.Size = new Size(54, 70);
+            toolstripBTN_addItemFromOrders.ToolTipText = "İş emirlerinden nesne ekle";
+            toolstripBTN_addItemFromOrders.Click += toolstripBTN_addItemFromOrders_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -2338,6 +2397,7 @@
             ((System.ComponentModel.ISupportInitialize)Nesne_Yerlestirme_First_Panel).EndInit();
             Nesne_Yerlestirme_First_Panel.ResumeLayout(false);
             Nesne_Yerlestirme_First_Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)combo_Tur_Kodu_2_Etiket).EndInit();
             ((System.ComponentModel.ISupportInitialize)combo_Tur_Kodu).EndInit();
             ((System.ComponentModel.ISupportInitialize)Nesne_Yerlestirme_Second_Panel).EndInit();
             Nesne_Yerlestirme_Second_Panel.ResumeLayout(false);
@@ -2549,5 +2609,10 @@
         private ToolStripButton toolStripButton1;
         private FlowLayoutPanel rightLayoutPanel;
         private FlowLayoutPanel leftLayoutPanel;
+        private Krypton.Toolkit.KryptonComboBox combo_Tur_Kodu_2_Etiket;
+        public Krypton.Toolkit.KryptonWrapLabel lbl_Tur_Kodu_2_Etiket;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge46;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge25;
+        private ToolStripButton toolstripBTN_addItemFromOrders;
     }
 }

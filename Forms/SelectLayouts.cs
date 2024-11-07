@@ -29,6 +29,7 @@ using Microsoft.Identity.Client;
 using CustomNotification;
 using Krypton.Toolkit;
 using DocumentFormat.OpenXml.Drawing.Diagrams;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace Balya_Yerleştirme
 {
@@ -91,10 +92,12 @@ namespace Balya_Yerleştirme
                     MessageBox.Show("Kayıtlı layout bulunamadı, lütfen layout oluşturduktan sonra tekrar deneyin.", "Layout bulunamadı.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     this.DialogResult = DialogResult.Cancel;
                 }
-
-                foreach (var layout in layouts)
+                else
                 {
-                    CreateLayouts(layout);
+                    foreach (var layout in layouts)
+                    {
+                        CreateLayouts(layout);
+                    }
                 }
             }
         }
@@ -267,6 +270,7 @@ namespace Balya_Yerleştirme
                         newDepo.asama1_ItemSayisi = depo.asama1_ItemSayisi;
                         newDepo.asama2_ToplamItemSayisi = depo.asama2_ToplamItemSayisi;
                         newDepo.ItemTuru = depo.ItemTuru;
+                        newDepo.ItemTuruSecondary = depo.ItemTuruSecondary;
                         newDepo.currentStage = depo.currentStage;
 
 
@@ -601,7 +605,10 @@ namespace Balya_Yerleştirme
                     ScrollPanelIntoView(pictureBox, SelectLayoutPanel);
                     
                     SelectLayoutPanel.ScrollControlIntoView(SelectedPB);
-                    
+
+                    GVisual.HideControl(btn_ChangeLayoutName, InnerPanel1);
+                    GVisual.HideControl(btn_ChangeLayoutDescription, InnerPanel1);
+
                     lbl_Layout_Sec_Title.Location = SmallTitleLocation;
                     lbl_Layout_Sec_Title.Text = $"{layoutName}";
                 }
@@ -1216,7 +1223,7 @@ namespace Balya_Yerleştirme
                                         progressBar.Value = value;
                                     });
 
-                                    await Main.LayoutOlusturSecondDatabaseOperation(progress1, layout1.Name, layout1.Description, layout1, ambar);
+                                    await Main.LayoutOlusturSecondDatabaseOperation(layout1.Name, layout1.Description, layout1, ambar);
                                 }
                             }
                             
@@ -1575,7 +1582,41 @@ namespace Balya_Yerleştirme
         {
             if (SelectedPB != null)
             {
-                this.DialogResult = DialogResult.OK;
+                Ambar newAmbar = new Ambar();
+
+                newAmbar = (Ambar)SelectedPB.Tag;
+
+                newAmbar.Rectangle = newAmbar.Rectangle;
+
+                Main.ambar = newAmbar;
+                Main.ambar.AmbarId = newAmbar.AmbarId;
+                Main.ambar.layout = null;
+
+                foreach (var conveyor in Main.ambar.conveyors)
+                {
+                    conveyor.layout = null;
+                    foreach (var reff in conveyor.ConveyorReferencePoints)
+                    {
+                        reff.Layout = null;
+                    }
+                }
+
+                foreach (var depo in Main.ambar.depolar)
+                {
+                    depo.layout = null;
+                    foreach (var cell in depo.gridmaps)
+                    {
+                        cell.Layout = null;
+                        foreach (var item in cell.items)
+                        {
+                            cell.toplam_Nesne_Yuksekligi = item.ItemYuksekligi * cell.items.Count;
+                        }
+                    }
+                }
+                DrawingPanel.Invalidate();
+                Main.opcount = 0;
+                this.Hide();
+                this.Close();
             }
         }
     }

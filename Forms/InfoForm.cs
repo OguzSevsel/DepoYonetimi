@@ -48,7 +48,7 @@ namespace Balya_Yerleştirme
                     }
                     Show_InfoPanel(item.ItemEtiketi, item.ItemEni, item.ItemBoyu,
                         item.ItemYuksekligi, item.ItemAgirligi, cell.CellEtiketi, cell.Parent.DepoName,
-                        total_item_yuksekligi, cell.CellYuksekligi * 100);
+                        total_item_yuksekligi, cell.CellYuksekligi);
                 }            
             }
         }
