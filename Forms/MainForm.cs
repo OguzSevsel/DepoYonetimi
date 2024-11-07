@@ -2690,7 +2690,6 @@ namespace Balya_Yerleştirme
             string[] files = Directory.GetFiles(inputFolderPath, "*.txt");
             List<List<string>> fileData = new List<List<string>>();
 
-
             foreach (var file in files)
             {
                 var lineData = ReadCsvFile(file);
@@ -2704,6 +2703,7 @@ namespace Balya_Yerleştirme
 
                 // Delete the processed CSV file
                 //File.Delete(file);
+                fileData.Clear();
             }
         }
 
@@ -2733,26 +2733,21 @@ namespace Balya_Yerleştirme
             {
                 foreach (var line in dataLines)
                 {
-                    if (firstLine)
+                    var values = line.Split('/'); // Adjust delimiter if needed
+
+                    string item_etiketi = values[0];
+                    string tur_kodu = values[1];
+                    string tur_kodu_2 = values[2];
+                    string item_aciklamasi = values[3];
+                    string item_agirligi_string = values[4];
+                    float item_agirligi = 0;
+
+                    if (float.TryParse(item_agirligi_string, out float agirlik))
                     {
-                        firstLine = false;
+                        item_agirligi += agirlik;
                     }
-                    else
+                    if (item_etiketi != "Etiket" && tur_kodu != "Tur Kodu" && tur_kodu_2 != "Tur Kodu 2" && item_aciklamasi != "Aciklama" && item_agirligi_string != "Agirlik")
                     {
-                        var values = line.Split('/'); // Adjust delimiter if needed
-
-                        string item_etiketi = values[0];
-                        string tur_kodu = values[1];
-                        string tur_kodu_2 = values[2];
-                        string item_aciklamasi = values[3];
-                        string item_agirligi_string = values[4];
-                        float item_agirligi = 0;
-
-                        if (float.TryParse(item_agirligi_string, out float agirlik))
-                        {
-                            item_agirligi += agirlik;
-                        }
-
                         Depo newDepo = GetDepotoPlaceItem(tur_kodu, tur_kodu_2);
 
                         if (newDepo != null)
