@@ -23,6 +23,7 @@ using DocumentFormat.OpenXml.Math;
 using CustomNotification;
 using System.Runtime.CompilerServices;
 using System.Net.Security;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 
 
@@ -35,6 +36,9 @@ namespace Balya_Yerleştirme
         public bool Move { get; set; } = false;
         public float opcount { get; set; } = 0;
         public Size PanelSize { get; set; }
+        public string InputPath {  get; set; }
+        public string OutputPath { get; set; }
+        public string FailedPath { get; set; }
 
 
         #region PLC Operations
@@ -107,6 +111,10 @@ namespace Balya_Yerleştirme
             Hide_infopanel();
             HideEverything();
             LoadFromDB();
+            var paths = CreateFolders();
+            InputPath = paths.Item1;
+            OutputPath = paths.Item2;
+            FailedPath = paths.Item3;
             DrawingPanel.Invalidate();
             DrawingPanel.MouseWheel += DrawingPanel_MouseWheel;
             PanelSize = new Size(DrawingPanel.ClientRectangle.Width, DrawingPanel.ClientRectangle.Height);
@@ -1660,17 +1668,13 @@ namespace Balya_Yerleştirme
                 errorProvider.SetError(txt_Item_Etiketi, "Bu alana 50'den fazla karakter giremezsiniz.");
             }
 
-            using (var context = new DBContext())
-            {
-                var item = (from x in context.Items
-                            where x.ItemEtiketi == item_etiketi
-                            select x).FirstOrDefault();
+            bool isinlayout = CheckifItemisinLayout(item_etiketi);
 
-                if (item != null)
-                {
-                    errorProvider.SetError(txt_Item_Etiketi, "Bu etikete sahip bir nesne bulunuyor, Lütfen etiketi değiştirip tekrar deneyin.");
-                }
+            if (isinlayout)
+            {
+                errorProvider.SetError(txt_Item_Etiketi, "Bu etikete sahip bir nesne bulunuyor, Lütfen etiketi değiştirip tekrar deneyin.");
             }
+
             if (ambar != null)
             {
                 foreach (var depo in ambar.depolar)
@@ -2642,11 +2646,6 @@ namespace Balya_Yerleştirme
 
         //Add Items From Orders
         #region AddItemsFromOrders
-        private void toolstripBTN_addItemFromOrders_Click(object sender, EventArgs e)
-        {
-            var paths = CreateFolders();
-            ProcessCsvFiles(paths.Item1, paths.Item2);
-        }
         public string GetDesktopPath()
         {
             // Get the path to the Desktop folder
@@ -2666,12 +2665,13 @@ namespace Balya_Yerleştirme
 
             return fullPath;
         }
-        public (string, string) CreateFolders()
+        public (string, string, string) CreateFolders()
         {
             string rootPath = CreateAndGetDirectoryPath("İş Emirleri");
 
             var comingWorkOrders = Path.Combine(rootPath, "Gelen iş emirleri");
             var doneWorkOrders = Path.Combine(rootPath, "Biten iş emirleri");
+            var failedWorkOrders = Path.Combine(rootPath, "Başarısız iş emirleri");
 
             if (!Directory.Exists(comingWorkOrders))
             {
@@ -2682,9 +2682,23 @@ namespace Balya_Yerleştirme
             {
                 Directory.CreateDirectory(doneWorkOrders);
             }
-            return (comingWorkOrders, doneWorkOrders);
+
+            if (!Directory.Exists(failedWorkOrders))
+            {
+                Directory.CreateDirectory(failedWorkOrders);
+            }
+            return (comingWorkOrders, doneWorkOrders, failedWorkOrders);
         }
-        public void ProcessCsvFiles(string inputFolderPath, string outputFolderPath)
+
+
+
+
+        private void toolstripBTN_addItemFromOrders_Click(object sender, EventArgs e)
+        {
+            ProcessCsvFiles(InputPath, OutputPath, FailedPath);
+        }
+
+        public void ProcessCsvFiles(string inputFolderPath, string outputFolderPath, string failedFolderPath)
         {
             // Get all CSV files (txt files) in the specified folder
             string[] files = Directory.GetFiles(inputFolderPath, "*.txt");
@@ -2695,14 +2709,10 @@ namespace Balya_Yerleştirme
                 var lineData = ReadCsvFile(file);
                 fileData.Add(lineData);
 
-                ProcessData(fileData);
-
-                string excelFileName = Path.GetFileNameWithoutExtension(file) + ".xlsx"; 
-                string excelFilePath = Path.Combine(outputFolderPath, excelFileName);
-                WriteToExcel(fileData, excelFilePath, excelFileName);
+                ProcessData(fileData, inputFolderPath, outputFolderPath, failedFolderPath, file);
 
                 // Delete the processed CSV file
-                //File.Delete(file);
+                //file.delete(file);
                 fileData.Clear();
             }
         }
@@ -2724,14 +2734,62 @@ namespace Balya_Yerleştirme
             }
             return data;
         }
+        public int ReturnLargestInt(List<int> list)
+        {
+            int num = 0;
+            foreach (int number in list)
+            {
+                if (number > num)
+                {
+                    num = number;
+                }
+            }
+            return num;
+        }
+        private bool CheckifItemisinLayout(string item_etiketi)
+        {
+            bool isinlayout = false;
+            if (ambar != null)
+            {
+                foreach (var depo in ambar.depolar)
+                {
+                    foreach (var cell in depo.gridmaps)
+                    {
+                        foreach (var item in cell.items)
+                        {
+                            if (item.ItemEtiketi == item_etiketi)
+                            {
+                                isinlayout = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Öncelikle bir Layout oluşturmanız ya da yüklemeniz gerekiyor", "Layout yüklü değil", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return true;
+            }
 
-        // Example of a data processing function
-        public void ProcessData(List<List<string>> data)
+            if (isinlayout)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public void ProcessData(List<List<string>> data, string inputFolderPath, string outputFolderPath, string failedFolderPath, string file)
         {
             bool firstLine = true;
-            foreach (var dataLines in data)
+            List<string> lines = new List<string>();
+            List<string> faultyLines = new List<string>();
+
+            foreach (var dataLine in data)
             {
-                foreach (var line in dataLines)
+                foreach (var line in dataLine)
                 {
                     var values = line.Split('/'); // Adjust delimiter if needed
 
@@ -2744,7 +2802,7 @@ namespace Balya_Yerleştirme
 
                     if (float.TryParse(item_agirligi_string, out float agirlik))
                     {
-                        item_agirligi += agirlik;
+                        item_agirligi = agirlik;
                     }
                     if (item_etiketi != "Etiket" && tur_kodu != "Tur Kodu" && tur_kodu_2 != "Tur Kodu 2" && item_aciklamasi != "Aciklama" && item_agirligi_string != "Agirlik")
                     {
@@ -2752,46 +2810,220 @@ namespace Balya_Yerleştirme
 
                         if (newDepo != null)
                         {
-                            yerBul = false;
-                            PlaceItem(newDepo, item_etiketi, item_aciklamasi, item_agirligi);
-                            DrawingPanel.Invalidate();
+                            bool isiteminlayout = CheckifItemisinLayout(item_etiketi);
+
+                            if (!isiteminlayout)
+                            {
+                                yerBul = false;
+                                PlaceItem(newDepo, item_etiketi, item_aciklamasi, item_agirligi);
+                                DrawingPanel.Invalidate();
+                                lines.Add(line);
+                            }
+                            else
+                            {
+                                faultyLines.Add(line);
+                            }
                         }
                         else
                         {
-                            MessageBox.Show
-                                ("Tür kodu bulunamadı, lütfen eşleşen bir tür kodu girin ya da boş bırakın.",
-                                "Tür kodu bulunamadı.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            faultyLines.Add(line);
+                            //MessageBox.Show
+                            //    ("Tür kodu bulunamadı, lütfen eşleşen bir tür kodu girin ya da boş bırakın.",
+                            //    "Tür kodu bulunamadı.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                     }
                 }
             }
-        }
+            if (lines.Count > 0)
+            {
+                string excelFileName = Path.GetFileNameWithoutExtension(file);
+                string excelFileName1 = NameSuccessFiles(outputFolderPath, excelFileName);
 
-        public void WriteToExcel(List<List<string>> data, string outputPath, string fileName)
+                WriteToExcel(lines, outputFolderPath, excelFileName1);
+            }
+
+            if (faultyLines.Count > 0)
+            {
+                string excelFileName = Path.GetFileNameWithoutExtension(file);
+                string excelFileName1 = NameFailedFiles(failedFolderPath, excelFileName);
+
+                WriteToExcel(faultyLines, failedFolderPath, excelFileName1);
+            }
+        }
+        public string NameFailedFiles(string outputFolderPath, string fileNameForNoFiles)
+        {
+            string[] files = Directory.GetFiles(outputFolderPath, "*.xlsx");
+            List<int> numberlist = new List<int>();
+            foreach (var path in files)
+            {
+                string filename = Path.GetFileNameWithoutExtension(path);
+                string compareFilename = filename.Remove(1);
+                string beforeParentheses = string.Empty;
+                string afterParentheses = string.Empty;
+                string beforeParenthese = string.Empty;
+                string result = string.Empty;
+                int startindex = 0;
+                bool isbraced = false;
+                
+                if (compareFilename == fileNameForNoFiles)
+                {
+                    foreach (var item in files)
+                    {
+                        string filename1 = Path.GetFileNameWithoutExtension(item);
+
+                        if (filename1.Contains('('))
+                        {
+                            int startIndex = filename1.IndexOf('(');
+                            int endIndex = filename1.IndexOf(')');
+
+                            if (startIndex != -1 && endIndex != -1 && endIndex > startIndex + 1)
+                            {
+                                beforeParenthese = filename1.Substring(0, startIndex);
+
+                                string numberinsideParentheses = filename1.Substring(startIndex + 1, (endIndex - (startIndex + 1)));
+                                int resultNumber = Convert.ToInt32(numberinsideParentheses);
+
+
+                                if (beforeParenthese == fileNameForNoFiles + "---")
+                                {
+                                    beforeParentheses = filename1.Substring(0, startIndex + 1);
+                                    afterParentheses = filename1.Substring(endIndex);
+                                    startindex = filename1.IndexOf('(');
+
+                                    isbraced = true;
+                                    numberlist.Add(resultNumber);
+                                }
+                            }
+                        }
+                    }
+
+                    if (isbraced)
+                    {
+                        isbraced = false;
+                        int resultNumber = ReturnLargestInt(numberlist);
+                        resultNumber++;
+
+                        result = beforeParentheses + $"{resultNumber}" + afterParentheses;
+
+                        beforeParenthese = filename.Substring(0, startindex);
+
+                        if (beforeParenthese == fileNameForNoFiles + "---")
+                        {
+                            filename = result + ".xlsx";
+                            numberlist.Clear();
+                            return filename;
+                        }
+                    }
+                    else
+                    {
+                        if (compareFilename == fileNameForNoFiles)
+                        {
+                            filename = filename + "(1)" + ".xlsx";
+                            return filename;
+                        }
+                    }
+                }
+            }
+            return fileNameForNoFiles + "---" + ".xlsx";
+        }
+        public string NameSuccessFiles(string outputFolderPath, string fileNameForNoFiles)
+        {
+            string[] files = Directory.GetFiles(outputFolderPath, "*.xlsx");
+            List<int> numberlist = new List<int>();
+            foreach (var path in files)
+            {
+                string filename = Path.GetFileNameWithoutExtension(path);
+
+                string beforeParentheses = string.Empty;
+                string afterParentheses = string.Empty;
+                string beforeParenthese = string.Empty;
+                string result = string.Empty;
+                int startindex = 0;
+                bool isbraced = false;
+                if (filename == fileNameForNoFiles)
+                {
+                    foreach (var item in files)
+                    {
+                        string filename1 = Path.GetFileNameWithoutExtension(item);
+                        
+                        if (filename1.Contains('('))
+                        {
+                            int startIndex = filename1.IndexOf('(');
+                            int endIndex = filename1.IndexOf(')');
+
+                            if (startIndex != -1 && endIndex != -1 && endIndex > startIndex + 1)
+                            {
+                                beforeParenthese = filename1.Substring(0, startIndex);
+
+                                string numberinsideParentheses = filename1.Substring(startIndex + 1, (endIndex - (startIndex + 1)));
+                                int resultNumber = Convert.ToInt32(numberinsideParentheses);
+
+
+                                if (beforeParenthese == fileNameForNoFiles)
+                                {
+                                    beforeParentheses = filename1.Substring(0, startIndex + 1);
+                                    afterParentheses = filename1.Substring(endIndex);
+                                    startindex = filename1.IndexOf('(');
+
+                                    isbraced = true;
+                                    numberlist.Add(resultNumber);
+                                }
+                            }
+                        }
+                    }
+
+                    if (isbraced)
+                    {
+                        isbraced = false;
+                        int resultNumber = ReturnLargestInt(numberlist);
+                        resultNumber++;
+
+                        result = beforeParentheses + $"{resultNumber}" + afterParentheses;
+
+                        beforeParenthese = filename.Substring(0, startindex);
+
+                        if (beforeParenthese == fileNameForNoFiles)
+                        {
+                            filename = result + ".xlsx";
+                            numberlist.Clear();
+                            return filename;
+                        }
+                    }
+                    else
+                    {
+                        if (filename == fileNameForNoFiles)
+                        {
+                            filename = filename + "(1)" + ".xlsx";
+                            return filename;
+                        }
+                    }
+                }
+            }
+            return fileNameForNoFiles + ".xlsx";
+        }
+        public void WriteToExcel(List<string> data, string outputPath, string fileName)
         {
             var wb = new XLWorkbook();
             var ws = wb.AddWorksheet($"{fileName}");
 
-            foreach (var lineList in data)
+            int row = 1;
+            int col = 1;
+            foreach (var line in data)
             {
-                int row = 1;
-                foreach (var line in lineList)
+                var values = line.Split('/'); // Adjust delimiter if needed
+                foreach (var value in values)
                 {
-                    int col = 1;
-                    var values = line.Split('/'); // Adjust delimiter if needed
-                    foreach (var value in values)
-                    {
-                        ws.Cell(row, col).Value = value;
-                        col++;
-                    }
-                    row++;
+                    ws.Cell(row, col).Value = value;
+                    col++;
                 }
+                row++;
+                col = 1;
             }
-
-            wb.SaveAs(outputPath); // Save the workbook as an Excel file
+            string path = Path.Combine(outputPath, fileName);
+            wb.SaveAs(path);
         }
         #endregion
-
+            
 
 
 
