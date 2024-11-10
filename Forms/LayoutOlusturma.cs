@@ -47,7 +47,7 @@ namespace Balya_Yerleştirme
 
         #endregion
 
-        
+
         //Manual Move Variables
         #region Changing Size and Location Variables
 
@@ -96,8 +96,10 @@ namespace Balya_Yerleştirme
         public System.Drawing.Size drawingPanelSmallSize { get; set; } = new System.Drawing.Size(1220, 909);
         public System.Drawing.Size drawingPanelMiddleSize { get; set; } = new System.Drawing.Size(1550, 909);
         public System.Drawing.Size drawingPanelLargeSize { get; set; } = new System.Drawing.Size(1880, 909);
+        public System.Drawing.Size SmallPanelSize { get; set; } = new System.Drawing.Size(310, 62);
+
         #endregion
-        
+
 
         //Rectangle Variables for Various use cases such as Manuel Move with textboxes etc.
         #region PlaceHolder Rectangles
@@ -166,7 +168,7 @@ namespace Balya_Yerleştirme
 
         public bool menuProcess { get; set; } = false;
 
-        public Layout ?layout { get; set; }
+        public Layout? layout { get; set; }
 
 
         public LayoutOlusturma(MainForm main, Ambar? ambar, Layout? layout)
@@ -185,6 +187,8 @@ namespace Balya_Yerleştirme
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.KeyPreview = true;
             this.KeyDown += KeyDownEventHandler;
+            drawingPanel.TabStop = true;
+            drawingPanel.Click += (s, e) => drawingPanel.Focus();
             AlanTreeView.AfterSelect += AlanTreeView_AfterSelect;
             AlanTreeView.BeforeSelect += AlanTreeView_BeforeSelect;
             CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
@@ -456,262 +460,72 @@ namespace Balya_Yerleştirme
         //Delete, Copy, Paste
         private void KeyDownEventHandler(object? sender, KeyEventArgs e)
         {
-            if (e.Control && e.KeyCode == Keys.C)
+            if (drawingPanel.Focused)
             {
-                if (Ambar != null)
+                if (e.Control && e.KeyCode == Keys.C)
                 {
-                    if (selectedDepo != null)
+                    if (Ambar != null)
                     {
-                        CopyConveyor = null;
-                        CopyDepo = new Depo(selectedDepo.Rectangle.X, selectedDepo.Rectangle.Y,
-                            selectedDepo.Rectangle.Width, selectedDepo.Rectangle.Height,
-                            selectedDepo.Zoomlevel, null, this, Ambar);
-
-                        CopyDepo.OriginalRectangle = selectedDepo.OriginalRectangle;
-
-                        CopyDepo.KareX = CopyDepo.Rectangle.X;
-                        CopyDepo.KareY = CopyDepo.Rectangle.Y;
-                        CopyDepo.KareEni = CopyDepo.Rectangle.Width;
-                        CopyDepo.KareBoyu = CopyDepo.Rectangle.Height;
-                        CopyDepo.OriginalKareX = CopyDepo.OriginalRectangle.X;
-                        CopyDepo.OriginalKareY = CopyDepo.OriginalRectangle.Y;
-                        CopyDepo.OriginalKareEni = CopyDepo.OriginalRectangle.Width;
-                        CopyDepo.OriginalKareBoyu = CopyDepo.OriginalRectangle.Height;
-                        CopyDepo.OriginalDepoSizeWidth = CopyDepo.OriginalRectangle.Width;
-                        CopyDepo.OriginalDepoSizeHeight = CopyDepo.OriginalRectangle.Height;
-                        CopyDepo.OriginalDepoSize = new SizeF(CopyDepo.OriginalRectangle.Width, CopyDepo.OriginalRectangle.Height);
-
-                        CopyDepo.DepoAlaniEni = selectedDepo.DepoAlaniEni;
-                        CopyDepo.DepoAlaniBoyu = selectedDepo.DepoAlaniBoyu;
-                        CopyDepo.DepoAlaniYuksekligi = selectedDepo.DepoAlaniYuksekligi;
-
-                        CopyDepo.nesneYuksekligi = selectedDepo.nesneYuksekligi;
-                        CopyDepo.nesneEni = selectedDepo.nesneEni;
-                        CopyDepo.nesneBoyu = selectedDepo.nesneBoyu;
-
-                        CopyDepo.DepoName = selectedDepo.DepoName;
-                        CopyDepo.DepoDescription = selectedDepo.DepoDescription;
-
-                        CopyDepo.RowCount = selectedDepo.RowCount;
-                        CopyDepo.ColumnCount = selectedDepo.ColumnCount;
-                        CopyDepo.currentColumn = selectedDepo.currentColumn;
-                        CopyDepo.currentRow = selectedDepo.currentRow;
-                        CopyDepo.asama1_ItemSayisi = selectedDepo.asama1_ItemSayisi;
-                        CopyDepo.asama2_ToplamItemSayisi = selectedDepo.asama2_ToplamItemSayisi;
-                        CopyDepo.ItemTuru = selectedDepo.ItemTuru;
-                        CopyDepo.currentStage = selectedDepo.currentStage;
-
-                        CopyDepo.Yerlestirilme_Sirasi = selectedDepo.Yerlestirilme_Sirasi;
-                        CopyDepo.asama1_Yuksekligi = selectedDepo.asama1_Yuksekligi;
-                        CopyDepo.asama2_Yuksekligi = selectedDepo.asama2_Yuksekligi;
-                        CopyDepo.itemDrop_LeftRight = selectedDepo.itemDrop_LeftRight;
-                        CopyDepo.itemDrop_UpDown = selectedDepo.itemDrop_UpDown;
-                        CopyDepo.itemDrop_StartLocation = selectedDepo.itemDrop_StartLocation;
-
-
-                        foreach (var cell in selectedDepo.gridmaps)
+                        if (selectedDepo != null)
                         {
-                            float cell_start_X = selectedDepo.Rectangle.X - cell.Rectangle.X;
-                            float cell_start_Y = selectedDepo.Rectangle.Y - cell.Rectangle.Y;
-                            float cellX = CopyDepo.Rectangle.X + cell_start_X;
-                            float cellY = CopyDepo.Rectangle.Y + cell_start_Y;
+                            CopyConveyor = null;
+                            CopyDepo = new Depo(selectedDepo.Rectangle.X, selectedDepo.Rectangle.Y,
+                                selectedDepo.Rectangle.Width, selectedDepo.Rectangle.Height,
+                                selectedDepo.Zoomlevel, null, this, Ambar);
 
-                            Models.Cell CopiedCell = new Models.Cell(cellX, cellY, cell.Rectangle.Width, cell.Rectangle.Height, Main, CopyDepo, this);
+                            CopyDepo.OriginalRectangle = selectedDepo.OriginalRectangle;
 
-                            CopiedCell.OriginalRectangle = cell.OriginalRectangle;
+                            CopyDepo.KareX = CopyDepo.Rectangle.X;
+                            CopyDepo.KareY = CopyDepo.Rectangle.Y;
+                            CopyDepo.KareEni = CopyDepo.Rectangle.Width;
+                            CopyDepo.KareBoyu = CopyDepo.Rectangle.Height;
+                            CopyDepo.OriginalKareX = CopyDepo.OriginalRectangle.X;
+                            CopyDepo.OriginalKareY = CopyDepo.OriginalRectangle.Y;
+                            CopyDepo.OriginalKareEni = CopyDepo.OriginalRectangle.Width;
+                            CopyDepo.OriginalKareBoyu = CopyDepo.OriginalRectangle.Height;
+                            CopyDepo.OriginalDepoSizeWidth = CopyDepo.OriginalRectangle.Width;
+                            CopyDepo.OriginalDepoSizeHeight = CopyDepo.OriginalRectangle.Height;
+                            CopyDepo.OriginalDepoSize = new SizeF(CopyDepo.OriginalRectangle.Width, CopyDepo.OriginalRectangle.Height);
 
-                            CopiedCell.KareX = CopiedCell.Rectangle.X;
-                            CopiedCell.KareY = CopiedCell.Rectangle.Y;
-                            CopiedCell.KareEni = CopiedCell.Rectangle.Width;
-                            CopiedCell.KareBoyu = CopiedCell.Rectangle.Height;
-                            CopiedCell.OriginalKareX = CopiedCell.OriginalRectangle.X;
-                            CopiedCell.OriginalKareY = CopiedCell.OriginalRectangle.Y;
-                            CopiedCell.OriginalKareEni = CopiedCell.OriginalRectangle.Width;
-                            CopiedCell.OriginalKareBoyu = CopiedCell.OriginalRectangle.Height;
-                            CopiedCell.CellEni = cell.CellEni;
-                            CopiedCell.CellBoyu = cell.CellBoyu;
-                            CopiedCell.CellEtiketi = cell.CellEtiketi;
-                            CopiedCell.CellMalSayisi = cell.CellMalSayisi;
-                            CopiedCell.CellYuksekligi = cell.CellYuksekligi;
-                            CopiedCell.DikeyKenarBoslugu = cell.DikeyKenarBoslugu;
-                            CopiedCell.YatayKenarBoslugu = cell.YatayKenarBoslugu;
-                            CopiedCell.NesneYuksekligi = cell.NesneYuksekligi;
-                            CopiedCell.NesneEni = cell.NesneEni;
-                            CopiedCell.NesneBoyu = cell.NesneBoyu;
-                            CopiedCell.Parent = CopyDepo;
-                            CopiedCell.Row = cell.Row;
-                            CopiedCell.Column = cell.Column;
-                            CopiedCell.toplam_Nesne_Yuksekligi = cell.toplam_Nesne_Yuksekligi;
-                            CopiedCell.Zoomlevel = cell.Zoomlevel;
-                            CopiedCell.cell_Cm_X = cell.cell_Cm_X;
-                            CopiedCell.cell_Cm_Y = cell.cell_Cm_Y;
+                            CopyDepo.DepoAlaniEni = selectedDepo.DepoAlaniEni;
+                            CopyDepo.DepoAlaniBoyu = selectedDepo.DepoAlaniBoyu;
+                            CopyDepo.DepoAlaniYuksekligi = selectedDepo.DepoAlaniYuksekligi;
 
-                            CopyDepo.gridmaps.Add(CopiedCell);
-                        }
-                    }
-                    if (selectedConveyor != null)
-                    {
-                        CopyDepo = null;
-                        CopyConveyor = new Conveyor(selectedConveyor.Rectangle.X, selectedConveyor.Rectangle.Y,
-                            selectedConveyor.Rectangle.Width, selectedConveyor.Rectangle.Height, null, this, Ambar);
+                            CopyDepo.nesneYuksekligi = selectedDepo.nesneYuksekligi;
+                            CopyDepo.nesneEni = selectedDepo.nesneEni;
+                            CopyDepo.nesneBoyu = selectedDepo.nesneBoyu;
 
-                        CopyConveyor.OriginalRectangle = CopyConveyor.Rectangle;
+                            CopyDepo.DepoName = selectedDepo.DepoName;
+                            CopyDepo.DepoDescription = selectedDepo.DepoDescription;
 
-                        CopyConveyor.KareX = CopyConveyor.Rectangle.X;
-                        CopyConveyor.KareY = CopyConveyor.Rectangle.Y;
-                        CopyConveyor.KareEni = CopyConveyor.Rectangle.Width;
-                        CopyConveyor.KareBoyu = CopyConveyor.Rectangle.Height;
-                        CopyConveyor.OriginalKareX = CopyConveyor.OriginalRectangle.X;
-                        CopyConveyor.OriginalKareY = CopyConveyor.OriginalRectangle.Y;
-                        CopyConveyor.OriginalKareEni = CopyConveyor.OriginalRectangle.Width;
-                        CopyConveyor.OriginalKareBoyu = CopyConveyor.OriginalRectangle.Height;
-                        CopyConveyor.Parent = Ambar;
-                        CopyConveyor.ConveyorEni = selectedConveyor.ConveyorEni;
-                        CopyConveyor.ConveyorBoyu = selectedConveyor.ConveyorBoyu;
-                        CopyConveyor.Zoomlevel = selectedConveyor.Zoomlevel;
+                            CopyDepo.RowCount = selectedDepo.RowCount;
+                            CopyDepo.ColumnCount = selectedDepo.ColumnCount;
+                            CopyDepo.currentColumn = selectedDepo.currentColumn;
+                            CopyDepo.currentRow = selectedDepo.currentRow;
+                            CopyDepo.asama1_ItemSayisi = selectedDepo.asama1_ItemSayisi;
+                            CopyDepo.asama2_ToplamItemSayisi = selectedDepo.asama2_ToplamItemSayisi;
+                            CopyDepo.ItemTuru = selectedDepo.ItemTuru;
+                            CopyDepo.currentStage = selectedDepo.currentStage;
 
-                        foreach (var reff in selectedConveyor.ConveyorReferencePoints)
-                        {
-                            float reff_start_X = selectedConveyor.Rectangle.X - reff.Rectangle.X;
-                            float reff_start_Y = selectedConveyor.Rectangle.Y - reff.Rectangle.Y;
-                            float reffX = CopyConveyor.Rectangle.X + reff_start_X;
-                            float reffY = CopyConveyor.Rectangle.Y + reff_start_Y;
+                            CopyDepo.Yerlestirilme_Sirasi = selectedDepo.Yerlestirilme_Sirasi;
+                            CopyDepo.asama1_Yuksekligi = selectedDepo.asama1_Yuksekligi;
+                            CopyDepo.asama2_Yuksekligi = selectedDepo.asama2_Yuksekligi;
+                            CopyDepo.itemDrop_LeftRight = selectedDepo.itemDrop_LeftRight;
+                            CopyDepo.itemDrop_UpDown = selectedDepo.itemDrop_UpDown;
+                            CopyDepo.itemDrop_StartLocation = selectedDepo.itemDrop_StartLocation;
 
-                            ConveyorReferencePoint newReff = new ConveyorReferencePoint(reffX, reffY, reff.Rectangle.Width, reff.Rectangle.Height, reff.Zoomlevel, null, CopyConveyor, this);
 
-                            newReff.KareX = newReff.Rectangle.X;
-                            newReff.KareY = newReff.Rectangle.Y;
-                            newReff.KareEni = newReff.Rectangle.Width;
-                            newReff.KareBoyu = newReff.Rectangle.Height;
-                            newReff.OriginalKareX = newReff.OriginalRectangle.X;
-                            newReff.OriginalKareY = newReff.OriginalRectangle.Y;
-                            newReff.OriginalKareEni = newReff.OriginalRectangle.Width;
-                            newReff.OriginalKareBoyu = newReff.OriginalRectangle.Height;
-                            newReff.ParentConveyor = CopyConveyor;
-                            newReff.FixedPointLocation = reff.FixedPointLocation;
-                            newReff.Info = reff.Info;
-                            newReff.Pointsize = 4;
-
-                            float X = newReff.Rectangle.X - CopyConveyor.Rectangle.X;
-                            float Y = newReff.Rectangle.Y - CopyConveyor.Rectangle.Y;
-
-                            newReff.OriginalLocationInsideParent = new PointF(X, Y);
-
-                            CopyConveyor.ConveyorReferencePoints.Add(newReff);
-                        }
-                    }
-                }
-            }
-
-            if (e.Control && e.KeyCode == Keys.V)
-            {
-                if (Ambar != null)
-                {
-                    if (CopyDepo != null)
-                    {
-                        float x = 0f;
-                        float y = 0f;
-
-                        string deponame = CopyDepo.DepoName;
-
-                        PointF checkPoint = new PointF(CopyPoint.X, CopyPoint.Y);
-
-                        if (Ambar.Rectangle.Contains(checkPoint))
-                        {
-                            if (checkPoint.X + CopyDepo.Rectangle.Width > Ambar.Rectangle.Right)
+                            foreach (var cell in selectedDepo.gridmaps)
                             {
-                                x = Ambar.Rectangle.Right - CopyDepo.Rectangle.Width;
-                            }
-                            else if (checkPoint.X - CopyDepo.Rectangle.Width < Ambar.Rectangle.Left)
-                            {
-                                x = Ambar.Rectangle.Left;
-                            }
-                            else
-                            {
-                                x = CopyPoint.X - CopyDepo.Rectangle.Width / 2;
-                            }
+                                float cell_start_X = selectedDepo.Rectangle.X - cell.Rectangle.X;
+                                float cell_start_Y = selectedDepo.Rectangle.Y - cell.Rectangle.Y;
+                                float cellX = CopyDepo.Rectangle.X + cell_start_X;
+                                float cellY = CopyDepo.Rectangle.Y + cell_start_Y;
 
-                            if (checkPoint.Y + CopyDepo.Rectangle.Height > Ambar.Rectangle.Bottom)
-                            {
-                                y = Ambar.Rectangle.Bottom - CopyDepo.Rectangle.Height;
-                            }
-                            else if (checkPoint.Y - CopyDepo.Rectangle.Height < Ambar.Rectangle.Top)
-                            {
-                                y = Ambar.Rectangle.Top;
-                            }
-                            else
-                            {
-                                y = CopyPoint.Y - CopyDepo.Rectangle.Height / 2;
-                            }
+                                Models.Cell CopiedCell = new Models.Cell(cellX, cellY, cell.Rectangle.Width, cell.Rectangle.Height, Main, CopyDepo, this);
 
+                                CopiedCell.OriginalRectangle = cell.OriginalRectangle;
 
-                            Depo CopiedDepo = new Depo(x, y, CopyDepo.Rectangle.Width, CopyDepo.Rectangle.Height, CopyDepo.Zoomlevel, Main, this, Ambar);
-
-                            CopiedDepo.DepoId = 0;
-                            CopiedDepo.OriginalRectangle = CopiedDepo.Rectangle;
-
-                            CopiedDepo.KareX = CopiedDepo.Rectangle.X;
-                            CopiedDepo.KareY = CopiedDepo.Rectangle.Y;
-                            CopiedDepo.KareEni = CopiedDepo.Rectangle.Width;
-                            CopiedDepo.KareBoyu = CopiedDepo.Rectangle.Height;
-                            CopiedDepo.OriginalKareX = CopiedDepo.OriginalRectangle.X;
-                            CopiedDepo.OriginalKareY = CopiedDepo.OriginalRectangle.Y;
-                            CopiedDepo.OriginalKareEni = CopiedDepo.OriginalRectangle.Width;
-                            CopiedDepo.OriginalKareBoyu = CopiedDepo.OriginalRectangle.Height;
-
-                            CopiedDepo.DepoAlaniEni = CopyDepo.DepoAlaniEni;
-                            CopiedDepo.DepoAlaniBoyu = CopyDepo.DepoAlaniBoyu;
-                            CopiedDepo.DepoAlaniYuksekligi = CopyDepo.DepoAlaniYuksekligi;
-
-                            CopiedDepo.nesneYuksekligi = CopyDepo.nesneYuksekligi;
-                            CopiedDepo.nesneEni = CopyDepo.nesneEni;
-                            CopiedDepo.nesneBoyu = CopyDepo.nesneBoyu;
-
-                            CopiedDepo.DepoName = deponame;
-                            CopiedDepo.DepoDescription = CopyDepo.DepoDescription;
-
-                            CopiedDepo.RowCount = CopyDepo.RowCount;
-                            CopiedDepo.ColumnCount = CopyDepo.ColumnCount;
-                            CopiedDepo.currentColumn = CopyDepo.currentColumn;
-                            CopiedDepo.currentRow = CopyDepo.currentRow;
-
-
-                            CopiedDepo.OriginalDepoSizeWidth = CopyDepo.OriginalRectangle.Width;
-                            CopiedDepo.OriginalDepoSizeHeight = CopyDepo.OriginalRectangle.Height;
-                            CopiedDepo.OriginalDepoSize = new SizeF(CopiedDepo.OriginalDepoSizeWidth, CopiedDepo.OriginalDepoSizeHeight);
-
-                            int count = 0;
-                            foreach (var depo in Ambar.depolar)
-                            {
-                                if (depo.Yerlestirilme_Sirasi > count || count == 0)
-                                {
-                                    count = depo.Yerlestirilme_Sirasi;
-                                }
-                            }
-
-                            int number = count + 1;
-                            CopiedDepo.Yerlestirilme_Sirasi = number;
-                            CopiedDepo.asama1_Yuksekligi = CopyDepo.DepoAlaniYuksekligi / 2;
-                            CopiedDepo.asama2_Yuksekligi = CopyDepo.DepoAlaniYuksekligi;
-                            CopiedDepo.itemDrop_LeftRight = CopyDepo.itemDrop_LeftRight;
-                            CopiedDepo.itemDrop_UpDown = CopyDepo.itemDrop_UpDown;
-                            CopiedDepo.itemDrop_StartLocation = CopyDepo.itemDrop_StartLocation;
-                            CopiedDepo.currentStage = CopyDepo.currentStage;
-                            CopiedDepo.asama1_ItemSayisi = CopyDepo.asama1_ItemSayisi;
-                            CopiedDepo.asama2_ToplamItemSayisi = CopyDepo.asama2_ToplamItemSayisi;
-                            CopiedDepo.ItemTuru = CopyDepo.ItemTuru;
-
-                            foreach (var cell in CopyDepo.gridmaps)
-                            {
-                                float cell_start_X = CopyDepo.Rectangle.X - cell.Rectangle.X;
-                                float cell_start_Y = CopyDepo.Rectangle.Y - cell.Rectangle.Y;
-                                float cellX = CopiedDepo.Rectangle.X + cell_start_X;
-                                float cellY = CopiedDepo.Rectangle.Y + cell_start_Y;
-
-                                Models.Cell CopiedCell = new Models.Cell(cellX, cellY, cell.Rectangle.Width, cell.Rectangle.Height, Main, CopiedDepo, this);
-
-                                CopiedCell.OriginalRectangle = CopiedCell.Rectangle;
-                                CopiedCell.CellId = 0;
                                 CopiedCell.KareX = CopiedCell.Rectangle.X;
                                 CopiedCell.KareY = CopiedCell.Rectangle.Y;
                                 CopiedCell.KareEni = CopiedCell.Rectangle.Width;
@@ -730,7 +544,7 @@ namespace Balya_Yerleştirme
                                 CopiedCell.NesneYuksekligi = cell.NesneYuksekligi;
                                 CopiedCell.NesneEni = cell.NesneEni;
                                 CopiedCell.NesneBoyu = cell.NesneBoyu;
-                                CopiedCell.Parent = CopiedDepo;
+                                CopiedCell.Parent = CopyDepo;
                                 CopiedCell.Row = cell.Row;
                                 CopiedCell.Column = cell.Column;
                                 CopiedCell.toplam_Nesne_Yuksekligi = cell.toplam_Nesne_Yuksekligi;
@@ -738,125 +552,39 @@ namespace Balya_Yerleştirme
                                 CopiedCell.cell_Cm_X = cell.cell_Cm_X;
                                 CopiedCell.cell_Cm_Y = cell.cell_Cm_Y;
 
-                                CopiedDepo.gridmaps.Add(CopiedCell);
-                            }
-
-                            bool ifintersects = CheckifIntersects(CopiedDepo.Rectangle, RectangleF.Empty, CopiedDepo, null);
-
-                            if (ifintersects)
-                            {
-                                CustomNotifyIcon notify = new CustomNotifyIcon();
-                                notify.showAlert("Başka bir alana yapıştıramazsınız.", CustomNotifyIcon.enmType.Info);
-                            }
-                            else
-                            {
-                                Ambar.depolar.Add(CopiedDepo);
-                                foreach (var depo in Ambar.depolar)
-                                {
-                                    if (depo.DepoName.Contains('('))
-                                    {
-                                        int startIndex = deponame.IndexOf('(');
-                                        int endIndex = deponame.IndexOf(')');
-
-                                        if (startIndex != -1 && endIndex != -1 && endIndex > startIndex + 1)
-                                        {
-                                            if (depo.DepoName == deponame)
-                                            {
-                                                string beforeParentheses = deponame.Substring(0, startIndex + 1);
-                                                string afterParentheses = deponame.Substring(endIndex);
-
-                                                string numberinsideParentheses = depo.DepoName.Substring(startIndex + 1, (endIndex - (startIndex + 1)));
-
-                                                int resultNumber = Convert.ToInt32(numberinsideParentheses);
-
-                                                resultNumber++;
-
-                                                string result = beforeParentheses + $"{resultNumber}" + afterParentheses;
-                                                deponame = result;
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (depo.DepoName == deponame)
-                                        {
-                                            deponame = $"{deponame} (1)";
-                                        }
-                                    }
-                                }
-                                CopiedDepo.DepoName = deponame;
-                                drawingPanel.Invalidate();
+                                CopyDepo.gridmaps.Add(CopiedCell);
                             }
                         }
-                        else
+                        if (selectedConveyor != null)
                         {
-                            CustomNotifyIcon notify = new CustomNotifyIcon();
-                            notify.showAlert("Depoyu sadece alanın içerisine yapıştırabilirsiniz.", CustomNotifyIcon.enmType.Info);
-                        }
-                    }
+                            CopyDepo = null;
+                            CopyConveyor = new Conveyor(selectedConveyor.Rectangle.X, selectedConveyor.Rectangle.Y,
+                                selectedConveyor.Rectangle.Width, selectedConveyor.Rectangle.Height, null, this, Ambar);
 
-                    if (CopyConveyor != null)
-                    {
-                        PointF checkPoint = new PointF(CopyPoint.X, CopyPoint.Y);
+                            CopyConveyor.OriginalRectangle = CopyConveyor.Rectangle;
 
-                        float x = 0f;
-                        float y = 0f;
+                            CopyConveyor.KareX = CopyConveyor.Rectangle.X;
+                            CopyConveyor.KareY = CopyConveyor.Rectangle.Y;
+                            CopyConveyor.KareEni = CopyConveyor.Rectangle.Width;
+                            CopyConveyor.KareBoyu = CopyConveyor.Rectangle.Height;
+                            CopyConveyor.OriginalKareX = CopyConveyor.OriginalRectangle.X;
+                            CopyConveyor.OriginalKareY = CopyConveyor.OriginalRectangle.Y;
+                            CopyConveyor.OriginalKareEni = CopyConveyor.OriginalRectangle.Width;
+                            CopyConveyor.OriginalKareBoyu = CopyConveyor.OriginalRectangle.Height;
+                            CopyConveyor.Parent = Ambar;
+                            CopyConveyor.ConveyorEni = selectedConveyor.ConveyorEni;
+                            CopyConveyor.ConveyorBoyu = selectedConveyor.ConveyorBoyu;
+                            CopyConveyor.Zoomlevel = selectedConveyor.Zoomlevel;
 
-                        if (Ambar.Rectangle.Contains(checkPoint))
-                        {
-
-                            if (checkPoint.X + CopyConveyor.Rectangle.Width > Ambar.Rectangle.Right)
+                            foreach (var reff in selectedConveyor.ConveyorReferencePoints)
                             {
-                                x = Ambar.Rectangle.Right - CopyConveyor.Rectangle.Width;
-                            }
-                            else if (checkPoint.X - CopyConveyor.Rectangle.Width < Ambar.Rectangle.Left)
-                            {
-                                x = Ambar.Rectangle.Left;
-                            }
-                            else
-                            {
-                                x = CopyPoint.X - CopyConveyor.Rectangle.Width / 2;
-                            }
+                                float reff_start_X = selectedConveyor.Rectangle.X - reff.Rectangle.X;
+                                float reff_start_Y = selectedConveyor.Rectangle.Y - reff.Rectangle.Y;
+                                float reffX = CopyConveyor.Rectangle.X + reff_start_X;
+                                float reffY = CopyConveyor.Rectangle.Y + reff_start_Y;
 
-                            if (checkPoint.Y + CopyConveyor.Rectangle.Height > Ambar.Rectangle.Bottom)
-                            {
-                                y = Ambar.Rectangle.Bottom - CopyConveyor.Rectangle.Height;
-                            }
-                            else if (checkPoint.Y - CopyConveyor.Rectangle.Height < Ambar.Rectangle.Top)
-                            {
-                                y = Ambar.Rectangle.Top;
-                            }
-                            else
-                            {
-                                y = CopyPoint.Y - CopyConveyor.Rectangle.Height / 2;
-                            }
+                                ConveyorReferencePoint newReff = new ConveyorReferencePoint(reffX, reffY, reff.Rectangle.Width, reff.Rectangle.Height, reff.Zoomlevel, null, CopyConveyor, this);
 
-                            Conveyor conveyor = new Conveyor(x, y, CopyConveyor.Rectangle.Width, CopyConveyor.Rectangle.Height,
-                            Main, this, Ambar);
-
-                            conveyor.OriginalRectangle = conveyor.Rectangle;
-                            conveyor.ConveyorId = 0;
-                            conveyor.KareX = conveyor.Rectangle.X;
-                            conveyor.KareY = conveyor.Rectangle.Y;
-                            conveyor.KareEni = conveyor.Rectangle.Width;
-                            conveyor.KareBoyu = conveyor.Rectangle.Height;
-                            conveyor.OriginalKareX = conveyor.OriginalRectangle.X;
-                            conveyor.OriginalKareY = conveyor.OriginalRectangle.Y;
-                            conveyor.OriginalKareEni = conveyor.OriginalRectangle.Width;
-                            conveyor.OriginalKareBoyu = conveyor.OriginalRectangle.Height;
-                            conveyor.ConveyorEni = CopyConveyor.ConveyorEni;
-                            conveyor.ConveyorBoyu = CopyConveyor.ConveyorBoyu;
-
-                            foreach (var reff in CopyConveyor.ConveyorReferencePoints)
-                            {
-                                float reff_start_X = CopyConveyor.Rectangle.X - reff.Rectangle.X;
-                                float reff_start_Y = CopyConveyor.Rectangle.Y - reff.Rectangle.Y;
-                                float reffX = conveyor.Rectangle.X + reff_start_X;
-                                float reffY = conveyor.Rectangle.Y + reff_start_Y;
-
-                                ConveyorReferencePoint newReff = new ConveyorReferencePoint(reffX, reffY, reff.Rectangle.Width, reff.Rectangle.Height, reff.Zoomlevel, Main, conveyor, this);
-
-                                newReff.ReferenceId = 0;
                                 newReff.KareX = newReff.Rectangle.X;
                                 newReff.KareY = newReff.Rectangle.Y;
                                 newReff.KareEni = newReff.Rectangle.Width;
@@ -865,95 +593,374 @@ namespace Balya_Yerleştirme
                                 newReff.OriginalKareY = newReff.OriginalRectangle.Y;
                                 newReff.OriginalKareEni = newReff.OriginalRectangle.Width;
                                 newReff.OriginalKareBoyu = newReff.OriginalRectangle.Height;
-                                newReff.ParentConveyor = conveyor;
+                                newReff.ParentConveyor = CopyConveyor;
                                 newReff.FixedPointLocation = reff.FixedPointLocation;
                                 newReff.Info = reff.Info;
                                 newReff.Pointsize = 4;
 
-                                float X = newReff.Rectangle.X - conveyor.Rectangle.X;
-                                float Y = newReff.Rectangle.Y - conveyor.Rectangle.Y;
+                                float X = newReff.Rectangle.X - CopyConveyor.Rectangle.X;
+                                float Y = newReff.Rectangle.Y - CopyConveyor.Rectangle.Y;
 
                                 newReff.OriginalLocationInsideParent = new PointF(X, Y);
 
-                                conveyor.ConveyorReferencePoints.Add(newReff);
+                                CopyConveyor.ConveyorReferencePoints.Add(newReff);
                             }
+                        }
+                    }
+                }
+
+                if (e.Control && e.KeyCode == Keys.V)
+                {
+                    if (Ambar != null)
+                    {
+                        if (CopyDepo != null)
+                        {
+                            float x = 0f;
+                            float y = 0f;
+
+                            string deponame = CopyDepo.DepoName;
+
+                            PointF checkPoint = new PointF(CopyPoint.X, CopyPoint.Y);
+
+                            if (Ambar.Rectangle.Contains(checkPoint))
+                            {
+                                if (checkPoint.X + CopyDepo.Rectangle.Width > Ambar.Rectangle.Right)
+                                {
+                                    x = Ambar.Rectangle.Right - CopyDepo.Rectangle.Width;
+                                }
+                                else if (checkPoint.X - CopyDepo.Rectangle.Width < Ambar.Rectangle.Left)
+                                {
+                                    x = Ambar.Rectangle.Left;
+                                }
+                                else
+                                {
+                                    x = CopyPoint.X - CopyDepo.Rectangle.Width / 2;
+                                }
+
+                                if (checkPoint.Y + CopyDepo.Rectangle.Height > Ambar.Rectangle.Bottom)
+                                {
+                                    y = Ambar.Rectangle.Bottom - CopyDepo.Rectangle.Height;
+                                }
+                                else if (checkPoint.Y - CopyDepo.Rectangle.Height < Ambar.Rectangle.Top)
+                                {
+                                    y = Ambar.Rectangle.Top;
+                                }
+                                else
+                                {
+                                    y = CopyPoint.Y - CopyDepo.Rectangle.Height / 2;
+                                }
 
 
-                            bool ifintersects = CheckifIntersects(RectangleF.Empty, conveyor.Rectangle, null, conveyor);
+                                Depo CopiedDepo = new Depo(x, y, CopyDepo.Rectangle.Width, CopyDepo.Rectangle.Height, CopyDepo.Zoomlevel, Main, this, Ambar);
 
-                            if (ifintersects)
+                                CopiedDepo.DepoId = 0;
+                                CopiedDepo.OriginalRectangle = CopiedDepo.Rectangle;
+
+                                CopiedDepo.KareX = CopiedDepo.Rectangle.X;
+                                CopiedDepo.KareY = CopiedDepo.Rectangle.Y;
+                                CopiedDepo.KareEni = CopiedDepo.Rectangle.Width;
+                                CopiedDepo.KareBoyu = CopiedDepo.Rectangle.Height;
+                                CopiedDepo.OriginalKareX = CopiedDepo.OriginalRectangle.X;
+                                CopiedDepo.OriginalKareY = CopiedDepo.OriginalRectangle.Y;
+                                CopiedDepo.OriginalKareEni = CopiedDepo.OriginalRectangle.Width;
+                                CopiedDepo.OriginalKareBoyu = CopiedDepo.OriginalRectangle.Height;
+
+                                CopiedDepo.DepoAlaniEni = CopyDepo.DepoAlaniEni;
+                                CopiedDepo.DepoAlaniBoyu = CopyDepo.DepoAlaniBoyu;
+                                CopiedDepo.DepoAlaniYuksekligi = CopyDepo.DepoAlaniYuksekligi;
+
+                                CopiedDepo.nesneYuksekligi = CopyDepo.nesneYuksekligi;
+                                CopiedDepo.nesneEni = CopyDepo.nesneEni;
+                                CopiedDepo.nesneBoyu = CopyDepo.nesneBoyu;
+
+                                CopiedDepo.DepoName = deponame;
+                                CopiedDepo.DepoDescription = CopyDepo.DepoDescription;
+
+                                CopiedDepo.RowCount = CopyDepo.RowCount;
+                                CopiedDepo.ColumnCount = CopyDepo.ColumnCount;
+                                CopiedDepo.currentColumn = CopyDepo.currentColumn;
+                                CopiedDepo.currentRow = CopyDepo.currentRow;
+
+
+                                CopiedDepo.OriginalDepoSizeWidth = CopyDepo.OriginalRectangle.Width;
+                                CopiedDepo.OriginalDepoSizeHeight = CopyDepo.OriginalRectangle.Height;
+                                CopiedDepo.OriginalDepoSize = new SizeF(CopiedDepo.OriginalDepoSizeWidth, CopiedDepo.OriginalDepoSizeHeight);
+
+                                int count = 0;
+                                foreach (var depo in Ambar.depolar)
+                                {
+                                    if (depo.Yerlestirilme_Sirasi > count || count == 0)
+                                    {
+                                        count = depo.Yerlestirilme_Sirasi;
+                                    }
+                                }
+
+                                int number = count + 1;
+                                CopiedDepo.Yerlestirilme_Sirasi = number;
+                                CopiedDepo.asama1_Yuksekligi = CopyDepo.DepoAlaniYuksekligi / 2;
+                                CopiedDepo.asama2_Yuksekligi = CopyDepo.DepoAlaniYuksekligi;
+                                CopiedDepo.itemDrop_LeftRight = CopyDepo.itemDrop_LeftRight;
+                                CopiedDepo.itemDrop_UpDown = CopyDepo.itemDrop_UpDown;
+                                CopiedDepo.itemDrop_StartLocation = CopyDepo.itemDrop_StartLocation;
+                                CopiedDepo.currentStage = CopyDepo.currentStage;
+                                CopiedDepo.asama1_ItemSayisi = CopyDepo.asama1_ItemSayisi;
+                                CopiedDepo.asama2_ToplamItemSayisi = CopyDepo.asama2_ToplamItemSayisi;
+                                CopiedDepo.ItemTuru = CopyDepo.ItemTuru;
+
+                                foreach (var cell in CopyDepo.gridmaps)
+                                {
+                                    float cell_start_X = CopyDepo.Rectangle.X - cell.Rectangle.X;
+                                    float cell_start_Y = CopyDepo.Rectangle.Y - cell.Rectangle.Y;
+                                    float cellX = CopiedDepo.Rectangle.X + cell_start_X;
+                                    float cellY = CopiedDepo.Rectangle.Y + cell_start_Y;
+
+                                    Models.Cell CopiedCell = new Models.Cell(cellX, cellY, cell.Rectangle.Width, cell.Rectangle.Height, Main, CopiedDepo, this);
+
+                                    CopiedCell.OriginalRectangle = CopiedCell.Rectangle;
+                                    CopiedCell.CellId = 0;
+                                    CopiedCell.KareX = CopiedCell.Rectangle.X;
+                                    CopiedCell.KareY = CopiedCell.Rectangle.Y;
+                                    CopiedCell.KareEni = CopiedCell.Rectangle.Width;
+                                    CopiedCell.KareBoyu = CopiedCell.Rectangle.Height;
+                                    CopiedCell.OriginalKareX = CopiedCell.OriginalRectangle.X;
+                                    CopiedCell.OriginalKareY = CopiedCell.OriginalRectangle.Y;
+                                    CopiedCell.OriginalKareEni = CopiedCell.OriginalRectangle.Width;
+                                    CopiedCell.OriginalKareBoyu = CopiedCell.OriginalRectangle.Height;
+                                    CopiedCell.CellEni = cell.CellEni;
+                                    CopiedCell.CellBoyu = cell.CellBoyu;
+                                    CopiedCell.CellEtiketi = cell.CellEtiketi;
+                                    CopiedCell.CellMalSayisi = cell.CellMalSayisi;
+                                    CopiedCell.CellYuksekligi = cell.CellYuksekligi;
+                                    CopiedCell.DikeyKenarBoslugu = cell.DikeyKenarBoslugu;
+                                    CopiedCell.YatayKenarBoslugu = cell.YatayKenarBoslugu;
+                                    CopiedCell.NesneYuksekligi = cell.NesneYuksekligi;
+                                    CopiedCell.NesneEni = cell.NesneEni;
+                                    CopiedCell.NesneBoyu = cell.NesneBoyu;
+                                    CopiedCell.Parent = CopiedDepo;
+                                    CopiedCell.Row = cell.Row;
+                                    CopiedCell.Column = cell.Column;
+                                    CopiedCell.toplam_Nesne_Yuksekligi = cell.toplam_Nesne_Yuksekligi;
+                                    CopiedCell.Zoomlevel = cell.Zoomlevel;
+                                    CopiedCell.cell_Cm_X = cell.cell_Cm_X;
+                                    CopiedCell.cell_Cm_Y = cell.cell_Cm_Y;
+
+                                    CopiedDepo.gridmaps.Add(CopiedCell);
+                                }
+
+                                bool ifintersects = CheckifIntersects(CopiedDepo.Rectangle, RectangleF.Empty, CopiedDepo, null);
+
+                                if (ifintersects)
+                                {
+                                    CustomNotifyIcon notify = new CustomNotifyIcon();
+                                    notify.showAlert("Başka bir alana yapıştıramazsınız.", CustomNotifyIcon.enmType.Info);
+                                }
+                                else
+                                {
+                                    Ambar.depolar.Add(CopiedDepo);
+                                    foreach (var depo in Ambar.depolar)
+                                    {
+                                        if (depo.DepoName.Contains('('))
+                                        {
+                                            int startIndex = deponame.IndexOf('(');
+                                            int endIndex = deponame.IndexOf(')');
+
+                                            if (startIndex != -1 && endIndex != -1 && endIndex > startIndex + 1)
+                                            {
+                                                if (depo.DepoName == deponame)
+                                                {
+                                                    string beforeParentheses = deponame.Substring(0, startIndex + 1);
+                                                    string afterParentheses = deponame.Substring(endIndex);
+
+                                                    string numberinsideParentheses = depo.DepoName.Substring(startIndex + 1, (endIndex - (startIndex + 1)));
+
+                                                    int resultNumber = Convert.ToInt32(numberinsideParentheses);
+
+                                                    resultNumber++;
+
+                                                    string result = beforeParentheses + $"{resultNumber}" + afterParentheses;
+                                                    deponame = result;
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (depo.DepoName == deponame)
+                                            {
+                                                deponame = $"{deponame} (1)";
+                                            }
+                                        }
+                                    }
+                                    CopiedDepo.DepoName = deponame;
+                                    drawingPanel.Invalidate();
+                                }
+                            }
+                            else
                             {
                                 CustomNotifyIcon notify = new CustomNotifyIcon();
-                                notify.showAlert("Başka bir alana yapıştıramazsınız.", CustomNotifyIcon.enmType.Info);
+                                notify.showAlert("Depoyu sadece alanın içerisine yapıştırabilirsiniz.", CustomNotifyIcon.enmType.Info);
+                            }
+                        }
+
+                        if (CopyConveyor != null)
+                        {
+                            PointF checkPoint = new PointF(CopyPoint.X, CopyPoint.Y);
+
+                            float x = 0f;
+                            float y = 0f;
+
+                            if (Ambar.Rectangle.Contains(checkPoint))
+                            {
+
+                                if (checkPoint.X + CopyConveyor.Rectangle.Width > Ambar.Rectangle.Right)
+                                {
+                                    x = Ambar.Rectangle.Right - CopyConveyor.Rectangle.Width;
+                                }
+                                else if (checkPoint.X - CopyConveyor.Rectangle.Width < Ambar.Rectangle.Left)
+                                {
+                                    x = Ambar.Rectangle.Left;
+                                }
+                                else
+                                {
+                                    x = CopyPoint.X - CopyConveyor.Rectangle.Width / 2;
+                                }
+
+                                if (checkPoint.Y + CopyConveyor.Rectangle.Height > Ambar.Rectangle.Bottom)
+                                {
+                                    y = Ambar.Rectangle.Bottom - CopyConveyor.Rectangle.Height;
+                                }
+                                else if (checkPoint.Y - CopyConveyor.Rectangle.Height < Ambar.Rectangle.Top)
+                                {
+                                    y = Ambar.Rectangle.Top;
+                                }
+                                else
+                                {
+                                    y = CopyPoint.Y - CopyConveyor.Rectangle.Height / 2;
+                                }
+
+                                Conveyor conveyor = new Conveyor(x, y, CopyConveyor.Rectangle.Width, CopyConveyor.Rectangle.Height,
+                                Main, this, Ambar);
+
+                                conveyor.OriginalRectangle = conveyor.Rectangle;
+                                conveyor.ConveyorId = 0;
+                                conveyor.KareX = conveyor.Rectangle.X;
+                                conveyor.KareY = conveyor.Rectangle.Y;
+                                conveyor.KareEni = conveyor.Rectangle.Width;
+                                conveyor.KareBoyu = conveyor.Rectangle.Height;
+                                conveyor.OriginalKareX = conveyor.OriginalRectangle.X;
+                                conveyor.OriginalKareY = conveyor.OriginalRectangle.Y;
+                                conveyor.OriginalKareEni = conveyor.OriginalRectangle.Width;
+                                conveyor.OriginalKareBoyu = conveyor.OriginalRectangle.Height;
+                                conveyor.ConveyorEni = CopyConveyor.ConveyorEni;
+                                conveyor.ConveyorBoyu = CopyConveyor.ConveyorBoyu;
+
+                                foreach (var reff in CopyConveyor.ConveyorReferencePoints)
+                                {
+                                    float reff_start_X = CopyConveyor.Rectangle.X - reff.Rectangle.X;
+                                    float reff_start_Y = CopyConveyor.Rectangle.Y - reff.Rectangle.Y;
+                                    float reffX = conveyor.Rectangle.X + reff_start_X;
+                                    float reffY = conveyor.Rectangle.Y + reff_start_Y;
+
+                                    ConveyorReferencePoint newReff = new ConveyorReferencePoint(reffX, reffY, reff.Rectangle.Width, reff.Rectangle.Height, reff.Zoomlevel, Main, conveyor, this);
+
+                                    newReff.ReferenceId = 0;
+                                    newReff.KareX = newReff.Rectangle.X;
+                                    newReff.KareY = newReff.Rectangle.Y;
+                                    newReff.KareEni = newReff.Rectangle.Width;
+                                    newReff.KareBoyu = newReff.Rectangle.Height;
+                                    newReff.OriginalKareX = newReff.OriginalRectangle.X;
+                                    newReff.OriginalKareY = newReff.OriginalRectangle.Y;
+                                    newReff.OriginalKareEni = newReff.OriginalRectangle.Width;
+                                    newReff.OriginalKareBoyu = newReff.OriginalRectangle.Height;
+                                    newReff.ParentConveyor = conveyor;
+                                    newReff.FixedPointLocation = reff.FixedPointLocation;
+                                    newReff.Info = reff.Info;
+                                    newReff.Pointsize = 4;
+
+                                    float X = newReff.Rectangle.X - conveyor.Rectangle.X;
+                                    float Y = newReff.Rectangle.Y - conveyor.Rectangle.Y;
+
+                                    newReff.OriginalLocationInsideParent = new PointF(X, Y);
+
+                                    conveyor.ConveyorReferencePoints.Add(newReff);
+                                }
+
+
+                                bool ifintersects = CheckifIntersects(RectangleF.Empty, conveyor.Rectangle, null, conveyor);
+
+                                if (ifintersects)
+                                {
+                                    CustomNotifyIcon notify = new CustomNotifyIcon();
+                                    notify.showAlert("Başka bir alana yapıştıramazsınız.", CustomNotifyIcon.enmType.Info);
+                                }
+                                else
+                                {
+                                    Ambar.conveyors.Add(conveyor);
+                                    drawingPanel.Invalidate();
+                                }
                             }
                             else
                             {
-                                Ambar.conveyors.Add(conveyor);
-                                drawingPanel.Invalidate();
+                                CustomNotifyIcon notify = new CustomNotifyIcon();
+                                notify.showAlert("Conveyor'u sadece alanın içerisine yapıştırabilirsiniz.", CustomNotifyIcon.enmType.Info);
                             }
-                        }
-                        else
-                        {
-                            CustomNotifyIcon notify = new CustomNotifyIcon();
-                            notify.showAlert("Conveyor'u sadece alanın içerisine yapıştırabilirsiniz.", CustomNotifyIcon.enmType.Info);
                         }
                     }
                 }
-            }
 
-            if (e.KeyCode == Keys.Delete)
-            {
-                if (Ambar != null)
+                if (e.KeyCode == Keys.Delete)
                 {
-                    if (selectedDepo != null)
+                    if (Ambar != null)
                     {
-                        Ambar.deletedDepos.Add(selectedDepo);
-                        Ambar.depolar.Remove(selectedDepo);
-                        if (LeftSide_LayoutPanel.Visible)
+                        if (selectedDepo != null)
                         {
-                            MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
-                            menuProcess = false;
+                            Ambar.deletedDepos.Add(selectedDepo);
+                            Ambar.depolar.Remove(selectedDepo);
+                            if (LeftSide_LayoutPanel.Visible)
+                            {
+                                MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
+                                menuProcess = false;
+                            }
+
+                            if (RightSide_LayoutPanel.Visible)
+                            {
+                                if (Depo_Olusturma_Paneli.Visible)
+                                {
+                                    RightSide_LayoutPanel.ScrollControlIntoView(Depo_Olusturma_Paneli);
+                                }
+                                else
+                                {
+                                    GVisual.ShowControl(Depo_Olusturma_Paneli, RightSide_LayoutPanel);
+                                    RightSide_LayoutPanel.ScrollControlIntoView(Depo_Olusturma_Paneli);
+                                }
+                            }
                         }
 
-                        if (RightSide_LayoutPanel.Visible)
+                        if (selectedConveyor != null)
                         {
-                            if (Depo_Olusturma_Paneli.Visible)
+                            Ambar.deletedConveyors.Add(selectedConveyor);
+                            Ambar.conveyors.Remove(selectedConveyor);
+                            if (LeftSide_LayoutPanel.Visible)
                             {
-                                RightSide_LayoutPanel.ScrollControlIntoView(Depo_Olusturma_Paneli);
+                                MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
+                                menuProcess = false;
+                                AddReferencePoint = false;
                             }
-                            else
+                            if (RightSide_LayoutPanel.Visible)
                             {
-                                GVisual.ShowControl(Depo_Olusturma_Paneli, RightSide_LayoutPanel);
-                                RightSide_LayoutPanel.ScrollControlIntoView(Depo_Olusturma_Paneli);
+                                if (Conveyor_Olusturma_Paneli.Visible)
+                                {
+                                    RightSide_LayoutPanel.ScrollControlIntoView(Conveyor_Olusturma_Paneli);
+                                }
+                                else
+                                {
+                                    GVisual.ShowControl(Conveyor_Olusturma_Paneli, RightSide_LayoutPanel);
+                                    RightSide_LayoutPanel.ScrollControlIntoView(Conveyor_Olusturma_Paneli);
+                                }
                             }
                         }
                     }
-
-                    if (selectedConveyor != null)
-                    {
-                        Ambar.deletedConveyors.Add(selectedConveyor);
-                        Ambar.conveyors.Remove(selectedConveyor);
-                        if (LeftSide_LayoutPanel.Visible)
-                        {
-                            MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
-                            menuProcess = false;
-                            AddReferencePoint = false;
-                        }
-                        if (RightSide_LayoutPanel.Visible)
-                        {
-                            if (Conveyor_Olusturma_Paneli.Visible)
-                            {
-                                RightSide_LayoutPanel.ScrollControlIntoView(Conveyor_Olusturma_Paneli);
-                            }
-                            else
-                            {
-                                GVisual.ShowControl(Conveyor_Olusturma_Paneli, RightSide_LayoutPanel);
-                                RightSide_LayoutPanel.ScrollControlIntoView(Conveyor_Olusturma_Paneli);
-                            }
-                        }
-                    }
+                    drawingPanel.Invalidate();
                 }
-                drawingPanel.Invalidate();
             }
         }
 
@@ -1861,7 +1868,7 @@ namespace Balya_Yerleştirme
                         Fill_WareHouse == false)
                     {
                         g.DrawRectangle(SelectedConveyorPen, conv.Rectangle);
-                        
+
                         SelectedConveyorEdgePen.DashStyle = DashStyle.Dash;
                         DrawLeftLines(SelectedConveyorEdgePen, g, rects, conv.Rectangle,
                             Ambar.Rectangle);
@@ -4756,7 +4763,7 @@ namespace Balya_Yerleştirme
                 {
                     errorProvider.SetError(txt_Depo_Item_2_Tur_Kodu, "İkinci tür kodu 15 karakterden uzun olamaz.");
                 }
-                
+
                 if (depo_item_kind.Length == 0 && depo_item_kind_secondary.Length > 0)
                 {
                     errorProvider.SetError(txt_Depo_Item_Turu, "Eğer ikinci tür kodunu girecekseniz ilkini de girmek zorundasınız");
@@ -7046,7 +7053,95 @@ namespace Balya_Yerleştirme
 
 
 
+        private void PanelWrap(Panel panel, System.Windows.Forms.Control HideControl, System.Windows.Forms.Control ShowControl, bool wrap)
+        {
+            if (wrap)
+            {
+                GVisual.HideControl(HideControl, panel);
+                GVisual.ShowControl(ShowControl, panel);
+            }
+            else
+            {
+                GVisual.ShowControl(ShowControl, panel);
+                GVisual.ShowControl(HideControl, panel);
+            }
+        }
 
+        private void btn_OpenClose_Alan_Olusturma_Paneli_Click(object sender, EventArgs e)
+        {
+            if (Alan_Olusturma_Paneli.Size == SmallPanelSize)
+            {
+                GVisual.ChangeSize_of_Control(Alan_Olusturma_Paneli, new Size(310, 388));
+                RightSide_LayoutPanel.ScrollControlIntoView(Alan_Olusturma_Paneli);
+                GVisual.HideControl(lbl_Small_Alan_Title, SubPanel_Alan_Olusturma_Paneli_Controls);
+                btn_OpenClose_Alan_Olusturma_Paneli.Image = Resources.Resource1.Chevron_Up;
+                PanelWrap(Alan_Olusturma_Paneli, SubPanel_Alan_Olusturma_Paneli, SubPanel_Alan_Olusturma_Paneli_Controls, false);
+            }
+            else
+            {
+                GVisual.ChangeSize_of_Control(Alan_Olusturma_Paneli, SmallPanelSize);
+                GVisual.ShowControl(lbl_Small_Alan_Title, SubPanel_Alan_Olusturma_Paneli_Controls);
+                btn_OpenClose_Alan_Olusturma_Paneli.Image = Resources.Resource1.Chevron_Down;
+                PanelWrap(Alan_Olusturma_Paneli, SubPanel_Alan_Olusturma_Paneli, SubPanel_Alan_Olusturma_Paneli_Controls, true);
+            }
+        }
+
+        private void btn_OpenClose_Izgara_Haritasi_Olusturma_Paneli_Click(object sender, EventArgs e)
+        {
+            if (Izgara_Olusturma_Paneli.Size == SmallPanelSize)
+            {
+                GVisual.ChangeSize_of_Control(Izgara_Olusturma_Paneli, new Size(310, 883));
+                RightSide_LayoutPanel.ScrollControlIntoView(Izgara_Olusturma_Paneli);
+                GVisual.HideControl(lbl_Small_Izgara_Title, SubPanel_Izgara_Haritasi_Olusturma_Paneli_Controls);
+                btn_OpenClose_Izgara_Haritasi_Olusturma_Paneli.Image = Resources.Resource1.Chevron_Up;
+                PanelWrap(Izgara_Olusturma_Paneli, SubPanel_Izgara_Haritasi_Olusturma_Paneli, SubPanel_Izgara_Haritasi_Olusturma_Paneli_Controls, false);
+            }
+            else
+            {
+                GVisual.ChangeSize_of_Control(Izgara_Olusturma_Paneli, SmallPanelSize);
+                GVisual.ShowControl(lbl_Small_Izgara_Title, SubPanel_Izgara_Haritasi_Olusturma_Paneli_Controls);
+                btn_OpenClose_Izgara_Haritasi_Olusturma_Paneli.Image = Resources.Resource1.Chevron_Down;
+                PanelWrap(Izgara_Olusturma_Paneli, SubPanel_Izgara_Haritasi_Olusturma_Paneli, SubPanel_Izgara_Haritasi_Olusturma_Paneli_Controls, true);
+            }
+        }
+
+        private void btn_OpenClose_Depo_Olusturma_Paneli_Click(object sender, EventArgs e)
+        {
+            if (Depo_Olusturma_Paneli.Size == SmallPanelSize)
+            {
+                GVisual.ChangeSize_of_Control(Depo_Olusturma_Paneli, new Size(310, 883));
+                RightSide_LayoutPanel.ScrollControlIntoView(Depo_Olusturma_Paneli);
+                GVisual.HideControl(lbl_Small_Depo_Title, SubPanel_Depo_Olusturma_Paneli_Controls);
+                btn_OpenClose_Depo_Olusturma_Paneli.Image = Resources.Resource1.Chevron_Up;
+                PanelWrap(Depo_Olusturma_Paneli, SubPanel_Depo_Olusturma_Paneli, SubPanel_Depo_Olusturma_Paneli_Controls, false);
+            }
+            else
+            {
+                GVisual.ChangeSize_of_Control(Depo_Olusturma_Paneli, SmallPanelSize);
+                GVisual.ShowControl(lbl_Small_Depo_Title, SubPanel_Depo_Olusturma_Paneli_Controls);
+                btn_OpenClose_Depo_Olusturma_Paneli.Image = Resources.Resource1.Chevron_Down;
+                PanelWrap(Depo_Olusturma_Paneli, SubPanel_Depo_Olusturma_Paneli, SubPanel_Depo_Olusturma_Paneli_Controls, true);
+            }
+        }
+
+        private void btn_OpenClose_Conveyor_Olusturma_Paneli_Click(object sender, EventArgs e)
+        {
+            if (Conveyor_Olusturma_Paneli.Size == SmallPanelSize)
+            {
+                GVisual.ChangeSize_of_Control(Conveyor_Olusturma_Paneli, new Size(310, 420));
+                RightSide_LayoutPanel.ScrollControlIntoView(Conveyor_Olusturma_Paneli);
+                GVisual.HideControl(lbl_Small_Conveyor_Title, SubPanel_Conveyor_Olusturma_Paneli_Controls);
+                btn_OpenClose_Conveyor_Olusturma_Paneli.Image = Resources.Resource1.Chevron_Up;
+                PanelWrap(Conveyor_Olusturma_Paneli, SubPanel_Conveyor_Olusturma_Paneli, SubPanel_Conveyor_Olusturma_Paneli_Controls, false);
+            }
+            else
+            {
+                GVisual.ChangeSize_of_Control(Conveyor_Olusturma_Paneli, SmallPanelSize);
+                GVisual.ShowControl(lbl_Small_Conveyor_Title, SubPanel_Conveyor_Olusturma_Paneli_Controls);
+                btn_OpenClose_Conveyor_Olusturma_Paneli.Image = Resources.Resource1.Chevron_Down;
+                PanelWrap(Conveyor_Olusturma_Paneli, SubPanel_Conveyor_Olusturma_Paneli, SubPanel_Conveyor_Olusturma_Paneli_Controls, true);
+            }
+        }
 
 
 
