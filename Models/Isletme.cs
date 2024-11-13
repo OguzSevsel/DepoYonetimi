@@ -6,22 +6,20 @@ using System.Threading.Tasks;
 
 namespace Balya_Yerleştirme.Models
 {
-    public partial class Layout
+    public partial class Isletme
     {
-        public Layout() { }
+        public Isletme() { }
 
-        public Layout(int isletme_id, string name, string description, int lastclosed) 
-        { 
-            IsletmeID = isletme_id;
+        public Isletme(string name, string description, int lastclosed)
+        {
             Name = name;
             Description = description;
-            LastClosedLayout = lastclosed;
+            LastClosedIsletme = lastclosed;
         }
 
-        public int LayoutId { get; set; }
         public int IsletmeID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public int LastClosedLayout { get; set; }
+        public int LastClosedIsletme { get; set; }
     }
 }

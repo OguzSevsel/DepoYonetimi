@@ -82,6 +82,7 @@ namespace Balya_Yerleştirme
             using (var context = new DBContext())
             {
                 var layouts = (from x in context.Layout
+                               where x.IsletmeID == Main.Isletme.IsletmeID
                                select x).ToList();
 
                 LayoutCount = layouts.Count;
@@ -89,7 +90,7 @@ namespace Balya_Yerleştirme
 
                 if (layouts.Count == 0)
                 {
-                    MessageBox.Show("Kayıtlı layout bulunamadı, lütfen layout oluşturduktan sonra tekrar deneyin.", "Layout bulunamadı.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("İşletmeye kayıtlı layout bulunamadı, lütfen layout oluşturduktan sonra tekrar deneyin.", "Layout bulunamadı.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     this.DialogResult = DialogResult.Cancel;
                 }
                 else

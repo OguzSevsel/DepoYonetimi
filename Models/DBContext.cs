@@ -17,6 +17,8 @@ public partial class DBContext : DbContext
 
     public virtual DbSet<Layout> Layout { get; set; }
 
+    public virtual DbSet<Isletme> Isletme { get; set; }
+
     public virtual DbSet<Ambar> Ambars { get; set; }
 
     public virtual DbSet<Cell> Cells { get; set; }
@@ -46,6 +48,7 @@ public partial class DBContext : DbContext
             entity.ToTable("Layout");
 
             entity.Property(e => e.LayoutId).HasColumnName("Layout_id");
+            entity.Property(e => e.IsletmeID).HasColumnName("Isletme_id");
             entity.Property(e => e.Description).HasColumnName("Layout_description");
             entity.Property(e => e.LastClosedLayout).HasColumnName("LastClosedLayout");
             entity.Property(e => e.Name)
@@ -53,6 +56,17 @@ public partial class DBContext : DbContext
                 .HasColumnName("Layout_name");
         });
 
+        modelBuilder.Entity<Isletme>(entity =>
+        {
+            entity.ToTable("Isletme");
+
+            entity.Property(e => e.IsletmeID).HasColumnName("Isletme_id");
+            entity.Property(e => e.Description).HasColumnName("Isletme_description");
+            entity.Property(e => e.LastClosedIsletme).HasColumnName("LastClosedIsletme");
+            entity.Property(e => e.Name)
+                .HasMaxLength(30)
+                .HasColumnName("Isletme_name");
+        });
 
         modelBuilder.Entity<Ambar>(entity =>
         {

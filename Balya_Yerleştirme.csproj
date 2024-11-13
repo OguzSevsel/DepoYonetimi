@@ -29,6 +29,9 @@
     <Reference Include="CustomNotification">
       <HintPath>..\CustomNotification\bin\Debug\net8.0-windows\CustomNotification.dll</HintPath>
     </Reference>
+    <Reference Include="DLL">
+      <HintPath>..\DLL\bin\Debug\DLL.dll</HintPath>
+    </Reference>
     <Reference Include="GUI Library">
       <HintPath>..\GUI Library\bin\Debug\net8.0-windows\GUI Library.dll</HintPath>
     </Reference>

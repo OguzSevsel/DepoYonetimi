@@ -173,11 +173,13 @@
             txt_Nesne_Etiketi_DB_Address = new Krypton.Toolkit.KryptonTextBox();
             ToolStrip = new Krypton.Toolkit.KryptonToolStrip();
             toolStripSeparator = new ToolStripSeparator();
+            toolStripBTN_Isletme_Sec = new ToolStripButton();
             toolStripBTN_Layout_Sec = new ToolStripButton();
             toolStripSeparator1 = new ToolStripSeparator();
-            btn_PLC_Connection = new ToolStripButton();
+            toolstripBTN_addItemFromOrders = new ToolStripButton();
             toolStripButtonShowCellTag = new ToolStripButton();
             toolStripBTN_ExportToExcel = new ToolStripButton();
+            btn_PLC_Connection = new ToolStripButton();
             toolStripButton1 = new ToolStripButton();
             Balya_Context_Menu_Strip = new ContextMenuStrip(components);
             depodakiNesneleriGörüntüleToolStripMenuItem = new ToolStripMenuItem();
@@ -199,7 +201,6 @@
             PLC_Timer = new System.Windows.Forms.Timer(components);
             rightLayoutPanel = new FlowLayoutPanel();
             leftLayoutPanel = new FlowLayoutPanel();
-            toolstripBTN_addItemFromOrders = new ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)Nesne_Yerlestirme_First_Panel).BeginInit();
             Nesne_Yerlestirme_First_Panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)combo_Tur_Kodu_2_Etiket).BeginInit();
@@ -2076,10 +2077,10 @@
             ToolStrip.Dock = DockStyle.None;
             ToolStrip.Font = new Font("Segoe UI", 9F);
             ToolStrip.ImageScalingSize = new Size(30, 30);
-            ToolStrip.Items.AddRange(new ToolStripItem[] { toolStripSeparator, toolStripBTN_Layout_Sec, toolStripSeparator1, toolstripBTN_addItemFromOrders, toolStripButtonShowCellTag, toolStripBTN_ExportToExcel, btn_PLC_Connection, toolStripButton1 });
+            ToolStrip.Items.AddRange(new ToolStripItem[] { toolStripSeparator, toolStripBTN_Isletme_Sec, toolStripBTN_Layout_Sec, toolStripSeparator1, toolstripBTN_addItemFromOrders, toolStripButtonShowCellTag, toolStripBTN_ExportToExcel, btn_PLC_Connection, toolStripButton1 });
             ToolStrip.Location = new Point(12, 12);
             ToolStrip.Name = "ToolStrip";
-            ToolStrip.Size = new Size(364, 73);
+            ToolStrip.Size = new Size(363, 73);
             ToolStrip.TabIndex = 18;
             ToolStrip.Text = "Create Tools and Areas";
             // 
@@ -2087,6 +2088,17 @@
             // 
             toolStripSeparator.Name = "toolStripSeparator";
             toolStripSeparator.Size = new Size(6, 73);
+            // 
+            // toolStripBTN_Isletme_Sec
+            // 
+            toolStripBTN_Isletme_Sec.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripBTN_Isletme_Sec.Image = Resources.Resource1.Business_Building;
+            toolStripBTN_Isletme_Sec.ImageScaling = ToolStripItemImageScaling.None;
+            toolStripBTN_Isletme_Sec.ImageTransparentColor = Color.Magenta;
+            toolStripBTN_Isletme_Sec.Name = "toolStripBTN_Isletme_Sec";
+            toolStripBTN_Isletme_Sec.Size = new Size(54, 70);
+            toolStripBTN_Isletme_Sec.Text = "toolStripButton2";
+            toolStripBTN_Isletme_Sec.Click += toolStripBTN_Isletme_Sec_Click;
             // 
             // toolStripBTN_Layout_Sec
             // 
@@ -2104,16 +2116,16 @@
             toolStripSeparator1.Name = "toolStripSeparator1";
             toolStripSeparator1.Size = new Size(6, 73);
             // 
-            // btn_PLC_Connection
+            // toolstripBTN_addItemFromOrders
             // 
-            btn_PLC_Connection.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            btn_PLC_Connection.Image = Resources.Resource1.Programming_Logic_Controller;
-            btn_PLC_Connection.ImageScaling = ToolStripItemImageScaling.None;
-            btn_PLC_Connection.ImageTransparentColor = Color.Magenta;
-            btn_PLC_Connection.Name = "btn_PLC_Connection";
-            btn_PLC_Connection.Size = new Size(54, 70);
-            btn_PLC_Connection.ToolTipText = "PLC Bağlantısını Ayarla";
-            btn_PLC_Connection.Click += btn_PLC_Connection_Click;
+            toolstripBTN_addItemFromOrders.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolstripBTN_addItemFromOrders.Image = Resources.Resource1.Square_Bale1;
+            toolstripBTN_addItemFromOrders.ImageScaling = ToolStripItemImageScaling.None;
+            toolstripBTN_addItemFromOrders.ImageTransparentColor = Color.Magenta;
+            toolstripBTN_addItemFromOrders.Name = "toolstripBTN_addItemFromOrders";
+            toolstripBTN_addItemFromOrders.Size = new Size(54, 70);
+            toolstripBTN_addItemFromOrders.ToolTipText = "İş emirlerinden nesne ekle";
+            toolstripBTN_addItemFromOrders.Click += toolstripBTN_addItemFromOrders_Click;
             // 
             // toolStripButtonShowCellTag
             // 
@@ -2136,6 +2148,17 @@
             toolStripBTN_ExportToExcel.Size = new Size(54, 70);
             toolStripBTN_ExportToExcel.ToolTipText = "Excel Çıktısı Al";
             toolStripBTN_ExportToExcel.Click += toolStripBTN_ExportToExcel_Click;
+            // 
+            // btn_PLC_Connection
+            // 
+            btn_PLC_Connection.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            btn_PLC_Connection.Image = Resources.Resource1.Programming_Logic_Controller;
+            btn_PLC_Connection.ImageScaling = ToolStripItemImageScaling.None;
+            btn_PLC_Connection.ImageTransparentColor = Color.Magenta;
+            btn_PLC_Connection.Name = "btn_PLC_Connection";
+            btn_PLC_Connection.Size = new Size(54, 70);
+            btn_PLC_Connection.ToolTipText = "PLC Bağlantısını Ayarla";
+            btn_PLC_Connection.Click += btn_PLC_Connection_Click;
             // 
             // toolStripButton1
             // 
@@ -2293,7 +2316,7 @@
             PLC_Connection_Panel.Controls.Add(lbl_PLC_IP_Address);
             PLC_Connection_Panel.Controls.Add(txt_PLC_IP_Address);
             PLC_Connection_Panel.Controls.Add(btn_Connect_to_PLC);
-            PLC_Connection_Panel.Location = new Point(379, 12);
+            PLC_Connection_Panel.Location = new Point(378, 12);
             PLC_Connection_Panel.Name = "PLC_Connection_Panel";
             PLC_Connection_Panel.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
             PLC_Connection_Panel.Size = new Size(312, 73);
@@ -2358,17 +2381,6 @@
             leftLayoutPanel.Name = "leftLayoutPanel";
             leftLayoutPanel.Size = new Size(364, 909);
             leftLayoutPanel.TabIndex = 24;
-            // 
-            // toolstripBTN_addItemFromOrders
-            // 
-            toolstripBTN_addItemFromOrders.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            toolstripBTN_addItemFromOrders.Image = Resources.Resource1.Square_Bale1;
-            toolstripBTN_addItemFromOrders.ImageScaling = ToolStripItemImageScaling.None;
-            toolstripBTN_addItemFromOrders.ImageTransparentColor = Color.Magenta;
-            toolstripBTN_addItemFromOrders.Name = "toolstripBTN_addItemFromOrders";
-            toolstripBTN_addItemFromOrders.Size = new Size(54, 70);
-            toolstripBTN_addItemFromOrders.ToolTipText = "İş emirlerinden nesne ekle";
-            toolstripBTN_addItemFromOrders.Click += toolstripBTN_addItemFromOrders_Click;
             // 
             // MainForm
             // 
@@ -2614,5 +2626,6 @@
         public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge46;
         public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge25;
         private ToolStripButton toolstripBTN_addItemFromOrders;
+        private ToolStripButton toolStripBTN_Isletme_Sec;
     }
 }

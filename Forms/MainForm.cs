@@ -24,6 +24,7 @@ using CustomNotification;
 using System.Runtime.CompilerServices;
 using System.Net.Security;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Balya_Yerleştirme.Forms;
 
 
 
@@ -33,12 +34,15 @@ namespace Balya_Yerleştirme
     {
         public Ambar? ambar { get; set; }
         public Depo selectedDepo { get; set; }
+        public Isletme Isletme { get; set; }
         public bool Move { get; set; } = false;
         public float opcount { get; set; } = 0;
         public Size PanelSize { get; set; }
-        public string InputPath {  get; set; }
+        public string InputPath { get; set; }
         public string OutputPath { get; set; }
         public string FailedPath { get; set; }
+
+
 
 
         #region PLC Operations
@@ -983,7 +987,7 @@ namespace Balya_Yerleştirme
                 {
                     if (layout == null)
                     {
-                        Models.Layout newLayout = new Models.Layout(LayoutName, LayoutDescription, 0);
+                        Models.Layout newLayout = new Models.Layout(Isletme.IsletmeID, LayoutName, LayoutDescription, 0);
                         await context.Layout.AddAsync(newLayout);
                         await context.SaveChangesAsync();
                         ambar.LayoutId = newLayout.LayoutId;
@@ -2420,222 +2424,234 @@ namespace Balya_Yerleştirme
         {
             using (var context = new DBContext())
             {
-                var layout = (from x in context.Layout
-                              where x.LastClosedLayout == 1
-                              select x).FirstOrDefault();
+                var isletme = (from x in context.Isletme
+                               where x.LastClosedIsletme == 1
+                               select x).FirstOrDefault();
 
-                if (layout != null)
+                if (isletme != null)
                 {
-                    var Dbambar = (from x in context.Ambars
-                                   where x.LayoutId == layout.LayoutId
-                                   select x).FirstOrDefault();
+                    Isletme = isletme;
 
-                    if (Dbambar != null)
+                    var layout = (from x in context.Layout
+                                  where x.LastClosedLayout == 1 && x.IsletmeID == isletme.IsletmeID
+                                  select x).FirstOrDefault();
+
+                    if (layout != null)
                     {
-                        Ambar loadedAmbar = new Ambar(Dbambar.KareX, Dbambar.KareY,
-                            Dbambar.KareEni, Dbambar.KareBoyu, this, null);
+                        var Dbambar = (from x in context.Ambars
+                                       where x.LayoutId == layout.LayoutId
+                                       select x).FirstOrDefault();
 
-                        loadedAmbar.AmbarId = Dbambar.AmbarId;
-                        loadedAmbar.LayoutId = Dbambar.LayoutId;
-                        loadedAmbar.AmbarName = Dbambar.AmbarName;
-                        loadedAmbar.AmbarDescription = Dbambar.AmbarDescription;
-                        loadedAmbar.AmbarEni = Dbambar.AmbarEni;
-                        loadedAmbar.AmbarBoyu = Dbambar.AmbarBoyu;
-                        loadedAmbar.KareX = Dbambar.KareX;
-                        loadedAmbar.KareY = Dbambar.KareY;
-                        loadedAmbar.KareEni = Dbambar.KareEni;
-                        loadedAmbar.KareBoyu = Dbambar.KareBoyu;
-                        loadedAmbar.OriginalKareX = Dbambar.OriginalKareX;
-                        loadedAmbar.OriginalKareY = Dbambar.OriginalKareY;
-                        loadedAmbar.OriginalKareEni = Dbambar.OriginalKareEni;
-                        loadedAmbar.OriginalKareBoyu = Dbambar.OriginalKareBoyu;
-                        loadedAmbar.Zoomlevel = Zoomlevel;
-                        ambar = loadedAmbar;
-                        var depos = (from x in context.Depos
-                                     where x.AmbarId == Dbambar.AmbarId
-                                     select x).ToList();
-
-                        foreach (var depo in depos)
+                        if (Dbambar != null)
                         {
-                            Depo newDepo = new Depo(depo.KareX, depo.KareY,
-                                depo.KareEni, depo.KareBoyu, Zoomlevel, this,
-                                null, loadedAmbar);
+                            Ambar loadedAmbar = new Ambar(Dbambar.KareX, Dbambar.KareY,
+                                Dbambar.KareEni, Dbambar.KareBoyu, this, null);
 
-                            newDepo.DepoId = depo.DepoId;
-                            newDepo.Yerlestirilme_Sirasi = depo.Yerlestirilme_Sirasi;
-                            newDepo.asama1_Yuksekligi = depo.asama1_Yuksekligi;
-                            newDepo.asama2_Yuksekligi = depo.asama2_Yuksekligi;
-                            newDepo.itemDrop_StartLocation = depo.itemDrop_StartLocation;
-                            newDepo.itemDrop_UpDown = depo.itemDrop_UpDown;
-                            newDepo.itemDrop_LeftRight = depo.itemDrop_LeftRight;
-                            newDepo.ColumnCount = depo.ColumnCount;
-                            newDepo.RowCount = depo.RowCount;
-                            newDepo.Cm_Width = depo.Depo_Alani_Eni_Cm;
-                            newDepo.Cm_Height = depo.Depo_Alani_Boyu_Cm;
-
-                            newDepo.AmbarId = depo.AmbarId;
-                            newDepo.DepoName = depo.DepoName;
-                            newDepo.DepoDescription = depo.DepoDescription;
-                            newDepo.DepoAlaniYuksekligi = depo.DepoAlaniYuksekligi;
-                            newDepo.DepoAlaniEni = depo.DepoAlaniEni;
-                            newDepo.DepoAlaniBoyu = depo.DepoAlaniBoyu;
-                            newDepo.currentStage = depo.currentStage;
-                            newDepo.asama1_ItemSayisi = depo.asama1_ItemSayisi;
-                            newDepo.asama2_ToplamItemSayisi = depo.asama2_ToplamItemSayisi;
-                            newDepo.ItemTuru = depo.ItemTuru;
-                            newDepo.ItemTuruSecondary = depo.ItemTuruSecondary;
-
-                            newDepo.nesneEni = depo.nesneEni;
-                            newDepo.nesneBoyu = depo.nesneBoyu;
-                            newDepo.nesneYuksekligi = depo.nesneYuksekligi;
-                            newDepo.KareX = depo.KareX;
-                            newDepo.KareY = depo.KareY;
-                            newDepo.KareEni = depo.KareEni;
-                            newDepo.KareBoyu = depo.KareBoyu;
-                            newDepo.OriginalKareX = depo.OriginalKareX;
-                            newDepo.OriginalKareY = depo.OriginalKareY;
-                            newDepo.OriginalKareEni = depo.OriginalKareEni;
-                            newDepo.OriginalKareBoyu = depo.OriginalKareBoyu;
-                            newDepo.currentColumn = depo.currentColumn;
-                            newDepo.currentRow = depo.currentRow;
-
-                            loadedAmbar.depolar.Add(newDepo);
-
-                            var cells = (from x in context.Cells
-                                         where x.DepoId == newDepo.DepoId
+                            loadedAmbar.AmbarId = Dbambar.AmbarId;
+                            loadedAmbar.LayoutId = Dbambar.LayoutId;
+                            loadedAmbar.AmbarName = Dbambar.AmbarName;
+                            loadedAmbar.AmbarDescription = Dbambar.AmbarDescription;
+                            loadedAmbar.AmbarEni = Dbambar.AmbarEni;
+                            loadedAmbar.AmbarBoyu = Dbambar.AmbarBoyu;
+                            loadedAmbar.KareX = Dbambar.KareX;
+                            loadedAmbar.KareY = Dbambar.KareY;
+                            loadedAmbar.KareEni = Dbambar.KareEni;
+                            loadedAmbar.KareBoyu = Dbambar.KareBoyu;
+                            loadedAmbar.OriginalKareX = Dbambar.OriginalKareX;
+                            loadedAmbar.OriginalKareY = Dbambar.OriginalKareY;
+                            loadedAmbar.OriginalKareEni = Dbambar.OriginalKareEni;
+                            loadedAmbar.OriginalKareBoyu = Dbambar.OriginalKareBoyu;
+                            loadedAmbar.Zoomlevel = Zoomlevel;
+                            ambar = loadedAmbar;
+                            var depos = (from x in context.Depos
+                                         where x.AmbarId == Dbambar.AmbarId
                                          select x).ToList();
 
-                            foreach (var cell in cells)
+                            foreach (var depo in depos)
                             {
-                                Balya_Yerleştirme.Models.Cell newCell =
-                                    new Balya_Yerleştirme.Models.Cell(cell.KareX, cell.KareY, cell.KareEni,
-                                    cell.KareBoyu, this, newDepo, null);
+                                Depo newDepo = new Depo(depo.KareX, depo.KareY,
+                                    depo.KareEni, depo.KareBoyu, Zoomlevel, this,
+                                    null, loadedAmbar);
 
-                                newCell.Column = cell.Column;
-                                newCell.Row = cell.Row;
-                                newCell.CellId = cell.CellId;
-                                newCell.DepoId = newDepo.DepoId;
-                                newCell.CellYuksekligi = cell.CellYuksekligi;
-                                newCell.CellEni = cell.CellEni;
-                                newCell.CellBoyu = cell.CellBoyu;
-                                newCell.CellEtiketi = cell.CellEtiketi;
-                                newCell.NesneEni = cell.NesneEni;
-                                newCell.NesneBoyu = cell.NesneBoyu;
-                                newCell.NesneYuksekligi = cell.NesneYuksekligi;
-                                newDepo.nesneYuksekligi = cell.NesneYuksekligi;
+                                newDepo.DepoId = depo.DepoId;
+                                newDepo.Yerlestirilme_Sirasi = depo.Yerlestirilme_Sirasi;
+                                newDepo.asama1_Yuksekligi = depo.asama1_Yuksekligi;
+                                newDepo.asama2_Yuksekligi = depo.asama2_Yuksekligi;
+                                newDepo.itemDrop_StartLocation = depo.itemDrop_StartLocation;
+                                newDepo.itemDrop_UpDown = depo.itemDrop_UpDown;
+                                newDepo.itemDrop_LeftRight = depo.itemDrop_LeftRight;
+                                newDepo.ColumnCount = depo.ColumnCount;
+                                newDepo.RowCount = depo.RowCount;
+                                newDepo.Cm_Width = depo.Depo_Alani_Eni_Cm;
+                                newDepo.Cm_Height = depo.Depo_Alani_Boyu_Cm;
 
-                                newCell.CellMalSayisi = cell.CellMalSayisi;
-                                newCell.ItemSayisi = cell.ItemSayisi;
-                                newCell.DikeyKenarBoslugu = cell.DikeyKenarBoslugu;
-                                newCell.YatayKenarBoslugu = cell.YatayKenarBoslugu;
+                                newDepo.AmbarId = depo.AmbarId;
+                                newDepo.DepoName = depo.DepoName;
+                                newDepo.DepoDescription = depo.DepoDescription;
+                                newDepo.DepoAlaniYuksekligi = depo.DepoAlaniYuksekligi;
+                                newDepo.DepoAlaniEni = depo.DepoAlaniEni;
+                                newDepo.DepoAlaniBoyu = depo.DepoAlaniBoyu;
+                                newDepo.currentStage = depo.currentStage;
+                                newDepo.asama1_ItemSayisi = depo.asama1_ItemSayisi;
+                                newDepo.asama2_ToplamItemSayisi = depo.asama2_ToplamItemSayisi;
+                                newDepo.ItemTuru = depo.ItemTuru;
+                                newDepo.ItemTuruSecondary = depo.ItemTuruSecondary;
 
-                                newCell.KareX = cell.KareX;
-                                newCell.KareY = cell.KareY;
-                                newCell.KareEni = cell.KareEni;
-                                newCell.KareBoyu = cell.KareBoyu;
-                                newCell.OriginalKareX = cell.OriginalKareX;
-                                newCell.OriginalKareY = cell.OriginalKareY;
-                                newCell.OriginalKareEni = cell.OriginalKareEni;
-                                newCell.OriginalKareBoyu = cell.OriginalKareBoyu;
-                                newCell.Zoomlevel = Zoomlevel;
-                                newCell.toplam_Nesne_Yuksekligi = cell.toplam_Nesne_Yuksekligi;
-                                newCell.cell_Cm_X = cell.cell_Cm_X;
-                                newCell.cell_Cm_Y = cell.cell_Cm_Y;
+                                newDepo.nesneEni = depo.nesneEni;
+                                newDepo.nesneBoyu = depo.nesneBoyu;
+                                newDepo.nesneYuksekligi = depo.nesneYuksekligi;
+                                newDepo.KareX = depo.KareX;
+                                newDepo.KareY = depo.KareY;
+                                newDepo.KareEni = depo.KareEni;
+                                newDepo.KareBoyu = depo.KareBoyu;
+                                newDepo.OriginalKareX = depo.OriginalKareX;
+                                newDepo.OriginalKareY = depo.OriginalKareY;
+                                newDepo.OriginalKareEni = depo.OriginalKareEni;
+                                newDepo.OriginalKareBoyu = depo.OriginalKareBoyu;
+                                newDepo.currentColumn = depo.currentColumn;
+                                newDepo.currentRow = depo.currentRow;
 
-                                newDepo.gridmaps.Add(newCell);
+                                loadedAmbar.depolar.Add(newDepo);
 
-                                var items = (from x in context.Items
-                                             where x.CellId == newCell.CellId
+                                var cells = (from x in context.Cells
+                                             where x.DepoId == newDepo.DepoId
                                              select x).ToList();
 
-                                foreach (var item in items)
+                                foreach (var cell in cells)
                                 {
-                                    Models.Item newItem = new Models.Item(item.OriginalKareX, item.OriginalKareY,
-                                        item.OriginalKareEni, item.OriginalKareBoyu, item.Zoomlevel, this);
+                                    Balya_Yerleştirme.Models.Cell newCell =
+                                        new Balya_Yerleştirme.Models.Cell(cell.KareX, cell.KareY, cell.KareEni,
+                                        cell.KareBoyu, this, newDepo, null);
 
-                                    newItem.ItemId = item.ItemId;
-                                    newItem.CellId = item.CellId;
+                                    newCell.Column = cell.Column;
+                                    newCell.Row = cell.Row;
+                                    newCell.CellId = cell.CellId;
+                                    newCell.DepoId = newDepo.DepoId;
+                                    newCell.CellYuksekligi = cell.CellYuksekligi;
+                                    newCell.CellEni = cell.CellEni;
+                                    newCell.CellBoyu = cell.CellBoyu;
+                                    newCell.CellEtiketi = cell.CellEtiketi;
+                                    newCell.NesneEni = cell.NesneEni;
+                                    newCell.NesneBoyu = cell.NesneBoyu;
+                                    newCell.NesneYuksekligi = cell.NesneYuksekligi;
+                                    newDepo.nesneYuksekligi = cell.NesneYuksekligi;
 
-                                    newItem.OriginalRectangle = newItem.Rectangle;
+                                    newCell.CellMalSayisi = cell.CellMalSayisi;
+                                    newCell.ItemSayisi = cell.ItemSayisi;
+                                    newCell.DikeyKenarBoslugu = cell.DikeyKenarBoslugu;
+                                    newCell.YatayKenarBoslugu = cell.YatayKenarBoslugu;
 
-                                    newItem.KareX = item.KareX;
-                                    newItem.KareY = item.KareY;
-                                    newItem.KareEni = item.KareEni;
-                                    newItem.KareBoyu = item.KareBoyu;
-                                    newItem.OriginalKareX = item.OriginalKareX;
-                                    newItem.OriginalKareY = item.OriginalKareY;
-                                    newItem.OriginalKareEni = item.OriginalKareEni;
-                                    newItem.OriginalKareBoyu = item.OriginalKareBoyu;
-                                    newItem.ItemYuksekligi = item.ItemYuksekligi;
-                                    newItem.ItemEni = item.ItemEni;
-                                    newItem.ItemBoyu = item.ItemBoyu;
-                                    newItem.ItemAciklamasi = item.ItemAciklamasi;
-                                    newItem.ItemEtiketi = item.ItemEtiketi;
-                                    newItem.ItemTuru = item.ItemTuru;
-                                    newItem.ItemAgirligi = item.ItemAgirligi;
-                                    newItem.Cm_Z_Axis = item.Cm_Z_Axis;
-                                    newItem.Cm_X_Axis = item.Cm_X_Axis;
-                                    newItem.Cm_Y_Axis = item.Cm_Y_Axis;
+                                    newCell.KareX = cell.KareX;
+                                    newCell.KareY = cell.KareY;
+                                    newCell.KareEni = cell.KareEni;
+                                    newCell.KareBoyu = cell.KareBoyu;
+                                    newCell.OriginalKareX = cell.OriginalKareX;
+                                    newCell.OriginalKareY = cell.OriginalKareY;
+                                    newCell.OriginalKareEni = cell.OriginalKareEni;
+                                    newCell.OriginalKareBoyu = cell.OriginalKareBoyu;
+                                    newCell.Zoomlevel = Zoomlevel;
+                                    newCell.toplam_Nesne_Yuksekligi = cell.toplam_Nesne_Yuksekligi;
+                                    newCell.cell_Cm_X = cell.cell_Cm_X;
+                                    newCell.cell_Cm_Y = cell.cell_Cm_Y;
 
-                                    newCell.items.Add(newItem);
+                                    newDepo.gridmaps.Add(newCell);
+
+                                    var items = (from x in context.Items
+                                                 where x.CellId == newCell.CellId
+                                                 select x).ToList();
+
+                                    foreach (var item in items)
+                                    {
+                                        Models.Item newItem = new Models.Item(item.OriginalKareX, item.OriginalKareY,
+                                            item.OriginalKareEni, item.OriginalKareBoyu, item.Zoomlevel, this);
+
+                                        newItem.ItemId = item.ItemId;
+                                        newItem.CellId = item.CellId;
+
+                                        newItem.OriginalRectangle = newItem.Rectangle;
+
+                                        newItem.KareX = item.KareX;
+                                        newItem.KareY = item.KareY;
+                                        newItem.KareEni = item.KareEni;
+                                        newItem.KareBoyu = item.KareBoyu;
+                                        newItem.OriginalKareX = item.OriginalKareX;
+                                        newItem.OriginalKareY = item.OriginalKareY;
+                                        newItem.OriginalKareEni = item.OriginalKareEni;
+                                        newItem.OriginalKareBoyu = item.OriginalKareBoyu;
+                                        newItem.ItemYuksekligi = item.ItemYuksekligi;
+                                        newItem.ItemEni = item.ItemEni;
+                                        newItem.ItemBoyu = item.ItemBoyu;
+                                        newItem.ItemAciklamasi = item.ItemAciklamasi;
+                                        newItem.ItemEtiketi = item.ItemEtiketi;
+                                        newItem.ItemTuru = item.ItemTuru;
+                                        newItem.ItemAgirligi = item.ItemAgirligi;
+                                        newItem.Cm_Z_Axis = item.Cm_Z_Axis;
+                                        newItem.Cm_X_Axis = item.Cm_X_Axis;
+                                        newItem.Cm_Y_Axis = item.Cm_Y_Axis;
+
+                                        newCell.items.Add(newItem);
+                                    }
                                 }
                             }
-                        }
 
-                        var conveyors = (from x in context.Conveyors
-                                         where x.AmbarId == ambar.AmbarId
-                                         select x).ToList();
+                            var conveyors = (from x in context.Conveyors
+                                             where x.AmbarId == ambar.AmbarId
+                                             select x).ToList();
 
-                        foreach (var conveyor in conveyors)
-                        {
-                            Conveyor newConveyor = new Conveyor(conveyor.KareX,
-                                conveyor.KareY, conveyor.KareEni, conveyor.KareBoyu,
-                                this, null, loadedAmbar);
-
-                            newConveyor.ConveyorId = conveyor.ConveyorId;
-                            newConveyor.AmbarId = loadedAmbar.AmbarId;
-                            newConveyor.ConveyorEni = conveyor.ConveyorEni;
-                            newConveyor.ConveyorBoyu = conveyor.ConveyorBoyu;
-                            newConveyor.KareX = conveyor.KareX;
-                            newConveyor.KareY = conveyor.KareY;
-                            newConveyor.KareEni = conveyor.KareEni;
-                            newConveyor.KareBoyu = conveyor.KareBoyu;
-                            newConveyor.OriginalKareX = conveyor.OriginalKareX;
-                            newConveyor.OriginalKareY = conveyor.OriginalKareY;
-                            newConveyor.OriginalKareEni = conveyor.OriginalKareEni;
-                            newConveyor.OriginalKareBoyu = conveyor.OriginalKareBoyu;
-
-                            loadedAmbar.conveyors.Add(newConveyor);
-
-                            var reffPoints = (from x in context.ConveyorReferencePoints
-                                              where x.ConveyorId == newConveyor.ConveyorId
-                                              select x).ToList();
-
-                            foreach (var reff in reffPoints)
+                            foreach (var conveyor in conveyors)
                             {
-                                ConveyorReferencePoint point = new ConveyorReferencePoint(reff.KareX,
-                                    reff.KareY, reff.KareEni, reff.KareBoyu, reff.Zoomlevel, this,
-                                    newConveyor, null);
+                                Conveyor newConveyor = new Conveyor(conveyor.KareX,
+                                    conveyor.KareY, conveyor.KareEni, conveyor.KareBoyu,
+                                    this, null, loadedAmbar);
 
-                                point.ReferenceId = reff.ReferenceId;
-                                point.KareX = reff.KareX;
-                                point.KareY = reff.KareY;
-                                point.KareEni = reff.KareEni;
-                                point.KareBoyu = reff.KareBoyu;
-                                point.OriginalKareX = reff.OriginalKareX;
-                                point.OriginalKareY = reff.OriginalKareY;
-                                point.OriginalKareEni = reff.OriginalKareEni;
-                                point.OriginalKareBoyu = reff.OriginalKareBoyu;
-                                point.ParentConveyor = newConveyor;
-                                point.Pointsize = 4;
-                                point.AmbarId = ambar.AmbarId;
-                                point.OriginalLocationInsideParent = new PointF(reff.OriginalLocationInsideParentX, reff.OriginalLocationInsideParentY);
+                                newConveyor.ConveyorId = conveyor.ConveyorId;
+                                newConveyor.AmbarId = loadedAmbar.AmbarId;
+                                newConveyor.ConveyorEni = conveyor.ConveyorEni;
+                                newConveyor.ConveyorBoyu = conveyor.ConveyorBoyu;
+                                newConveyor.KareX = conveyor.KareX;
+                                newConveyor.KareY = conveyor.KareY;
+                                newConveyor.KareEni = conveyor.KareEni;
+                                newConveyor.KareBoyu = conveyor.KareBoyu;
+                                newConveyor.OriginalKareX = conveyor.OriginalKareX;
+                                newConveyor.OriginalKareY = conveyor.OriginalKareY;
+                                newConveyor.OriginalKareEni = conveyor.OriginalKareEni;
+                                newConveyor.OriginalKareBoyu = conveyor.OriginalKareBoyu;
 
-                                newConveyor.ConveyorReferencePoints.Add(point);
+                                loadedAmbar.conveyors.Add(newConveyor);
+
+                                var reffPoints = (from x in context.ConveyorReferencePoints
+                                                  where x.ConveyorId == newConveyor.ConveyorId
+                                                  select x).ToList();
+
+                                foreach (var reff in reffPoints)
+                                {
+                                    ConveyorReferencePoint point = new ConveyorReferencePoint(reff.KareX,
+                                        reff.KareY, reff.KareEni, reff.KareBoyu, reff.Zoomlevel, this,
+                                        newConveyor, null);
+
+                                    point.ReferenceId = reff.ReferenceId;
+                                    point.KareX = reff.KareX;
+                                    point.KareY = reff.KareY;
+                                    point.KareEni = reff.KareEni;
+                                    point.KareBoyu = reff.KareBoyu;
+                                    point.OriginalKareX = reff.OriginalKareX;
+                                    point.OriginalKareY = reff.OriginalKareY;
+                                    point.OriginalKareEni = reff.OriginalKareEni;
+                                    point.OriginalKareBoyu = reff.OriginalKareBoyu;
+                                    point.ParentConveyor = newConveyor;
+                                    point.Pointsize = 4;
+                                    point.AmbarId = ambar.AmbarId;
+                                    point.OriginalLocationInsideParent = new PointF(reff.OriginalLocationInsideParentX, reff.OriginalLocationInsideParentY);
+
+                                    newConveyor.ConveyorReferencePoints.Add(point);
+                                }
                             }
                         }
                     }
                 }
+                
+
+                
                 DrawingPanel.Invalidate();
             }
         }
@@ -2703,17 +2719,35 @@ namespace Balya_Yerleştirme
             // Get all CSV files (txt files) in the specified folder
             string[] files = Directory.GetFiles(inputFolderPath, "*.txt");
             List<List<string>> fileData = new List<List<string>>();
+            bool isfilenametoolong = false;
 
             foreach (var file in files)
             {
-                var lineData = ReadCsvFile(file);
-                fileData.Add(lineData);
+                string filename = Path.GetFileNameWithoutExtension(file);
+                if (filename.Length > 22)
+                {
+                    isfilenametoolong = true;
+                }
+            }
 
-                ProcessData(fileData, inputFolderPath, outputFolderPath, failedFolderPath, file);
+            if (isfilenametoolong)
+            {
+                MessageBox.Show("Gelen iş emirlerindeki dosyaların isimlerinin uzunluğu 22 karakterden uzun olamaz lütfen kısaltıp tekrar deneyin", "Dosya ismi çok uzun", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                isfilenametoolong = false;
+            }
+            else
+            {
+                foreach (var file in files)
+                {
+                    var lineData = ReadCsvFile(file);
+                    fileData.Add(lineData);
 
-                // Delete the processed CSV file
-                //file.delete(file);
-                fileData.Clear();
+                    ProcessData(fileData, inputFolderPath, outputFolderPath, failedFolderPath, file);
+
+                    // Delete the processed CSV file
+                    //file.delete(file);
+                    fileData.Clear();
+                }
             }
         }
 
@@ -2827,9 +2861,6 @@ namespace Balya_Yerleştirme
                         else
                         {
                             faultyLines.Add(line);
-                            //MessageBox.Show
-                            //    ("Tür kodu bulunamadı, lütfen eşleşen bir tür kodu girin ya da boş bırakın.",
-                            //    "Tür kodu bulunamadı.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                     }
                 }
@@ -2864,7 +2895,7 @@ namespace Balya_Yerleştirme
                 string result = string.Empty;
                 int startindex = 0;
                 bool isbraced = false;
-                
+
                 if (compareFilename == fileNameForNoFiles)
                 {
                     foreach (var item in files)
@@ -2945,7 +2976,7 @@ namespace Balya_Yerleştirme
                     foreach (var item in files)
                     {
                         string filename1 = Path.GetFileNameWithoutExtension(item);
-                        
+
                         if (filename1.Contains('('))
                         {
                             int startIndex = filename1.IndexOf('(');
@@ -3023,7 +3054,7 @@ namespace Balya_Yerleştirme
             wb.SaveAs(path);
         }
         #endregion
-            
+
 
 
 
@@ -4091,6 +4122,11 @@ namespace Balya_Yerleştirme
 
 
 
-        
+
+        private void toolStripBTN_Isletme_Sec_Click(object sender, EventArgs e)
+        {
+            SelectBusiness business = new SelectBusiness(this);
+            business.Show();
+        }
     }
 }
