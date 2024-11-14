@@ -539,8 +539,21 @@ namespace Balya_Yerleştirme.Forms
 
                 if (isletme != null)
                 {
-                    main.Isletme = isletme;
-                    main.lbl_Main_Title.Text = isletme.Name;
+                    if (main.Isletme.IsletmeID == isletme.IsletmeID)
+                    {
+                        
+                    }
+                    else
+                    {
+                        main.Isletme = isletme;
+                        main.lbl_Main_Title.Text = isletme.Name;
+
+                        if (main.ambar != null)
+                        {
+                            main.ambar = null;
+                            main.DrawingPanel.Invalidate();
+                        }
+                    }
                     this.Hide();
                     this.Close();
                 }
@@ -557,29 +570,42 @@ namespace Balya_Yerleştirme.Forms
                 }
                 if (!errorProvider.HasErrors)
                 {
-                    Isletme isletme = (Isletme)selectedGroupBox.Tag;
 
-                    if (isletme != null)
+                    var result = MessageBox.Show($"{isletme_name} isimli işletmeyi silmek istiyor musunuz?", "Silmek istiyor musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                    if (result == DialogResult.Yes)
                     {
-                        using (var context = new DBContext())
-                        {
-                            var isletme1 = (from x in context.Isletme
-                                            where x.IsletmeID == isletme.IsletmeID
-                                            select x).FirstOrDefault();
+                        Isletme isletme = (Isletme)selectedGroupBox.Tag;
 
-                            if (isletme1 != null)
+                        if (isletme != null)
+                        {
+                            using (var context = new DBContext())
                             {
-                                context.Isletme.Remove(isletme1);
-                                context.SaveChanges();
-                                if (SelectBusinessPanel.Controls.Contains(selectedGroupBox))
+                                var isletme1 = (from x in context.Isletme
+                                                where x.IsletmeID == isletme.IsletmeID
+                                                select x).FirstOrDefault();
+
+                                if (isletme1 != null)
                                 {
-                                    SelectBusinessPanel.Controls.Remove(selectedGroupBox);
+                                    context.Isletme.Remove(isletme1);
+                                    context.SaveChanges();
+                                    if (SelectBusinessPanel.Controls.Contains(selectedGroupBox))
+                                    {
+                                        SelectBusinessPanel.Controls.Remove(selectedGroupBox);
+                                    }
+                                    selectedGroupBox.Tag = null;
+                                    selectedGroupBox = null;
+                                    CloseRightSide(panel_IsletmeMenu);
                                 }
-                                selectedGroupBox.Tag = null;
-                                selectedGroupBox = null;
-                                CloseRightSide(panel_IsletmeMenu);
                             }
                         }
+                    }
+                    else
+                    {
+                        selectedGroupBox.ForeColor = System.Drawing.Color.Blue;
+                        selectedGroupBox.BackColor = System.Drawing.Color.FromArgb(240, 240, 240);
+                        CloseRightSide(panel_IsletmeMenu);
+                        selectedGroupBox = null;
                     }
                 }
             }

@@ -51,6 +51,7 @@ public partial class Depo
         this.asama2_ToplamItemSayisi = asama2_ToplamItemSayisi;
         this.currentStage = current_stage;
     }
+
     public int DepoId { get; set; }
 
     public int AmbarId { get; set; }

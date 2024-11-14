@@ -987,121 +987,124 @@ namespace Balya_Yerleştirme
                 {
                     if (layout == null)
                     {
-                        Models.Layout newLayout = new Models.Layout(Isletme.IsletmeID, LayoutName, LayoutDescription, 0);
-                        await context.Layout.AddAsync(newLayout);
-                        await context.SaveChangesAsync();
-                        ambar.LayoutId = newLayout.LayoutId;
-
-
-                        Ambar newAmbar = new Ambar(newLayout.LayoutId, "ambar", "ambar",
-                                ambar.KareX, ambar.KareY, ambar.KareEni, ambar.KareBoyu,
-                                ambar.OriginalKareX, ambar.OriginalKareY,
-                                ambar.OriginalKareEni, ambar.OriginalKareBoyu,
-                                ambar.Zoomlevel, ambar.AmbarEni, ambar.AmbarBoyu);
-
-                        await context.Ambars.AddAsync(newAmbar);
-                        await context.SaveChangesAsync();
-                        ambar.AmbarId = newAmbar.AmbarId;
-
-                        foreach (var depo in ambar.deletedDepos)
+                        if (Isletme != null)
                         {
-                            if (depo.DepoId != 0)
-                            {
-                                var depo1 = (from x in context.Depos
-                                             where x.DepoId == depo.DepoId
-                                             select x).FirstOrDefault();
+                            Models.Layout newLayout = new Models.Layout(Isletme.IsletmeID, LayoutName, LayoutDescription, 0);
+                            await context.Layout.AddAsync(newLayout);
+                            await context.SaveChangesAsync();
+                            ambar.LayoutId = newLayout.LayoutId;
 
-                                if (depo1 != null)
+
+                            Ambar newAmbar = new Ambar(newLayout.LayoutId, "ambar", "ambar",
+                                    ambar.KareX, ambar.KareY, ambar.KareEni, ambar.KareBoyu,
+                                    ambar.OriginalKareX, ambar.OriginalKareY,
+                                    ambar.OriginalKareEni, ambar.OriginalKareBoyu,
+                                    ambar.Zoomlevel, ambar.AmbarEni, ambar.AmbarBoyu);
+
+                            await context.Ambars.AddAsync(newAmbar);
+                            await context.SaveChangesAsync();
+                            ambar.AmbarId = newAmbar.AmbarId;
+
+                            foreach (var depo in ambar.deletedDepos)
+                            {
+                                if (depo.DepoId != 0)
                                 {
-                                    context.Depos.Remove(depo1);
-                                    context.SaveChanges();
-                                }
-                            }
-                        }
-
-                        foreach (var conveyor in ambar.deletedConveyors)
-                        {
-                            if (conveyor.ConveyorId != 0)
-                            {
-                                var conveyor1 = (from x in context.Conveyors
-                                                 where x.ConveyorId == conveyor.ConveyorId
+                                    var depo1 = (from x in context.Depos
+                                                 where x.DepoId == depo.DepoId
                                                  select x).FirstOrDefault();
 
-                                if (conveyor1 != null)
-                                {
-                                    context.Conveyors.Remove(conveyor1);
-                                    context.SaveChanges();
+                                    if (depo1 != null)
+                                    {
+                                        context.Depos.Remove(depo1);
+                                        context.SaveChanges();
+                                    }
                                 }
                             }
-                        }
 
-                        foreach (var depo in ambar.depolar)
-                        {
-                            Depo newDepo = new Depo(newAmbar.AmbarId,
-                                depo.DepoName, depo.DepoDescription, depo.DepoAlaniEni,
-                                depo.DepoAlaniBoyu, depo.DepoAlaniYuksekligi,
-                                depo.OriginalDepoSizeWidth, depo.OriginalDepoSizeHeight,
-                                depo.Rectangle.X, depo.Rectangle.Y, depo.KareEni, depo.KareBoyu,
-                                depo.OriginalKareX, depo.OriginalKareY,
-                                depo.OriginalKareEni, depo.OriginalKareBoyu, depo.Zoomlevel,
-                                depo.itemDrop_StartLocation, depo.itemDrop_UpDown,
-                                depo.itemDrop_LeftRight, depo.asama1_Yuksekligi, depo.asama2_Yuksekligi,
-                                depo.Yerlestirilme_Sirasi, depo.DepoAlaniEni * 100, depo.DepoAlaniBoyu * 100,
-                                depo.ColumnCount, depo.RowCount, depo.currentColumn, depo.currentRow, depo.ItemTuru,
-                                depo.asama1_ItemSayisi, depo.asama2_ToplamItemSayisi, depo.currentStage, depo.ItemTuruSecondary);
-
-                            await context.Depos.AddAsync(newDepo);
-                            await context.SaveChangesAsync();
-                            depo.DepoId = newDepo.DepoId;
-
-                            foreach (var cell in depo.gridmaps)
+                            foreach (var conveyor in ambar.deletedConveyors)
                             {
-                                Balya_Yerleştirme.Models.Cell newCell =
-                                    new Balya_Yerleştirme.Models.Cell(
-                                        newDepo.DepoId, cell.CellEtiketi,
-                                        cell.CellEni, cell.CellBoyu,
-                                        cell.CellYuksekligi, cell.CellMalSayisi,
-                                        cell.KareX, cell.KareY, cell.KareEni,
-                                        cell.KareBoyu, cell.OriginalKareX,
-                                        cell.OriginalKareY, cell.OriginalKareEni,
-                                        cell.OriginalKareBoyu, cell.Zoomlevel,
-                                        cell.ItemSayisi, cell.DikeyKenarBoslugu,
-                                        cell.YatayKenarBoslugu, cell.NesneEni,
-                                        cell.NesneBoyu, cell.NesneYuksekligi,
-                                        cell.Column, cell.Row, cell.toplam_Nesne_Yuksekligi, cell.cell_Cm_X, cell.cell_Cm_Y);
+                                if (conveyor.ConveyorId != 0)
+                                {
+                                    var conveyor1 = (from x in context.Conveyors
+                                                     where x.ConveyorId == conveyor.ConveyorId
+                                                     select x).FirstOrDefault();
 
-                                await context.Cells.AddAsync(newCell);
-                                await context.SaveChangesAsync();
-                                cell.CellId = newCell.CellId;
+                                    if (conveyor1 != null)
+                                    {
+                                        context.Conveyors.Remove(conveyor1);
+                                        context.SaveChanges();
+                                    }
+                                }
                             }
-                        }
-                        foreach (var conveyor in ambar.conveyors)
-                        {
-                            Conveyor conv = new Conveyor(newAmbar.AmbarId,
-                                null, conveyor.KareX, conveyor.KareY,
-                                conveyor.KareEni, conveyor.KareBoyu,
-                                conveyor.OriginalKareX, conveyor.OriginalKareY,
-                                conveyor.OriginalKareEni, conveyor.OriginalKareBoyu,
-                                conveyor.Zoomlevel, conveyor.ConveyorEni,
-                                conveyor.ConveyorBoyu);
 
-                            await context.Conveyors.AddAsync(conv);
-                            await context.SaveChangesAsync();
-                            conveyor.ConveyorId = conv.ConveyorId;
-
-                            foreach (var reff in conveyor.ConveyorReferencePoints)
+                            foreach (var depo in ambar.depolar)
                             {
-                                ConveyorReferencePoint point = new ConveyorReferencePoint(
-                                    conveyor.ConveyorId, ambar.AmbarId, reff.Rectangle.X,
-                                    reff.Rectangle.Y, reff.Rectangle.Width,
-                                    reff.Rectangle.Height, reff.OriginalRectangle.X,
-                                    reff.OriginalRectangle.Y, reff.OriginalRectangle.Width,
-                                    reff.OriginalRectangle.Height, reff.Zoomlevel,
-                                    4, reff.OriginalLocationInsideParent.X, reff.OriginalLocationInsideParent.Y);
+                                Depo newDepo = new Depo(newAmbar.AmbarId,
+                                    depo.DepoName, depo.DepoDescription, depo.DepoAlaniEni,
+                                    depo.DepoAlaniBoyu, depo.DepoAlaniYuksekligi,
+                                    depo.OriginalDepoSizeWidth, depo.OriginalDepoSizeHeight,
+                                    depo.Rectangle.X, depo.Rectangle.Y, depo.KareEni, depo.KareBoyu,
+                                    depo.OriginalKareX, depo.OriginalKareY,
+                                    depo.OriginalKareEni, depo.OriginalKareBoyu, depo.Zoomlevel,
+                                    depo.itemDrop_StartLocation, depo.itemDrop_UpDown,
+                                    depo.itemDrop_LeftRight, depo.asama1_Yuksekligi, depo.asama2_Yuksekligi,
+                                    depo.Yerlestirilme_Sirasi, depo.DepoAlaniEni * 100, depo.DepoAlaniBoyu * 100,
+                                    depo.ColumnCount, depo.RowCount, depo.currentColumn, depo.currentRow, depo.ItemTuru,
+                                    depo.asama1_ItemSayisi, depo.asama2_ToplamItemSayisi, depo.currentStage, depo.ItemTuruSecondary);
 
-                                await context.ConveyorReferencePoints.AddAsync(point);
+                                await context.Depos.AddAsync(newDepo);
                                 await context.SaveChangesAsync();
-                                reff.ReferenceId = point.ReferenceId;
+                                depo.DepoId = newDepo.DepoId;
+
+                                foreach (var cell in depo.gridmaps)
+                                {
+                                    Balya_Yerleştirme.Models.Cell newCell =
+                                        new Balya_Yerleştirme.Models.Cell(
+                                            newDepo.DepoId, cell.CellEtiketi,
+                                            cell.CellEni, cell.CellBoyu,
+                                            cell.CellYuksekligi, cell.CellMalSayisi,
+                                            cell.KareX, cell.KareY, cell.KareEni,
+                                            cell.KareBoyu, cell.OriginalKareX,
+                                            cell.OriginalKareY, cell.OriginalKareEni,
+                                            cell.OriginalKareBoyu, cell.Zoomlevel,
+                                            cell.ItemSayisi, cell.DikeyKenarBoslugu,
+                                            cell.YatayKenarBoslugu, cell.NesneEni,
+                                            cell.NesneBoyu, cell.NesneYuksekligi,
+                                            cell.Column, cell.Row, cell.toplam_Nesne_Yuksekligi, cell.cell_Cm_X, cell.cell_Cm_Y);
+
+                                    await context.Cells.AddAsync(newCell);
+                                    await context.SaveChangesAsync();
+                                    cell.CellId = newCell.CellId;
+                                }
+                            }
+                            foreach (var conveyor in ambar.conveyors)
+                            {
+                                Conveyor conv = new Conveyor(newAmbar.AmbarId,
+                                    null, conveyor.KareX, conveyor.KareY,
+                                    conveyor.KareEni, conveyor.KareBoyu,
+                                    conveyor.OriginalKareX, conveyor.OriginalKareY,
+                                    conveyor.OriginalKareEni, conveyor.OriginalKareBoyu,
+                                    conveyor.Zoomlevel, conveyor.ConveyorEni,
+                                    conveyor.ConveyorBoyu);
+
+                                await context.Conveyors.AddAsync(conv);
+                                await context.SaveChangesAsync();
+                                conveyor.ConveyorId = conv.ConveyorId;
+
+                                foreach (var reff in conveyor.ConveyorReferencePoints)
+                                {
+                                    ConveyorReferencePoint point = new ConveyorReferencePoint(
+                                        conveyor.ConveyorId, ambar.AmbarId, reff.Rectangle.X,
+                                        reff.Rectangle.Y, reff.Rectangle.Width,
+                                        reff.Rectangle.Height, reff.OriginalRectangle.X,
+                                        reff.OriginalRectangle.Y, reff.OriginalRectangle.Width,
+                                        reff.OriginalRectangle.Height, reff.Zoomlevel,
+                                        4, reff.OriginalLocationInsideParent.X, reff.OriginalLocationInsideParent.Y);
+
+                                    await context.ConveyorReferencePoints.AddAsync(point);
+                                    await context.SaveChangesAsync();
+                                    reff.ReferenceId = point.ReferenceId;
+                                }
                             }
                         }
                     }
@@ -2286,37 +2289,60 @@ namespace Balya_Yerleştirme
             {
                 Zoomlevel = 1f;
                 ambar.ApplyZoom(Zoomlevel);
+            }
 
-                if (rightLayoutPanel.Visible && leftLayoutPanel.Visible)
+            if (rightLayoutPanel.Visible && leftLayoutPanel.Visible)
+            {
+                MainPanelCloseLeftSide(leftLayoutPanel, this);
+                MainPanelCloseRightSide(rightLayoutPanel, this);
+            }
+            else if (rightLayoutPanel.Visible && !leftLayoutPanel.Visible)
+            {
+                MainPanelCloseRightSide(rightLayoutPanel, this);
+            }
+            else if (leftLayoutPanel.Visible && !rightLayoutPanel.Visible)
+            {
+                MainPanelCloseLeftSide(leftLayoutPanel, this);
+            }
+                
+            using (var context = new DBContext())
+            {
+                var notlastClosedIsletme = (from x in context.Isletme
+                                            where x.IsletmeID != Isletme.IsletmeID
+                                            select x).ToList();
+
+                foreach (var isletme1 in notlastClosedIsletme)
                 {
-                    MainPanelCloseLeftSide(leftLayoutPanel, this);
-                    MainPanelCloseRightSide(rightLayoutPanel, this);
-                }
-                else if (rightLayoutPanel.Visible && !leftLayoutPanel.Visible)
-                {
-                    MainPanelCloseRightSide(rightLayoutPanel, this);
-                }
-                else if (leftLayoutPanel.Visible && !rightLayoutPanel.Visible)
-                {
-                    MainPanelCloseLeftSide(leftLayoutPanel, this);
+                    isletme1.LastClosedIsletme = 0;
+                    context.SaveChanges();
                 }
 
-                foreach (var depo in ambar.depolar)
+                if (ambar != null)
                 {
-                    using (var context = new DBContext())
+                    var notlastClosedLayouts = (from x in context.Layout
+                                                where x.LayoutId != ambar.LayoutId && x.IsletmeID == Isletme.IsletmeID
+                                                select x).ToList();
+
+                    foreach (var layout in notlastClosedLayouts)
                     {
-                        var notlastClosedLayouts = (from x in context.Layout
-                                                    where x.LayoutId != ambar.LayoutId
-                                                    select x).ToList();
+                        layout.LastClosedLayout = 0;
+                        context.SaveChanges();
+                    }
+                }
 
-                        foreach (var layout in notlastClosedLayouts)
-                        {
-                            layout.LastClosedLayout = 0;
-                            context.SaveChanges();
-                        }
+                var isletme = (from x in context.Isletme
+                                where x.IsletmeID == Isletme.IsletmeID
+                                select x).FirstOrDefault();
 
+                if (isletme != null)
+                {
+                    isletme.LastClosedIsletme = 1;
+                    context.SaveChanges();
+
+                    if (ambar != null)
+                    {
                         var lastClosedLayout = (from x in context.Layout
-                                                where x.LayoutId == ambar.LayoutId
+                                                where x.LayoutId == ambar.LayoutId && isletme.IsletmeID == x.IsletmeID
                                                 select x).FirstOrDefault();
 
                         if (lastClosedLayout != null)
@@ -2325,7 +2351,13 @@ namespace Balya_Yerleştirme
                             context.SaveChanges();
                         }
                     }
+                }
+            }
 
+            if (ambar != null)
+            {
+                foreach (var depo in ambar.depolar)
+                {
                     using (var context = new DBContext())
                     {
                         var depo1 = (from x in context.Depos
@@ -2353,68 +2385,6 @@ namespace Balya_Yerleştirme
                                 context.SaveChanges();
                             }
                         }
-                        //foreach (var item in cell.items)
-                        //{
-                        //    if (item.ItemId == 0)
-                        //    {
-                        //        Models.Item Dbitem = new Models.Item(cell.CellId, item.ItemEtiketi,
-                        //            item.ItemTuru, item.ItemEni, item.ItemBoyu, item.ItemYuksekligi,
-                        //            item.Rectangle.X, item.Rectangle.Y, item.Rectangle.Width, item.Rectangle.Height,
-                        //            item.OriginalRectangle.X, item.OriginalRectangle.Y, item.OriginalRectangle.Width,
-                        //            item.OriginalRectangle.Height, item.Zoomlevel, item.ItemAgirligi, item.ItemAciklamasi,
-                        //            item.Cm_X_Axis, item.Cm_Y_Axis, item.Cm_Z_Axis);
-
-                        //        using (var context = new DBContext())
-                        //        {
-                        //            context.Items.Add(Dbitem);
-                        //            context.SaveChanges();
-                        //        }
-                        //    }
-                        //    else
-                        //    {
-                        //        using (var context = new DBContext())
-                        //        {
-                        //            var item1 = (from x in context.Items
-                        //                         where x.ItemId == item.ItemId
-                        //                         select x).FirstOrDefault();
-
-                        //            if (item1 != null)
-                        //            {
-                        //                Models.Item Dbitem = new Models.Item(cell.CellId, item.ItemEtiketi,
-                        //                   item.ItemTuru, item.ItemEni, item.ItemBoyu, item.ItemYuksekligi,
-                        //                   item.Rectangle.X, item.Rectangle.Y, item.KareEni, item.KareBoyu,
-                        //                   item.OriginalRectangle.X, item.OriginalRectangle.Y, item.OriginalRectangle.Width,
-                        //                   item.OriginalRectangle.Height, item.Zoomlevel, item.ItemAgirligi, item.ItemAciklamasi,
-                        //                   item.Cm_X_Axis, item.Cm_Y_Axis, item.Cm_Z_Axis);
-
-                        //                item1.KareX = item.Rectangle.X;
-                        //                item1.KareY = item.Rectangle.Y;
-                        //                //item1.KareEni = item.KareEni;
-                        //                //item1.KareBoyu = item.KareBoyu;
-                        //                item1.OriginalKareX = item.OriginalRectangle.X;
-                        //                item1.OriginalKareY = item.OriginalRectangle.Y;
-                        //                //item1.OriginalKareEni = item.OriginalKareEni;
-                        //                //item1.OriginalKareBoyu = item.OriginalKareBoyu;
-                        //                context.SaveChanges();
-                        //            }
-                        //        }
-                        //    }
-
-                        //    using (var context = new DBContext())
-                        //    {
-                        //        foreach (var reff in item.ItemReferencePoints)
-                        //        {
-
-                        //            Models.ItemReferencePoint DBreff = new Models.ItemReferencePoint(item.ItemId, reff.Rectangle.X, reff.Rectangle.Y,
-                        //                reff.Rectangle.Width, reff.Rectangle.Height, reff.OriginalRectangle.X, reff.OriginalRectangle.Y,
-                        //                reff.OriginalRectangle.Width, reff.OriginalRectangle.Height, reff.Zoomlevel, reff.Pointsize);
-
-                        //            context.ItemReferencePoints.Add(DBreff);
-                        //            context.SaveChanges();
-                        //            reff.ReferenceId = DBreff.ReferenceId;
-                        //        }
-                        //    }
-                        //}
                     }
                 }
             }
@@ -2431,6 +2401,7 @@ namespace Balya_Yerleştirme
                 if (isletme != null)
                 {
                     Isletme = isletme;
+                    lbl_Main_Title.Text = Isletme.Name;
 
                     var layout = (from x in context.Layout
                                   where x.LastClosedLayout == 1 && x.IsletmeID == isletme.IsletmeID
@@ -2658,7 +2629,7 @@ namespace Balya_Yerleştirme
 
         #endregion
 
-
+        
 
         //Add Items From Orders
         #region AddItemsFromOrders

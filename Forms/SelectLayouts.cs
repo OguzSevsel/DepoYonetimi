@@ -35,19 +35,27 @@ namespace Balya_Yerleştirme
 {
     public partial class SelectLayouts : Form
     {
+        #region Useful Objects
+        
+        
         public Panel DrawingPanel { get; set; }
+        public PictureBox? SelectedPB { get; set; }
+        public MainForm Main { get; set; }
 
+        public Ambar BeforeAmbar = new Ambar();
+
+
+        #endregion
+
+
+
+        #region UI Operations Variables such as locations or sizes
+        
+        
         public System.Drawing.Point rightPanelLocation = new System.Drawing.Point(1258, 70);
         public System.Drawing.Size MainPanelSmallSize { get; set; } = new System.Drawing.Size(1240, 768);
         public System.Drawing.Size MainPanelLargeSize { get; set; } = new System.Drawing.Size(1560, 768);
-
-        public Pen LayoutPen = new Pen(System.Drawing.Color.Black, 2);
-        public PictureBox? SelectedPB { get; set; }
-        public MainForm Main { get; set; }
-        public int LayoutCount { get; set; }
-
-        public int totalProgress = 0;
-
+        
         public System.Drawing.Point PointProgressBar = new System.Drawing.Point(18, 76);
 
         public System.Drawing.Point PointSelectLayoutPanel = new System.Drawing.Point(12, 70);
@@ -60,7 +68,23 @@ namespace Balya_Yerleştirme
 
         public System.Drawing.Point LargeTitleLocation = new System.Drawing.Point(595, 9);
 
-        public Ambar BeforeAmbar = new Ambar();
+
+        #endregion
+
+
+
+        #region Utility Variables
+        
+        
+        public Pen LayoutPen = new Pen(System.Drawing.Color.Black, 2);
+        public int LayoutCount { get; set; }
+
+        public int totalProgress = 0;
+
+
+        #endregion
+
+
 
         public SelectLayouts(Panel drawingPanel, MainForm main)
         {
@@ -77,6 +101,12 @@ namespace Balya_Yerleştirme
             GetLayoutsFromDB();
         }
 
+
+
+        #region Initialization of PictureBoxes
+        
+        
+        //Method for kickstarting initialization of creating layouts and layout panels   
         public void GetLayoutsFromDB()
         {
             using (var context = new DBContext())
@@ -102,7 +132,9 @@ namespace Balya_Yerleştirme
                 }
             }
         }
-
+        
+        
+        //Method for getting the layouts from db and pass them to creation of pictureboxes
         public async void CreateLayouts(Balya_Yerleştirme.Models.Layout layout)
         {
 
@@ -118,7 +150,9 @@ namespace Balya_Yerleştirme
                 CreatePictureBox(ambar);
             }
         }
-
+        
+        
+        //Task for getting layouts from db and returning ambar asynchonously
         private async Task<Ambar> LayoutYükleDatabaseOperation(Balya_Yerleştirme.Models.Layout layout, IProgress<float> progress)
         {
             using (var context = new DBContext())
@@ -418,7 +452,9 @@ namespace Balya_Yerleştirme
                 return null;
             }
         }
-
+        
+        
+        //Method for creating pictureboxes for layouts to reside and also subscribing to their events
         public void CreatePictureBox(Ambar ambar)
         {
             using (var context = new DBContext())
@@ -554,67 +590,13 @@ namespace Balya_Yerleştirme
             }
         }
 
-        private void PictureBox_MouseLeave(object sender, EventArgs e)
-        {
-            PictureBox pb = sender as PictureBox;
 
-            if (pb != null)
-            {
-                if (SelectedPB == null)
-                {
-                    pb.BackColor = System.Drawing.Color.White;
-                }
-            }
-        }
+        #endregion
 
-        private void PictureBox_MouseEnter(object sender, EventArgs e)
-        {
-            PictureBox pb = sender as PictureBox;
+        
+        
+        #region Useful Methods
 
-            if (pb != null)
-            {
-                if (SelectedPB == null)
-                {
-                    pb.BackColor = System.Drawing.Color.LightCyan;
-                }
-            }
-        }
-
-        private void PictureBox_MouseDown(object sender, MouseEventArgs e)
-        {
-            PictureBox pictureBox = sender as PictureBox;
-
-            if (pictureBox != null)
-            {
-                if (e.Button == MouseButtons.Right)
-                {
-                    contextMenuStrip.Show(Cursor.Position);
-                    SelectedPB = pictureBox;
-                }
-                if (e.Button == MouseButtons.Left)
-                {
-                    MakePBsBackColorsWhite();
-                    
-                    SelectedPB = pictureBox;
-                    SelectedPB.BackColor = System.Drawing.Color.LightCyan;
-
-                    SetLayoutDescandNametoTextBoxes(SelectLayoutPanel, pictureBox, lbl_LayoutMenu_Title, txt_ChangeLayoutName, txt_ChangeLayoutDescription);
-
-                    string layoutName = getLayoutNameFromPanel(SelectLayoutPanel, pictureBox, true);
-                    
-                    OpenRightSide((Ambar)pictureBox.Tag);
-                    ScrollPanelIntoView(pictureBox, SelectLayoutPanel);
-                    
-                    SelectLayoutPanel.ScrollControlIntoView(SelectedPB);
-
-                    GVisual.HideControl(btn_ChangeLayoutName, InnerPanel1);
-                    GVisual.HideControl(btn_ChangeLayoutDescription, InnerPanel1);
-
-                    lbl_Layout_Sec_Title.Location = SmallTitleLocation;
-                    lbl_Layout_Sec_Title.Text = $"{layoutName}";
-                }
-            }
-        }
 
         private void MakePBsBackColorsWhite()
         {
@@ -636,23 +618,6 @@ namespace Balya_Yerleştirme
                 }
             }
         }
-
-        private void ScrollPanelIntoView(PictureBox pb, FlowLayoutPanel FlowPanel)
-        {
-            foreach (var control in FlowPanel.Controls)
-            {
-                if (control is Panel)
-                {
-                    Panel panel = (Panel)control;
-
-                    if (panel.Controls.Contains(pb))
-                    {
-                        FlowPanel.ScrollControlIntoView(panel);
-                    }
-                }
-            }
-        }
-
         private void SetLayoutDescandNametoTextBoxes(FlowLayoutPanel FlowPanel, PictureBox pictureBox, KryptonWrapLabel? lbl_ToWriteLayoutName, System.Windows.Forms.TextBox? txt_ToWriteLayoutName, System.Windows.Forms.TextBox? txt_ToWriteLayoutDesc)
         {
             foreach (var panel in FlowPanel.Controls)
@@ -711,18 +676,172 @@ namespace Balya_Yerleştirme
                 }
             }
         }
-
-        private void PictureBox_MouseDoubleClick(object sender, EventArgs e)
+        private void setLayoutNameDesc(FlowLayoutPanel FlowPanel, PictureBox pictureBox, bool isName, string NameDesc)
         {
-            PictureBox pictureBox = sender as PictureBox;
-
-            if (pictureBox != null)
+            foreach (var panel in FlowPanel.Controls)
             {
-                SelectedPB = new PictureBox();
-                SelectedPB = pictureBox;
-                this.DialogResult = DialogResult.OK;
+                if (panel is Panel)
+                {
+                    Panel panel1 = (Panel)panel;
+
+                    if (panel1.Controls.Contains(pictureBox))
+                    {
+                        foreach (var control in panel1.Controls)
+                        {
+                            if (isName)
+                            {
+                                if (control is Krypton.Toolkit.KryptonWrapLabel)
+                                {
+                                    Krypton.Toolkit.KryptonWrapLabel txt = (KryptonWrapLabel)(control);
+
+                                    if (txt.AccessibleName == "Layout Name")
+                                    {
+                                        txt.Text = NameDesc;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (control is Panel)
+                                {
+                                    Panel descPanel = (Panel)control;
+
+                                    foreach (var txt in descPanel.Controls)
+                                    {
+                                        if (txt is System.Windows.Forms.RichTextBox)
+                                        {
+                                            System.Windows.Forms.RichTextBox txt1 = (System.Windows.Forms.RichTextBox)txt;
+
+                                            if (txt1.AccessibleName == "Layout Desc")
+                                            {
+                                                txt1.Text = NameDesc;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
+        private string getLayoutNameFromPanel(FlowLayoutPanel FlowPanel, PictureBox pictureBox, bool isName)
+        {
+            foreach (var panel in FlowPanel.Controls)
+            {
+                if (panel is Panel)
+                {
+                    Panel panel1 = (Panel)panel;
+
+                    if (panel1.Controls.Contains(pictureBox))
+                    {
+                        foreach (var control in panel1.Controls)
+                        {
+                            if (isName)
+                            {
+                                if (control is Krypton.Toolkit.KryptonWrapLabel)
+                                {
+                                    Krypton.Toolkit.KryptonWrapLabel txt = (KryptonWrapLabel)(control);
+
+                                    if (txt.AccessibleName == "Layout Name")
+                                    {
+                                        return txt.Text;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (control is Panel)
+                                {
+                                    Panel descPanel = (Panel)control;
+
+                                    foreach (var txt in descPanel.Controls)
+                                    {
+                                        if (txt is System.Windows.Forms.RichTextBox)
+                                        {
+                                            System.Windows.Forms.RichTextBox txt1 = (System.Windows.Forms.RichTextBox)txt;
+
+                                            if (txt1.AccessibleName == "Layout Desc")
+                                            {
+                                                return txt1.Text;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return string.Empty;
+        }
+
+
+        #endregion
+
+
+
+        #region SelectLayoutPanel Events
+        
+        
+        private void SelectLayoutPanel_Scroll(object sender, ScrollEventArgs e)
+        {
+            foreach (var pictureBox in SelectLayoutPanel.Controls)
+            {
+                if (pictureBox is PictureBox)
+                {
+                    PictureBox pb = new PictureBox();
+                    pb = (PictureBox)pictureBox;
+                    pb.Invalidate();
+                }
+            }
+        }
+        private void SelectLayoutPanel_MouseDown(object sender, MouseEventArgs e)
+        {
+            bool isinside = false;
+            foreach (var pb in SelectLayoutPanel.Controls)
+            {
+                if (pb is Panel)
+                {
+                    Panel pb1 = pb as Panel;
+
+                    if (!pb1.ClientRectangle.Contains(e.Location))
+                    {
+                        isinside = true;
+                    }
+
+                    foreach (var control in pb1.Controls)
+                    {
+                        if (control is PictureBox)
+                        {
+                            PictureBox picture = control as PictureBox;
+
+                            Ambar ambar = (Ambar)picture.Tag;
+
+                            if (isinside)
+                            {
+                                CloseRightSide(ambar);
+                                lbl_Layout_Sec_Title.Location = LargeTitleLocation;
+                                lbl_Layout_Sec_Title.Text = $"Layout Seçin";
+                                isinside = false;
+                            }
+                            picture.BackColor = System.Drawing.Color.White;
+                            SelectedPB = null;
+                            picture.Invalidate();
+                            picture.Update();
+                        }
+                    }
+                }
+            }
+        }
+
+
+        #endregion
+
+
+
+        #region PictureBox Events
+
 
         private void Picture_Box_Paint(object? sender, PaintEventArgs e)
         {
@@ -776,129 +895,223 @@ namespace Balya_Yerleştirme
                 }
             }
         }
-
-        private void SelectLayoutPanel_Scroll(object sender, ScrollEventArgs e)
+        private void PictureBox_MouseDoubleClick(object sender, EventArgs e)
         {
-            foreach (var pictureBox in SelectLayoutPanel.Controls)
+            PictureBox pictureBox = sender as PictureBox;
+
+            if (pictureBox != null)
             {
-                if (pictureBox is PictureBox)
+                SelectedPB = new PictureBox();
+                SelectedPB = pictureBox;
+                this.DialogResult = DialogResult.OK;
+            }
+        }
+        private void PictureBox_MouseLeave(object sender, EventArgs e)
+        {
+            PictureBox pb = sender as PictureBox;
+
+            if (pb != null)
+            {
+                if (SelectedPB == null)
                 {
-                    PictureBox pb = new PictureBox();
-                    pb = (PictureBox)pictureBox;
-                    pb.Invalidate();
+                    pb.BackColor = System.Drawing.Color.White;
+                }
+            }
+        }
+        private void PictureBox_MouseEnter(object sender, EventArgs e)
+        {
+            PictureBox pb = sender as PictureBox;
+
+            if (pb != null)
+            {
+                if (SelectedPB == null)
+                {
+                    pb.BackColor = System.Drawing.Color.LightCyan;
+                }
+            }
+        }
+        private void PictureBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            PictureBox pictureBox = sender as PictureBox;
+
+            if (pictureBox != null)
+            {
+                if (e.Button == MouseButtons.Right)
+                {
+                    contextMenuStrip.Show(Cursor.Position);
+                    SelectedPB = pictureBox;
+                }
+                if (e.Button == MouseButtons.Left)
+                {
+                    MakePBsBackColorsWhite();
+
+                    SelectedPB = pictureBox;
+                    SelectedPB.BackColor = System.Drawing.Color.LightCyan;
+
+                    SetLayoutDescandNametoTextBoxes(SelectLayoutPanel, pictureBox, lbl_LayoutMenu_Title, txt_ChangeLayoutName, txt_ChangeLayoutDescription);
+
+                    string layoutName = getLayoutNameFromPanel(SelectLayoutPanel, pictureBox, true);
+
+                    OpenRightSide((Ambar)pictureBox.Tag);
+                    ScrollPanelIntoView(pictureBox, SelectLayoutPanel);
+
+                    SelectLayoutPanel.ScrollControlIntoView(SelectedPB);
+
+                    GVisual.HideControl(btn_ChangeLayoutName, InnerPanel1);
+                    GVisual.HideControl(btn_ChangeLayoutDescription, InnerPanel1);
+
+                    lbl_Layout_Sec_Title.Location = SmallTitleLocation;
+                    lbl_Layout_Sec_Title.Text = $"{layoutName}";
                 }
             }
         }
 
-        private void layoutuSilToolStripMenuItem_Click(object sender, EventArgs e)
+
+        #endregion
+
+        
+        
+        #region UI Operations
+
+
+        //Methods for shrinking or enlarging layouts when they are clicked
+        private void EnlargeorShrinkInsidePanel(Panel panel, System.Drawing.Size before, System.Drawing.Size after, Ambar? ambar)
         {
-            List<System.Windows.Forms.Control> panels = new List<System.Windows.Forms.Control>();
-            using (var context = new DBContext())
+            float widthRatio = (float)after.Width / before.Width;
+            float heightRatio = (float)after.Height / before.Height;
+
+            foreach (System.Windows.Forms.Control control in panel.Controls)
             {
-                Ambar ambar = (Ambar)SelectedPB.Tag;
-                var layout = (from x in context.Layout
-                              where x.LayoutId == ambar.LayoutId
-                              select x).FirstOrDefault();
+                int newWidth = (int)(control.Width * widthRatio);
+                int newHeight = (int)(control.Height * heightRatio);
 
-                var firstResult = MessageBox.Show($"{layout.Name} isimli Layout'u silmek istiyor musunuz?",
-                    "Devam etmek istiyor musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                control.Size = new System.Drawing.Size(newWidth, newHeight);
 
-                if (firstResult == DialogResult.Yes)
+                // Optional: Adjust control position based on new panel size
+                int newX = (int)(control.Location.X * widthRatio);
+                int newY = (int)(control.Location.Y * heightRatio);
+
+                control.Location = new System.Drawing.Point(newX, newY);
+
+                if (control is PictureBox)
                 {
-                    if (ambar != null)
+                    PictureBox picture = control as PictureBox;
+
+                    Ambar ambar1 = (Ambar)picture.Tag;
+
+                    ScaleAmbar(ambar1, widthRatio, heightRatio);
+                    picture.Invalidate();
+                    picture.Update();
+                }
+            }
+        }
+        private void ScaleAmbar(Ambar? ambar, float widthRatio, float heightRatio)
+        {
+            if (ambar != null)
+            {
+                ambar.SelectLayoutRectangle = new System.Drawing.RectangleF(ambar.SelectLayoutRectangle.X * widthRatio, ambar.SelectLayoutRectangle.Y * heightRatio, ambar.SelectLayoutRectangle.Width * widthRatio, ambar.SelectLayoutRectangle.Height * heightRatio);
+
+                foreach (var depo in ambar.depolar)
+                {
+                    depo.SelectLayoutRectangle = new System.Drawing.RectangleF(depo.SelectLayoutRectangle.X * widthRatio, depo.SelectLayoutRectangle.Y * heightRatio, depo.SelectLayoutRectangle.Width * widthRatio, depo.SelectLayoutRectangle.Height * heightRatio);
+
+                    foreach (var cell in depo.gridmaps)
                     {
-                        if (Main.ambar != null)
+                        cell.SelectLayoutRectangle = new System.Drawing.RectangleF(cell.SelectLayoutRectangle.X * widthRatio, cell.SelectLayoutRectangle.Y * heightRatio, cell.SelectLayoutRectangle.Width * widthRatio, cell.SelectLayoutRectangle.Height * heightRatio);
+
+                        foreach (var item in cell.items)
                         {
-                            if (ambar.AmbarId == Main.ambar.AmbarId)
-                            {
-                                var result = MessageBox.Show("Şu an yüklü olan Layout'u silmek istiyor musunuz?",
-                                    "Devam etmek istiyor musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-                                if (result == DialogResult.Yes)
-                                {
-                                    if (layout != null)
-                                    {
-                                        context.Layout.Remove(layout);
-                                        context.SaveChanges();
-                                    }
-
-                                    foreach (Panel panel in SelectLayoutPanel.Controls)
-                                    {
-                                        foreach (var pb in panel.Controls)
-                                        {
-                                            if (pb == SelectedPB)
-                                            {
-                                                panels.Add(panel);
-                                            }
-                                        }
-                                    }
-                                    foreach (var panel in panels)
-                                    {
-                                        SelectLayoutPanel.Controls.Remove(panel);
-                                        SelectedPB = null;
-                                        Main.ambar = null;
-                                        if (Main.infopanel.Visible)
-                                        {
-                                            GVisual.HideControl(Main.infopanel, Main.DrawingPanel);
-                                        }
-                                        Main.DrawingPanel.Invalidate();
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                if (layout != null)
-                                {
-                                    context.Layout.Remove(layout);
-                                    context.SaveChanges();
-                                }
-
-                                foreach (Panel panel in SelectLayoutPanel.Controls)
-                                {
-                                    foreach (var pb in panel.Controls)
-                                    {
-                                        if (pb == SelectedPB)
-                                        {
-                                            panels.Add(panel);
-                                        }
-                                    }
-                                }
-                                foreach (var panel in panels)
-                                {
-                                    SelectLayoutPanel.Controls.Remove(panel);
-                                    SelectedPB = null;
-                                }
-                            }
+                            item.SelectLayoutRectangle = new System.Drawing.RectangleF(item.SelectLayoutRectangle.X * widthRatio, item.SelectLayoutRectangle.Y * heightRatio, item.SelectLayoutRectangle.Width * widthRatio, item.SelectLayoutRectangle.Height * heightRatio);
                         }
-                        else
-                        {
-                            if (layout != null)
-                            {
-                                context.Layout.Remove(layout);
-                                context.SaveChanges();
-                            }
+                    }
+                }
+                foreach (var conveyor in ambar.conveyors)
+                {
+                    conveyor.SelectLayoutRectangle = new System.Drawing.RectangleF(conveyor.SelectLayoutRectangle.X * widthRatio, conveyor.SelectLayoutRectangle.Y * heightRatio, conveyor.SelectLayoutRectangle.Width * widthRatio, conveyor.SelectLayoutRectangle.Height * heightRatio);
 
-                            foreach (Panel panel in SelectLayoutPanel.Controls)
-                            {
-                                foreach (var pb in panel.Controls)
-                                {
-                                    if (pb == SelectedPB)
-                                    {
-                                        panels.Add(panel);
-                                    }
-                                }
-                            }
-                            foreach (var panel in panels)
-                            {
-                                SelectLayoutPanel.Controls.Remove(panel);
-                                SelectedPB = null;
-                            }
+                    foreach (var reff in conveyor.ConveyorReferencePoints)
+                    {
+                        reff.SelectLayoutRectangle = new System.Drawing.RectangleF(reff.SelectLayoutRectangle.X * widthRatio, reff.SelectLayoutRectangle.Y * heightRatio, reff.SelectLayoutRectangle.Width * widthRatio, reff.SelectLayoutRectangle.Height * heightRatio);
+                    }
+                }
+            }
+        }
+        
+
+        //Method for scroll layouts into view
+        private void ScrollPanelIntoView(PictureBox pb, FlowLayoutPanel FlowPanel)
+        {
+            foreach (var control in FlowPanel.Controls)
+            {
+                if (control is Panel)
+                {
+                    Panel panel = (Panel)control;
+
+                    if (panel.Controls.Contains(pb))
+                    {
+                        FlowPanel.ScrollControlIntoView(panel);
+                    }
+                }
+            }
+        }
+        
+
+        //Methods for opening and closing rightside panel
+        private void OpenRightSide(Ambar? ambar)
+        {
+            SelectLayoutPanel.Size = MainPanelSmallSize;
+            GVisual.ShowControl(panel_LayoutMenu, this, rightPanelLocation);
+
+            foreach (var pb in SelectLayoutPanel.Controls)
+            {
+                if (pb is Panel)
+                {
+                    Panel pb1 = pb as Panel;
+
+                    if (pb1 != null)
+                    {
+                        System.Drawing.Size size = new System.Drawing.Size(pb1.Width,
+                            pb1.Height);
+
+                        pb1.Size = new System.Drawing.Size(600, 600);
+
+                        if (ambar != null)
+                        {
+                            EnlargeorShrinkInsidePanel(pb1, size, pb1.Size, ambar);
                         }
                     }
                 }
             }
         }
+        private void CloseRightSide(Ambar? ambar)
+        {
+            SelectLayoutPanel.Size = MainPanelLargeSize;
+            GVisual.HideControl(panel_LayoutMenu, this);
 
+            foreach (var pb in SelectLayoutPanel.Controls)
+            {
+                if (pb is Panel)
+                {
+                    Panel pb1 = pb as Panel;
+
+                    if (pb1 != null)
+                    {
+                        System.Drawing.Size size = new System.Drawing.Size(pb1.Width,
+                            pb1.Height);
+
+                        pb1.Size = new System.Drawing.Size(750, 750);
+
+                        if (ambar != null)
+                        {
+                            EnlargeorShrinkInsidePanel(pb1, size, pb1.Size, ambar);
+                        }
+                    }
+                }
+            }
+        }
+        
+
+        //Timer event for loading screen
         private void timer_Tick(object sender, EventArgs e)
         {
             if (LayoutCount > 0)
@@ -933,162 +1146,141 @@ namespace Balya_Yerleştirme
             }
         }
 
-        private void OpenRightSide(Ambar? ambar)
+
+        #endregion
+
+
+
+        #region Layout Menu Events
+
+
+        //Events for textboxes for changing layout name and description
+        private void txt_ChangeLayoutName_TextChanged(object sender, EventArgs e)
         {
-            SelectLayoutPanel.Size = MainPanelSmallSize;
-            GVisual.ShowControl(panel_LayoutMenu, this, rightPanelLocation);
-
-            foreach (var pb in SelectLayoutPanel.Controls)
+            if (this.Controls.Contains(panel_LayoutMenu))
             {
-                if (pb is Panel)
+                GVisual.ShowControl(btn_ChangeLayoutName, InnerPanel1);
+            }
+
+            if (txt_ChangeLayoutName.Text.Length == 0)
+            {
+                GVisual.HideControl(btn_ChangeLayoutName, InnerPanel1);
+            }
+        }
+        private void txt_ChangeLayoutDescription_TextChanged(object sender, EventArgs e)
+        {
+            if (this.Controls.Contains(panel_LayoutMenu))
+            {
+                GVisual.ShowControl(btn_ChangeLayoutDescription, InnerPanel1);
+            }
+
+            if (txt_ChangeLayoutDescription.Text.Length == 0)
+            {
+                GVisual.HideControl(btn_ChangeLayoutDescription, InnerPanel1);
+            }
+        }
+        
+
+        //Events for changing layout name and description
+        private void btn_ChangeLayoutName_Click(object sender, EventArgs e)
+        {
+            errorProvider.Clear();
+
+            string layout_name = txt_ChangeLayoutName.Text;
+
+            if (string.IsNullOrWhiteSpace(layout_name))
+            {
+                errorProvider.SetError(txt_ChangeLayoutName, "Bu alan boş bırakılamaz.");
+            }
+            if (layout_name.Length > 30)
+            {
+                errorProvider.SetError(txt_ChangeLayoutName, "Layout'un ismi 30 karakterden uzun olamaz.");
+            }
+
+            using (var context = new DBContext())
+            {
+                var layout = (from x in context.Layout
+                              where x.Name == layout_name
+                              select x).FirstOrDefault();
+
+                if (layout != null)
                 {
-                    Panel pb1 = pb as Panel;
+                    errorProvider.SetError(txt_ChangeLayoutName, "Aynı isimli bir layout zaten bulunuyor lütfen başka bir isim seçin");
 
-                    if (pb1 != null)
+                    txt_ChangeLayoutName.Clear();
+                    txt_ChangeLayoutName.Focus();
+                }
+            }
+
+            if (!errorProvider.HasErrors)
+            {
+                string old_LayoutName = getLayoutNameFromPanel(SelectLayoutPanel, SelectedPB, true);
+
+                using (var context = new DBContext())
+                {
+                    var layout = (from x in context.Layout
+                                  where x.Name == old_LayoutName
+                                  select x).FirstOrDefault();
+
+                    if (layout != null)
                     {
-                        System.Drawing.Size size = new System.Drawing.Size(pb1.Width,
-                            pb1.Height);
+                        layout.Name = layout_name;
+                        context.SaveChanges();
+                        GVisual.HideControl(btn_ChangeLayoutName, InnerPanel1);
+                        setLayoutNameDesc(SelectLayoutPanel, SelectedPB, true, layout_name);
+                        lbl_LayoutMenu_Title.Text = layout_name;
 
-                        pb1.Size = new System.Drawing.Size(600, 600);
+                        CustomNotifyIcon notify = new CustomNotifyIcon();
+                        notify.showAlert("Layout ismi başarıyla değiştirildi", CustomNotifyIcon.enmType.Success);
+                    }
+                    else
+                    {
+                        CustomNotifyIcon notify = new CustomNotifyIcon();
+                        notify.showAlert("Layout ismi değiştirilemedi", CustomNotifyIcon.enmType.Error);
+                    }
+                }
+            }
 
-                        if (ambar != null)
-                        {
-                            EnlargeorShrinkInsidePanel(pb1, size, pb1.Size, ambar);
-                        }
+        }
+        private void btn_ChangeLayoutDescription_Click(object sender, EventArgs e)
+        {
+            string layout_Description = txt_ChangeLayoutDescription.Text;
+
+            if (string.IsNullOrWhiteSpace(layout_Description))
+            {
+                errorProvider.SetError(txt_ChangeLayoutDescription, "Bu alan boş bırakılamaz.");
+            }
+
+            if (!errorProvider.HasErrors)
+            {
+                string old_LayoutName = getLayoutNameFromPanel(SelectLayoutPanel, SelectedPB, true);
+
+                using (var context = new DBContext())
+                {
+                    var layout = (from x in context.Layout
+                                  where x.Name == old_LayoutName
+                                  select x).FirstOrDefault();
+
+                    if (layout != null)
+                    {
+                        layout.Description = layout_Description;
+                        context.SaveChanges();
+                        GVisual.HideControl(btn_ChangeLayoutDescription, InnerPanel1);
+                        setLayoutNameDesc(SelectLayoutPanel, SelectedPB, false, layout_Description);
+                        CustomNotifyIcon notify = new CustomNotifyIcon();
+                        notify.showAlert("Layout açıklaması başarıyla değiştirildi", CustomNotifyIcon.enmType.Success);
+                    }
+                    else
+                    {
+                        CustomNotifyIcon notify = new CustomNotifyIcon();
+                        notify.showAlert("Layout açıklaması değiştirilemedi", CustomNotifyIcon.enmType.Error);
                     }
                 }
             }
         }
 
-        private void CloseRightSide(Ambar? ambar)
-        {
-            SelectLayoutPanel.Size = MainPanelLargeSize;
-            GVisual.HideControl(panel_LayoutMenu, this);
 
-            foreach (var pb in SelectLayoutPanel.Controls)
-            {
-                if (pb is Panel)
-                {
-                    Panel pb1 = pb as Panel;
-
-                    if (pb1 != null)
-                    {
-                        System.Drawing.Size size = new System.Drawing.Size(pb1.Width,
-                            pb1.Height);
-
-                        pb1.Size = new System.Drawing.Size(750, 750);
-
-                        if (ambar != null)
-                        {
-                            EnlargeorShrinkInsidePanel(pb1, size, pb1.Size, ambar);
-                        }
-                    }
-                }
-            }
-        }
-
-        private void SelectLayoutPanel_MouseDown(object sender, MouseEventArgs e)
-        {
-            bool isinside = false;
-            foreach (var pb in SelectLayoutPanel.Controls)
-            {
-                if (pb is Panel)
-                {
-                    Panel pb1 = pb as Panel;
-
-                    if (!pb1.ClientRectangle.Contains(e.Location))
-                    {
-                        isinside = true;
-                    }
-
-                    foreach (var control in pb1.Controls)
-                    {
-                        if (control is PictureBox)
-                        {
-                            PictureBox picture = control as PictureBox;
-
-                            Ambar ambar = (Ambar)picture.Tag;
-
-                            if (isinside)
-                            {
-                                CloseRightSide(ambar);
-                                lbl_Layout_Sec_Title.Location = LargeTitleLocation;
-                                lbl_Layout_Sec_Title.Text = $"Layout Seçin";
-                                isinside = false;
-                            }
-                            picture.BackColor = System.Drawing.Color.White;
-                            SelectedPB = null;
-                            picture.Invalidate();
-                            picture.Update();
-                        }
-                    }
-                }
-            }
-        }
-
-        private void EnlargeorShrinkInsidePanel(Panel panel, System.Drawing.Size before, System.Drawing.Size after, Ambar? ambar)
-        {
-            float widthRatio = (float)after.Width / before.Width;
-            float heightRatio = (float)after.Height / before.Height;
-
-            foreach (System.Windows.Forms.Control control in panel.Controls)
-            {
-                int newWidth = (int)(control.Width * widthRatio);
-                int newHeight = (int)(control.Height * heightRatio);
-
-                control.Size = new System.Drawing.Size(newWidth, newHeight);
-
-                // Optional: Adjust control position based on new panel size
-                int newX = (int)(control.Location.X * widthRatio);
-                int newY = (int)(control.Location.Y * heightRatio);
-
-                control.Location = new System.Drawing.Point(newX, newY);
-
-                if (control is PictureBox)
-                {
-                    PictureBox picture = control as PictureBox;
-
-                    Ambar ambar1 = (Ambar)picture.Tag;
-
-                    ScaleAmbar(ambar1, widthRatio, heightRatio);
-                    picture.Invalidate();
-                    picture.Update();
-                }
-            }
-        }
-
-        private void ScaleAmbar(Ambar? ambar, float widthRatio, float heightRatio)
-        {
-            if (ambar != null)
-            {
-                ambar.SelectLayoutRectangle = new System.Drawing.RectangleF(ambar.SelectLayoutRectangle.X * widthRatio, ambar.SelectLayoutRectangle.Y * heightRatio, ambar.SelectLayoutRectangle.Width * widthRatio, ambar.SelectLayoutRectangle.Height * heightRatio);
-
-                foreach (var depo in ambar.depolar)
-                {
-                    depo.SelectLayoutRectangle = new System.Drawing.RectangleF(depo.SelectLayoutRectangle.X * widthRatio, depo.SelectLayoutRectangle.Y * heightRatio, depo.SelectLayoutRectangle.Width * widthRatio, depo.SelectLayoutRectangle.Height * heightRatio);
-
-                    foreach (var cell in depo.gridmaps)
-                    {
-                        cell.SelectLayoutRectangle = new System.Drawing.RectangleF(cell.SelectLayoutRectangle.X * widthRatio, cell.SelectLayoutRectangle.Y * heightRatio, cell.SelectLayoutRectangle.Width * widthRatio, cell.SelectLayoutRectangle.Height * heightRatio);
-
-                        foreach (var item in cell.items)
-                        {
-                            item.SelectLayoutRectangle = new System.Drawing.RectangleF(item.SelectLayoutRectangle.X * widthRatio, item.SelectLayoutRectangle.Y * heightRatio, item.SelectLayoutRectangle.Width * widthRatio, item.SelectLayoutRectangle.Height * heightRatio);
-                        }
-                    }
-                }
-                foreach (var conveyor in ambar.conveyors)
-                {
-                    conveyor.SelectLayoutRectangle = new System.Drawing.RectangleF(conveyor.SelectLayoutRectangle.X * widthRatio, conveyor.SelectLayoutRectangle.Y * heightRatio, conveyor.SelectLayoutRectangle.Width * widthRatio, conveyor.SelectLayoutRectangle.Height * heightRatio);
-
-                    foreach (var reff in conveyor.ConveyorReferencePoints)
-                    {
-                        reff.SelectLayoutRectangle = new System.Drawing.RectangleF(reff.SelectLayoutRectangle.X * widthRatio, reff.SelectLayoutRectangle.Y * heightRatio, reff.SelectLayoutRectangle.Width * widthRatio, reff.SelectLayoutRectangle.Height * heightRatio);
-                    }
-                }
-            }
-        }
-
+        //Events for manipulating Layouts
         private async void btn_Layout_Duzenle_Click(object sender, EventArgs e)
         {
             bool isDepoEmpty = true;
@@ -1100,8 +1292,8 @@ namespace Balya_Yerleştirme
                 if (ambar != null)
                 {
                     BeforeAmbar = ambar.Clone();
-                    LayoutOlusturma ?layout = null;
-                    
+                    LayoutOlusturma? layout = null;
+
 
                     foreach (var depo in ambar.depolar)
                     {
@@ -1114,7 +1306,7 @@ namespace Balya_Yerleştirme
                         }
                     }
 
-                    
+
 
                     if (isDepoEmpty)
                     {
@@ -1227,10 +1419,10 @@ namespace Balya_Yerleştirme
                                     await Main.LayoutOlusturSecondDatabaseOperation(layout1.Name, layout1.Description, layout1, ambar);
                                 }
                             }
-                            
+
                             SelectedPB.Invalidate();
                         }
-                        else if(layout.DialogResult == DialogResult.Cancel)
+                        else if (layout.DialogResult == DialogResult.Cancel)
                         {
                             ambar = BeforeAmbar.Clone();
                             SelectedPB.Tag = null;
@@ -1241,7 +1433,6 @@ namespace Balya_Yerleştirme
                 }
             }
         }
-
         private void btn_Sil_Click(object sender, EventArgs e)
         {
             List<System.Windows.Forms.Control> panels = new List<System.Windows.Forms.Control>();
@@ -1353,232 +1544,6 @@ namespace Balya_Yerleştirme
                 }
             }
         }
-
-        private void txt_ChangeLayoutName_TextChanged(object sender, EventArgs e)
-        {
-            if (this.Controls.Contains(panel_LayoutMenu))
-            {
-                GVisual.ShowControl(btn_ChangeLayoutName, InnerPanel1);
-            }
-
-            if (txt_ChangeLayoutName.Text.Length == 0)
-            {
-                GVisual.HideControl(btn_ChangeLayoutName, InnerPanel1);
-            }
-        }
-
-        private void txt_ChangeLayoutDescription_TextChanged(object sender, EventArgs e)
-        {
-            if (this.Controls.Contains(panel_LayoutMenu))
-            {
-                GVisual.ShowControl(btn_ChangeLayoutDescription, InnerPanel1);
-            }
-
-            if (txt_ChangeLayoutDescription.Text.Length == 0)
-            {
-                GVisual.HideControl(btn_ChangeLayoutDescription, InnerPanel1);
-            }
-        }
-
-        private void btn_ChangeLayoutName_Click(object sender, EventArgs e)
-        {
-            errorProvider.Clear();
-
-            string layout_name = txt_ChangeLayoutName.Text;
-
-            if (string.IsNullOrWhiteSpace(layout_name))
-            {
-                errorProvider.SetError(txt_ChangeLayoutName, "Bu alan boş bırakılamaz.");
-            }
-            if (layout_name.Length > 30)
-            {
-                errorProvider.SetError(txt_ChangeLayoutName, "Layout'un ismi 30 karakterden uzun olamaz.");
-            }
-
-            using (var context = new DBContext())
-            {
-                var layout = (from x in context.Layout
-                              where x.Name == layout_name
-                              select x).FirstOrDefault();
-
-                if (layout != null)
-                {
-                    errorProvider.SetError(txt_ChangeLayoutName, "Aynı isimli bir layout zaten bulunuyor lütfen başka bir isim seçin");
-
-                    txt_ChangeLayoutName.Clear();
-                    txt_ChangeLayoutName.Focus();
-                }
-            }
-
-            if (!errorProvider.HasErrors)
-            {
-                string old_LayoutName = getLayoutNameFromPanel(SelectLayoutPanel, SelectedPB, true);
-
-                using (var context = new DBContext())
-                {
-                    var layout = (from x in context.Layout
-                                  where x.Name == old_LayoutName
-                                  select x).FirstOrDefault();
-
-                    if (layout != null)
-                    {
-                        layout.Name = layout_name;
-                        context.SaveChanges();
-                        GVisual.HideControl(btn_ChangeLayoutName, InnerPanel1);
-                        setLayoutNameDesc(SelectLayoutPanel, SelectedPB, true, layout_name);
-                        lbl_LayoutMenu_Title.Text = layout_name;
-
-                        CustomNotifyIcon notify = new CustomNotifyIcon();
-                        notify.showAlert("Layout ismi başarıyla değiştirildi", CustomNotifyIcon.enmType.Success);
-                    }
-                    else
-                    {
-                        CustomNotifyIcon notify = new CustomNotifyIcon();
-                        notify.showAlert("Layout ismi değiştirilemedi", CustomNotifyIcon.enmType.Error);
-                    }
-                }
-            }
-
-        }
-
-        private void btn_ChangeLayoutDescription_Click(object sender, EventArgs e)
-        {
-            string layout_Description = txt_ChangeLayoutDescription.Text;
-
-            if (string.IsNullOrWhiteSpace(layout_Description))
-            {
-                errorProvider.SetError(txt_ChangeLayoutDescription, "Bu alan boş bırakılamaz.");
-            }
-
-            if (!errorProvider.HasErrors)
-            {
-                string old_LayoutName = getLayoutNameFromPanel(SelectLayoutPanel, SelectedPB, true);
-
-                using (var context = new DBContext())
-                {
-                    var layout = (from x in context.Layout
-                                  where x.Name == old_LayoutName
-                                  select x).FirstOrDefault();
-
-                    if (layout != null)
-                    {
-                        layout.Description = layout_Description;
-                        context.SaveChanges();
-                        GVisual.HideControl(btn_ChangeLayoutDescription, InnerPanel1);
-                        setLayoutNameDesc(SelectLayoutPanel, SelectedPB, false, layout_Description);
-                        CustomNotifyIcon notify = new CustomNotifyIcon();
-                        notify.showAlert("Layout açıklaması başarıyla değiştirildi", CustomNotifyIcon.enmType.Success);
-                    }
-                    else
-                    {
-                        CustomNotifyIcon notify = new CustomNotifyIcon();
-                        notify.showAlert("Layout açıklaması değiştirilemedi", CustomNotifyIcon.enmType.Error);
-                    }
-                }
-            }
-        }
-
-        private void setLayoutNameDesc(FlowLayoutPanel FlowPanel, PictureBox pictureBox, bool isName, string NameDesc)
-        {
-            foreach (var panel in FlowPanel.Controls)
-            {
-                if (panel is Panel)
-                {
-                    Panel panel1 = (Panel)panel;
-
-                    if (panel1.Controls.Contains(pictureBox))
-                    {
-                        foreach (var control in panel1.Controls)
-                        {
-                            if (isName)
-                            {
-                                if (control is Krypton.Toolkit.KryptonWrapLabel)
-                                {
-                                    Krypton.Toolkit.KryptonWrapLabel txt = (KryptonWrapLabel)(control);
-
-                                    if (txt.AccessibleName == "Layout Name")
-                                    {
-                                        txt.Text = NameDesc;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                if (control is Panel)
-                                {
-                                    Panel descPanel = (Panel)control;
-
-                                    foreach (var txt in descPanel.Controls)
-                                    {
-                                        if (txt is System.Windows.Forms.RichTextBox)
-                                        {
-                                            System.Windows.Forms.RichTextBox txt1 = (System.Windows.Forms.RichTextBox)txt;
-
-                                            if (txt1.AccessibleName == "Layout Desc")
-                                            {
-                                                txt1.Text = NameDesc;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        private string getLayoutNameFromPanel(FlowLayoutPanel FlowPanel, PictureBox pictureBox, bool isName)
-        {
-            foreach (var panel in FlowPanel.Controls)
-            {
-                if (panel is Panel)
-                {
-                    Panel panel1 = (Panel)panel;
-
-                    if (panel1.Controls.Contains(pictureBox))
-                    {
-                        foreach (var control in panel1.Controls)
-                        {
-                            if (isName)
-                            {
-                                if (control is Krypton.Toolkit.KryptonWrapLabel)
-                                {
-                                    Krypton.Toolkit.KryptonWrapLabel txt = (KryptonWrapLabel)(control);
-
-                                    if (txt.AccessibleName == "Layout Name")
-                                    {
-                                        return txt.Text;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                if (control is Panel)
-                                {
-                                    Panel descPanel = (Panel)control;
-
-                                    foreach (var txt in descPanel.Controls)
-                                    {
-                                        if (txt is System.Windows.Forms.RichTextBox)
-                                        {
-                                            System.Windows.Forms.RichTextBox txt1 = (System.Windows.Forms.RichTextBox)txt;
-
-                                            if (txt1.AccessibleName == "Layout Desc")
-                                            {
-                                                return txt1.Text;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            return string.Empty;
-        }
-
         private void btn_Layout_Yukle_Click(object sender, EventArgs e)
         {
             if (SelectedPB != null)
@@ -1620,5 +1585,119 @@ namespace Balya_Yerleştirme
                 this.Close();
             }
         }
+
+
+        //Right click menu item
+        private void layoutuSilToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<System.Windows.Forms.Control> panels = new List<System.Windows.Forms.Control>();
+            using (var context = new DBContext())
+            {
+                Ambar ambar = (Ambar)SelectedPB.Tag;
+                var layout = (from x in context.Layout
+                              where x.LayoutId == ambar.LayoutId
+                              select x).FirstOrDefault();
+
+                var firstResult = MessageBox.Show($"{layout.Name} isimli Layout'u silmek istiyor musunuz?",
+                    "Devam etmek istiyor musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (firstResult == DialogResult.Yes)
+                {
+                    if (ambar != null)
+                    {
+                        if (Main.ambar != null)
+                        {
+                            if (ambar.AmbarId == Main.ambar.AmbarId)
+                            {
+                                var result = MessageBox.Show("Şu an yüklü olan Layout'u silmek istiyor musunuz?",
+                                    "Devam etmek istiyor musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                                if (result == DialogResult.Yes)
+                                {
+                                    if (layout != null)
+                                    {
+                                        context.Layout.Remove(layout);
+                                        context.SaveChanges();
+                                    }
+
+                                    foreach (Panel panel in SelectLayoutPanel.Controls)
+                                    {
+                                        foreach (var pb in panel.Controls)
+                                        {
+                                            if (pb == SelectedPB)
+                                            {
+                                                panels.Add(panel);
+                                            }
+                                        }
+                                    }
+                                    foreach (var panel in panels)
+                                    {
+                                        SelectLayoutPanel.Controls.Remove(panel);
+                                        SelectedPB = null;
+                                        Main.ambar = null;
+                                        if (Main.infopanel.Visible)
+                                        {
+                                            GVisual.HideControl(Main.infopanel, Main.DrawingPanel);
+                                        }
+                                        Main.DrawingPanel.Invalidate();
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (layout != null)
+                                {
+                                    context.Layout.Remove(layout);
+                                    context.SaveChanges();
+                                }
+
+                                foreach (Panel panel in SelectLayoutPanel.Controls)
+                                {
+                                    foreach (var pb in panel.Controls)
+                                    {
+                                        if (pb == SelectedPB)
+                                        {
+                                            panels.Add(panel);
+                                        }
+                                    }
+                                }
+                                foreach (var panel in panels)
+                                {
+                                    SelectLayoutPanel.Controls.Remove(panel);
+                                    SelectedPB = null;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (layout != null)
+                            {
+                                context.Layout.Remove(layout);
+                                context.SaveChanges();
+                            }
+
+                            foreach (Panel panel in SelectLayoutPanel.Controls)
+                            {
+                                foreach (var pb in panel.Controls)
+                                {
+                                    if (pb == SelectedPB)
+                                    {
+                                        panels.Add(panel);
+                                    }
+                                }
+                            }
+                            foreach (var panel in panels)
+                            {
+                                SelectLayoutPanel.Controls.Remove(panel);
+                                SelectedPB = null;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        #endregion
     }
 }

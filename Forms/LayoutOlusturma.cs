@@ -24,6 +24,7 @@ namespace Balya_Yerleştirme
         #endregion
 
 
+
         //Variables for creation of depo, conveyor, gridmaps, reference points
         #region Creation Variables
 
@@ -48,6 +49,7 @@ namespace Balya_Yerleştirme
         #endregion
 
 
+
         //Manual Move Variables
         #region Changing Size and Location Variables
 
@@ -62,6 +64,7 @@ namespace Balya_Yerleştirme
         public bool ambar_Boyut_Degistir = false;
 
         #endregion
+
 
 
         //Item Placement Sequence Variables
@@ -87,6 +90,7 @@ namespace Balya_Yerleştirme
         #endregion
 
 
+
         //Panel Location Variables for UI Operations 
         #region Panel Locations and Sizes
         public System.Drawing.Point drawingPanelLeftLocation { get; set; } = new System.Drawing.Point(10, 102);
@@ -99,6 +103,7 @@ namespace Balya_Yerleştirme
         public System.Drawing.Size SmallPanelSize { get; set; } = new System.Drawing.Size(310, 62);
 
         #endregion
+
 
 
         //Rectangle Variables for Various use cases such as Manuel Move with textboxes etc.
@@ -116,6 +121,7 @@ namespace Balya_Yerleştirme
         #endregion
 
 
+
         //Custom Object Variables for Selecting an area or Copy Pasting
         #region Custom Objects (for Selecting and Copy Pasting)
 
@@ -128,6 +134,7 @@ namespace Balya_Yerleştirme
         #endregion
 
 
+
         //Variables for Copy and Paste Depos and Conveyors
         #region Copy Paste Variables
 
@@ -137,6 +144,7 @@ namespace Balya_Yerleştirme
         public PointF CopyPoint { get; set; }
 
         #endregion
+
 
 
         //Pens
@@ -152,11 +160,13 @@ namespace Balya_Yerleştirme
         #endregion
 
 
+
         //Variables for Saving the Layout when closing this
         #region Layout Save
         public string LayoutName { get; set; }
         public string LayoutDescription { get; set; }
         #endregion
+
 
 
         //Variables for TreeNode
@@ -166,9 +176,11 @@ namespace Balya_Yerleştirme
         public TreeNode ConveyorNode { get; set; }
         #endregion
 
-        public bool menuProcess { get; set; } = false;
 
+
+        public bool menuProcess { get; set; } = false;
         public Layout? layout { get; set; }
+
 
 
         public LayoutOlusturma(MainForm main, Ambar? ambar, Layout? layout)
@@ -216,6 +228,8 @@ namespace Balya_Yerleştirme
             HideEverything();
             MainPanelCloseBothSides(LeftSide_LayoutPanel, RightSide_LayoutPanel, this);
         }
+
+
 
         //TreeView Events and Methods for adding and deleting nodes according to the depos, conveyors in the area
         #region TreeView Events and Methods
@@ -452,6 +466,7 @@ namespace Balya_Yerleştirme
         }
 
         #endregion
+
 
 
         //Delete, Copy, Paste depo's and conveyor's with shortcuts 
@@ -5999,6 +6014,7 @@ namespace Balya_Yerleştirme
         #endregion
 
 
+
         //Alan SubMenu events
         #region Alan SubMenu Events
         //Open LeftSide Menu Context Menu Item Event for Ambar, Area
@@ -7066,7 +7082,6 @@ namespace Balya_Yerleştirme
                 GVisual.ShowControl(HideControl, panel);
             }
         }
-
         private void btn_OpenClose_Alan_Olusturma_Paneli_Click(object sender, EventArgs e)
         {
             if (Alan_Olusturma_Paneli.Size == SmallPanelSize)
@@ -7085,7 +7100,6 @@ namespace Balya_Yerleştirme
                 PanelWrap(Alan_Olusturma_Paneli, SubPanel_Alan_Olusturma_Paneli, SubPanel_Alan_Olusturma_Paneli_Controls, true);
             }
         }
-
         private void btn_OpenClose_Izgara_Haritasi_Olusturma_Paneli_Click(object sender, EventArgs e)
         {
             if (Izgara_Olusturma_Paneli.Size == SmallPanelSize)
@@ -7104,7 +7118,6 @@ namespace Balya_Yerleştirme
                 PanelWrap(Izgara_Olusturma_Paneli, SubPanel_Izgara_Haritasi_Olusturma_Paneli, SubPanel_Izgara_Haritasi_Olusturma_Paneli_Controls, true);
             }
         }
-
         private void btn_OpenClose_Depo_Olusturma_Paneli_Click(object sender, EventArgs e)
         {
             if (Depo_Olusturma_Paneli.Size == SmallPanelSize)
@@ -7123,7 +7136,6 @@ namespace Balya_Yerleştirme
                 PanelWrap(Depo_Olusturma_Paneli, SubPanel_Depo_Olusturma_Paneli, SubPanel_Depo_Olusturma_Paneli_Controls, true);
             }
         }
-
         private void btn_OpenClose_Conveyor_Olusturma_Paneli_Click(object sender, EventArgs e)
         {
             if (Conveyor_Olusturma_Paneli.Size == SmallPanelSize)
@@ -7142,29 +7154,6 @@ namespace Balya_Yerleştirme
                 PanelWrap(Conveyor_Olusturma_Paneli, SubPanel_Conveyor_Olusturma_Paneli, SubPanel_Conveyor_Olusturma_Paneli_Controls, true);
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
