@@ -1050,7 +1050,7 @@ namespace Balya_Yerleştirme
                                     depo.itemDrop_LeftRight, depo.asama1_Yuksekligi, depo.asama2_Yuksekligi,
                                     depo.Yerlestirilme_Sirasi, depo.DepoAlaniEni * 100, depo.DepoAlaniBoyu * 100,
                                     depo.ColumnCount, depo.RowCount, depo.currentColumn, depo.currentRow, depo.ItemTuru,
-                                    depo.asama1_ItemSayisi, depo.asama2_ToplamItemSayisi, depo.currentStage, depo.ItemTuruSecondary);
+                                    depo.asama1_ItemSayisi, depo.asama2_ToplamItemSayisi, depo.currentStage, depo.ItemTuruSecondary, depo.isYerlestirilme);
 
                                 await context.Depos.AddAsync(newDepo);
                                 await context.SaveChangesAsync();
@@ -1190,7 +1190,7 @@ namespace Balya_Yerleştirme
                                     depo.itemDrop_LeftRight, depo.asama1_Yuksekligi, depo.asama2_Yuksekligi,
                                     depo.Yerlestirilme_Sirasi, depo.DepoAlaniEni * 100, depo.DepoAlaniBoyu * 100,
                                     depo.ColumnCount, depo.RowCount, depo.currentColumn, depo.currentRow, depo.ItemTuru,
-                                    depo.asama1_ItemSayisi, depo.asama2_ToplamItemSayisi, depo.currentStage, depo.ItemTuruSecondary);
+                                    depo.asama1_ItemSayisi, depo.asama2_ToplamItemSayisi, depo.currentStage, depo.ItemTuruSecondary, depo.isYerlestirilme);
 
                                 await context.Depos.AddAsync(newDepo);
                                 await context.SaveChangesAsync();
@@ -2307,15 +2307,19 @@ namespace Balya_Yerleştirme
                 
             using (var context = new DBContext())
             {
-                var notlastClosedIsletme = (from x in context.Isletme
-                                            where x.IsletmeID != Isletme.IsletmeID
-                                            select x).ToList();
-
-                foreach (var isletme1 in notlastClosedIsletme)
+                if (Isletme != null)
                 {
-                    isletme1.LastClosedIsletme = 0;
-                    context.SaveChanges();
+                    var notlastClosedIsletme = (from x in context.Isletme
+                                                where x.IsletmeID != Isletme.IsletmeID
+                                                select x).ToList();
+
+                    foreach (var isletme1 in notlastClosedIsletme)
+                    {
+                        isletme1.LastClosedIsletme = 0;
+                        context.SaveChanges();
+                    }
                 }
+                
 
                 if (ambar != null)
                 {
@@ -2330,25 +2334,28 @@ namespace Balya_Yerleştirme
                     }
                 }
 
-                var isletme = (from x in context.Isletme
-                                where x.IsletmeID == Isletme.IsletmeID
-                                select x).FirstOrDefault();
-
-                if (isletme != null)
+                if (Isletme != null)
                 {
-                    isletme.LastClosedIsletme = 1;
-                    context.SaveChanges();
+                    var isletme = (from x in context.Isletme
+                                   where x.IsletmeID == Isletme.IsletmeID
+                                   select x).FirstOrDefault();
 
-                    if (ambar != null)
+                    if (isletme != null)
                     {
-                        var lastClosedLayout = (from x in context.Layout
-                                                where x.LayoutId == ambar.LayoutId && isletme.IsletmeID == x.IsletmeID
-                                                select x).FirstOrDefault();
+                        isletme.LastClosedIsletme = 1;
+                        context.SaveChanges();
 
-                        if (lastClosedLayout != null)
+                        if (ambar != null)
                         {
-                            lastClosedLayout.LastClosedLayout = 1;
-                            context.SaveChanges();
+                            var lastClosedLayout = (from x in context.Layout
+                                                    where x.LayoutId == ambar.LayoutId && isletme.IsletmeID == x.IsletmeID
+                                                    select x).FirstOrDefault();
+
+                            if (lastClosedLayout != null)
+                            {
+                                lastClosedLayout.LastClosedLayout = 1;
+                                context.SaveChanges();
+                            }
                         }
                     }
                 }
@@ -2481,6 +2488,7 @@ namespace Balya_Yerleştirme
                                 newDepo.OriginalKareBoyu = depo.OriginalKareBoyu;
                                 newDepo.currentColumn = depo.currentColumn;
                                 newDepo.currentRow = depo.currentRow;
+                                newDepo.isYerlestirilme = depo.isYerlestirilme;
 
                                 loadedAmbar.depolar.Add(newDepo);
 

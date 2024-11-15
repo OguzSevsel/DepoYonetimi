@@ -423,7 +423,7 @@ namespace Balya_Yerleştirme.Utilities
             string itemDrop_LeftRight, int itemDrop_Stage1, int itemDrop_Stage2, 
             int yerlestirilme_Sirasi, float depo_alani_eni_cm,
             float depo_alani_boyu_cm, int column_count, int row_count, int current_column, int current_row,
-            string item_turu, int asama1_itemsayisi, int asama2_toplamitemsayisi, int current_stage, string item_turu_secondary)
+            string item_turu, int asama1_itemsayisi, int asama2_toplamitemsayisi, int current_stage, string item_turu_secondary, int is_Yerlestirilme)
         {
             using (var context = new DBContext())
             {
@@ -432,7 +432,7 @@ namespace Balya_Yerleştirme.Utilities
                 zoomlevel, itemDrop_StartLocation, itemDrop_UpDown, itemDrop_LeftRight,
                 itemDrop_Stage1, itemDrop_Stage2, yerlestirilme_Sirasi, depo_alani_eni_cm,
                 depo_alani_boyu_cm, column_count, row_count, current_column, current_row, item_turu,
-                asama1_itemsayisi, asama2_toplamitemsayisi, current_stage, item_turu_secondary);
+                asama1_itemsayisi, asama2_toplamitemsayisi, current_stage, item_turu_secondary, is_Yerlestirilme);
 
                 context.Depos.Add(depo);
                 context.SaveChanges();

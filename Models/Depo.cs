@@ -14,7 +14,7 @@ public partial class Depo
         string itemDrop_LeftRight, int itemDrop_Stage1, int itemDrop_Stage2,
         int yerlestirilme_Sirasi, float depo_alani_eni_cm, float depo_alani_boyu_cm,
         int column_count, int row_count, int current_column, int current_row, string item_turu,
-        int asama1_ItemSayisi, int asama2_ToplamItemSayisi, int current_stage, string item_turu_secondary)
+        int asama1_ItemSayisi, int asama2_ToplamItemSayisi, int current_stage, string item_turu_secondary, int isYerlestirilme)
     {
         AmbarId = ambar_id;
         DepoName = depo_name;
@@ -50,6 +50,7 @@ public partial class Depo
         this.asama1_ItemSayisi = asama1_ItemSayisi;
         this.asama2_ToplamItemSayisi = asama2_ToplamItemSayisi;
         this.currentStage = current_stage;
+        this.isYerlestirilme = isYerlestirilme;
     }
 
     public int DepoId { get; set; }
@@ -121,6 +122,8 @@ public partial class Depo
     public int asama2_ToplamItemSayisi { get; set; }
 
     public int currentStage { get; set; }
+
+    public int isYerlestirilme { get; set; }
 
 
     public virtual Ambar Ambar { get; set; } = null!;

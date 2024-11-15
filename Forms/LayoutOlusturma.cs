@@ -1487,6 +1487,7 @@ namespace Balya_Yerleştirme
                     selectedDepo.asama2_Yuksekligi = toplam_nesne_yuksekligi_asama2;
                     selectedDepo.asama1_ItemSayisi = (int)upDown_1Asama_NesneSayisi.Value;
                     selectedDepo.asama2_ToplamItemSayisi = (int)upDown_2Asama_NesneSayisi.Value + (int)upDown_1Asama_NesneSayisi.Value;
+                    selectedDepo.isYerlestirilme = 0;
                     MovingParameter = false;
                     Parameter = string.Empty;
                     rectangles.Clear();
@@ -4816,6 +4817,7 @@ namespace Balya_Yerleştirme
                     depo.itemDrop_LeftRight = "Sağa Doğru";
                     depo.itemDrop_UpDown = "Yukarı Doğru";
                     depo.itemDrop_StartLocation = "Aşağıdan";
+                    depo.isYerlestirilme = 0;
 
                     SearchForLocationtoPlace(depo.Rectangle, null, depo, Ambar);
                     MainPanelCloseRightSide(RightSide_LayoutPanel, this);
@@ -6949,6 +6951,102 @@ namespace Balya_Yerleştirme
 
 
 
+        //PanelWrap Events
+        #region PanelWrap Events and Methods
+
+
+        private void PanelWrap(Panel panel, System.Windows.Forms.Control HideControl, System.Windows.Forms.Control ShowControl, bool wrap)
+        {
+            if (wrap)
+            {
+                GVisual.HideControl(HideControl, panel);
+                GVisual.ShowControl(ShowControl, panel);
+            }
+            else
+            {
+                GVisual.ShowControl(ShowControl, panel);
+                GVisual.ShowControl(HideControl, panel);
+            }
+        }
+        private void btn_OpenClose_Alan_Olusturma_Paneli_Click(object sender, EventArgs e)
+        {
+            if (Alan_Olusturma_Paneli.Size == SmallPanelSize)
+            {
+                GVisual.ChangeSize_of_Control(Alan_Olusturma_Paneli, new Size(310, 388));
+                RightSide_LayoutPanel.ScrollControlIntoView(Alan_Olusturma_Paneli);
+                GVisual.HideControl(lbl_Small_Alan_Title, SubPanel_Alan_Olusturma_Paneli_Controls);
+                btn_OpenClose_Alan_Olusturma_Paneli.Image = Resources.Resource1.Chevron_Up;
+                PanelWrap(Alan_Olusturma_Paneli, SubPanel_Alan_Olusturma_Paneli, SubPanel_Alan_Olusturma_Paneli_Controls, false);
+            }
+            else
+            {
+                GVisual.ChangeSize_of_Control(Alan_Olusturma_Paneli, SmallPanelSize);
+                GVisual.ShowControl(lbl_Small_Alan_Title, SubPanel_Alan_Olusturma_Paneli_Controls);
+                btn_OpenClose_Alan_Olusturma_Paneli.Image = Resources.Resource1.Chevron_Down;
+                PanelWrap(Alan_Olusturma_Paneli, SubPanel_Alan_Olusturma_Paneli, SubPanel_Alan_Olusturma_Paneli_Controls, true);
+            }
+        }
+        private void btn_OpenClose_Izgara_Haritasi_Olusturma_Paneli_Click(object sender, EventArgs e)
+        {
+            if (Izgara_Olusturma_Paneli.Size == SmallPanelSize)
+            {
+                GVisual.ChangeSize_of_Control(Izgara_Olusturma_Paneli, new Size(310, 883));
+                RightSide_LayoutPanel.ScrollControlIntoView(Izgara_Olusturma_Paneli);
+                GVisual.HideControl(lbl_Small_Izgara_Title, SubPanel_Izgara_Haritasi_Olusturma_Paneli_Controls);
+                btn_OpenClose_Izgara_Haritasi_Olusturma_Paneli.Image = Resources.Resource1.Chevron_Up;
+                PanelWrap(Izgara_Olusturma_Paneli, SubPanel_Izgara_Haritasi_Olusturma_Paneli, SubPanel_Izgara_Haritasi_Olusturma_Paneli_Controls, false);
+            }
+            else
+            {
+                GVisual.ChangeSize_of_Control(Izgara_Olusturma_Paneli, SmallPanelSize);
+                GVisual.ShowControl(lbl_Small_Izgara_Title, SubPanel_Izgara_Haritasi_Olusturma_Paneli_Controls);
+                btn_OpenClose_Izgara_Haritasi_Olusturma_Paneli.Image = Resources.Resource1.Chevron_Down;
+                PanelWrap(Izgara_Olusturma_Paneli, SubPanel_Izgara_Haritasi_Olusturma_Paneli, SubPanel_Izgara_Haritasi_Olusturma_Paneli_Controls, true);
+            }
+        }
+        private void btn_OpenClose_Depo_Olusturma_Paneli_Click(object sender, EventArgs e)
+        {
+            if (Depo_Olusturma_Paneli.Size == SmallPanelSize)
+            {
+                GVisual.ChangeSize_of_Control(Depo_Olusturma_Paneli, new Size(310, 883));
+                RightSide_LayoutPanel.ScrollControlIntoView(Depo_Olusturma_Paneli);
+                GVisual.HideControl(lbl_Small_Depo_Title, SubPanel_Depo_Olusturma_Paneli_Controls);
+                btn_OpenClose_Depo_Olusturma_Paneli.Image = Resources.Resource1.Chevron_Up;
+                PanelWrap(Depo_Olusturma_Paneli, SubPanel_Depo_Olusturma_Paneli, SubPanel_Depo_Olusturma_Paneli_Controls, false);
+            }
+            else
+            {
+                GVisual.ChangeSize_of_Control(Depo_Olusturma_Paneli, SmallPanelSize);
+                GVisual.ShowControl(lbl_Small_Depo_Title, SubPanel_Depo_Olusturma_Paneli_Controls);
+                btn_OpenClose_Depo_Olusturma_Paneli.Image = Resources.Resource1.Chevron_Down;
+                PanelWrap(Depo_Olusturma_Paneli, SubPanel_Depo_Olusturma_Paneli, SubPanel_Depo_Olusturma_Paneli_Controls, true);
+            }
+        }
+        private void btn_OpenClose_Conveyor_Olusturma_Paneli_Click(object sender, EventArgs e)
+        {
+            if (Conveyor_Olusturma_Paneli.Size == SmallPanelSize)
+            {
+                GVisual.ChangeSize_of_Control(Conveyor_Olusturma_Paneli, new Size(310, 420));
+                RightSide_LayoutPanel.ScrollControlIntoView(Conveyor_Olusturma_Paneli);
+                GVisual.HideControl(lbl_Small_Conveyor_Title, SubPanel_Conveyor_Olusturma_Paneli_Controls);
+                btn_OpenClose_Conveyor_Olusturma_Paneli.Image = Resources.Resource1.Chevron_Up;
+                PanelWrap(Conveyor_Olusturma_Paneli, SubPanel_Conveyor_Olusturma_Paneli, SubPanel_Conveyor_Olusturma_Paneli_Controls, false);
+            }
+            else
+            {
+                GVisual.ChangeSize_of_Control(Conveyor_Olusturma_Paneli, SmallPanelSize);
+                GVisual.ShowControl(lbl_Small_Conveyor_Title, SubPanel_Conveyor_Olusturma_Paneli_Controls);
+                btn_OpenClose_Conveyor_Olusturma_Paneli.Image = Resources.Resource1.Chevron_Down;
+                PanelWrap(Conveyor_Olusturma_Paneli, SubPanel_Conveyor_Olusturma_Paneli, SubPanel_Conveyor_Olusturma_Paneli_Controls, true);
+            }
+        }
+
+
+        #endregion
+
+
+
+        //Layout Kaydet Button Event
         private async void btn_Layout_Kaydet_Click(object sender, EventArgs e)
         {
             if (RightSide_LayoutPanel.Visible && !LeftSide_LayoutPanel.Visible)
@@ -7069,92 +7167,98 @@ namespace Balya_Yerleştirme
 
 
 
-        private void PanelWrap(Panel panel, System.Windows.Forms.Control HideControl, System.Windows.Forms.Control ShowControl, bool wrap)
+
+
+
+
+
+
+        private void PopulateDepoInfoMenuComboBox(List<Depo> depos)
         {
-            if (wrap)
+            foreach (var depo in depos)
             {
-                GVisual.HideControl(HideControl, panel);
-                GVisual.ShowControl(ShowControl, panel);
-            }
-            else
-            {
-                GVisual.ShowControl(ShowControl, panel);
-                GVisual.ShowControl(HideControl, panel);
+                if (!DepoInfoMenu_Combobox.Items.Contains(depo.DepoName))
+                {
+                    DepoInfoMenu_Combobox.Items.Add(depo.DepoName);
+                }
             }
         }
-        private void btn_OpenClose_Alan_Olusturma_Paneli_Click(object sender, EventArgs e)
+        private void toolStripBTN_OzellikleriGoruntule_Click(object sender, EventArgs e)
         {
-            if (Alan_Olusturma_Paneli.Size == SmallPanelSize)
+            if (!LeftSide_LayoutPanel.Visible)
             {
-                GVisual.ChangeSize_of_Control(Alan_Olusturma_Paneli, new Size(310, 388));
-                RightSide_LayoutPanel.ScrollControlIntoView(Alan_Olusturma_Paneli);
-                GVisual.HideControl(lbl_Small_Alan_Title, SubPanel_Alan_Olusturma_Paneli_Controls);
-                btn_OpenClose_Alan_Olusturma_Paneli.Image = Resources.Resource1.Chevron_Up;
-                PanelWrap(Alan_Olusturma_Paneli, SubPanel_Alan_Olusturma_Paneli, SubPanel_Alan_Olusturma_Paneli_Controls, false);
+                MainPanelOpenLeftSide(LeftSide_LayoutPanel, this, leftSidePanelLocation);
             }
-            else
+            SortFlowLayoutPanel(DepoPanel);
+            if (Ambar != null)
             {
-                GVisual.ChangeSize_of_Control(Alan_Olusturma_Paneli, SmallPanelSize);
-                GVisual.ShowControl(lbl_Small_Alan_Title, SubPanel_Alan_Olusturma_Paneli_Controls);
-                btn_OpenClose_Alan_Olusturma_Paneli.Image = Resources.Resource1.Chevron_Down;
-                PanelWrap(Alan_Olusturma_Paneli, SubPanel_Alan_Olusturma_Paneli, SubPanel_Alan_Olusturma_Paneli_Controls, true);
-            }
-        }
-        private void btn_OpenClose_Izgara_Haritasi_Olusturma_Paneli_Click(object sender, EventArgs e)
-        {
-            if (Izgara_Olusturma_Paneli.Size == SmallPanelSize)
-            {
-                GVisual.ChangeSize_of_Control(Izgara_Olusturma_Paneli, new Size(310, 883));
-                RightSide_LayoutPanel.ScrollControlIntoView(Izgara_Olusturma_Paneli);
-                GVisual.HideControl(lbl_Small_Izgara_Title, SubPanel_Izgara_Haritasi_Olusturma_Paneli_Controls);
-                btn_OpenClose_Izgara_Haritasi_Olusturma_Paneli.Image = Resources.Resource1.Chevron_Up;
-                PanelWrap(Izgara_Olusturma_Paneli, SubPanel_Izgara_Haritasi_Olusturma_Paneli, SubPanel_Izgara_Haritasi_Olusturma_Paneli_Controls, false);
-            }
-            else
-            {
-                GVisual.ChangeSize_of_Control(Izgara_Olusturma_Paneli, SmallPanelSize);
-                GVisual.ShowControl(lbl_Small_Izgara_Title, SubPanel_Izgara_Haritasi_Olusturma_Paneli_Controls);
-                btn_OpenClose_Izgara_Haritasi_Olusturma_Paneli.Image = Resources.Resource1.Chevron_Down;
-                PanelWrap(Izgara_Olusturma_Paneli, SubPanel_Izgara_Haritasi_Olusturma_Paneli, SubPanel_Izgara_Haritasi_Olusturma_Paneli_Controls, true);
-            }
-        }
-        private void btn_OpenClose_Depo_Olusturma_Paneli_Click(object sender, EventArgs e)
-        {
-            if (Depo_Olusturma_Paneli.Size == SmallPanelSize)
-            {
-                GVisual.ChangeSize_of_Control(Depo_Olusturma_Paneli, new Size(310, 883));
-                RightSide_LayoutPanel.ScrollControlIntoView(Depo_Olusturma_Paneli);
-                GVisual.HideControl(lbl_Small_Depo_Title, SubPanel_Depo_Olusturma_Paneli_Controls);
-                btn_OpenClose_Depo_Olusturma_Paneli.Image = Resources.Resource1.Chevron_Up;
-                PanelWrap(Depo_Olusturma_Paneli, SubPanel_Depo_Olusturma_Paneli, SubPanel_Depo_Olusturma_Paneli_Controls, false);
-            }
-            else
-            {
-                GVisual.ChangeSize_of_Control(Depo_Olusturma_Paneli, SmallPanelSize);
-                GVisual.ShowControl(lbl_Small_Depo_Title, SubPanel_Depo_Olusturma_Paneli_Controls);
-                btn_OpenClose_Depo_Olusturma_Paneli.Image = Resources.Resource1.Chevron_Down;
-                PanelWrap(Depo_Olusturma_Paneli, SubPanel_Depo_Olusturma_Paneli, SubPanel_Depo_Olusturma_Paneli_Controls, true);
-            }
-        }
-        private void btn_OpenClose_Conveyor_Olusturma_Paneli_Click(object sender, EventArgs e)
-        {
-            if (Conveyor_Olusturma_Paneli.Size == SmallPanelSize)
-            {
-                GVisual.ChangeSize_of_Control(Conveyor_Olusturma_Paneli, new Size(310, 420));
-                RightSide_LayoutPanel.ScrollControlIntoView(Conveyor_Olusturma_Paneli);
-                GVisual.HideControl(lbl_Small_Conveyor_Title, SubPanel_Conveyor_Olusturma_Paneli_Controls);
-                btn_OpenClose_Conveyor_Olusturma_Paneli.Image = Resources.Resource1.Chevron_Up;
-                PanelWrap(Conveyor_Olusturma_Paneli, SubPanel_Conveyor_Olusturma_Paneli, SubPanel_Conveyor_Olusturma_Paneli_Controls, false);
-            }
-            else
-            {
-                GVisual.ChangeSize_of_Control(Conveyor_Olusturma_Paneli, SmallPanelSize);
-                GVisual.ShowControl(lbl_Small_Conveyor_Title, SubPanel_Conveyor_Olusturma_Paneli_Controls);
-                btn_OpenClose_Conveyor_Olusturma_Paneli.Image = Resources.Resource1.Chevron_Down;
-                PanelWrap(Conveyor_Olusturma_Paneli, SubPanel_Conveyor_Olusturma_Paneli, SubPanel_Conveyor_Olusturma_Paneli_Controls, true);
+                PopulateDepoInfoMenuComboBox(Ambar.depolar);
             }
         }
 
+        private void btn_DepoInfoMenu_Kaydet_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_DepoInfoMenu_Vazgec_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void PopulateDepoInfoPanel(string depo_name, string depo_aciklamasi, string depo_tur_kodu, string depo_tur_kodu_2, int is_yerlestirilme)
+        {
+            txt_DepoInfoMenu_DepoIsmi.Text = depo_name;
+            txt_DepoInfoMenu_DepoAciklamasi.Text = depo_aciklamasi;
+            txt_DepoInfoMenu_DepoTurKodu.Text = depo_tur_kodu;
+            txt_DepoInfoMenu_DepoTurKodu2.Text = depo_tur_kodu_2;
+            if (is_yerlestirilme == 1)
+            {
+                lbl_DepoInfoMenu_isYerlestirilmeValue.Text = "Evet";
+                lbl_DepoInfoMenu_isYerlestirilmeValue.ForeColor = System.Drawing.Color.Lime;
+            }
+            else
+            {
+                lbl_DepoInfoMenu_isYerlestirilmeValue.Text = "Hayır";
+                lbl_DepoInfoMenu_isYerlestirilmeValue.ForeColor = System.Drawing.Color.Red;
+            }
+        }
+
+        private void DepoInfoMenu_Combobox_SelectedValueChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            if (comboBox == null || comboBox.SelectedItem == null)
+                return;
+
+            string selectedItem = comboBox.SelectedItem.ToString();
+            string value = string.Empty;
+
+            foreach (var x in comboBox.Items)
+            {
+                if (selectedItem == x.ToString())
+                {
+                    value = x.ToString();
+                    break;
+                }
+            }
+
+            if (Ambar != null)
+            {
+                foreach (var depo in Ambar.depolar)
+                {
+                    if (depo.DepoName == value)
+                    {
+                        PopulateDepoInfoPanel(
+                            depo.DepoName,
+                            depo.DepoDescription,
+                            depo.ItemTuru,
+                            depo.ItemTuruSecondary,
+                            depo.isYerlestirilme
+                        );
+                        break;
+                    }
+                }
+            }
+        }
 
 
 
