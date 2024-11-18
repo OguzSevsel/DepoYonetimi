@@ -562,7 +562,8 @@ namespace Balya_Yerleştirme.Forms
                         else
                         {
                             main.Isletme = isletme;
-                            main.lbl_Main_Title.Text = isletme.Name;
+                            main.lbl_SelectedIsletme_Value.Text = isletme.Name;
+                            main.lbl_SelectedLayout_Value.Text = "Seçilmedi";
 
                             if (main.ambar != null)
                             {
@@ -574,7 +575,8 @@ namespace Balya_Yerleştirme.Forms
                     else
                     {
                         main.Isletme = isletme;
-                        main.lbl_Main_Title.Text = isletme.Name;
+                        main.lbl_SelectedIsletme_Value.Text = isletme.Name;
+                        main.lbl_SelectedLayout_Value.Text = "Seçilmedi";
 
                         if (main.ambar != null)
                         {

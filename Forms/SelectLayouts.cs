@@ -84,14 +84,15 @@ namespace Balya_Yerleştirme
 
         #endregion
 
+        public Isletme? isletme { get; set; }
 
-
-        public SelectLayouts(Panel drawingPanel, MainForm main)
+        public SelectLayouts(Panel drawingPanel, MainForm main, Isletme isletme)
         {
             InitializeComponent();
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.Main = main;
+            this.isletme = isletme;
             DrawingPanel = drawingPanel;
             GVisual.HideControl(SelectLayoutPanel, this);
             GVisual.HideControl(btn_ChangeLayoutName, InnerPanel1);
@@ -111,24 +112,32 @@ namespace Balya_Yerleştirme
         {
             using (var context = new DBContext())
             {
-                var layouts = (from x in context.Layout
-                               where x.IsletmeID == Main.Isletme.IsletmeID
-                               select x).ToList();
-
-                LayoutCount = layouts.Count;
-                timer.Start();
-
-                if (layouts.Count == 0)
+                if (Main.Isletme != null)
                 {
-                    MessageBox.Show("İşletmeye kayıtlı layout bulunamadı, lütfen layout oluşturduktan sonra tekrar deneyin.", "Layout bulunamadı.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    this.DialogResult = DialogResult.Cancel;
+                    var layouts = (from x in context.Layout
+                                   where x.IsletmeID == Main.Isletme.IsletmeID
+                                   select x).ToList();
+
+                    LayoutCount = layouts.Count;
+                    timer.Start();
+
+                    if (layouts.Count == 0)
+                    {
+                        MessageBox.Show("İşletmeye kayıtlı layout bulunamadı, lütfen layout oluşturduktan sonra tekrar deneyin.", "Layout bulunamadı.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        this.DialogResult = DialogResult.Cancel;
+                    }
+                    else
+                    {
+                        foreach (var layout in layouts)
+                        {
+                            CreateLayouts(layout);
+                        }
+                    }
                 }
                 else
                 {
-                    foreach (var layout in layouts)
-                    {
-                        CreateLayouts(layout);
-                    }
+                    MessageBox.Show("Seçili işletme bulunamadı, lütfen önce işletme seçin.", "Seçili işletme bulunamadı.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    this.DialogResult = DialogResult.Cancel;
                 }
             }
         }
@@ -1319,7 +1328,7 @@ namespace Balya_Yerleştirme
 
                             if (layout1 != null)
                             {
-                                layout = new LayoutOlusturma(Main, ambar, layout1);
+                                layout = new LayoutOlusturma(Main, ambar, layout1, isletme);
 
                                 ambar.layout = layout;
                                 layout.AlanNode.Tag = ambar;
@@ -1353,6 +1362,7 @@ namespace Balya_Yerleştirme
 
                     if (layout != null)
                     {
+                        layout.isOrdering = true;
                         if (layout.ShowDialog() == DialogResult.OK)
                         {
                             // Proceed with applying the layout changes
@@ -1420,7 +1430,6 @@ namespace Balya_Yerleştirme
                                     await Main.LayoutOlusturSecondDatabaseOperation(layout1.Name, layout1.Description, layout1, ambar);
                                 }
                             }
-
                             SelectedPB.Invalidate();
                         }
                         else if (layout.DialogResult == DialogResult.Cancel)
@@ -1599,6 +1608,19 @@ namespace Balya_Yerleştirme
                     }
                 }
                 DrawingPanel.Invalidate();
+                using (var context = new DBContext())
+                {
+                    string layout_name = getLayoutNameFromPanel(SelectLayoutPanel, SelectedPB, true);
+
+                    var layout = (from x in context.Layout
+                                  where x.LayoutId == newAmbar.LayoutId && x.Name == layout_name
+                                  select x).FirstOrDefault();
+
+                    if (layout != null)
+                    {
+                        Main.lbl_SelectedLayout_Value.Text = layout_name;
+                    }
+                }
                 Main.opcount = 0;
                 this.Hide();
                 this.Close();

@@ -793,95 +793,12 @@ namespace Balya_Yerleştirme
         //Layout Operations
         #region Layout Events
 
+
         //Button event that opens dialog for Creating Layouts
         private void btn_Layout_Olustur_Click(object sender, EventArgs e)
         {
-            LayoutOlusturma dia = new LayoutOlusturma(this, null, null);
+            LayoutOlusturma dia = new LayoutOlusturma(this, null, null, Isletme);
             dia.Show();
-
-            //if (dia.Ambar != null)
-            //{
-            //    if (ambar != null)
-            //    {
-            //        ambar = null;
-            //    }
-
-            //    ambar = dia.Ambar;
-
-            //    ambar.KareX = dia.Ambar.Rectangle.X;
-            //    ambar.KareY = dia.Ambar.Rectangle.Y;
-            //    ambar.KareEni = dia.Ambar.Rectangle.Width;
-            //    ambar.KareBoyu = dia.Ambar.Rectangle.Height;
-            //    ambar.OriginalKareX = dia.Ambar.OriginalRectangle.X;
-            //    ambar.OriginalKareY = dia.Ambar.OriginalRectangle.Y;
-            //    ambar.OriginalKareEni = dia.Ambar.OriginalRectangle.Width;
-            //    ambar.OriginalKareBoyu = dia.Ambar.OriginalRectangle.Height;
-            //    ambar.Zoomlevel = Zoomlevel;
-
-            //    foreach (var conveyor in ambar.conveyors)
-            //    {
-            //        conveyor.layout = null;
-
-            //        conveyor.KareX = conveyor.Rectangle.X;
-            //        conveyor.KareY = conveyor.Rectangle.Y;
-            //        conveyor.KareEni = conveyor.Rectangle.Width;
-            //        conveyor.KareBoyu = conveyor.Rectangle.Height;
-            //        conveyor.OriginalKareX = conveyor.OriginalRectangle.X;
-            //        conveyor.OriginalKareY = conveyor.OriginalRectangle.Y;
-            //        conveyor.OriginalKareEni = conveyor.OriginalRectangle.Width;
-            //        conveyor.OriginalKareBoyu = conveyor.OriginalRectangle.Height;
-            //        conveyor.Zoomlevel = Zoomlevel;
-
-            //        foreach (var reff in conveyor.ConveyorReferencePoints)
-            //        {
-
-            //            reff.KareX = reff.Rectangle.X;
-            //            reff.KareY = reff.Rectangle.Y;
-            //            reff.KareEni = reff.Rectangle.Width;
-            //            reff.KareBoyu = reff.Rectangle.Height;
-            //            reff.OriginalKareX = reff.OriginalRectangle.X;
-            //            reff.OriginalKareY = reff.OriginalRectangle.Y;
-            //            reff.OriginalKareEni = reff.OriginalRectangle.Width;
-            //            reff.OriginalKareBoyu = reff.OriginalRectangle.Height;
-            //            reff.Zoomlevel = Zoomlevel;
-            //            reff.Layout = null;
-            //        }
-            //    }
-            //    foreach (var depo in ambar.depolar)
-            //    {
-
-            //        depo.OriginalDepoSizeWidth = depo.OriginalRectangle.Width;
-            //        depo.OriginalDepoSizeHeight = depo.OriginalRectangle.Height;
-            //        depo.KareX = depo.Rectangle.X;
-            //        depo.KareY = depo.Rectangle.Y;
-            //        depo.KareEni = depo.Rectangle.Width;
-            //        depo.KareBoyu = depo.Rectangle.Height;
-            //        depo.OriginalKareX = depo.OriginalRectangle.X;
-            //        depo.OriginalKareY = depo.OriginalRectangle.Y;
-            //        depo.OriginalKareEni = depo.OriginalRectangle.Width;
-            //        depo.OriginalKareBoyu = depo.OriginalRectangle.Height;
-            //        depo.Zoomlevel = Zoomlevel;
-            //        depo.layout = null;
-
-            //        foreach (var cell in depo.gridmaps)
-            //        {
-            //            cell.KareX = cell.Rectangle.X;
-            //            cell.KareY = cell.Rectangle.Y;
-            //            cell.KareEni = cell.Rectangle.Width;
-            //            cell.KareBoyu = cell.Rectangle.Height;
-            //            cell.OriginalKareX = cell.OriginalRectangle.X;
-            //            cell.OriginalKareY = cell.OriginalRectangle.Y;
-            //            cell.OriginalKareEni = cell.OriginalRectangle.Width;
-            //            cell.OriginalKareBoyu = cell.OriginalRectangle.Height;
-            //            cell.Zoomlevel = Zoomlevel;
-            //            cell.Layout = null;
-            //        }
-            //    }
-
-            //    await Task.Run(() => LayoutOlusturSecondDatabaseOperation(dia.LayoutName, dia.LayoutDescription, dia.layout, ambar));
-
-            //    DrawingPanel.Invalidate();
-            //}
         }
 
 
@@ -916,12 +833,13 @@ namespace Balya_Yerleştirme
                 }
                 DrawingPanel.AutoScrollMinSize = new Size(0, 0);
             }
-            SelectLayouts dialog = new SelectLayouts(DrawingPanel, this);
+            SelectLayouts dialog = new SelectLayouts(DrawingPanel, this, Isletme);
             if (dialog.DialogResult != DialogResult.Cancel)
             {
                 dialog.Show();
             }
         }
+
 
         #endregion
 
@@ -945,7 +863,6 @@ namespace Balya_Yerleştirme
                             await context.Layout.AddAsync(newLayout);
                             await context.SaveChangesAsync();
                             ambar.LayoutId = newLayout.LayoutId;
-
 
                             Ambar newAmbar = new Ambar(newLayout.LayoutId, "ambar", "ambar",
                                     ambar.KareX, ambar.KareY, ambar.KareEni, ambar.KareBoyu,
@@ -1426,6 +1343,7 @@ namespace Balya_Yerleştirme
                 GVisual.Move_RightSide_of_AnotherControl(PLC_Connection_Panel, ToolStrip, 3);
                 GVisual.Control_Center(btn_PLC_ConnectionPanel_Kapat, PLC_Connection_Panel);
                 btn_PLC_ConnectionPanel_Kapat.Image = Resources.Resource1.Chevron_Right;
+                IsletmeInfoPanel.Location = new Point(730, 4);
             }
             else
             {
@@ -1436,6 +1354,7 @@ namespace Balya_Yerleştirme
                 GVisual.Move_RightSide_of_AnotherControl(PLC_Connection_Panel, ToolStrip, 3);
                 GVisual.Control_CenterRightEdge(btn_PLC_ConnectionPanel_Kapat, PLC_Connection_Panel, 3);
                 btn_PLC_ConnectionPanel_Kapat.Image = Resources.Resource1.Chevron_Left;
+                IsletmeInfoPanel.Location = new Point(886, 4);
             }
         }
         private void btn_PLC_Connection_Click(object sender, EventArgs e)
@@ -2256,7 +2175,7 @@ namespace Balya_Yerleştirme
             {
                 MainPanelCloseLeftSide(leftLayoutPanel, this);
             }
-                
+
             using (var context = new DBContext())
             {
                 if (Isletme != null)
@@ -2271,7 +2190,7 @@ namespace Balya_Yerleştirme
                         context.SaveChanges();
                     }
                 }
-                
+
 
                 if (ambar != null)
                 {
@@ -2360,7 +2279,8 @@ namespace Balya_Yerleştirme
                 if (isletme != null)
                 {
                     Isletme = isletme;
-                    lbl_Main_Title.Text = Isletme.Name;
+                    lbl_SelectedIsletme_Value.Text = Isletme.Name;
+                    lbl_SelectedLayout_Value.Text = "Seçilmedi";
 
                     var layout = (from x in context.Layout
                                   where x.LastClosedLayout == 1 && x.IsletmeID == isletme.IsletmeID
@@ -2368,6 +2288,7 @@ namespace Balya_Yerleştirme
 
                     if (layout != null)
                     {
+                        lbl_SelectedLayout_Value.Text = layout.Name;
                         var Dbambar = (from x in context.Ambars
                                        where x.LayoutId == layout.LayoutId
                                        select x).FirstOrDefault();
@@ -2580,16 +2501,17 @@ namespace Balya_Yerleştirme
                         }
                     }
                 }
-                
-
-                
+                else
+                {
+                    lbl_SelectedIsletme_Value.Text = "Seçilmedi";
+                }
                 DrawingPanel.Invalidate();
             }
         }
 
         #endregion
 
-        
+
 
         //Add Items From Orders
         #region AddItemsFromOrders
@@ -2818,7 +2740,7 @@ namespace Balya_Yerleştirme
                     }
                 }
             }
-            
+
             if (lines.Count > 0)
             {
                 string excelFileName = Path.GetFileNameWithoutExtension(file);
@@ -4081,6 +4003,80 @@ namespace Balya_Yerleştirme
         {
             SelectBusiness business = new SelectBusiness(this);
             business.Show();
+        }
+
+
+        private void PopulateDepoInfoPanel(Depo depo)
+        {
+            string izgara_eni = string.Empty;
+            string izgara_boyu = string.Empty;
+            string nesne_eni = string.Empty;
+            string nesne_boyu = string.Empty;
+            string nesne_yuksekligi = string.Empty;
+
+            lbl_DepoInfoMenu_DepoDescription_Value.Text = depo.DepoDescription;
+            lbl_DepoInfoMenu_DepoName_Value.Text = depo.DepoName;
+            lbl_DepoInfoMenu_DepoItemKind_Value.Text = depo.ItemTuru;
+            lbl_DepoInfoMenu_DepoItemKindSecondary_Value.Text = depo.ItemTuruSecondary;
+            lbl_DepoInfoMenu_DepoWidth_Value.Text = $"{depo.DepoAlaniEni} Metre";
+            lbl_DepoInfoMenu_DepoHeight_Value.Text = $"{depo.DepoAlaniBoyu} Metre";
+            lbl_DepoInfoMenu_DepoYuksekligi_Value.Text = $"{depo.DepoAlaniYuksekligi} Cm";
+
+            if (depo.gridmaps != null)
+            {
+                foreach (var cell in depo.gridmaps)
+                {
+                    izgara_eni = $"{cell.CellEni} Cm";
+                    izgara_boyu = $"{cell.CellBoyu} Cm";
+                    nesne_eni = $"{cell.NesneEni} Cm";
+                    nesne_boyu = $"{cell.NesneBoyu} Cm";
+                    nesne_yuksekligi = $"{cell.NesneYuksekligi} Cm";
+                }
+                if (izgara_eni != string.Empty)
+                {
+                    lbl_IzgaraInfoMenu_IzgaraWidth_Value.Text = izgara_eni;
+                }
+                if (izgara_boyu != string.Empty)
+                {
+                    lbl_IzgaraInfoMenu_IzgaraHeight_Value.Text = izgara_boyu;
+                }
+                if (nesne_eni != string.Empty)
+                {
+                    lbl_NesneInfoMenu_NesneWidth_Value.Text = nesne_eni;
+                }
+                if (nesne_boyu != string.Empty)
+                {
+                    lbl_NesneInfoMenu_NesneHeight_Value.Text = nesne_boyu;
+                }
+                if (nesne_yuksekligi != string.Empty)
+                {
+                    lbl_NesneInfoMenu_NesneYuksekligi_Value.Text = nesne_yuksekligi;
+                }
+            }
+            else
+            {
+                lbl_IzgaraInfoMenu_IzgaraHeight_Value.Text = "Izgara Haritası Oluşturulmamış.";
+                lbl_IzgaraInfoMenu_IzgaraWidth_Value.Text = "Izgara Haritası Oluşturulmamış.";
+                lbl_NesneInfoMenu_NesneHeight_Value.Text = "Izgara Haritası Oluşturulmamış.";
+                lbl_NesneInfoMenu_NesneWidth_Value.Text = "Izgara Haritası Oluşturulmamış.";
+                lbl_NesneInfoMenu_NesneYuksekligi_Value.Text = "Izgara Haritası Oluşturulmamış.";
+            }
+        }
+        private void ToolStripBTN_OzellikleriGoruntule_Click(object sender, EventArgs e)
+        {
+            if (selectedDepo != null)
+            {
+                if (!leftLayoutPanel.Visible)
+                {
+                    MainPanelOpenLeftSide(leftLayoutPanel, this, leftSidePanelLocation, DepoInfoPanel);
+                }
+                PopulateDepoInfoPanel(selectedDepo);
+            }
+        }
+
+        private void btn_Close_DepoInfoPanel_Click(object sender, EventArgs e)
+        {
+            MainPanelCloseLeftSide(leftLayoutPanel, this);
         }
     }
 }

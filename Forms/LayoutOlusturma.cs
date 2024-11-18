@@ -176,15 +176,15 @@ namespace Balya_Yerleştirme
         public TreeNode DepoNode { get; set; }
         public TreeNode ConveyorNode { get; set; }
         #endregion
-
+        public bool isOrdering { get; set; }
 
 
         public bool menuProcess { get; set; } = false;
         public Layout? layout { get; set; }
+        public Isletme? Isletme { get; set; }
 
 
-
-        public LayoutOlusturma(MainForm main, Ambar? ambar, Layout? layout)
+        public LayoutOlusturma(MainForm main, Ambar? ambar, Layout? layout, Isletme ?isletme)
         {
             InitializeComponent();
             System.Windows.Forms.ToolTip toolTip = new System.Windows.Forms.ToolTip();
@@ -212,6 +212,7 @@ namespace Balya_Yerleştirme
             Main = main;
             Ambar = ambar;
             this.layout = layout;
+            this.Isletme = isletme;
 
             timer.Tick += Timer_Tick;
 
@@ -7139,7 +7140,7 @@ namespace Balya_Yerleştirme
             }
         
 
-            if (isContinue)
+            if (isContinue && !isOrdering)
             {
                 if (RightSide_LayoutPanel.Visible && !LeftSide_LayoutPanel.Visible)
                 {
@@ -7156,7 +7157,7 @@ namespace Balya_Yerleştirme
 
                 if (Ambar != null)
                 {
-                    using (var dialog = new LayoutNaming(Ambar))
+                    using (var dialog = new LayoutNaming(Ambar, Isletme))
                     {
                         if (dialog.ShowDialog() == DialogResult.OK)
                         {
@@ -7243,12 +7244,116 @@ namespace Balya_Yerleştirme
                                 }
 
                                 await Task.Run(() => Main.LayoutOlusturSecondDatabaseOperation(LayoutName, LayoutDescription, layout, Main.ambar));
-
                                 Main.DrawingPanel.Invalidate();
+                                Main.lbl_SelectedLayout_Value.Text = LayoutName;
                                 this.Hide();
                                 this.Close();
                             }
                         }
+                    }
+                }
+                else
+                {
+                    this.DialogResult = DialogResult.Cancel;
+                }
+            }
+            else if (isOrdering && isContinue)
+            {
+                if (RightSide_LayoutPanel.Visible && !LeftSide_LayoutPanel.Visible)
+                {
+                    MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+                }
+                else if (!RightSide_LayoutPanel.Visible && LeftSide_LayoutPanel.Visible)
+                {
+                    MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
+                }
+                else if (RightSide_LayoutPanel.Visible && LeftSide_LayoutPanel.Visible)
+                {
+                    MainPanelCloseBothSides(LeftSide_LayoutPanel, RightSide_LayoutPanel, this);
+                }
+
+
+                if (Ambar != null && layout != null)
+                {
+                    LayoutDescription = layout.Description;
+                    LayoutName = layout.Name;
+
+                    if (Ambar != null)
+                    {
+                        if (Main.ambar != null && Main.Isletme != null && Isletme != null &&  Main.Isletme.Name == Isletme.Name && Main.lbl_SelectedLayout_Value.Text == layout.Name)
+                        {
+                            Main.ambar = Ambar;
+                            Main.ambar.KareX = Ambar.Rectangle.X;
+                            Main.ambar.KareY = Ambar.Rectangle.Y;
+                            Main.ambar.KareEni = Ambar.Rectangle.Width;
+                            Main.ambar.KareBoyu = Ambar.Rectangle.Height;
+                            Main.ambar.OriginalKareX = Ambar.OriginalRectangle.X;
+                            Main.ambar.OriginalKareY = Ambar.OriginalRectangle.Y;
+                            Main.ambar.OriginalKareEni = Ambar.OriginalRectangle.Width;
+                            Main.ambar.OriginalKareBoyu = Ambar.OriginalRectangle.Height;
+                            Main.ambar.Zoomlevel = Main.Zoomlevel;
+
+                            foreach (var conveyor in Main.ambar.conveyors)
+                            {
+                                conveyor.layout = null;
+                                conveyor.KareX = conveyor.Rectangle.X;
+                                conveyor.KareY = conveyor.Rectangle.Y;
+                                conveyor.KareEni = conveyor.Rectangle.Width;
+                                conveyor.KareBoyu = conveyor.Rectangle.Height;
+                                conveyor.OriginalKareX = conveyor.OriginalRectangle.X;
+                                conveyor.OriginalKareY = conveyor.OriginalRectangle.Y;
+                                conveyor.OriginalKareEni = conveyor.OriginalRectangle.Width;
+                                conveyor.OriginalKareBoyu = conveyor.OriginalRectangle.Height;
+                                conveyor.Zoomlevel = Main.Zoomlevel;
+
+                                foreach (var reff in conveyor.ConveyorReferencePoints)
+                                {
+                                    reff.KareX = reff.Rectangle.X;
+                                    reff.KareY = reff.Rectangle.Y;
+                                    reff.KareEni = reff.Rectangle.Width;
+                                    reff.KareBoyu = reff.Rectangle.Height;
+                                    reff.OriginalKareX = reff.OriginalRectangle.X;
+                                    reff.OriginalKareY = reff.OriginalRectangle.Y;
+                                    reff.OriginalKareEni = reff.OriginalRectangle.Width;
+                                    reff.OriginalKareBoyu = reff.OriginalRectangle.Height;
+                                    reff.Zoomlevel = Main.Zoomlevel;
+                                    reff.Layout = null;
+                                }
+                            }
+                            foreach (var depo in Main.ambar.depolar)
+                            {
+                                depo.OriginalDepoSizeWidth = depo.OriginalRectangle.Width;
+                                depo.OriginalDepoSizeHeight = depo.OriginalRectangle.Height;
+                                depo.KareX = depo.Rectangle.X;
+                                depo.KareY = depo.Rectangle.Y;
+                                depo.KareEni = depo.Rectangle.Width;
+                                depo.KareBoyu = depo.Rectangle.Height;
+                                depo.OriginalKareX = depo.OriginalRectangle.X;
+                                depo.OriginalKareY = depo.OriginalRectangle.Y;
+                                depo.OriginalKareEni = depo.OriginalRectangle.Width;
+                                depo.OriginalKareBoyu = depo.OriginalRectangle.Height;
+                                depo.Zoomlevel = Main.Zoomlevel;
+                                depo.layout = null;
+
+                                foreach (var cell in depo.gridmaps)
+                                {
+                                    cell.KareX = cell.Rectangle.X;
+                                    cell.KareY = cell.Rectangle.Y;
+                                    cell.KareEni = cell.Rectangle.Width;
+                                    cell.KareBoyu = cell.Rectangle.Height;
+                                    cell.OriginalKareX = cell.OriginalRectangle.X;
+                                    cell.OriginalKareY = cell.OriginalRectangle.Y;
+                                    cell.OriginalKareEni = cell.OriginalRectangle.Width;
+                                    cell.OriginalKareBoyu = cell.OriginalRectangle.Height;
+                                    cell.Zoomlevel = Main.Zoomlevel;
+                                    cell.Layout = null;
+                                }
+                            }
+                        }
+                        Main.DrawingPanel.Invalidate();
+                        this.DialogResult = DialogResult.OK;
+                        this.Hide();
+                        this.Close();
                     }
                 }
                 else

@@ -337,6 +337,7 @@
             Controls.Add(SelectLayoutPanel);
             Controls.Add(lbl_Layout_Sec_Title);
             Name = "SelectLayouts";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Layout";
             panel_LayoutMenu.ResumeLayout(false);
             InnerPanel1.ResumeLayout(false);

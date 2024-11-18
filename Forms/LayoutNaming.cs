@@ -14,10 +14,13 @@ namespace Balya_Yerleştirme
     public partial class LayoutNaming : Form
     {
         Ambar Ambar { get; set; }
-        public LayoutNaming(Ambar ambar)
+        Isletme isletme { get; set; }
+
+        public LayoutNaming(Ambar ambar, Isletme isletme)
         {
             InitializeComponent();
             this.Ambar = ambar;
+            this.isletme = isletme;
         }
 
         private void btn_Layout_Onayla_Click(object sender, EventArgs e)
@@ -43,7 +46,7 @@ namespace Balya_Yerleştirme
             using (var context = new DBContext())
             {
                 var layout = (from x in context.Layout
-                              where x.Name == layout_isim
+                              where x.Name == layout_isim && x.IsletmeID == isletme.IsletmeID
                               select x).FirstOrDefault();
 
                 if (layout != null)
@@ -51,7 +54,6 @@ namespace Balya_Yerleştirme
                     if (layout.LayoutId != Ambar.LayoutId)
                     {
                         errorProvider.SetError(txt_Layout_Isim, "Aynı isimli bir layout zaten bulunuyor lütfen başka bir isim seçin");
-
                         txt_Layout_Isim.Clear();
                     }
                 }
