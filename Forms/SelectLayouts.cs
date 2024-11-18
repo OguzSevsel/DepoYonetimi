@@ -306,6 +306,7 @@ namespace Balya_Yerleştirme
                         newDepo.asama2_ToplamItemSayisi = depo.asama2_ToplamItemSayisi;
                         newDepo.ItemTuru = depo.ItemTuru;
                         newDepo.ItemTuruSecondary = depo.ItemTuruSecondary;
+                        newDepo.isYerlestirilme = depo.isYerlestirilme;
                         newDepo.currentStage = depo.currentStage;
 
 
@@ -1487,6 +1488,12 @@ namespace Balya_Yerleştirme
                                         Main.DrawingPanel.Invalidate();
                                     }
                                     CloseRightSide(ambar);
+                                    if (context.Layout.Count() == 0)
+                                    {
+                                        this.DialogResult = DialogResult.Cancel;
+                                        this.Hide();
+                                        this.Close();
+                                    }
                                 }
                             }
                             else
@@ -1513,6 +1520,12 @@ namespace Balya_Yerleştirme
                                     SelectedPB = null;
                                 }
                                 CloseRightSide(ambar);
+                                if (context.Layout.Count() == 0)
+                                {
+                                    this.DialogResult = DialogResult.Cancel;
+                                    this.Hide();
+                                    this.Close();
+                                }
                             }
                         }
                         else
@@ -1539,6 +1552,12 @@ namespace Balya_Yerleştirme
                                 SelectedPB = null;
                             }
                             CloseRightSide(ambar);
+                            if (context.Layout.Count() == 0)
+                            {
+                                this.DialogResult = DialogResult.Cancel;
+                                this.Hide();
+                                this.Close();
+                            }
                         }
                     }
                 }

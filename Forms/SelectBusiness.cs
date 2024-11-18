@@ -441,13 +441,27 @@ namespace Balya_Yerleştirme.Forms
         //Button Events for Changing Isletme Name and Description
         private void btn_ChangeIsletmeName_Click(object sender, EventArgs e)
         {
+            errorProvider.Clear();
             if (selectedGroupBox != null)
             {
                 string isletme_name = txt_ChangeIsletmeName.Text;
                 if (isletme_name.Length > 30)
                 {
                     errorProvider.SetError(txt_ChangeIsletmeName, "İşletme ismi 30 karakterden uzun olamaz.");
-                } 
+                }
+
+                using (var context = new DBContext())
+                {
+                    var isletme = (from x in context.Isletme
+                                   where x.Name == isletme_name
+                                   select x).FirstOrDefault();
+
+                    if (isletme != null)
+                    {
+                        errorProvider.SetError(txt_ChangeIsletmeName, "Aynı isimli bir işletme bulunuyor, lütfen başka bir isim verin.");
+                    }
+                }
+
                 if (!errorProvider.HasErrors)
                 {
                     Isletme isletme = (Isletme)selectedGroupBox.Tag;
@@ -539,9 +553,23 @@ namespace Balya_Yerleştirme.Forms
 
                 if (isletme != null)
                 {
-                    if (main.Isletme.IsletmeID == isletme.IsletmeID)
+                    if (main.Isletme != null)
                     {
-                        
+                        if (main.Isletme.IsletmeID == isletme.IsletmeID && main.Isletme.Name == isletme.Name)
+                        {
+
+                        }
+                        else
+                        {
+                            main.Isletme = isletme;
+                            main.lbl_Main_Title.Text = isletme.Name;
+
+                            if (main.ambar != null)
+                            {
+                                main.ambar = null;
+                                main.DrawingPanel.Invalidate();
+                            }
+                        }
                     }
                     else
                     {
@@ -554,6 +582,7 @@ namespace Balya_Yerleştirme.Forms
                             main.DrawingPanel.Invalidate();
                         }
                     }
+                    
                     this.Hide();
                     this.Close();
                 }

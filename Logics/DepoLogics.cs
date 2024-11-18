@@ -42,8 +42,6 @@ namespace Balya_Yerleştirme.Models
         public bool isDragging { get; set; } = false;
         [NotMapped]
         public Point DragStartPoint = new Point();
-        //[NotMapped]
-        //public RectangleF holderRectangle = new RectangleF();
         [NotMapped]
         public Ambar Parent { get; set; }
         [NotMapped]

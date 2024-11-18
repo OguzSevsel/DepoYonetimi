@@ -921,54 +921,6 @@ namespace Balya_Yerleştirme
             {
                 dialog.Show();
             }
-            //using (var dialog = new SelectLayouts(DrawingPanel, this))
-            //{
-            //    if (dialog.DialogResult == DialogResult.Cancel)
-            //    {
-            //        dialog.Hide();
-            //        dialog.Close();
-            //    }
-
-            //    if (!dialog.IsDisposed)
-            //    {
-            //        if (dialog.ShowDialog() == DialogResult.OK && dialog.DialogResult != DialogResult.Cancel)
-            //        {
-            //            Ambar newAmbar = new Ambar();
-
-            //            newAmbar = (Ambar)dialog.SelectedPB.Tag;
-
-            //            newAmbar.Rectangle = newAmbar.Rectangle;
-
-            //            ambar = newAmbar;
-            //            ambar.AmbarId = newAmbar.AmbarId;
-            //            ambar.layout = null;
-
-            //            foreach (var conveyor in ambar.conveyors)
-            //            {
-            //                conveyor.layout = null;
-            //                foreach (var reff in conveyor.ConveyorReferencePoints)
-            //                {
-            //                    reff.Layout = null;
-            //                }
-            //            }
-
-            //            foreach (var depo in ambar.depolar)
-            //            {
-            //                depo.layout = null;
-            //                foreach (var cell in depo.gridmaps)
-            //                {
-            //                    cell.Layout = null;
-            //                    foreach (var item in cell.items)
-            //                    {
-            //                        cell.toplam_Nesne_Yuksekligi = item.ItemYuksekligi * cell.items.Count;
-            //                    }
-            //                }
-            //            }
-            //            DrawingPanel.Invalidate();
-            //            opcount = 0;
-            //        }
-            //    }
-            //}
         }
 
         #endregion
@@ -1583,7 +1535,7 @@ namespace Balya_Yerleştirme
 
 
         //PLC Simulation for Item Placement
-        #region PLC Sİmulation for Adding Items
+        #region PLC Simulation for Adding Items
 
         //These are Simulation Panel Button Events (This panel works for both Item Placement and Item Removal Simulations
         //This is the Button that Opens the Simulation Panel for PLC
@@ -2799,6 +2751,7 @@ namespace Balya_Yerleştirme
             bool firstLine = true;
             List<string> lines = new List<string>();
             List<string> faultyLines = new List<string>();
+            List<Models.Item> items = new List<Models.Item>();
 
             foreach (var dataLine in data)
             {
@@ -2825,10 +2778,31 @@ namespace Balya_Yerleştirme
                         {
                             bool isiteminlayout = CheckifItemisinLayout(item_etiketi);
 
-                            if (!isiteminlayout)
+                            if (isiteminlayout)
                             {
                                 yerBul = false;
-                                PlaceItem(newDepo, item_etiketi, item_aciklamasi, item_agirligi);
+                                //PlaceItem(newDepo, item_etiketi, item_aciklamasi, item_agirligi);
+
+                                if (ambar != null)
+                                {
+                                    foreach (var depo in ambar.depolar)
+                                    {
+                                        foreach (var cell in depo.gridmaps)
+                                        {
+                                            foreach (var item in cell.items)
+                                            {
+                                                if (item.ItemEtiketi == item_etiketi)
+                                                {
+                                                    items.Add(item);
+                                                }
+                                            }
+                                            foreach (var item in items)
+                                            {
+                                                cell.items.Remove(item);
+                                            }
+                                        }
+                                    }
+                                }
                                 DrawingPanel.Invalidate();
                                 lines.Add(line);
                             }
@@ -2844,6 +2818,7 @@ namespace Balya_Yerleştirme
                     }
                 }
             }
+            
             if (lines.Count > 0)
             {
                 string excelFileName = Path.GetFileNameWithoutExtension(file);

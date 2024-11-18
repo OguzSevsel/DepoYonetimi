@@ -90,7 +90,6 @@ public partial class DBContext : DbContext
             entity.Property(e => e.AmbarEni).HasColumnName("ambar_Eni_Metre");
             entity.Property(e => e.AmbarBoyu).HasColumnName("ambar_Boyu_Metre");
         });
-       
 
         modelBuilder.Entity<Cell>(entity =>
         {

@@ -61,6 +61,7 @@
             lbl_CreateIsletme_Title = new Krypton.Toolkit.KryptonWrapLabel();
             btn_CreateIsletme = new Button();
             errorProvider = new ErrorProvider(components);
+            lbl_Title = new Krypton.Toolkit.KryptonWrapLabel();
             panel_IsletmeMenu.SuspendLayout();
             InnerPanel1.SuspendLayout();
             InnerPanel.SuspendLayout();
@@ -415,11 +416,26 @@
             // 
             errorProvider.ContainerControl = this;
             // 
+            // lbl_Title
+            // 
+            lbl_Title.AutoSize = false;
+            lbl_Title.Font = new Font("Microsoft Sans Serif", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbl_Title.ForeColor = Color.Red;
+            lbl_Title.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_Title.Location = new Point(636, 9);
+            lbl_Title.Name = "lbl_Title";
+            lbl_Title.Size = new Size(312, 55);
+            lbl_Title.StateCommon.Font = new Font("Microsoft Sans Serif", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbl_Title.StateCommon.TextColor = Color.Red;
+            lbl_Title.Text = "İşletme Seçin";
+            lbl_Title.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // SelectBusiness
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1584, 861);
+            Controls.Add(lbl_Title);
             Controls.Add(panel_IsletmeMenu);
             Controls.Add(btn_CreateIsletme);
             Controls.Add(panel_CreateIsletme);
@@ -475,5 +491,6 @@
         private Krypton.Toolkit.KryptonWrapLabel lbl_CreateIsletme_Title;
         private Button btn_CreateIsletme;
         private ErrorProvider errorProvider;
+        private Krypton.Toolkit.KryptonWrapLabel lbl_Title;
     }
 }
