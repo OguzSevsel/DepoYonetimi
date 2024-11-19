@@ -169,12 +169,12 @@ namespace Balya_Yerleştirme.Models
                             layout.SelectedAmbarPen.Width = 3;
                             layout.SelectedAmbarPen.Color = System.Drawing.Color.Blue;
                             layout.ambarMenuStrip.Show(Cursor.Position);
-                            layout.SelectNode(this, null, null);
                             if (layout.LeftSide_LayoutPanel.Visible)
                             {
                                 layout.SortFlowLayoutPanel(layout.layoutPanel_Ambar);
                                 layout.Show_AreaMenus("Alan");
                             }
+                            layout.SelectNode(this, null, null);
                         }
                     }
                     if (e.Button == MouseButtons.Left)
@@ -187,12 +187,12 @@ namespace Balya_Yerleştirme.Models
                             layout.SelectedAmbar = this;
                             layout.SelectedAmbarPen.Width = 3;
                             layout.SelectedAmbarPen.Color = System.Drawing.Color.Blue;
-                            layout.SelectNode(this, null, null);
                             if (layout.LeftSide_LayoutPanel.Visible)
                             {
                                 layout.Show_AreaMenus("Alan");
                                 layout.SortFlowLayoutPanel(layout.layoutPanel_Ambar);
                             }
+                            layout.SelectNode(this, null, null);
                         }
                     }
                 }

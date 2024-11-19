@@ -3,6 +3,7 @@ using CustomNotification;
 using DocumentFormat.OpenXml.Spreadsheet;
 using GUI_Library;
 using String_Library;
+using System.Diagnostics;
 using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.Net.Security;
@@ -267,8 +268,10 @@ namespace Balya_Yerleştirme
                 SelectedAmbar = ambar;
                 SelectedAmbarPen.Width = 3;
                 SelectedAmbarPen.Color = System.Drawing.Color.Blue;
-
-                SortFlowLayoutPanel(layoutPanel_Ambar);
+                if (!layoutPanel_Ambar.Visible)
+                {
+                    SortFlowLayoutPanel(layoutPanel_Ambar);
+                }
                 AlanTreeView.ExpandAll();
 
                 drawingPanel.Invalidate();
@@ -302,10 +305,11 @@ namespace Balya_Yerleştirme
                         UnchangedDepoAlaniEni = selectedDepo.DepoAlaniEni;
                         UnchangedselectedDepoRectangle = selectedDepo.Rectangle;
 
-                        SortFlowLayoutPanel(LayoutPanel_SelectedDepo);
+                        if (!LayoutPanel_SelectedDepo.Visible)
+                        {
+                            SortFlowLayoutPanel(LayoutPanel_SelectedDepo);
+                        }
                         AlanTreeView.ExpandAll();
-
-
                         drawingPanel.Invalidate();
                     }
                 }
@@ -339,7 +343,10 @@ namespace Balya_Yerleştirme
                         UnchangedConveyorBoyu = selectedConveyor.ConveyorBoyu;
                         UnchangedselectedConveyorRectangle = selectedConveyor.Rectangle;
 
-                        SortFlowLayoutPanel(layoutPanel_SelectedConveyor);
+                        if (!layoutPanel_SelectedConveyor.Visible)
+                        {
+                            SortFlowLayoutPanel(layoutPanel_SelectedConveyor);
+                        }
                         AlanTreeView.ExpandAll();
 
                         drawingPanel.Invalidate();
@@ -383,15 +390,20 @@ namespace Balya_Yerleştirme
 
         private void DeleteDepoNode(Depo depo)
         {
-            TreeNode deleteNode = new TreeNode();
+            TreeNode? deleteNode = null;
             foreach (TreeNode node in DepoNode.Nodes)
             {
                 if (node.Tag == depo)
                 {
                     deleteNode = node;
+                    break;
                 }
             }
-            DepoNode.Nodes.Remove(deleteNode);
+            if (deleteNode != null)
+            {
+                DepoNode.Nodes.Remove(deleteNode);
+                AlanTreeView.Refresh();
+            }
         }
 
         private void DeleteConveyorNode(Conveyor conveyor)
@@ -572,9 +584,6 @@ namespace Balya_Yerleştirme
 
                                 CopyDepo.gridmaps.Add(CopiedCell);
                             }
-                            selectedDepo = null;
-                            SelectedAmbar = null;
-                            selectedConveyor = null;
                         }
                         if (selectedConveyor != null)
                         {
@@ -818,45 +827,9 @@ namespace Balya_Yerleştirme
                                         }
                                     }
                                     CopiedDepo.DepoName = deponame;
-                                    menuProcess = true;
-                                    SortFlowLayoutPanel(DepoInfoMenu_Panel);
-                                    PopulateDepoInfoPanel(CopiedDepo.DepoName, CopiedDepo.DepoDescription, CopiedDepo.ItemTuru, CopiedDepo.ItemTuruSecondary, CopiedDepo.isYerlestirilme);
-
-                                    if (selectedDepo != null)
-                                    {
-                                        selectedDepo = null;
-                                    }
-
-                                    selectedDepo = CopiedDepo;
-                                    SelectedDepoEdgePen.Width = 3;
-                                    SelectedDepoPen.Width = 3;
-                                    SelectedDepoPen.Color = System.Drawing.Color.Blue;
-
-                                    if (SelectedAmbar != null)
-                                    {
-                                        SelectedAmbar = null;
-                                        SelectedAmbarPen.Width = 2;
-                                        SelectedAmbarPen.Color = System.Drawing.Color.Black;
-                                    }
-                                    if (selectedConveyor != null)
-                                    {
-                                        selectedConveyor = null;
-                                        SelectedConveyorPen.Width = 2;
-                                        SelectedConveyorEdgePen.Width = 2;
-                                        SelectedConveyorPen.Color = System.Drawing.Color.Black;
-                                    }
-
+                                    AddDepoNode(CopiedDepo);
+                                    SelectNode(null, null, CopiedDepo);
                                     drawingPanel.Invalidate();
-
-                                    if (!LeftSide_LayoutPanel.Visible)
-                                    {
-                                        MainPanelOpenLeftSide(LeftSide_LayoutPanel, this, leftSidePanelLocation);
-                                        if (LeftSide_LayoutPanel.Controls.Contains(LayoutPanel_SelectedDepo))
-                                        {
-                                            SortFlowLayoutPanel(DepoInfoMenu_Panel);
-                                            PopulateDepoInfoPanel(CopiedDepo.DepoName, CopiedDepo.DepoDescription, CopiedDepo.ItemTuru, CopiedDepo.ItemTuruSecondary, CopiedDepo.isYerlestirilme);
-                                        }
-                                    }
                                 }
                             }
                             else
@@ -980,6 +953,9 @@ namespace Balya_Yerleştirme
                         {
                             Ambar.deletedDepos.Add(selectedDepo);
                             Ambar.depolar.Remove(selectedDepo);
+                            DeleteDepoNode(selectedDepo);
+                            UnselectNodes();
+                            selectedDepo = null;
                             if (LeftSide_LayoutPanel.Visible)
                             {
                                 MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
@@ -1004,6 +980,9 @@ namespace Balya_Yerleştirme
                         {
                             Ambar.deletedConveyors.Add(selectedConveyor);
                             Ambar.conveyors.Remove(selectedConveyor);
+                            DeleteConveyorNode(selectedConveyor);
+                            UnselectNodes();
+                            selectedConveyor = null;
                             if (LeftSide_LayoutPanel.Visible)
                             {
                                 MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
@@ -1040,17 +1019,16 @@ namespace Balya_Yerleştirme
         {
             if (selectedDepo != null)
             {
-                if (selectedDepo.gridmaps.Count > 0)
+                if (selectedDepo.gridmaps != null && selectedDepo.gridmaps.Count > 0)
                 {
                     GVisual.HideControl(panel_Depo_Menu, groupBox_SelectedDepo);
                     GVisual.ShowControl(Asama1_Yukseklik_Panel, groupBox_SelectedDepo);
                     GVisual.Control_Center(Asama1_Yukseklik_Panel, groupBox_SelectedDepo);
-
                     TransparentPen.Color = System.Drawing.Color.FromArgb(0, System.Drawing.Color.Black);
-                    MovingParameter = true;
                     lbl_Placement_Yukseklik_Depo_Alani_Yuksekligi_Value.Text = $"{selectedDepo.DepoAlaniYuksekligi} cm";
                     lbl_Placement_Yukseklik_Nesne_Yuksekligi_Value.Text = $"{selectedDepo.nesneYuksekligi} cm";
                     lbl_Placement_Yukseklik_upDown_Nesne_Yuksekligi_Value.Text = "0 cm";
+                    MovingParameter = true;
                     menuProcess = true;
                 }
                 else
@@ -1957,6 +1935,7 @@ namespace Balya_Yerleştirme
                 foreach (var depo in Ambar.depolar)
                 {
                     g.DrawRectangle(TransparentPen, depo.Rectangle);
+                    g.DrawString($"{Ambar.depolar.Count}", Font, new SolidBrush(System.Drawing.Color.Black), new Point(10, 100));
 
                     foreach (var cell in depo.gridmaps)
                     {
@@ -1971,6 +1950,7 @@ namespace Balya_Yerleştirme
                         g.DrawRectangle(SelectedDepoPen, depo.Rectangle);
                         SelectedDepoEdgePen.DashStyle = DashStyle.Dash;
 
+                        g.DrawString($"{selectedDepo.DepoName}",Font,new SolidBrush(System.Drawing.Color.Black), new Point(10,130));
                         DrawLeftLines(SelectedDepoEdgePen, g, rects, depo.Rectangle, Ambar.Rectangle);
                         DrawRightLines(SelectedDepoEdgePen, g, rects, depo.Rectangle, Ambar.Rectangle);
                         DrawTopLines(SelectedDepoEdgePen, g, rects, depo.Rectangle, Ambar.Rectangle);
@@ -4819,7 +4799,7 @@ namespace Balya_Yerleştirme
                 {
                     if (depo.DepoName == depo_name)
                     {
-                        errorProvider.SetError(txt_Depo_Eni, "Aynı isimli bir depo zaten bulunuyor, lütfen değiştirip tekrar deneyin.");
+                        errorProvider.SetError(txt_Depo_Adi, "Aynı isimli bir depo zaten bulunuyor, lütfen değiştirip tekrar deneyin.");
                     }
                 }
 
@@ -5370,7 +5350,6 @@ namespace Balya_Yerleştirme
         //Delete Depo
         private void depoyuSilToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            TreeNode DeletedNode = new TreeNode();
             if (Ambar != null)
             {
                 if (selectedDepo != null)
@@ -5378,11 +5357,12 @@ namespace Balya_Yerleştirme
                     Ambar.deletedDepos.Add(selectedDepo);
                     Ambar.depolar.Remove(selectedDepo);
                     DeleteDepoNode(selectedDepo);
+                    selectedDepo = null;
+                    CopyDepo = null;
+                    UnselectNodes();
+                    drawingPanel.Invalidate();
                 }
             }
-            selectedDepo = null;
-            CopyDepo = null;
-            drawingPanel.Invalidate();
         }
         private void btn_Depo_SubMenu_Sil_Click(object sender, EventArgs e)
         {
@@ -5399,6 +5379,7 @@ namespace Balya_Yerleştirme
                         GVisual.HideControl(LayoutPanel_SelectedDepo, LeftSide_LayoutPanel);
                     }
                     DeleteDepoNode(selectedDepo);
+                    UnselectNodes();
                     drawingPanel.Invalidate();
                 }
             }
@@ -7353,6 +7334,7 @@ namespace Balya_Yerleştirme
                         Main.DrawingPanel.Invalidate();
                         this.DialogResult = DialogResult.OK;
                         this.Hide();
+                        Main.Show();
                         this.Close();
                     }
                 }

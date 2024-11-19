@@ -34,7 +34,7 @@ namespace Balya_Yerleştirme
     {
         public Ambar? ambar { get; set; }
         public Depo selectedDepo { get; set; }
-        public Isletme Isletme { get; set; }
+        public Isletme? Isletme { get; set; }
         public bool Move { get; set; } = false;
         public float opcount { get; set; } = 0;
         public Size PanelSize { get; set; }
@@ -797,8 +797,15 @@ namespace Balya_Yerleştirme
         //Button event that opens dialog for Creating Layouts
         private void btn_Layout_Olustur_Click(object sender, EventArgs e)
         {
-            LayoutOlusturma dia = new LayoutOlusturma(this, null, null, Isletme);
-            dia.Show();
+            if (Isletme != null)
+            {
+                LayoutOlusturma dia = new LayoutOlusturma(this, null, null, Isletme);
+                dia.Show();
+            }
+            else
+            {
+                MessageBox.Show("Lütfen önce bir işletme seçin.", "Lütfen İşletme Seçin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
 
@@ -1713,17 +1720,24 @@ namespace Balya_Yerleştirme
             }
             else
             {
-                foreach (var depo in ambar.depolar)
+                if (ambar != null)
                 {
-                    foreach (var cell in depo.gridmaps)
+                    foreach (var depo in ambar.depolar)
                     {
-                        if (cell.HoverPen.Color == System.Drawing.Color.Lime)
+                        foreach (var cell in depo.gridmaps)
                         {
-                            cell.HoverPen = new Pen(System.Drawing.Color.DarkGray);
-                            cell.HoverPen.DashStyle = DashStyle.DashDot;
-                            DrawingPanel.Invalidate();
+                            if (cell.HoverPen.Color == System.Drawing.Color.Lime)
+                            {
+                                cell.HoverPen = new Pen(System.Drawing.Color.DarkGray);
+                                cell.HoverPen.DashStyle = DashStyle.DashDot;
+                                DrawingPanel.Invalidate();
+                            }
                         }
                     }
+                }
+                else
+                {
+                    nesneTimer.Stop();
                 }
             }
         }
@@ -3391,6 +3405,7 @@ namespace Balya_Yerleştirme
             GVisual.HideControl(PLC_Sim_Panel, this);
             GVisual.HideControl(rightLayoutPanel, this);
             GVisual.HideControl(leftLayoutPanel, this);
+            GVisual.HideControl(DepoInfoPanel, this);
             GVisual.HideControl(PLC_Sim_Nesne_Buttons_Panel, PLC_Sim_Panel);
             GVisual.HideControl(PLC_Sim_YerSoyle_Panel, PLC_Sim_Panel);
             GVisual.HideControl(PLC_Sim_Yerlestiriliyor_Panel, PLC_Sim_Panel);

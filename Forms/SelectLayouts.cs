@@ -86,7 +86,7 @@ namespace Balya_Yerleştirme
 
         public Isletme? isletme { get; set; }
 
-        public SelectLayouts(Panel drawingPanel, MainForm main, Isletme isletme)
+        public SelectLayouts(Panel drawingPanel, MainForm main, Isletme? isletme)
         {
             InitializeComponent();
             this.MaximizeBox = false;
@@ -1431,6 +1431,8 @@ namespace Balya_Yerleştirme
                                 }
                             }
                             SelectedPB.Invalidate();
+                            Main.BringToFront();
+                            this.BringToFront();
                         }
                         else if (layout.DialogResult == DialogResult.Cancel)
                         {

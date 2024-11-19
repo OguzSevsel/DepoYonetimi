@@ -620,6 +620,17 @@ namespace Balya_Yerleştirme.Forms
                                 {
                                     context.Isletme.Remove(isletme1);
                                     context.SaveChanges();
+                                    if (main.Isletme != null && main.Isletme.Name == isletme1.Name)
+                                    {
+                                        main.Isletme = null;
+                                        main.lbl_SelectedIsletme_Value.Text = "Seçilmedi";
+                                        if (main.ambar != null)
+                                        {
+                                            main.ambar = null;
+                                            main.DrawingPanel.Invalidate();
+                                            main.lbl_SelectedLayout_Value.Text = "Seçilmedi";
+                                        }
+                                    }
                                     if (SelectBusinessPanel.Controls.Contains(selectedGroupBox))
                                     {
                                         SelectBusinessPanel.Controls.Remove(selectedGroupBox);

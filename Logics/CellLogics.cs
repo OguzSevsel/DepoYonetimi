@@ -224,7 +224,7 @@ namespace Balya_Yerleştirme.Models
                     if (Rectangle.Contains(scaledPoint))
                     {
                         Main.Hide_infopanel();
-                        HoverPen.Color = Color.Red;
+                        //HoverPen.Color = Color.Red;
                         //ShowContextMenu(e.Location);
                         if (items.Count > 0)
                         {
