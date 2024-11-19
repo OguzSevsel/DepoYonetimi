@@ -230,6 +230,10 @@ namespace Balya_Yerleştirme
 
             HideEverything();
             MainPanelCloseBothSides(LeftSide_LayoutPanel, RightSide_LayoutPanel, this);
+            if (Ambar != null)
+            {
+                Ware_Counter = Ambar.depolar.Count + 1;
+            }
         }
 
 
@@ -268,19 +272,20 @@ namespace Balya_Yerleştirme
                 SelectedAmbar = ambar;
                 SelectedAmbarPen.Width = 3;
                 SelectedAmbarPen.Color = System.Drawing.Color.Blue;
-                if (!layoutPanel_Ambar.Visible)
+                if (!LeftSide_LayoutPanel.Controls.Contains(layoutPanel_Ambar))
                 {
                     SortFlowLayoutPanel(layoutPanel_Ambar);
                 }
                 AlanTreeView.ExpandAll();
-
                 drawingPanel.Invalidate();
             }
             else if (selectedObject is Depo depo)
             {
                 foreach (var depo1 in Ambar.depolar)
                 {
-                    if (depo1 == selectedObject)
+                    bool isDepoEmpty = CheckifDepoEmpty(depo1);
+
+                    if (depo1 == selectedObject && isDepoEmpty)
                     {
                         if (selectedConveyor != null)
                         {
@@ -305,7 +310,7 @@ namespace Balya_Yerleştirme
                         UnchangedDepoAlaniEni = selectedDepo.DepoAlaniEni;
                         UnchangedselectedDepoRectangle = selectedDepo.Rectangle;
 
-                        if (!LayoutPanel_SelectedDepo.Visible)
+                        if (!LeftSide_LayoutPanel.Controls.Contains(LayoutPanel_SelectedDepo))
                         {
                             SortFlowLayoutPanel(LayoutPanel_SelectedDepo);
                         }
@@ -343,12 +348,11 @@ namespace Balya_Yerleştirme
                         UnchangedConveyorBoyu = selectedConveyor.ConveyorBoyu;
                         UnchangedselectedConveyorRectangle = selectedConveyor.Rectangle;
 
-                        if (!layoutPanel_SelectedConveyor.Visible)
+                        if (!LeftSide_LayoutPanel.Controls.Contains(layoutPanel_SelectedConveyor))
                         {
                             SortFlowLayoutPanel(layoutPanel_SelectedConveyor);
                         }
                         AlanTreeView.ExpandAll();
-
                         drawingPanel.Invalidate();
                     }
                 }
@@ -382,7 +386,6 @@ namespace Balya_Yerleştirme
                     {
                         Clear_AddControltoLeftSidePanel(LayoutPanel_Alan_Hierarchy);
                     }
-
                     drawingPanel.Invalidate();
                 }
             }
@@ -470,7 +473,7 @@ namespace Balya_Yerleştirme
                     }
                 }
             }
-            AlanTreeView.Refresh();
+            AlanTreeView.Focus();
         }
 
         public void UnselectNodes()
@@ -933,6 +936,8 @@ namespace Balya_Yerleştirme
                                 else
                                 {
                                     Ambar.conveyors.Add(conveyor);
+                                    AddConveyorNode(conveyor);
+                                    SelectNode(null, conveyor, null);
                                     drawingPanel.Invalidate();
                                 }
                             }
@@ -2797,7 +2802,6 @@ namespace Balya_Yerleştirme
             }
             if (!proxRectLeft.IsEmpty)
             {
-                // Calculate the vertical midpoint of the overlapping area
                 float overlapTop = Math.Max(proxRectLeft.Top, rectangle.Top);
                 float overlapBottom = Math.Min(proxRectLeft.Bottom, rectangle.Bottom);
                 float midpointY = overlapTop + (overlapBottom - overlapTop) / 2;
@@ -2839,28 +2843,6 @@ namespace Balya_Yerleştirme
                 PointF pointParentRect = new PointF((ParentRectangle.Left),
                     rectangle.Y);
 
-                //string RectangleX =
-                //$"Selected Rectangle: {rectangle}";
-
-                //string parentRectangle =
-                //$"Ambar Rectangle: {ParentRectangle}";
-
-                //string PointsDiffX =
-                //$"Difference Between Rectangle to Parent: {pointRectangle.X - pointParentRect.X}";
-
-                //g.DrawString
-                //    (RectangleX, new System.Drawing.Font("Arial", 8),
-                //    new SolidBrush(System.Drawing.Color.Red),
-                //    new PointF(Ambar.Rectangle.X, Ambar.Rectangle.Y + 20));
-                //g.DrawString
-                //    (parentRectangle, new System.Drawing.Font("Arial", 8),
-                //    new SolidBrush(System.Drawing.Color.Red),
-                //    new PointF(Ambar.Rectangle.X, Ambar.Rectangle.Y + 40));
-                //g.DrawString
-                //    (PointsDiffX, new System.Drawing.Font("Arial", 8),
-                //    new SolidBrush(System.Drawing.Color.Red),
-                //    new PointF(Ambar.Rectangle.X, Ambar.Rectangle.Y + 60));
-
                 float pxCM = ConvertTwoRectanglesDistancetoCMHorizontally(Ambar.AmbarEni, Ambar.AmbarBoyu, Ambar.Rectangle, ParentRectangle, rectangle, false);
                 string widthCm = $"{(int)(pxCM)} cm";
 
@@ -2879,9 +2861,6 @@ namespace Balya_Yerleştirme
                 SizeF textSize = g.MeasureString(widthCm, new System.Drawing.Font("Arial", 10));
 
                 g.DrawLine(pen, pointRectangle, pointParentRect);
-                //g.DrawString(widthCm, new System.Drawing.Font("Arial", 8), 
-                //    new SolidBrush(System.Drawing.Color.Red), 
-                //    new PointF(pointRectangle.X - textSize.Width, pointRectangle.Y));
 
                 g.DrawString(widthCm, new System.Drawing.Font("Arial", 10),
                     new SolidBrush(System.Drawing.Color.Red),
@@ -4157,7 +4136,7 @@ namespace Balya_Yerleştirme
 
                     if (menuProcess)
                     {
-                        SortFlowLayoutPanel(LayoutPanel_SelectedDepo);
+                        SortFlowLayoutPanel(layoutPanel_SelectedConveyor);
                         Show_DepoMenus("Depo");
                         menuProcess = false;
                     }
@@ -4387,22 +4366,50 @@ namespace Balya_Yerleştirme
         //RightSide Area Creation Panel Button Events
         private void btn_Alan_Click(object sender, EventArgs e)
         {
-            if (RightSide_LayoutPanel.Visible)
+            bool isOK = false;
+            bool isDepoEmpty = true;
+
+            if (Ambar != null)
             {
-                if (!Alan_Olusturma_Paneli.Visible)
+                foreach (var depo in Ambar.depolar)
                 {
-                    ShowControl(RightSide_LayoutPanel, Alan_Olusturma_Paneli);
+                    isOK = CheckifDepoEmpty(depo);
+                    if (isOK)
+                    {
+                        isDepoEmpty = true;
+                    }
+                    else
+                    {
+                        isDepoEmpty = false;
+                        break;
+                    }
                 }
-                RightSide_LayoutPanel.ScrollControlIntoView(Alan_Olusturma_Paneli);
+            }
+
+            if (isDepoEmpty)
+            {
+                if (RightSide_LayoutPanel.Visible)
+                {
+                    if (!Alan_Olusturma_Paneli.Visible)
+                    {
+                        ShowControl(RightSide_LayoutPanel, Alan_Olusturma_Paneli);
+                    }
+                    RightSide_LayoutPanel.ScrollControlIntoView(Alan_Olusturma_Paneli);
+                }
+                else
+                {
+                    MainPanelOpenRightSide(RightSide_LayoutPanel, this, rightSidePanelLocation);
+                    if (!Alan_Olusturma_Paneli.Visible)
+                    {
+                        ShowControl(RightSide_LayoutPanel, Alan_Olusturma_Paneli);
+                    }
+                    RightSide_LayoutPanel.ScrollControlIntoView(Alan_Olusturma_Paneli);
+                }
             }
             else
             {
-                MainPanelOpenRightSide(RightSide_LayoutPanel, this, rightSidePanelLocation);
-                if (!Alan_Olusturma_Paneli.Visible)
-                {
-                    ShowControl(RightSide_LayoutPanel, Alan_Olusturma_Paneli);
-                }
-                RightSide_LayoutPanel.ScrollControlIntoView(Alan_Olusturma_Paneli);
+                CustomNotifyIcon notify = new CustomNotifyIcon();
+                notify.showAlert("Bu işlemi, depoların birinde nesne olduğu için gerçekleştiremezsiniz.", CustomNotifyIcon.enmType.Error);
             }
         }
         private void btn_Alan_Olustur_Click(object sender, EventArgs e)
@@ -4863,8 +4870,8 @@ namespace Balya_Yerleştirme
                     MainPanelCloseRightSide(RightSide_LayoutPanel, this);
                     Ware_Counter++;
                     drawingPanel.Invalidate();
-                    AdjustTextboxesText($"{depo.DepoAlaniEni}", $"{depo.DepoAlaniBoyu}",
-                        null, null, null, null);
+                    //AdjustTextboxesText($"{depo.DepoAlaniEni}", $"{depo.DepoAlaniBoyu}",
+                    //    null, null, null, null);
                     AddDepoNode(depo);
                 }
             }
@@ -4887,31 +4894,56 @@ namespace Balya_Yerleştirme
         {
             if (Ambar != null)
             {
-                if (Ambar.depolar.Count > 0)
+                bool isOK = false;
+                bool isDepoEmpty = true;
+                
+                foreach (var depo in Ambar.depolar)
                 {
-                    ToolStripIzgara = true;
-                    if (RightSide_LayoutPanel.Visible)
+                    isOK = CheckifDepoEmpty(depo);
+                    if (isOK)
                     {
-                        if (!Izgara_Olusturma_Paneli.Visible)
-                        {
-                            ShowControl(RightSide_LayoutPanel, Izgara_Olusturma_Paneli);
-                        }
-                        RightSide_LayoutPanel.ScrollControlIntoView(Izgara_Olusturma_Paneli);
+                        isDepoEmpty = true;
                     }
                     else
                     {
-                        MainPanelOpenRightSide(RightSide_LayoutPanel, this, rightSidePanelLocation);
-                        if (!Izgara_Olusturma_Paneli.Visible)
+                        isDepoEmpty = false;
+                        break;
+                    }
+                }
+
+                if (isDepoEmpty)
+                {
+                    if (Ambar.depolar.Count > 0)
+                    {
+                        ToolStripIzgara = true;
+                        if (RightSide_LayoutPanel.Visible)
                         {
-                            ShowControl(RightSide_LayoutPanel, Izgara_Olusturma_Paneli);
+                            if (!Izgara_Olusturma_Paneli.Visible)
+                            {
+                                ShowControl(RightSide_LayoutPanel, Izgara_Olusturma_Paneli);
+                            }
+                            RightSide_LayoutPanel.ScrollControlIntoView(Izgara_Olusturma_Paneli);
                         }
-                        RightSide_LayoutPanel.ScrollControlIntoView(Izgara_Olusturma_Paneli);
+                        else
+                        {
+                            MainPanelOpenRightSide(RightSide_LayoutPanel, this, rightSidePanelLocation);
+                            if (!Izgara_Olusturma_Paneli.Visible)
+                            {
+                                ShowControl(RightSide_LayoutPanel, Izgara_Olusturma_Paneli);
+                            }
+                            RightSide_LayoutPanel.ScrollControlIntoView(Izgara_Olusturma_Paneli);
+                        }
+                    }
+                    else
+                    {
+                        CustomNotifyIcon notify = new CustomNotifyIcon();
+                        notify.showAlert("Izgara haritası oluşturmak için öncelikle depo alanı oluşturmalısınız", CustomNotifyIcon.enmType.Error);
                     }
                 }
                 else
                 {
                     CustomNotifyIcon notify = new CustomNotifyIcon();
-                    notify.showAlert("Izgara haritası oluşturmak için öncelikle depo alanı oluşturmalısınız", CustomNotifyIcon.enmType.Error);
+                    notify.showAlert("Bu işlemi, depoların birinde nesne olduğu için gerçekleştiremezsiniz.", CustomNotifyIcon.enmType.Error);
                 }
             }
             else
@@ -5159,46 +5191,96 @@ namespace Balya_Yerleştirme
         //Delete Area (SubMenu and Context Menu)
         private void silToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            bool isOK = false;
+            bool isDepoEmpty = true;
+
             if (Ambar != null)
             {
-                using (var context = new DBContext())
+                foreach (var depo in Ambar.depolar)
                 {
-                    var ambar = (from x in context.Ambars
-                                 where x.AmbarId == Ambar.AmbarId
-                                 select x).FirstOrDefault();
-
-                    if (ambar != null)
+                    isOK = CheckifDepoEmpty(depo);
+                    if (isOK)
                     {
-                        context.Ambars.Remove(ambar);
-                        context.SaveChanges();
+                        isDepoEmpty = true;
+                    }
+                    else
+                    {
+                        isDepoEmpty = false;
+                        break;
                     }
                 }
-                Ambar = null;
-                AlanNode.Tag = null;
-                drawingPanel.Invalidate();
+                if (isDepoEmpty)
+                {
+                    using (var context = new DBContext())
+                    {
+                        var ambar = (from x in context.Ambars
+                                     where x.AmbarId == Ambar.AmbarId
+                                     select x).FirstOrDefault();
+
+                        if (ambar != null)
+                        {
+                            context.Ambars.Remove(ambar);
+                            context.SaveChanges();
+                        }
+                    }
+
+                    Ambar = null;
+                    SelectedAmbar = null;
+                    AlanNode.Tag = null;
+                    drawingPanel.Invalidate();
+                }
+                else
+                {
+                    CustomNotifyIcon notify = new CustomNotifyIcon();
+                    notify.showAlert("Bu işlemi, depoların birinde nesne olduğu için gerçekleştiremezsiniz.", CustomNotifyIcon.enmType.Error);
+                }
             }
         }
         private void btn_Alan_SubMenu_Sil_Click(object sender, EventArgs e)
         {
+            bool isOK = false;
+            bool isDepoEmpty = true;
+
             if (Ambar != null && SelectedAmbar != null)
             {
-                using (var context = new DBContext())
+                foreach (var depo in Ambar.depolar)
                 {
-                    var ambar = (from x in context.Ambars
-                                 where x.AmbarId == Ambar.AmbarId
-                                 select x).FirstOrDefault();
-
-                    if (ambar != null)
+                    isOK = CheckifDepoEmpty(depo);
+                    if (isOK)
                     {
-                        context.Ambars.Remove(ambar);
-                        context.SaveChanges();
+                        isDepoEmpty = true;
+                    }
+                    else
+                    {
+                        isDepoEmpty = false;
+                        break;
                     }
                 }
+                if (isDepoEmpty)
+                {
+                    using (var context = new DBContext())
+                    {
+                        var ambar = (from x in context.Ambars
+                                     where x.AmbarId == Ambar.AmbarId
+                                     select x).FirstOrDefault();
 
-                Ambar = null;
-                SelectedAmbar = null;
-                AlanNode.Tag = null;
-                drawingPanel.Invalidate();
+                        if (ambar != null)
+                        {
+                            context.Ambars.Remove(ambar);
+                            context.SaveChanges();
+                        }
+                    }
+
+                    Ambar = null;
+                    SelectedAmbar = null;
+                    AlanNode.Tag = null;
+                    drawingPanel.Invalidate();
+                }
+                else
+                {
+                    CustomNotifyIcon notify = new CustomNotifyIcon();
+                    notify.showAlert("Bu işlemi, depoların birinde nesne olduğu için gerçekleştiremezsiniz.", CustomNotifyIcon.enmType.Error);
+                }
             }
         }
 
@@ -5207,44 +5289,94 @@ namespace Balya_Yerleştirme
         //Empty Area (SubMenu and Context Menu)
         private void boşaltToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            bool isOK = false;
+            bool isDepoEmpty = true;
+
             if (Ambar != null)
             {
                 foreach (var depo in Ambar.depolar)
                 {
-                    Ambar.deletedDepos.Add(depo);
+                    isOK = CheckifDepoEmpty(depo);
+                    if (isOK)
+                    {
+                        isDepoEmpty = true;
+                    }
+                    else
+                    {
+                        isDepoEmpty = false;
+                        break;
+                    }
                 }
 
-                foreach (var conveyor in Ambar.conveyors)
+                if (isDepoEmpty)
                 {
-                    Ambar.deletedConveyors.Add(conveyor);
-                }
+                    foreach (var depo in Ambar.depolar)
+                    {
+                        Ambar.deletedDepos.Add(depo);
+                    }
 
-                Ambar.depolar.Clear();
-                Ambar.conveyors.Clear();
-                DepoNode.Nodes.Clear();
-                ConveyorNode.Nodes.Clear();
-                drawingPanel.Invalidate();
+                    foreach (var conveyor in Ambar.conveyors)
+                    {
+                        Ambar.deletedConveyors.Add(conveyor);
+                    }
+
+                    Ambar.depolar.Clear();
+                    Ambar.conveyors.Clear();
+                    DepoNode.Nodes.Clear();
+                    ConveyorNode.Nodes.Clear();
+                    drawingPanel.Invalidate();
+                }
+                else
+                {
+                    CustomNotifyIcon notify = new CustomNotifyIcon();
+                    notify.showAlert("Bu işlemi, depoların birinde nesne olduğu için gerçekleştiremezsiniz.", CustomNotifyIcon.enmType.Error);
+                }
             }
         }
         private void btn_Alan_SubMenu_Bosalt_Click(object sender, EventArgs e)
         {
+            bool isOK = false;
+            bool isDepoEmpty = true;
+
             if (Ambar != null && SelectedAmbar != null)
             {
                 foreach (var depo in Ambar.depolar)
                 {
-                    Ambar.deletedDepos.Add(depo);
+                    isOK = CheckifDepoEmpty(depo);
+                    if (isOK)
+                    {
+                        isDepoEmpty = true;
+                    }
+                    else
+                    {
+                        isDepoEmpty = false;
+                        break;
+                    }
                 }
 
-                foreach (var conveyor in Ambar.conveyors)
+                if (isDepoEmpty)
                 {
-                    Ambar.deletedConveyors.Add(conveyor);
-                }
+                    foreach (var depo in Ambar.depolar)
+                    {
+                        Ambar.deletedDepos.Add(depo);
+                    }
 
-                Ambar.depolar.Clear();
-                Ambar.conveyors.Clear();
-                DepoNode.Nodes.Clear();
-                ConveyorNode.Nodes.Clear();
-                drawingPanel.Invalidate();
+                    foreach (var conveyor in Ambar.conveyors)
+                    {
+                        Ambar.deletedConveyors.Add(conveyor);
+                    }
+
+                    Ambar.depolar.Clear();
+                    Ambar.conveyors.Clear();
+                    DepoNode.Nodes.Clear();
+                    ConveyorNode.Nodes.Clear();
+                    drawingPanel.Invalidate();
+                }
+                else
+                {
+                    CustomNotifyIcon notify = new CustomNotifyIcon();
+                    notify.showAlert("Bu işlemi, depoların birinde nesne olduğu için gerçekleştiremezsiniz.", CustomNotifyIcon.enmType.Error);
+                }
             }
         }
 
@@ -5253,28 +5385,80 @@ namespace Balya_Yerleştirme
         //Area Item Placement Queue (SubMenu and Context Menu)
         private void depolarınDoldurulmaSirasiniAyarla_Click(object sender, EventArgs e)
         {
-            TransparentPen.Color = System.Drawing.Color.FromArgb(30, System.Drawing.Color.Black);
-            CustomNotifyIcon notify = new CustomNotifyIcon();
-            notify.showAlert("Depoların sırasını üzerlerine sol tıklayarak seçebilirsiniz.(Sağ tıklayarak sırasını kaldırabilirsiniz.)", CustomNotifyIcon.enmType.Info);
-            Fill_WareHouse = true;
-            drawingPanel.Invalidate();
-        }
-        private void btn_Alan_SubMenu_Depo_Siralamasi_Click(object sender, EventArgs e)
-        {
-            if (SelectedAmbar != null)
+            bool isOK = false;
+            bool isDepoEmpty = true;
+
+            if (Ambar != null)
             {
-                if (SelectedAmbar.depolar.Count > 0)
+                foreach (var depo in Ambar.depolar)
+                {
+                    isOK = CheckifDepoEmpty(depo);
+                    if (isOK)
+                    {
+                        isDepoEmpty = true;
+                    }
+                    else
+                    {
+                        isDepoEmpty = false;
+                        break;
+                    }
+                }
+
+                if (isDepoEmpty)
                 {
                     TransparentPen.Color = System.Drawing.Color.FromArgb(30, System.Drawing.Color.Black);
                     CustomNotifyIcon notify = new CustomNotifyIcon();
-                    notify.showAlert("Depoların sırasını üzerilerine sol tıklayarak seçebilirsiniz.\n(Sağ tıklayarak sırasını kaldırabilirsiniz.)", CustomNotifyIcon.enmType.Info);
+                    notify.showAlert("Depoların sırasını üzerlerine sol tıklayarak seçebilirsiniz.(Sağ tıklayarak sırasını kaldırabilirsiniz.)", CustomNotifyIcon.enmType.Info);
                     Fill_WareHouse = true;
                     drawingPanel.Invalidate();
                 }
                 else
                 {
                     CustomNotifyIcon notify = new CustomNotifyIcon();
-                    notify.showAlert("Lütfen önce depo oluşturun.", CustomNotifyIcon.enmType.Warning);
+                    notify.showAlert("Bu işlemi, depoların birinde nesne olduğu için gerçekleştiremezsiniz.", CustomNotifyIcon.enmType.Error);
+                }
+            }
+        }
+        private void btn_Alan_SubMenu_Depo_Siralamasi_Click(object sender, EventArgs e)
+        {
+            bool isOK = false;
+            bool isDepoEmpty = true;
+
+            if (SelectedAmbar != null)
+            {
+                foreach (var depo in SelectedAmbar.depolar)
+                {
+                    isOK = CheckifDepoEmpty(depo);
+                    if (isOK)
+                    {
+                        isDepoEmpty = true;
+                    }
+                    else
+                    {
+                        isDepoEmpty = false;
+                        break;
+                    }
+                }
+                if (isDepoEmpty)
+                {
+                    if (SelectedAmbar.depolar.Count > 0)
+                    {
+                        TransparentPen.Color = System.Drawing.Color.FromArgb(30, System.Drawing.Color.Black);
+                        CustomNotifyIcon notify = new CustomNotifyIcon();
+                        notify.showAlert("Depoların sırasını üzerilerine sol tıklayarak seçebilirsiniz.\n(Sağ tıklayarak sırasını kaldırabilirsiniz.)", CustomNotifyIcon.enmType.Info);
+                        Fill_WareHouse = true;
+                        drawingPanel.Invalidate();
+                    }
+                    else
+                    {
+                        CustomNotifyIcon notify = new CustomNotifyIcon();
+                        notify.showAlert("Lütfen önce depo oluşturun.", CustomNotifyIcon.enmType.Warning);
+                    }
+                }
+                else
+                {
+                    CustomNotifyIcon notify = new CustomNotifyIcon();
+                    notify.showAlert("Bu işlemi, depoların birinde nesne olduğu için gerçekleştiremezsiniz.", CustomNotifyIcon.enmType.Error);
                 }
             }
         }
@@ -5284,18 +5468,42 @@ namespace Balya_Yerleştirme
         //Area Change Size Events (SubMenu and Context Menu)
         private void boyutunuDeğiştirToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            bool isOK = false;
+            bool isDepoEmpty = true;
+
             if (Ambar != null)
             {
-                ambar_Boyut_Degistir = true;
-                menuProcess = false;
-                if (!LeftSide_LayoutPanel.Visible)
+                foreach (var depo in Ambar.depolar)
                 {
-                    MainPanelOpenLeftSide(LeftSide_LayoutPanel, this, leftSidePanelLocation);
-                    SortFlowLayoutPanel(LeftSide_Alan_Boyut_Degistirme_Paneli);
+                    isOK = CheckifDepoEmpty(depo);
+                    if (isOK)
+                    {
+                        isDepoEmpty = true;
+                    }
+                    else
+                    {
+                        isDepoEmpty = false;
+                        break;
+                    }
+                }
+                if (isDepoEmpty)
+                {
+                    ambar_Boyut_Degistir = true;
+                    menuProcess = false;
+                    if (!LeftSide_LayoutPanel.Visible)
+                    {
+                        MainPanelOpenLeftSide(LeftSide_LayoutPanel, this, leftSidePanelLocation);
+                        SortFlowLayoutPanel(LeftSide_Alan_Boyut_Degistirme_Paneli);
+                    }
+                    else
+                    {
+                        SortFlowLayoutPanel(LeftSide_Alan_Boyut_Degistirme_Paneli);
+                    }
                 }
                 else
                 {
-                    SortFlowLayoutPanel(LeftSide_Alan_Boyut_Degistirme_Paneli);
+                    CustomNotifyIcon notify = new CustomNotifyIcon();
+                    notify.showAlert("Bu işlemi, depoların birinde nesne olduğu için gerçekleştiremezsiniz.", CustomNotifyIcon.enmType.Error);
                 }
             }
             else
@@ -5306,11 +5514,35 @@ namespace Balya_Yerleştirme
         }
         private void btn_Alan_SubMenu_Boyut_Degistir_Click(object sender, EventArgs e)
         {
+            bool isOK = false;
+            bool isDepoEmpty = true;
+
             if (Ambar != null && SelectedAmbar != null)
             {
-                ambar_Boyut_Degistir = true;
-                menuProcess = true;
-                SortFlowLayoutPanel(LeftSide_Alan_Boyut_Degistirme_Paneli);
+                foreach (var depo in Ambar.depolar)
+                {
+                    isOK = CheckifDepoEmpty(depo);
+                    if (isOK)
+                    {
+                        isDepoEmpty = true;
+                    }
+                    else
+                    {
+                        isDepoEmpty = false;
+                        break;
+                    }
+                }
+                if (isDepoEmpty)
+                {
+                    ambar_Boyut_Degistir = true;
+                    menuProcess = true;
+                    SortFlowLayoutPanel(LeftSide_Alan_Boyut_Degistirme_Paneli);
+                }
+                else
+                {
+                    CustomNotifyIcon notify = new CustomNotifyIcon();
+                    notify.showAlert("Bu işlemi, depoların birinde nesne olduğu için gerçekleştiremezsiniz.", CustomNotifyIcon.enmType.Error);
+                }
             }
             else
             {
@@ -5324,17 +5556,42 @@ namespace Balya_Yerleştirme
         //Add GridMaps to All the Depos in the Area SubMenu Button Event
         private void btn_Alan_SubMenu_Depolara_Izgara_Ekle_Click(object sender, EventArgs e)
         {
+            bool isOK = false;
+            bool isDepoEmpty = true;
+
             if (Ambar != null && SelectedAmbar != null)
             {
-                if (SelectedAmbar.depolar.Count > 0)
+                foreach (var depo in Ambar.depolar)
                 {
-                    menuProcess = true;
-                    Clear_AddControltoLeftSidePanel(LeftPanel_Izgara_Olusturma);
+                    isOK = CheckifDepoEmpty(depo);
+                    if (isOK)
+                    {
+                        isDepoEmpty = true;
+                    }
+                    else
+                    {
+                        isDepoEmpty = false;
+                        break;
+                    }
+                }
+
+                if (isDepoEmpty)
+                {
+                    if (SelectedAmbar.depolar.Count > 0)
+                    {
+                        menuProcess = true;
+                        Clear_AddControltoLeftSidePanel(LeftPanel_Izgara_Olusturma);
+                    }
+                    else
+                    {
+                        CustomNotifyIcon notify = new CustomNotifyIcon();
+                        notify.showAlert("Lütfen önce depo oluşturun.", CustomNotifyIcon.enmType.Warning);
+                    }
                 }
                 else
                 {
                     CustomNotifyIcon notify = new CustomNotifyIcon();
-                    notify.showAlert("Lütfen önce depo oluşturun.", CustomNotifyIcon.enmType.Warning);
+                    notify.showAlert("Bu işlemi, depoların birinde nesne olduğu için gerçekleştiremezsiniz.", CustomNotifyIcon.enmType.Error);
                 }
             }
             else
@@ -6443,6 +6700,7 @@ namespace Balya_Yerleştirme
                 MoveLeft();
                 GVisual.Control_TopRightCorner(btn_openClose_RightSide, drawingPanel, 3);
                 btn_OpenClose_LeftSide.Image = Resources.Resource1.Chevron_Left;
+                AlanTreeView.Focus();
             }
             else
             {
@@ -6452,6 +6710,7 @@ namespace Balya_Yerleştirme
                 MoveLeft();
                 GVisual.Control_TopRightCorner(btn_openClose_RightSide, drawingPanel, 3);
                 btn_OpenClose_LeftSide.Image = Resources.Resource1.Chevron_Left;
+                AlanTreeView.Focus();
             }
         }
         public void MainPanelOpenRightSide(System.Windows.Forms.Control showControlRight,
@@ -6558,10 +6817,29 @@ namespace Balya_Yerleştirme
         }
         public void SortFlowLayoutPanel(System.Windows.Forms.Control ShowControl)
         {
-            LeftSide_LayoutPanel.Controls.Clear();
+            List<System.Windows.Forms.Control> deleteControls = new List<System.Windows.Forms.Control>();
+            foreach (var control in LeftSide_LayoutPanel.Controls)
+            {
+                System.Windows.Forms.Control ct = (System.Windows.Forms.Control)control;
+
+                if (ct != LayoutPanel_Alan_Hierarchy)
+                {
+                    deleteControls.Add(ct);
+                }
+            }
+            foreach (var control in deleteControls)
+            {
+                LeftSide_LayoutPanel.Controls.Remove(control);
+            }
             GVisual.ShowControl(ShowControl, LeftSide_LayoutPanel);
-            GVisual.ShowControl(LayoutPanel_Alan_Hierarchy, LeftSide_LayoutPanel);
-            LeftSide_LayoutPanel.Controls.SetChildIndex(LayoutPanel_Alan_Hierarchy, 1);
+            if (!LeftSide_LayoutPanel.Controls.Contains(LayoutPanel_Alan_Hierarchy))
+            {
+                GVisual.ShowControl(LayoutPanel_Alan_Hierarchy, LeftSide_LayoutPanel);
+            }
+            if (LeftSide_LayoutPanel.Controls.Contains(LayoutPanel_Alan_Hierarchy))
+            {
+                LeftSide_LayoutPanel.Controls.SetChildIndex(LayoutPanel_Alan_Hierarchy, 1);
+            }
         }
         public void Clear_AddControltoLeftSidePanel(System.Windows.Forms.Control ShowControl)
         {
@@ -7344,13 +7622,33 @@ namespace Balya_Yerleştirme
                 }
             }
         }
+        private bool CheckifDepoEmpty(Depo depo)
+        {
+            bool isDepoEmpty = true;
+
+            foreach (var cell in depo.gridmaps)
+            {
+                if (cell.items.Count > 0)
+                {
+                    isDepoEmpty = false;
+                }
+            }
+            if (isDepoEmpty)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
 
 
         //Depo Spec Events and Methods
         #region Depo Spec Events and Methods
-        
-        
+
+
         private void PopulateDepoInfoPanel(string depo_name, string depo_aciklamasi, string depo_tur_kodu, string depo_tur_kodu_2, int is_yerlestirilme)
         {
             txt_DepoInfoMenu_DepoIsmi.Text = depo_name;

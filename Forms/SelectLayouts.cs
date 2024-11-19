@@ -30,6 +30,7 @@ using CustomNotification;
 using Krypton.Toolkit;
 using DocumentFormat.OpenXml.Drawing.Diagrams;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+using DocumentFormat.OpenXml.Office2013.Drawing.Chart;
 
 namespace Balya_Yerleştirme
 {
@@ -1356,8 +1357,43 @@ namespace Balya_Yerleştirme
                     }
                     else
                     {
-                        CustomNotifyIcon notify = new CustomNotifyIcon();
-                        notify.showAlert("İçinde Nesneler olan bir layout'u değiştiremezsiniz.", CustomNotifyIcon.enmType.Warning);
+                        using (var context = new DBContext())
+                        {
+                            var layout1 = (from x in context.Layout
+                                           where x.LayoutId == ambar.LayoutId
+                                           select x).FirstOrDefault();
+
+                            layout = new LayoutOlusturma(Main, ambar, layout1, isletme);
+
+                            if (layout1 != null)
+                            {
+                                layout = new LayoutOlusturma(Main, ambar, layout1, isletme);
+
+                                ambar.layout = layout;
+                                layout.AlanNode.Tag = ambar;
+                                foreach (var depo in ambar.depolar)
+                                {
+                                    depo.layout = layout;
+                                    depo.layout.izgaraHaritasiOlustur += depo.Depo_IzgaraHaritasiOlustur;
+                                    layout.AddDepoNode(depo);
+                                    foreach (var cell in depo.gridmaps)
+                                    {
+                                        cell.Layout = layout;
+                                    }
+                                }
+                                foreach (var conveyor in ambar.conveyors)
+                                {
+                                    conveyor.layout = layout;
+                                    layout.AddConveyorNode(conveyor);
+                                    foreach (var reff in conveyor.ConveyorReferencePoints)
+                                    {
+                                        reff.Layout = layout;
+                                    }
+                                }
+                            }
+                        }
+                        //CustomNotifyIcon notify = new CustomNotifyIcon();
+                        //notify.showAlert("İçinde nesneler olan bir layout'u değiştiremezsiniz.", CustomNotifyIcon.enmType.Warning);
                     }
 
                     if (layout != null)
@@ -1497,6 +1533,7 @@ namespace Balya_Yerleştirme
                                             GVisual.HideControl(Main.infopanel, Main.DrawingPanel);
                                         }
                                         Main.DrawingPanel.Invalidate();
+                                        Main.lbl_SelectedLayout_Value.Text = "Seçilmedi";
                                     }
                                     CloseRightSide(ambar);
                                     if (context.Layout.Count() == 0)
@@ -1683,6 +1720,7 @@ namespace Balya_Yerleştirme
                                             GVisual.HideControl(Main.infopanel, Main.DrawingPanel);
                                         }
                                         Main.DrawingPanel.Invalidate();
+                                        Main.lbl_SelectedLayout_Value.Text = "Seçilmedi";
                                     }
                                 }
                             }

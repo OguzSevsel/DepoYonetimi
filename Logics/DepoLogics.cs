@@ -13,6 +13,7 @@ using GUI_Library;
 using String_Library;
 using DocumentFormat.OpenXml.Vml.Office;
 using System.Diagnostics;
+using CustomNotification;
 
 namespace Balya_Yerleştirme.Models
 {
@@ -180,6 +181,9 @@ namespace Balya_Yerleştirme.Models
             using (Pen pen = new Pen(System.Drawing.Color.MidnightBlue, 3))
             {
                 graphics.DrawRectangle(pen, Rectangle);
+                System.Drawing.Font font1 = new System.Drawing.Font("Arial", 8 * Zoomlevel);
+                SolidBrush brush1 = new SolidBrush(System.Drawing.Color.Red);
+                graphics.DrawString($"{Yerlestirilme_Sirasi}", font1, brush1, Rectangle.Location);
                 //graphics.FillRectangle(new SolidBrush(System.Drawing.Color.AliceBlue), Rectangle);
 
                 if (layout != null)
@@ -264,30 +268,49 @@ namespace Balya_Yerleştirme.Models
 
                 if (e.Button == MouseButtons.Right)
                 {
+                    bool isDepoEmpty = true;
+
                     if (Rectangle.Contains(scaledPoint))
                     {
-                        if (!layout.Manuel_Move)
+                        foreach (var cell in gridmaps)
                         {
-                            layout.txt_Width.Text = $"{DepoAlaniEni}";
-                            layout.txt_Height.Text = $"{DepoAlaniBoyu}";
-                        }
-                        if (!layout.Fill_WareHouse)
-                        {
-                            layout.menuProcess = false;
-                            layout.selectedDepo = this;
-
-                            layout.SelectedDepoPen.Color = System.Drawing.Color.Blue;
-                            layout.SelectedDepoPen.Width = 3;
-                            layout.SelectedDepoEdgePen.Width = 3;
-                            layout.colCount = ColumnCount;
-                            layout.rowCount = RowCount;
-                            layout.MenuStrip.Show(Cursor.Position);
-                            if (layout.LeftSide_LayoutPanel.Visible)
+                            if (cell.items.Count > 0)
                             {
-                                layout.Show_DepoMenus("Depo");
-                                layout.SortFlowLayoutPanel(layout.LayoutPanel_SelectedDepo);
+                                isDepoEmpty = false;
                             }
-                            layout.SelectNode(null, null, this);
+                        }
+                        
+                        if (isDepoEmpty)
+                        {
+                            if (!layout.Manuel_Move)
+                            {
+                                layout.txt_Width.Text = $"{DepoAlaniEni}";
+                                layout.txt_Height.Text = $"{DepoAlaniBoyu}";
+                            }
+
+                            if (!layout.Fill_WareHouse)
+                            {
+                                layout.menuProcess = false;
+                                layout.selectedDepo = this;
+
+                                layout.SelectedDepoPen.Color = System.Drawing.Color.Blue;
+                                layout.SelectedDepoPen.Width = 3;
+                                layout.SelectedDepoEdgePen.Width = 3;
+                                layout.colCount = ColumnCount;
+                                layout.rowCount = RowCount;
+                                layout.MenuStrip.Show(Cursor.Position);
+                                layout.SelectNode(null, null, this);
+                                if (layout.LeftSide_LayoutPanel.Visible)
+                                {
+                                    layout.Show_DepoMenus("Depo");
+                                    layout.SortFlowLayoutPanel(layout.LayoutPanel_SelectedDepo);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            CustomNotifyIcon notify = new CustomNotifyIcon();
+                            notify.showAlert("Depoda nesne bulunduğu için bu işlemi gerçekleştiremezsiniz.", CustomNotifyIcon.enmType.Error);
                         }
                     }
                 }
@@ -295,22 +318,39 @@ namespace Balya_Yerleştirme.Models
                 {
                     if (Rectangle.Contains(scaledPoint))
                     {
+                        bool isDepoEmpty = true;
+
                         if (!layout.MovingParameter && !layout.Fill_WareHouse && !layout.Manuel_Move)
                         {
-                            layout.menuProcess = false;
-                            layout.selectedDepo = this;
-                            layout.isMoving = true;
-                            layout.SelectedDepoPen.Width = 3;
-                            layout.SelectedDepoEdgePen.Width = 3;
-                            layout.SelectedDepoPen.Color = System.Drawing.Color.Blue;
-                            isDragging = true;
-                            DragStartPoint = e.Location;
-                            if (layout.LeftSide_LayoutPanel.Visible)
+                            foreach (var cell in gridmaps)
                             {
-                                layout.Show_DepoMenus("Depo");
-                                layout.SortFlowLayoutPanel(layout.LayoutPanel_SelectedDepo);
+                                if (cell.items.Count > 0)
+                                {
+                                    isDepoEmpty = false;
+                                }
                             }
-                            layout.SelectNode(null, null, this);
+                            if (isDepoEmpty)
+                            {
+                                layout.menuProcess = false;
+                                layout.selectedDepo = this;
+                                layout.isMoving = true;
+                                layout.SelectedDepoPen.Width = 3;
+                                layout.SelectedDepoEdgePen.Width = 3;
+                                layout.SelectedDepoPen.Color = System.Drawing.Color.Blue;
+                                isDragging = true;
+                                DragStartPoint = e.Location;
+                                if (layout.LeftSide_LayoutPanel.Visible)
+                                {
+                                    layout.Show_DepoMenus("Depo");
+                                    layout.SortFlowLayoutPanel(layout.LayoutPanel_SelectedDepo);
+                                }
+                                layout.SelectNode(null, null, this);
+                            }
+                            else
+                            {
+                                CustomNotifyIcon notify = new CustomNotifyIcon();
+                                notify.showAlert("Depoda nesne bulunduğu için bu işlemi                gerçekleştiremezsiniz.", CustomNotifyIcon.enmType.Error);
+                            }
                         }
                     }
                 }

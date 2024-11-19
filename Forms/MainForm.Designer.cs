@@ -3063,7 +3063,6 @@
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Balya Yerleştirme";
-            WindowState = FormWindowState.Maximized;
             FormClosing += MainForm_FormClosing;
             ((System.ComponentModel.ISupportInitialize)Nesne_Yerlestirme_First_Panel).EndInit();
             Nesne_Yerlestirme_First_Panel.ResumeLayout(false);

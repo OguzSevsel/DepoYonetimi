@@ -496,8 +496,6 @@ namespace Balya_Yerleştirme
 
                     if (depo.ItemTuru == item_turu && depo.ItemTuruSecondary == item_turu_secondary && (depo.currentStage == 1 || depo.currentStage == 2))
                     {
-                        //MessageBox.Show
-                        //        ("item turu ve secondary item turu tuttu", "item turu ve secondary item turu tuttu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         if (depo_stage != "full")
                         {
                             Q.Add(depo.Yerlestirilme_Sirasi);
@@ -509,8 +507,6 @@ namespace Balya_Yerleştirme
                         depo.ItemTuruSecondary.Length == 0 &&
                         (depo.currentStage == 1 || depo.currentStage == 2))
                     {
-                        //MessageBox.Show
-                        //       ("item turu tuttu ve secondary item turu bos", "item turu tuttu ve secondary item turu bos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         if (depo_stage != "full")
                         {
                             Q.Add(depo.Yerlestirilme_Sirasi);
@@ -1019,41 +1015,47 @@ namespace Balya_Yerleştirme
                             }
                         }
 
-                        foreach (var depo in ambar.deletedDepos)
+                        if (ambar.deletedDepos != null)
                         {
-                            if (depo.DepoId != 0)
+                            foreach (var depo in ambar.deletedDepos)
                             {
-                                var depo1 = (from x in context.Depos
-                                             where x.DepoId == depo.DepoId
-                                             select x).FirstOrDefault();
-
-                                if (depo1 != null)
+                                if (depo.DepoId != 0)
                                 {
-                                    context.Depos.Remove(depo1);
-                                    context.SaveChanges();
+                                    var depo1 = (from x in context.Depos
+                                                 where x.DepoId == depo.DepoId
+                                                 select x).FirstOrDefault();
+
+                                    if (depo1 != null)
+                                    {
+                                        context.Depos.Remove(depo1);
+                                        context.SaveChanges();
+                                    }
                                 }
                             }
                         }
 
-                        foreach (var conveyor in ambar.deletedConveyors)
+                        if (ambar.deletedConveyors != null)
                         {
-                            if (conveyor.ConveyorId != 0)
+                            foreach (var conveyor in ambar.deletedConveyors)
                             {
-                                var conveyor1 = (from x in context.Conveyors
-                                                 where x.ConveyorId == conveyor.ConveyorId
-                                                 select x).FirstOrDefault();
-
-                                if (conveyor1 != null)
+                                if (conveyor.ConveyorId != 0)
                                 {
-                                    context.Conveyors.Remove(conveyor1);
-                                    context.SaveChanges();
+                                    var conveyor1 = (from x in context.Conveyors
+                                                     where x.ConveyorId == conveyor.ConveyorId
+                                                     select x).FirstOrDefault();
+
+                                    if (conveyor1 != null)
+                                    {
+                                        context.Conveyors.Remove(conveyor1);
+                                        context.SaveChanges();
+                                    }
                                 }
                             }
                         }
 
                         foreach (var depo in ambar.depolar)
                         {
-                            if (depo.DepoId == 0 && !ambar.deletedDepos.Contains(depo))
+                            if (depo.DepoId == 0 && ambar.deletedDepos != null && !ambar.deletedDepos.Contains(depo))
                             {
                                 Depo newDepo = new Depo(ambar.AmbarId,
                                     depo.DepoName, depo.DepoDescription, depo.DepoAlaniEni,
@@ -1134,7 +1136,7 @@ namespace Balya_Yerleştirme
                             }
                             else
                             {
-                                if (!ambar.deletedDepos.Contains(depo))
+                                if (ambar.deletedDepos != null && !ambar.deletedDepos.Contains(depo))
                                 {
                                     var depo1 = await (from x in context.Depos
                                                        where x.DepoId == depo.DepoId
@@ -1242,7 +1244,7 @@ namespace Balya_Yerleştirme
                         }
                         foreach (var conveyor in ambar.conveyors)
                         {
-                            if (conveyor.ConveyorId == 0 && !ambar.deletedConveyors.Contains(conveyor))
+                            if (conveyor.ConveyorId == 0 && ambar.deletedConveyors != null && !ambar.deletedConveyors.Contains(conveyor))
                             {
                                 Conveyor conv = new Conveyor(ambar.AmbarId,
                                 null, conveyor.KareX, conveyor.KareY,
@@ -1273,7 +1275,7 @@ namespace Balya_Yerleştirme
                             }
                             else
                             {
-                                if (!ambar.deletedConveyors.Contains(conveyor))
+                                if (ambar.deletedConveyors != null && !ambar.deletedConveyors.Contains(conveyor))
                                 {
                                     var conv = await (from x in context.Conveyors
                                                       where x.ConveyorId == conveyor.ConveyorId
