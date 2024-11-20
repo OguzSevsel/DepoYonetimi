@@ -178,7 +178,9 @@ public partial class DBContext : DbContext
             entity.Property(e => e.Zoomlevel).HasColumnName("zoomlevel");
             entity.Property(e => e.OriginalLocationInsideParentX).HasColumnName("originalLocationInsideParentX");
             entity.Property(e => e.OriginalLocationInsideParentY).HasColumnName("originalLocationInsideParentY");
-
+            entity.Property(e => e.LocationX).HasColumnName("LocationX");
+            entity.Property(e => e.LocationY).HasColumnName("LocationY");
+            entity.Property(e => e.FixedPointLocation).HasColumnName("fixedPointLocation");
 
 
             entity.HasOne(d => d.Conveyor).WithMany(p => p.ConveyorReferencePoints)

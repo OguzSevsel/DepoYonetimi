@@ -441,6 +441,7 @@
             Controls.Add(panel_CreateIsletme);
             Controls.Add(SelectBusinessPanel);
             Name = "SelectBusiness";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "İşletmeleri Düzenle";
             panel_IsletmeMenu.ResumeLayout(false);
             InnerPanel1.ResumeLayout(false);

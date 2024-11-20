@@ -37,13 +37,6 @@ namespace Balya_Yerleştirme.Models
         public PointF OriginalLocationInsideParent { get; set; }
         [NotMapped]
         public bool Info { get; set; } = false;
-        [NotMapped]
-        public float LocationX { get; set; }
-        [NotMapped]
-        public float LocationY { get; set; }
-        [NotMapped]
-        public string FixedPointLocation { get; set; } = string.Empty;
-
 
 
         public ConveyorReferencePoint(float x, float y, float width, float height, float zoomlevel, MainForm ?main, Conveyor parentConveyor, LayoutOlusturma ?layout)

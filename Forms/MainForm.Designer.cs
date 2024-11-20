@@ -2133,7 +2133,7 @@
             ToolStrip.Items.AddRange(new ToolStripItem[] { toolStripSeparator, toolStripBTN_Isletme_Sec, toolStripBTN_Layout_Sec, toolStripSeparator1, toolstripBTN_addItemFromOrders, toolStripButtonShowCellTag, toolStripBTN_ExportToExcel, btn_PLC_Connection, toolStripButton1 });
             ToolStrip.Location = new Point(12, 12);
             ToolStrip.Name = "ToolStrip";
-            ToolStrip.Size = new Size(422, 73);
+            ToolStrip.Size = new Size(363, 73);
             ToolStrip.TabIndex = 18;
             ToolStrip.Text = "Create Tools and Areas";
             // 
@@ -2215,11 +2215,12 @@
             // 
             // toolStripButton1
             // 
-            toolStripButton1.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripButton1.DisplayStyle = ToolStripItemDisplayStyle.None;
+            toolStripButton1.Enabled = false;
             toolStripButton1.Image = (Image)resources.GetObject("toolStripButton1.Image");
             toolStripButton1.ImageTransparentColor = Color.Magenta;
             toolStripButton1.Name = "toolStripButton1";
-            toolStripButton1.Size = new Size(59, 70);
+            toolStripButton1.Size = new Size(23, 70);
             toolStripButton1.Text = "addDepo";
             toolStripButton1.TextImageRelation = TextImageRelation.TextBeforeImage;
             toolStripButton1.Click += toolStripButton1_Click;

@@ -73,8 +73,8 @@ namespace Balya_Yerleştirme
         private void btn_Ref_Onayla_Click(object sender, EventArgs e)
         {
             errorProvider.Clear();
-            float Reff_X = 0;
-            float Reff_Y = 0;
+            float Reff_X = -1;
+            float Reff_Y = -1;
             foreach (Panel panel in Panel.Controls)
             {
                 foreach (var textbox in panel.Controls)
@@ -105,7 +105,7 @@ namespace Balya_Yerleştirme
                     }
                 }
             }
-            if (Reff_X != 0 && Reff_Y != 0 && !errorProvider.HasErrors)
+            if (Reff_X != -1 && Reff_Y != -1 && !errorProvider.HasErrors)
             {
                 this.DialogResult = DialogResult.OK;
             }

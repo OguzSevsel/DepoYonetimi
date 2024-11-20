@@ -89,9 +89,10 @@ namespace Balya_Yerleştirme.Models
                 graphics.DrawRectangle(pen, Rectangle);
                 //graphics.FillRectangle(new SolidBrush(System.Drawing.Color.AliceBlue), Rectangle);
 
-                System.Drawing.Font font = new System.Drawing.Font("Arial", 10);
-                System.Drawing.Brush brush = new SolidBrush(System.Drawing.Color.Red);
+                //System.Drawing.Font font = new System.Drawing.Font("Arial", 10);
+                //System.Drawing.Brush brush = new SolidBrush(System.Drawing.Color.Red);
 
+                //graphics.DrawString($"{ConveyorReferencePoints.Count}", font, brush, new Point(10, 150));
                 //if (Rectangle.Width > Rectangle.Height)
                 //{
                 //    DrawHorizontalStringRepeated(graphics, "Conveyor", Rectangle, font, brush, 60);

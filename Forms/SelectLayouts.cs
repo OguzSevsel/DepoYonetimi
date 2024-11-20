@@ -267,6 +267,8 @@ namespace Balya_Yerleştirme
                             newReff.LocationX = reff.LocationX;
                             newReff.LocationY = reff.LocationY;
                             newReff.OriginalLocationInsideParent = new PointF(reff.OriginalLocationInsideParentX, reff.OriginalLocationInsideParentY);
+                            newReff.OriginalLocationInsideParentX = reff.OriginalLocationInsideParentX;
+                            newReff.OriginalLocationInsideParentY = reff.OriginalLocationInsideParentY;
 
                             newConveyor.ConveyorReferencePoints.Add(newReff);
                         }

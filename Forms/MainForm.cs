@@ -971,7 +971,7 @@ namespace Balya_Yerleştirme
                                         reff.Rectangle.Height, reff.OriginalRectangle.X,
                                         reff.OriginalRectangle.Y, reff.OriginalRectangle.Width,
                                         reff.OriginalRectangle.Height, reff.Zoomlevel,
-                                        4, reff.OriginalLocationInsideParent.X, reff.OriginalLocationInsideParent.Y);
+                                        4, reff.OriginalLocationInsideParent.X, reff.OriginalLocationInsideParent.Y, reff.LocationX, reff.LocationY, reff.FixedPointLocation);
 
                                     await context.ConveyorReferencePoints.AddAsync(point);
                                     await context.SaveChangesAsync();
@@ -1266,7 +1266,7 @@ namespace Balya_Yerleştirme
                                         reff.Rectangle.Height, reff.OriginalRectangle.X,
                                         reff.OriginalRectangle.Y, reff.OriginalRectangle.Width,
                                         reff.OriginalRectangle.Height, reff.Zoomlevel,
-                                        4, reff.OriginalLocationInsideParent.X, reff.OriginalLocationInsideParent.Y);
+                                        4, reff.OriginalLocationInsideParent.X, reff.OriginalLocationInsideParent.Y, reff.LocationX, reff.LocationY, reff.FixedPointLocation);
 
                                     await context.ConveyorReferencePoints.AddAsync(point);
                                     await context.SaveChangesAsync();
@@ -1305,7 +1305,11 @@ namespace Balya_Yerleştirme
                                                            where x.ReferenceId == reff.ReferenceId
                                                            select x).FirstOrDefaultAsync();
 
-                                        if (reff1 != null)
+                                        var reffs = await (from x in context.ConveyorReferencePoints
+                                                           where x.ConveyorId == conveyor.ConveyorId
+                                                           select x).ToListAsync();
+
+                                        if (reff1 != null && reffs.Contains(reff1))
                                         {
                                             reff1.KareX = reff.Rectangle.X;
                                             reff1.KareY = reff.Rectangle.Y;
@@ -1323,6 +1327,20 @@ namespace Balya_Yerleştirme
                                             reff1.ReferenceId = reff.ReferenceId;
 
                                             await context.SaveChangesAsync();
+                                        }
+                                        else
+                                        {
+                                            ConveyorReferencePoint point = new ConveyorReferencePoint(
+                                        conveyor.ConveyorId, ambar.AmbarId, reff.Rectangle.X,
+                                        reff.Rectangle.Y, reff.Rectangle.Width,
+                                        reff.Rectangle.Height, reff.OriginalRectangle.X,
+                                        reff.OriginalRectangle.Y, reff.OriginalRectangle.Width,
+                                        reff.OriginalRectangle.Height, reff.Zoomlevel,
+                                        4, reff.OriginalLocationInsideParent.X, reff.OriginalLocationInsideParent.Y, reff.LocationX, reff.LocationY, reff.FixedPointLocation);
+
+                                            await context.ConveyorReferencePoints.AddAsync(point);
+                                            await context.SaveChangesAsync();
+                                            reff.ReferenceId = point.ReferenceId;
                                         }
                                     }
                                 }
@@ -2510,6 +2528,11 @@ namespace Balya_Yerleştirme
                                     point.Pointsize = 4;
                                     point.AmbarId = ambar.AmbarId;
                                     point.OriginalLocationInsideParent = new PointF(reff.OriginalLocationInsideParentX, reff.OriginalLocationInsideParentY);
+                                    point.LocationX = reff.LocationX;
+                                    point.LocationY = reff.LocationX;
+                                    point.OriginalLocationInsideParentX = reff.OriginalLocationInsideParentX;
+                                    point.OriginalLocationInsideParentY = reff.OriginalLocationInsideParentY;
+                                    point.FixedPointLocation = reff.FixedPointLocation;
 
                                     newConveyor.ConveyorReferencePoints.Add(point);
                                 }

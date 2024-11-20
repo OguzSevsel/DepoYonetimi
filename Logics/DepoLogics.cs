@@ -181,20 +181,20 @@ namespace Balya_Yerleştirme.Models
             using (Pen pen = new Pen(System.Drawing.Color.MidnightBlue, 3))
             {
                 graphics.DrawRectangle(pen, Rectangle);
-                System.Drawing.Font font1 = new System.Drawing.Font("Arial", 8 * Zoomlevel);
-                SolidBrush brush1 = new SolidBrush(System.Drawing.Color.Red);
-                graphics.DrawString($"{Yerlestirilme_Sirasi}", font1, brush1, Rectangle.Location);
-                //graphics.FillRectangle(new SolidBrush(System.Drawing.Color.AliceBlue), Rectangle);
+                //System.Drawing.Font font1 = new System.Drawing.Font("Arial", 8 * Zoomlevel);
+                //SolidBrush brush1 = new SolidBrush(System.Drawing.Color.Red);
+                //graphics.DrawString($"{Yerlestirilme_Sirasi}", font1, brush1, Rectangle.Location);
+                ////graphics.FillRectangle(new SolidBrush(System.Drawing.Color.AliceBlue), Rectangle);
 
-                if (layout != null)
-                {
-                    string textDepoAdi = $"{DepoName}";
+                //if (layout != null)
+                //{
+                //    string textDepoAdi = $"{DepoName}";
 
-                    System.Drawing.Font font = new System.Drawing.Font("Arial", 8 * Zoomlevel);
-                    SolidBrush brush = new SolidBrush(System.Drawing.Color.Red);
+                //    System.Drawing.Font font = new System.Drawing.Font("Arial", 8 * Zoomlevel);
+                //    SolidBrush brush = new SolidBrush(System.Drawing.Color.Red);
 
-                    graphics.DrawString(textDepoAdi, font, brush, Rectangle.Location);
-                }
+                //    graphics.DrawString(textDepoAdi, font, brush, Rectangle.Location);
+                //}
 
                 if (DrawMeters)
                 {
@@ -310,7 +310,8 @@ namespace Balya_Yerleştirme.Models
                         else
                         {
                             CustomNotifyIcon notify = new CustomNotifyIcon();
-                            notify.showAlert("Depoda nesne bulunduğu için bu işlemi gerçekleştiremezsiniz.", CustomNotifyIcon.enmType.Error);
+                            notify.showAlert(
+                                "Depoda nesne bulunduğu için bu işlemi gerçekleştiremezsiniz.", CustomNotifyIcon.enmType.Error);
                         }
                     }
                 }
@@ -349,7 +350,8 @@ namespace Balya_Yerleştirme.Models
                             else
                             {
                                 CustomNotifyIcon notify = new CustomNotifyIcon();
-                                notify.showAlert("Depoda nesne bulunduğu için bu işlemi                gerçekleştiremezsiniz.", CustomNotifyIcon.enmType.Error);
+                                notify.showAlert(
+                                "Depoda nesne bulunduğu için bu işlemi gerçekleştiremezsiniz.", CustomNotifyIcon.enmType.Error);
                             }
                         }
                     }

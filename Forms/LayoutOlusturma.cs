@@ -1940,7 +1940,7 @@ namespace Balya_Yerleştirme
                 foreach (var depo in Ambar.depolar)
                 {
                     g.DrawRectangle(TransparentPen, depo.Rectangle);
-                    g.DrawString($"{Ambar.depolar.Count}", Font, new SolidBrush(System.Drawing.Color.Black), new Point(10, 100));
+                    //g.DrawString($"{Ambar.depolar.Count}", Font, new SolidBrush(System.Drawing.Color.Black), new Point(10, 100));
 
                     foreach (var cell in depo.gridmaps)
                     {
@@ -1955,7 +1955,7 @@ namespace Balya_Yerleştirme
                         g.DrawRectangle(SelectedDepoPen, depo.Rectangle);
                         SelectedDepoEdgePen.DashStyle = DashStyle.Dash;
 
-                        g.DrawString($"{selectedDepo.DepoName}",Font,new SolidBrush(System.Drawing.Color.Black), new Point(10,130));
+                        //g.DrawString($"{selectedDepo.DepoName}",Font,new SolidBrush(System.Drawing.Color.Black), new Point(10,130));
                         DrawLeftLines(SelectedDepoEdgePen, g, rects, depo.Rectangle, Ambar.Rectangle);
                         DrawRightLines(SelectedDepoEdgePen, g, rects, depo.Rectangle, Ambar.Rectangle);
                         DrawTopLines(SelectedDepoEdgePen, g, rects, depo.Rectangle, Ambar.Rectangle);
@@ -6007,6 +6007,9 @@ namespace Balya_Yerleştirme
             float Y = point.Rectangle.Y - selectedConveyor.Rectangle.Y;
 
             point.OriginalLocationInsideParent = new PointF(X, Y);
+            
+            point.OriginalLocationInsideParentX = cm.Item1;
+            point.OriginalLocationInsideParentY = cm.Item2;
 
             selectedConveyor.ConveyorReferencePoints.Add(point);
             drawingPanel.Invalidate();
@@ -6027,16 +6030,22 @@ namespace Balya_Yerleştirme
 
             if (chk_Conveyor_Reference_Top.Checked)
             {
-                PointF Top = GVisual.GetMiddleOfTopEdgeF(selectedConveyor.Rectangle);
+                bool istop = false;
 
+                PointF Top = GVisual.GetMiddleOfTopEdgeF(selectedConveyor.Rectangle);
+                
                 if (tempRef.Count > 0)
                 {
                     foreach (var reff in tempRef)
                     {
-                        if (reff.FixedPointLocation != "Top")
+                        if (reff.FixedPointLocation == "Top")
                         {
-                            AddConveyorRefPoint(Top.X, Top.Y, "Top");
+                            istop = true;
                         }
+                    }
+                    if (!istop)
+                    {
+                        AddConveyorRefPoint(Top.X, Top.Y, "Top");
                     }
                 }
                 else
@@ -6056,16 +6065,22 @@ namespace Balya_Yerleştirme
             }
             if (chk_Conveyor_Reference_Bottom.Checked)
             {
+                bool isbottom = false;
+
                 PointF Bottom = GVisual.GetMiddleOfBottomEdgeF(selectedConveyor.Rectangle);
 
                 if (tempRef.Count > 0)
                 {
                     foreach (var reff in tempRef)
                     {
-                        if (reff.FixedPointLocation != "Bottom")
+                        if (reff.FixedPointLocation == "Bottom")
                         {
-                            AddConveyorRefPoint(Bottom.X, Bottom.Y, "Bottom");
+                            isbottom = true;
                         }
+                    }
+                    if (!isbottom)
+                    {
+                        AddConveyorRefPoint(Bottom.X, Bottom.Y, "Bottom");
                     }
                 }
                 else
@@ -6085,16 +6100,22 @@ namespace Balya_Yerleştirme
             }
             if (chk_Conveyor_Reference_Left.Checked)
             {
+                bool isleft = false;
+
                 PointF Left = GVisual.GetMiddleOfLeftEdgeF(selectedConveyor.Rectangle);
 
                 if (tempRef.Count > 0)
                 {
                     foreach (var reff in tempRef)
                     {
-                        if (reff.FixedPointLocation != "Left")
+                        if (reff.FixedPointLocation == "Left")
                         {
-                            AddConveyorRefPoint(Left.X, Left.Y, "Left");
+                            isleft = true;
                         }
+                    }
+                    if (!isleft)
+                    {
+                        AddConveyorRefPoint(Left.X, Left.Y, "Left");
                     }
                 }
                 else
@@ -6114,16 +6135,22 @@ namespace Balya_Yerleştirme
             }
             if (chk_Conveyor_Reference_Right.Checked)
             {
+                bool isright = false;
+
                 PointF Right = GVisual.GetMiddleOfRightEdgeF(selectedConveyor.Rectangle);
 
                 if (tempRef.Count > 0)
                 {
                     foreach (var reff in tempRef)
                     {
-                        if (reff.FixedPointLocation != "Right")
+                        if (reff.FixedPointLocation == "Right")
                         {
-                            AddConveyorRefPoint(Right.X, Right.Y, "Right");
+                            isright = true;
                         }
+                    }
+                    if (!isright)
+                    {
+                        AddConveyorRefPoint(Right.X, Right.Y, "Right");
                     }
                 }
                 else
@@ -6143,16 +6170,22 @@ namespace Balya_Yerleştirme
             }
             if (chk_Conveyor_Reference_Center.Checked)
             {
+                bool iscenter = false;
+
                 PointF Center = GVisual.GetCenterF(selectedConveyor.Rectangle);
 
                 if (tempRef.Count > 0)
                 {
                     foreach (var reff in tempRef)
                     {
-                        if (reff.FixedPointLocation != "Center")
+                        if (reff.FixedPointLocation == "Center")
                         {
-                            AddConveyorRefPoint(Center.X, Center.Y, "Center");
+                            iscenter = true;
                         }
+                    }
+                    if (!iscenter)
+                    {
+                        AddConveyorRefPoint(Center.X, Center.Y, "Center");
                     }
                 }
                 else
@@ -6267,12 +6300,11 @@ namespace Balya_Yerleştirme
         //Select if Manual or Fixed Reference Points
         private void btn_Select_Fixed_Conveyor_Reference_Point_Click(object sender, EventArgs e)
         {
-            if (menuProcess)
+            if (menuProcess && selectedConveyor != null)
             {
                 GVisual.HideControl(Conveyor_Reference_FixedorManuel_Panel, groupBox_SelectedConveyor);
                 GVisual.ShowControl(Conveyor_Reference_Fixed_Panel, groupBox_SelectedConveyor);
                 GVisual.Control_Center(Conveyor_Reference_Fixed_Panel, groupBox_SelectedConveyor);
-
 
                 chk_Conveyor_Reference_Bottom.ForeColor = System.Drawing.Color.Black;
                 chk_Conveyor_Reference_Bottom.Font = new System.Drawing.Font("Segoe UI", 9);
@@ -6288,12 +6320,60 @@ namespace Balya_Yerleştirme
 
                 chk_Conveyor_Reference_Center.ForeColor = System.Drawing.Color.Black;
                 chk_Conveyor_Reference_Center.Font = new System.Drawing.Font("Segoe UI", 9);
+
+                foreach (var reff in selectedConveyor.ConveyorReferencePoints)
+                {
+                    if (reff.FixedPointLocation == "Left")
+                    {
+                        chk_Conveyor_Reference_Left.Checked = true;
+                    }
+                    if (reff.FixedPointLocation == "Right")
+                    {
+                        chk_Conveyor_Reference_Right.Checked = true;
+                    }
+                    if (reff.FixedPointLocation == "Center")
+                    {
+                        chk_Conveyor_Reference_Center.Checked = true;
+                    }
+                    if (reff.FixedPointLocation == "Top")
+                    {
+                        chk_Conveyor_Reference_Top.Checked = true;
+                    }
+                    if (reff.FixedPointLocation == "Bottom")
+                    {
+                        chk_Conveyor_Reference_Bottom.Checked = true;
+                    }
+                }
             }
-            else
+            else if (!menuProcess && selectedConveyor != null)
             {
                 GVisual.HideControl(Conveyor_Reference_FixedorManuel_Panel, drawingPanel);
                 CenterControltoLeftSideofRectangleVertically(selectedConveyor.Rectangle,
                     Conveyor_Reference_Fixed_Panel, drawingPanel);
+
+                foreach (var reff in selectedConveyor.ConveyorReferencePoints)
+                {
+                    if (reff.FixedPointLocation == "Left")
+                    {
+                        chk_Conveyor_Reference_Left.Checked = true;
+                    }
+                    if (reff.FixedPointLocation == "Right")
+                    {
+                        chk_Conveyor_Reference_Right.Checked = true;
+                    }
+                    if (reff.FixedPointLocation == "Center")
+                    {
+                        chk_Conveyor_Reference_Center.Checked = true;
+                    }
+                    if (reff.FixedPointLocation == "Top")
+                    {
+                        chk_Conveyor_Reference_Top.Checked = true;
+                    }
+                    if (reff.FixedPointLocation == "Bottom")
+                    {
+                        chk_Conveyor_Reference_Bottom.Checked = true;
+                    }
+                }
             }
         }
         private void btn_Manuel_Reference_Point_Click(object sender, EventArgs e)
