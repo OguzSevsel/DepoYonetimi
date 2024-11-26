@@ -163,14 +163,21 @@ namespace Balya_Yerleştirme.Models
                         StrLib.ReplaceDotWithCommaReturnFloat(layout.txt_Yatay_Kenar_Boslugu,
                         layout.errorProvider, "Bu alan boş bırakılamaz.",
                         "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
-
-                    CreateGridMapMenuItem(layout.total_Cell_Width,
+                    if (layout.total_Cell_Width <= Depo_Alani_Eni_Cm && layout.total_Cell_Height <= Depo_Alani_Boyu_Cm)
+                    {
+                        CreateGridMapMenuItem(layout.total_Cell_Width,
                         layout.total_Cell_Height, dikey_kenar_boslugu, yatay_kenar_boslugu,
                         layout.nesne_Eni, layout.nesne_Boyu, layout.nesne_Yuksekligi);
 
-                    nesneYuksekligi = layout.nesne_Yuksekligi;
-                    nesneEni = layout.nesne_Eni;
-                    nesneBoyu = layout.nesne_Boyu;
+                        nesneYuksekligi = layout.nesne_Yuksekligi;
+                        nesneEni = layout.nesne_Eni;
+                        nesneBoyu = layout.nesne_Boyu;
+                    }
+                    else
+                    {
+                        CustomNotifyIcon notify = new CustomNotifyIcon();
+                        notify.showAlert("Oluşturmaya çalıştığınız ızgara haritası depolardan birisi için çok büyük, bu yüzden o depoda oluşturulamadı.", CustomNotifyIcon.enmType.Error);
+                    }
                 }
             }
         }
@@ -181,77 +188,63 @@ namespace Balya_Yerleştirme.Models
             using (Pen pen = new Pen(System.Drawing.Color.MidnightBlue, 3))
             {
                 graphics.DrawRectangle(pen, Rectangle);
-                //System.Drawing.Font font1 = new System.Drawing.Font("Arial", 8 * Zoomlevel);
-                //SolidBrush brush1 = new SolidBrush(System.Drawing.Color.Red);
-                //graphics.DrawString($"{Yerlestirilme_Sirasi}", font1, brush1, Rectangle.Location);
-                ////graphics.FillRectangle(new SolidBrush(System.Drawing.Color.AliceBlue), Rectangle);
-
-                //if (layout != null)
+                
+                //if (DrawMeters)
                 //{
-                //    string textDepoAdi = $"{DepoName}";
+                //    PointF DepoBoyuTextLocation;
+                //    PointF UpLinePoint;
+                //    PointF DownLinePoint;
+                //    int padding = 4;
 
                 //    System.Drawing.Font font = new System.Drawing.Font("Arial", 8 * Zoomlevel);
                 //    SolidBrush brush = new SolidBrush(System.Drawing.Color.Red);
 
-                //    graphics.DrawString(textDepoAdi, font, brush, Rectangle.Location);
+                //    string text = $"{DepoAlaniEni}\nMetre";
+                //    string textDepoBoyu = $"{DepoAlaniBoyu}\nMetre";
+
+                //    SizeF textSize = graphics.MeasureString(text, font);
+                //    SizeF textDepoBoyuSize = graphics.MeasureString(textDepoBoyu, font);
+
+                //    PointF LeftLinePoint = new PointF(Rectangle.Location.X + Rectangle.Width / 8,
+                //        Rectangle.Location.Y - padding * Zoomlevel);
+                //    PointF RightLinePoint = new PointF(Rectangle.Location.X + Rectangle.Width - Rectangle.Width / 8,
+                //        Rectangle.Location.Y - padding * Zoomlevel);
+
+                //    PointF TextLocation =
+                //        new PointF(((LeftLinePoint.X - (Rectangle.Width / 8) + (Rectangle.Width / 2)) - textSize.Width / 2),
+                //        LeftLinePoint.Y - textSize.Height);
+
+                //    if (Main != null)
+                //    {
+                //        if (OriginalRectangle.Location.X < Main.DrawingPanel.Width / 2)
+                //        {
+                //            UpLinePoint = new PointF(Rectangle.Location.X - padding * Zoomlevel,
+                //            Rectangle.Location.Y + Rectangle.Height / 8);
+                //            DownLinePoint = new PointF(Rectangle.Location.X - padding * Zoomlevel,
+                //                Rectangle.Location.Y + Rectangle.Height - Rectangle.Height / 8);
+
+                //            DepoBoyuTextLocation = new PointF(Rectangle.Location.X - padding * Zoomlevel - textDepoBoyuSize.Width,
+                //            Rectangle.Location.Y + Rectangle.Height / 2 - textDepoBoyuSize.Height / 2);
+                //        }
+                //        else
+                //        {
+                //            UpLinePoint = new PointF(Rectangle.Location.X + Rectangle.Width + padding * Zoomlevel,
+                //            Rectangle.Location.Y + Rectangle.Height / 8);
+
+                //            DownLinePoint = new PointF(Rectangle.Location.X + Rectangle.Width + padding * Zoomlevel,
+                //                Rectangle.Location.Y + Rectangle.Height - Rectangle.Height / 8);
+
+                //            DepoBoyuTextLocation =
+                //           new PointF(Rectangle.Location.X + Rectangle.Width + padding * Zoomlevel,
+                //          Rectangle.Location.Y + Rectangle.Height / 2 - textDepoBoyuSize.Height / 2);
+                //        }
+
+                //        graphics.DrawLine(new Pen(System.Drawing.Color.Red), LeftLinePoint, RightLinePoint);
+                //        graphics.DrawLine(new Pen(System.Drawing.Color.Red), UpLinePoint, DownLinePoint);
+                //        graphics.DrawString(text, font, brush, TextLocation);
+                //        graphics.DrawString(textDepoBoyu, font, brush, DepoBoyuTextLocation);
+                //    }
                 //}
-
-                if (DrawMeters)
-                {
-                    PointF DepoBoyuTextLocation;
-                    PointF UpLinePoint;
-                    PointF DownLinePoint;
-                    int padding = 4;
-
-                    System.Drawing.Font font = new System.Drawing.Font("Arial", 8 * Zoomlevel);
-                    SolidBrush brush = new SolidBrush(System.Drawing.Color.Red);
-
-                    string text = $"{DepoAlaniEni}\nMetre";
-                    string textDepoBoyu = $"{DepoAlaniBoyu}\nMetre";
-
-                    SizeF textSize = graphics.MeasureString(text, font);
-                    SizeF textDepoBoyuSize = graphics.MeasureString(textDepoBoyu, font);
-
-                    PointF LeftLinePoint = new PointF(Rectangle.Location.X + Rectangle.Width / 8,
-                        Rectangle.Location.Y - padding * Zoomlevel);
-                    PointF RightLinePoint = new PointF(Rectangle.Location.X + Rectangle.Width - Rectangle.Width / 8,
-                        Rectangle.Location.Y - padding * Zoomlevel);
-
-                    PointF TextLocation =
-                        new PointF(((LeftLinePoint.X - (Rectangle.Width / 8) + (Rectangle.Width / 2)) - textSize.Width / 2),
-                        LeftLinePoint.Y - textSize.Height);
-
-                    if (Main != null)
-                    {
-                        if (OriginalRectangle.Location.X < Main.DrawingPanel.Width / 2)
-                        {
-                            UpLinePoint = new PointF(Rectangle.Location.X - padding * Zoomlevel,
-                            Rectangle.Location.Y + Rectangle.Height / 8);
-                            DownLinePoint = new PointF(Rectangle.Location.X - padding * Zoomlevel,
-                                Rectangle.Location.Y + Rectangle.Height - Rectangle.Height / 8);
-
-                            DepoBoyuTextLocation = new PointF(Rectangle.Location.X - padding * Zoomlevel - textDepoBoyuSize.Width,
-                            Rectangle.Location.Y + Rectangle.Height / 2 - textDepoBoyuSize.Height / 2);
-                        }
-                        else
-                        {
-                            UpLinePoint = new PointF(Rectangle.Location.X + Rectangle.Width + padding * Zoomlevel,
-                            Rectangle.Location.Y + Rectangle.Height / 8);
-
-                            DownLinePoint = new PointF(Rectangle.Location.X + Rectangle.Width + padding * Zoomlevel,
-                                Rectangle.Location.Y + Rectangle.Height - Rectangle.Height / 8);
-
-                            DepoBoyuTextLocation =
-                           new PointF(Rectangle.Location.X + Rectangle.Width + padding * Zoomlevel,
-                          Rectangle.Location.Y + Rectangle.Height / 2 - textDepoBoyuSize.Height / 2);
-                        }
-
-                        graphics.DrawLine(new Pen(System.Drawing.Color.Red), LeftLinePoint, RightLinePoint);
-                        graphics.DrawLine(new Pen(System.Drawing.Color.Red), UpLinePoint, DownLinePoint);
-                        graphics.DrawString(text, font, brush, TextLocation);
-                        graphics.DrawString(textDepoBoyu, font, brush, DepoBoyuTextLocation);
-                    }
-                }
             }
             foreach (var cell in gridmaps)
             {

@@ -59,9 +59,9 @@
             kryptonBorderEdge6 = new Krypton.Toolkit.KryptonBorderEdge();
             lbl_CreateIsletme_Name = new Krypton.Toolkit.KryptonWrapLabel();
             lbl_CreateIsletme_Title = new Krypton.Toolkit.KryptonWrapLabel();
-            btn_CreateIsletme = new Button();
             errorProvider = new ErrorProvider(components);
             lbl_Title = new Krypton.Toolkit.KryptonWrapLabel();
+            btn_CreateIsletme = new Button();
             panel_IsletmeMenu.SuspendLayout();
             InnerPanel1.SuspendLayout();
             InnerPanel.SuspendLayout();
@@ -75,9 +75,9 @@
             // SelectBusinessPanel
             // 
             SelectBusinessPanel.AutoScroll = true;
-            SelectBusinessPanel.Location = new Point(12, 70);
+            SelectBusinessPanel.Location = new Point(12, 90);
             SelectBusinessPanel.Name = "SelectBusinessPanel";
-            SelectBusinessPanel.Size = new Size(1560, 768);
+            SelectBusinessPanel.Size = new Size(1560, 748);
             SelectBusinessPanel.TabIndex = 2;
             SelectBusinessPanel.MouseDown += SelectBusinessPanel_MouseDown;
             // 
@@ -86,7 +86,7 @@
             panel_IsletmeMenu.BackColor = Color.LightCyan;
             panel_IsletmeMenu.Controls.Add(InnerPanel1);
             panel_IsletmeMenu.Controls.Add(lbl_IsletmeMenu_Title);
-            panel_IsletmeMenu.Location = new Point(1102, 844);
+            panel_IsletmeMenu.Location = new Point(1098, 844);
             panel_IsletmeMenu.Name = "panel_IsletmeMenu";
             panel_IsletmeMenu.Size = new Size(314, 768);
             panel_IsletmeMenu.TabIndex = 5;
@@ -208,28 +208,36 @@
             // 
             // btn_Isletme_Yukle
             // 
-            btn_Isletme_Yukle.FlatStyle = FlatStyle.Flat;
+            btn_Isletme_Yukle.BackColor = Color.AliceBlue;
             btn_Isletme_Yukle.Font = new Font("Segoe UI", 16F);
-            btn_Isletme_Yukle.ForeColor = Color.Lime;
+            btn_Isletme_Yukle.ForeColor = Color.Green;
+            btn_Isletme_Yukle.Image = Resources.Resource1.Upload;
+            btn_Isletme_Yukle.ImageAlign = ContentAlignment.MiddleLeft;
             btn_Isletme_Yukle.Location = new Point(3, 3);
             btn_Isletme_Yukle.Name = "btn_Isletme_Yukle";
+            btn_Isletme_Yukle.Padding = new Padding(17, 0, 70, 0);
             btn_Isletme_Yukle.Size = new Size(268, 90);
             btn_Isletme_Yukle.TabIndex = 4;
             btn_Isletme_Yukle.Text = "Yükle";
-            btn_Isletme_Yukle.UseVisualStyleBackColor = true;
+            btn_Isletme_Yukle.TextAlign = ContentAlignment.MiddleRight;
+            btn_Isletme_Yukle.UseVisualStyleBackColor = false;
             btn_Isletme_Yukle.Click += btn_Isletme_Yukle_Click;
             // 
             // btn_Sil
             // 
-            btn_Sil.FlatStyle = FlatStyle.Flat;
+            btn_Sil.BackColor = Color.AliceBlue;
             btn_Sil.Font = new Font("Segoe UI", 16F);
-            btn_Sil.ForeColor = Color.Red;
+            btn_Sil.ForeColor = Color.FromArgb(192, 0, 0);
+            btn_Sil.Image = Resources.Resource1.Trash;
+            btn_Sil.ImageAlign = ContentAlignment.MiddleLeft;
             btn_Sil.Location = new Point(3, 99);
             btn_Sil.Name = "btn_Sil";
+            btn_Sil.Padding = new Padding(17, 0, 85, 0);
             btn_Sil.Size = new Size(268, 90);
             btn_Sil.TabIndex = 3;
             btn_Sil.Text = "Sil";
-            btn_Sil.UseVisualStyleBackColor = true;
+            btn_Sil.TextAlign = ContentAlignment.MiddleRight;
+            btn_Sil.UseVisualStyleBackColor = false;
             btn_Sil.Click += btn_Sil_Click;
             // 
             // lbl_ChangeIsletmeName
@@ -265,7 +273,7 @@
             panel_CreateIsletme.BackColor = Color.LightCyan;
             panel_CreateIsletme.Controls.Add(CreateIsletme_InnerPanel);
             panel_CreateIsletme.Controls.Add(lbl_CreateIsletme_Title);
-            panel_CreateIsletme.Location = new Point(782, 844);
+            panel_CreateIsletme.Location = new Point(778, 844);
             panel_CreateIsletme.Name = "panel_CreateIsletme";
             panel_CreateIsletme.Size = new Size(314, 768);
             panel_CreateIsletme.TabIndex = 6;
@@ -340,28 +348,37 @@
             // 
             // btn_CreateIsletme_Vazgec
             // 
-            btn_CreateIsletme_Vazgec.FlatStyle = FlatStyle.Flat;
+            btn_CreateIsletme_Vazgec.BackColor = Color.AliceBlue;
             btn_CreateIsletme_Vazgec.Font = new Font("Segoe UI", 16F);
-            btn_CreateIsletme_Vazgec.ForeColor = Color.Red;
+            btn_CreateIsletme_Vazgec.ForeColor = Color.FromArgb(192, 0, 0);
+            btn_CreateIsletme_Vazgec.Image = Resources.Resource1.CancelRed;
+            btn_CreateIsletme_Vazgec.ImageAlign = ContentAlignment.MiddleLeft;
             btn_CreateIsletme_Vazgec.Location = new Point(17, 119);
             btn_CreateIsletme_Vazgec.Name = "btn_CreateIsletme_Vazgec";
+            btn_CreateIsletme_Vazgec.Padding = new Padding(15, 0, 55, 0);
             btn_CreateIsletme_Vazgec.Size = new Size(268, 90);
             btn_CreateIsletme_Vazgec.TabIndex = 4;
             btn_CreateIsletme_Vazgec.Text = "Vazgeç";
-            btn_CreateIsletme_Vazgec.UseVisualStyleBackColor = true;
+            btn_CreateIsletme_Vazgec.TextAlign = ContentAlignment.MiddleRight;
+            btn_CreateIsletme_Vazgec.UseVisualStyleBackColor = false;
             btn_CreateIsletme_Vazgec.Click += btn_CreateIsletme_Vazgec_Click;
             // 
             // btn_CreateIsletme_Olustur
             // 
-            btn_CreateIsletme_Olustur.FlatStyle = FlatStyle.Flat;
+            btn_CreateIsletme_Olustur.BackColor = Color.AliceBlue;
+            btn_CreateIsletme_Olustur.FlatAppearance.BorderSize = 3;
             btn_CreateIsletme_Olustur.Font = new Font("Segoe UI", 16F);
-            btn_CreateIsletme_Olustur.ForeColor = Color.Lime;
+            btn_CreateIsletme_Olustur.ForeColor = Color.Green;
+            btn_CreateIsletme_Olustur.Image = Resources.Resource1.Business_Building;
+            btn_CreateIsletme_Olustur.ImageAlign = ContentAlignment.MiddleLeft;
             btn_CreateIsletme_Olustur.Location = new Point(17, 23);
             btn_CreateIsletme_Olustur.Name = "btn_CreateIsletme_Olustur";
+            btn_CreateIsletme_Olustur.Padding = new Padding(17, 0, 15, 0);
             btn_CreateIsletme_Olustur.Size = new Size(268, 90);
             btn_CreateIsletme_Olustur.TabIndex = 3;
             btn_CreateIsletme_Olustur.Text = "İşletme Oluştur";
-            btn_CreateIsletme_Olustur.UseVisualStyleBackColor = true;
+            btn_CreateIsletme_Olustur.TextAlign = ContentAlignment.MiddleRight;
+            btn_CreateIsletme_Olustur.UseVisualStyleBackColor = false;
             btn_CreateIsletme_Olustur.Click += btn_CreateIsletme_Olustur_Click;
             // 
             // kryptonBorderEdge6
@@ -399,19 +416,6 @@
             lbl_CreateIsletme_Title.Text = "Lütfen İşletme Bilgilerini Giriniz";
             lbl_CreateIsletme_Title.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // btn_CreateIsletme
-            // 
-            btn_CreateIsletme.FlatStyle = FlatStyle.Flat;
-            btn_CreateIsletme.Font = new Font("Segoe UI", 16F);
-            btn_CreateIsletme.ForeColor = Color.Lime;
-            btn_CreateIsletme.Location = new Point(1399, 6);
-            btn_CreateIsletme.Name = "btn_CreateIsletme";
-            btn_CreateIsletme.Size = new Size(173, 58);
-            btn_CreateIsletme.TabIndex = 7;
-            btn_CreateIsletme.Text = "İşletme Oluştur";
-            btn_CreateIsletme.UseVisualStyleBackColor = true;
-            btn_CreateIsletme.Click += btn_CreateIsletme_Click;
-            // 
             // errorProvider
             // 
             errorProvider.ContainerControl = this;
@@ -430,19 +434,37 @@
             lbl_Title.Text = "İşletme Seçin";
             lbl_Title.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // btn_CreateIsletme
+            // 
+            btn_CreateIsletme.BackColor = Color.AliceBlue;
+            btn_CreateIsletme.FlatAppearance.BorderSize = 3;
+            btn_CreateIsletme.Font = new Font("Segoe UI", 16F);
+            btn_CreateIsletme.ForeColor = Color.Blue;
+            btn_CreateIsletme.Image = Resources.Resource1.Business_Building;
+            btn_CreateIsletme.ImageAlign = ContentAlignment.MiddleLeft;
+            btn_CreateIsletme.Location = new Point(1351, 6);
+            btn_CreateIsletme.Name = "btn_CreateIsletme";
+            btn_CreateIsletme.Size = new Size(221, 78);
+            btn_CreateIsletme.TabIndex = 23;
+            btn_CreateIsletme.Text = "İşletme Oluştur";
+            btn_CreateIsletme.TextAlign = ContentAlignment.MiddleRight;
+            btn_CreateIsletme.UseVisualStyleBackColor = false;
+            btn_CreateIsletme.Click += btn_CreateIsletme_Click;
+            // 
             // SelectBusiness
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1584, 861);
-            Controls.Add(lbl_Title);
-            Controls.Add(panel_IsletmeMenu);
-            Controls.Add(btn_CreateIsletme);
             Controls.Add(panel_CreateIsletme);
+            Controls.Add(lbl_Title);
+            Controls.Add(btn_CreateIsletme);
+            Controls.Add(panel_IsletmeMenu);
             Controls.Add(SelectBusinessPanel);
             Name = "SelectBusiness";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "İşletmeleri Düzenle";
+            MouseDown += SelectBusiness_MouseDown;
             panel_IsletmeMenu.ResumeLayout(false);
             InnerPanel1.ResumeLayout(false);
             InnerPanel1.PerformLayout();
@@ -490,8 +512,8 @@
         private Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge6;
         private Krypton.Toolkit.KryptonWrapLabel lbl_CreateIsletme_Name;
         private Krypton.Toolkit.KryptonWrapLabel lbl_CreateIsletme_Title;
-        private Button btn_CreateIsletme;
         private ErrorProvider errorProvider;
         private Krypton.Toolkit.KryptonWrapLabel lbl_Title;
+        private Button btn_CreateIsletme;
     }
 }

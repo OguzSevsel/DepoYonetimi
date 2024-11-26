@@ -25,6 +25,7 @@ using System.Runtime.CompilerServices;
 using System.Net.Security;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Balya_Yerleştirme.Forms;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
 
 
 
@@ -69,10 +70,10 @@ namespace Balya_Yerleştirme
         public int drawingPanelMoveConst = 368 / 2;
         public Balya_Yerleştirme.Models.Cell RightClickCell { get; set; }
         public Conveyor RightClickConveyor { get; set; }
-        public Point DragStartPoint { get; set; }
+        public System.Drawing.Point DragStartPoint { get; set; }
         private PointF scrollStartPoint { get; set; }
-        Point scaledPoint { get; set; }
-        Point infoPoint { get; set; }
+        System.Drawing.Point scaledPoint { get; set; }
+        System.Drawing.Point infoPoint { get; set; }
         public float mouseXRelativeToContent { get; set; }
         public float mouseYRelativeToContent { get; set; }
         public float Zoomlevel { get; set; } = 1f;
@@ -90,10 +91,10 @@ namespace Balya_Yerleştirme
 
 
         #region Locations for Panels
-        public Point leftSidePanelLocation { get; set; } = new Point(12, 91);
-        public Point rightSidePanelLocation { get; set; } = new Point(1528, 91);
-        Point ProgressBarPoint = new Point(379, 12);
-        Point ProgressBarPointLayoutOlustur = new Point(1423, 8);
+        public System.Drawing.Point leftSidePanelLocation { get; set; } = new System.Drawing.Point(12, 91);
+        public System.Drawing.Point rightSidePanelLocation { get; set; } = new System.Drawing.Point(1528, 91);
+        System.Drawing.Point ProgressBarPoint = new System.Drawing.Point(379, 12);
+        System.Drawing.Point ProgressBarPointLayoutOlustur = new System.Drawing.Point(1423, 8);
 
         public System.Drawing.Point drawingPanelLeftLocation { get; set; } = new System.Drawing.Point(12, 91);
         public System.Drawing.Point drawingPanelMiddleLocation { get; set; } = new System.Drawing.Point(373, 91);
@@ -615,7 +616,7 @@ namespace Balya_Yerleştirme
                 float newScrollX = mouseXRelativeToContent * Zoomlevel - e.X;
                 float newScrollY = mouseYRelativeToContent * Zoomlevel - e.Y;
 
-                DrawingPanel.AutoScrollPosition = new Point((int)newScrollX, (int)newScrollY);
+                DrawingPanel.AutoScrollPosition = new System.Drawing.Point((int)newScrollX, (int)newScrollY);
 
                 DrawingPanel.Invalidate();
             }
@@ -645,18 +646,18 @@ namespace Balya_Yerleştirme
                     ambar.Draw(g);
                 }
             }
-            e.Graphics.DrawImage(bitmap, new Point(0, 0));
+            e.Graphics.DrawImage(bitmap, new System.Drawing.Point(0, 0));
         }
         private void DrawingPanel_MouseMove(object sender, MouseEventArgs e)
         {
-            Point scaledPoint = new Point((int)((e.X - DrawingPanel.AutoScrollPosition.X)), (int)((e.Y - DrawingPanel.AutoScrollPosition.Y)));
+            System.Drawing.Point scaledPoint = new System.Drawing.Point((int)((e.X - DrawingPanel.AutoScrollPosition.X)), (int)((e.Y - DrawingPanel.AutoScrollPosition.Y)));
             infoPoint = scaledPoint;
             if (e.Button == MouseButtons.Left && System.Windows.Forms.Control.ModifierKeys == Keys.Shift)
             {
                 float offsetX = (e.X - DragStartPoint.X);
                 float offsetY = (e.Y - DragStartPoint.Y);
 
-                Point newScrollPosition = new Point((int)(scrollStartPoint.X - offsetX), (int)(scrollStartPoint.Y - (int)offsetY));
+                System.Drawing.Point newScrollPosition = new System.Drawing.Point((int)(scrollStartPoint.X - offsetX), (int)(scrollStartPoint.Y - (int)offsetY));
 
                 DrawingPanel.AutoScrollPosition = newScrollPosition;
             }
@@ -669,7 +670,7 @@ namespace Balya_Yerleştirme
         private void DrawingPanel_MouseDown(object sender, MouseEventArgs e)
         {
             bool contains = false;
-            scaledPoint = new Point((int)((e.X - DrawingPanel.AutoScrollPosition.X)),
+            scaledPoint = new System.Drawing.Point((int)((e.X - DrawingPanel.AutoScrollPosition.X)),
                 (int)((e.Y - DrawingPanel.AutoScrollPosition.Y)));
             if (ambar != null)
             {
@@ -751,35 +752,35 @@ namespace Balya_Yerleştirme
         //Get Points for Adding Reference Points to Items
         #region Get Points for Rectangles Such as (Center, Middle of top edge, Middle of right edge etc.)
         //Get Points for Rectangles
-        private Point GetCenter(RectangleF rect)
+        private System.Drawing.Point GetCenter(RectangleF rect)
         {
             float centerX = (rect.Left + rect.Width / 2);
             float centerY = (rect.Top + rect.Height / 2);
-            return new Point((int)centerX, (int)centerY);
+            return new System.Drawing.Point((int)centerX, (int)centerY);
         }
-        private Point GetMiddleOfTopEdge(RectangleF rect)
+        private System.Drawing.Point GetMiddleOfTopEdge(RectangleF rect)
         {
             float middleX = rect.Left + rect.Width / 2;
             float topY = rect.Top;
-            return new Point((int)middleX, (int)topY);
+            return new System.Drawing.Point((int)middleX, (int)topY);
         }
-        private Point GetMiddleOfBottomEdge(RectangleF rect)
+        private System.Drawing.Point GetMiddleOfBottomEdge(RectangleF rect)
         {
             float middleX = rect.Left + rect.Width / 2;
             float bottomY = rect.Bottom;
-            return new Point((int)middleX, (int)bottomY);
+            return new System.Drawing.Point((int)middleX, (int)bottomY);
         }
-        private Point GetMiddleOfLeftEdge(RectangleF rect)
+        private System.Drawing.Point GetMiddleOfLeftEdge(RectangleF rect)
         {
             float leftX = rect.Left;
             float middleY = rect.Top + rect.Height / 2;
-            return new Point((int)leftX, (int)middleY);
+            return new System.Drawing.Point((int)leftX, (int)middleY);
         }
-        private Point GetMiddleOfRightEdge(RectangleF rect)
+        private System.Drawing.Point GetMiddleOfRightEdge(RectangleF rect)
         {
             float rightX = rect.Right;
             float middleY = rect.Top + rect.Height / 2;
-            return new Point((int)rightX, (int)middleY);
+            return new System.Drawing.Point((int)rightX, (int)middleY);
         }
 
         #endregion
@@ -1370,7 +1371,7 @@ namespace Balya_Yerleştirme
                 GVisual.Move_RightSide_of_AnotherControl(PLC_Connection_Panel, ToolStrip, 3);
                 GVisual.Control_Center(btn_PLC_ConnectionPanel_Kapat, PLC_Connection_Panel);
                 btn_PLC_ConnectionPanel_Kapat.Image = Resources.Resource1.Chevron_Right;
-                IsletmeInfoPanel.Location = new Point(730, 4);
+                IsletmeInfoPanel.Location = new System.Drawing.Point(730, 4);
             }
             else
             {
@@ -1381,7 +1382,7 @@ namespace Balya_Yerleştirme
                 GVisual.Move_RightSide_of_AnotherControl(PLC_Connection_Panel, ToolStrip, 3);
                 GVisual.Control_CenterRightEdge(btn_PLC_ConnectionPanel_Kapat, PLC_Connection_Panel, 3);
                 btn_PLC_ConnectionPanel_Kapat.Image = Resources.Resource1.Chevron_Left;
-                IsletmeInfoPanel.Location = new Point(886, 4);
+                IsletmeInfoPanel.Location = new System.Drawing.Point(886, 4);
             }
         }
         private void btn_PLC_Connection_Click(object sender, EventArgs e)
@@ -1526,7 +1527,7 @@ namespace Balya_Yerleştirme
 
             MainPanelOpenLeftSide(leftLayoutPanel, this, leftSidePanelLocation, Nesne_Yerlestirme_First_Panel);
 
-            Point point = GVisual.Point_Control_to_BottomSide_ofControl(PLC_Sim_YerSoyle_Panel, btn_PLC_Sim_Nesne_Bul, 10);
+            System.Drawing.Point point = GVisual.Point_Control_to_BottomSide_ofControl(PLC_Sim_YerSoyle_Panel, btn_PLC_Sim_Nesne_Bul, 10);
             GVisual.ShowControl(PLC_Sim_YerSoyle_Panel, PLC_Sim_Panel, point);
             btn_PLC_Sim_Nesne_Yerlestirildi.Text = "Nesne\nYerleştirildi";
             btn_PLC_Sim_Nesne_Yerlestirilemedi.Text = "Nesne\nYerleştirilemedi";
@@ -1618,7 +1619,7 @@ namespace Balya_Yerleştirme
                             }
                             yerBul = true;
                             PlaceItem(newDepo, item_etiketi, item_aciklamasi, item_agirligi);
-                            Point location = new Point(3, 548);
+                            System.Drawing.Point location = new System.Drawing.Point(3, 548);
                             GVisual.ShowControl(Nesne_Yerlestirme_Second_Panel, Nesne_Yerlestirme_First_Panel, location);
                             DrawingPanel.Invalidate();
                         }
@@ -1635,7 +1636,7 @@ namespace Balya_Yerleştirme
         //This is the Button that Places the Item
         private void btn_Nesne_Yerlestir_Click(object sender, EventArgs e)
         {
-            Point point = GVisual.Point_Control_to_BottomSide_ofControl(PLC_Sim_Yerlestiriliyor_Panel, PLC_Sim_YerSoyle_Panel, 10);
+            System.Drawing.Point point = GVisual.Point_Control_to_BottomSide_ofControl(PLC_Sim_Yerlestiriliyor_Panel, PLC_Sim_YerSoyle_Panel, 10);
             GVisual.ShowControl(PLC_Sim_Yerlestiriliyor_Panel, PLC_Sim_Panel, point);
             lbl_YerSoyle.StateCommon.TextColor = System.Drawing.Color.MidnightBlue;
             ShowNesneButtons = true;
@@ -1711,7 +1712,7 @@ namespace Balya_Yerleştirme
 
                 if (PLCCounter > 3)
                 {
-                    Point point = GVisual.Point_Control_to_BottomSide_ofControl(PLC_Sim_Nesne_Buttons_Panel, PLC_Sim_Yerlestiriliyor_Panel, 25);
+                    System.Drawing.Point point = GVisual.Point_Control_to_BottomSide_ofControl(PLC_Sim_Nesne_Buttons_Panel, PLC_Sim_Yerlestiriliyor_Panel, 25);
                     GVisual.ShowControl(PLC_Sim_Nesne_Buttons_Panel, PLC_Sim_Panel, point);
                     //PLC_Sim_Nesne_Buttons_Panel.Controls.Add(btn_PLC_Sim_Nesne_Yerlestirildi);
                     //PLC_Sim_Nesne_Buttons_Panel.Controls.Add(btn_PLC_Sim_Nesne_Yerlestirilemedi);
@@ -1901,7 +1902,7 @@ namespace Balya_Yerleştirme
         {
             MainPanelOpenLeftSide(leftLayoutPanel, this, leftSidePanelLocation, Nesne_Al_First_Panel);
 
-            Point point = GVisual.Point_Control_to_BottomSide_ofControl(PLC_Sim_YerSoyle_Panel, btn_PLC_Sim_Nesne_Bul, 5);
+            System.Drawing.Point point = GVisual.Point_Control_to_BottomSide_ofControl(PLC_Sim_YerSoyle_Panel, btn_PLC_Sim_Nesne_Bul, 5);
             GVisual.ShowControl(PLC_Sim_YerSoyle_Panel, PLC_Sim_Panel, point);
             lbl_YerSoyle.Text = "Nesne Aranıyor...";
             lbl_YerSoyle.StateCommon.TextColor = System.Drawing.Color.Red;
@@ -1947,11 +1948,11 @@ namespace Balya_Yerleştirme
                                     lbl_Nesne_Al_Nesne_Y_Value.Text = $"{item.Cm_Y_Axis} cm";
                                     lbl_Nesne_Al_Nesne_Z_Value.Text = $"{item.Cm_Z_Axis} cm";
                                     nesneTimer.Start();
-                                    Point point = GVisual.Point_Control_to_BottomSide_ofControl(Nesne_Al_Second_Panel, BorderEdge_NesneAl, 5);
+                                    System.Drawing.Point point = GVisual.Point_Control_to_BottomSide_ofControl(Nesne_Al_Second_Panel, BorderEdge_NesneAl, 5);
                                     GVisual.ShowControl(Nesne_Al_Second_Panel, Nesne_Al_First_Panel, point);
                                     if (!PLC_Sim_YerSoyle_Panel.Visible)
                                     {
-                                        Point point1 = GVisual.Point_Control_to_BottomSide_ofControl(PLC_Sim_YerSoyle_Panel, btn_PLC_Sim_Nesne_Bul, 5);
+                                        System.Drawing.Point point1 = GVisual.Point_Control_to_BottomSide_ofControl(PLC_Sim_YerSoyle_Panel, btn_PLC_Sim_Nesne_Bul, 5);
                                         GVisual.ShowControl(PLC_Sim_YerSoyle_Panel, PLC_Sim_Panel, point1);
                                         PLC_Timer.Start();
                                     }
@@ -1973,13 +1974,13 @@ namespace Balya_Yerleştirme
                                             lbl_Nesne_Al_Nesne_Y_Value.Text = $"{item.Cm_Y_Axis} cm";
                                             lbl_Nesne_Al_Nesne_Z_Value.Text = $"{item.Cm_Z_Axis} cm";
                                             nesneTimer.Start();
-                                            Point point = GVisual.Point_Control_to_BottomSide_ofControl
+                                            System.Drawing.Point point = GVisual.Point_Control_to_BottomSide_ofControl
                                                 (Nesne_Al_Second_Panel, BorderEdge_NesneAl, 5);
                                             GVisual.ShowControl(Nesne_Al_Second_Panel, Nesne_Al_First_Panel,
                                                 point);
                                             if (!PLC_Sim_YerSoyle_Panel.Visible)
                                             {
-                                                Point point1 = GVisual.Point_Control_to_BottomSide_ofControl(PLC_Sim_YerSoyle_Panel, btn_PLC_Sim_Nesne_Bul, 5);
+                                                System.Drawing.Point point1 = GVisual.Point_Control_to_BottomSide_ofControl(PLC_Sim_YerSoyle_Panel, btn_PLC_Sim_Nesne_Bul, 5);
                                                 GVisual.ShowControl(PLC_Sim_YerSoyle_Panel, PLC_Sim_Panel, point1);
                                                 PLC_Timer.Start();
                                             }
@@ -2143,7 +2144,7 @@ namespace Balya_Yerleştirme
         //This is for removing items from the depo
         private void btn_Nesne_Kaldır_Click(object sender, EventArgs e)
         {
-            Point point = GVisual.Point_Control_to_BottomSide_ofControl(PLC_Sim_Yerlestiriliyor_Panel, PLC_Sim_YerSoyle_Panel, 5);
+            System.Drawing.Point point = GVisual.Point_Control_to_BottomSide_ofControl(PLC_Sim_Yerlestiriliyor_Panel, PLC_Sim_YerSoyle_Panel, 5);
             GVisual.ShowControl(PLC_Sim_Yerlestiriliyor_Panel, PLC_Sim_Panel, point);
             btn_PLC_Sim_Nesne_Yerlestirildi.Text = "Nesne\nGötürüldü";
             btn_PLC_Sim_Nesne_Yerlestirilemedi.Text = "Nesne\nGötürülemedi";
@@ -2553,7 +2554,7 @@ namespace Balya_Yerleştirme
 
 
         //Add Items From Orders
-        #region AddItemsFromOrders
+        #region RemoveItemsFromOrders
         public string GetDesktopPath()
         {
             // Get the path to the Desktop folder
@@ -2707,7 +2708,7 @@ namespace Balya_Yerleştirme
                 return false;
             }
         }
-        public void ProcessData(List<List<string>> data, string inputFolderPath, string outputFolderPath, string failedFolderPath, string file)
+        public async void ProcessData(List<List<string>> data, string inputFolderPath, string outputFolderPath, string failedFolderPath, string file)
         {
             bool firstLine = true;
             List<string> lines = new List<string>();
@@ -2794,6 +2795,25 @@ namespace Balya_Yerleştirme
                 string excelFileName1 = NameFailedFiles(failedFolderPath, excelFileName);
 
                 WriteToExcel(faultyLines, failedFolderPath, excelFileName1);
+            }
+            foreach (var item in items)
+            {
+                await Task.Run(() => RemoveItemFromDataBase(item));
+            }
+        }
+        private async Task RemoveItemFromDataBase(Models.Item item)
+        {
+            using (var context = new DBContext())
+            {
+                var DBItem = await (from x in context.Items
+                                    where x.ItemId == item.ItemId
+                                    select x).FirstOrDefaultAsync();
+
+                if (DBItem != null)
+                {
+                    context.Items.Remove(DBItem);
+                    await context.SaveChangesAsync();
+                }
             }
         }
         public string NameFailedFiles(string outputFolderPath, string fileNameForNoFiles)
@@ -3630,14 +3650,14 @@ namespace Balya_Yerleştirme
         private void AddCenterPoint(Balya_Yerleştirme.Models.Item item)
         {
             bool isequal = false;
-            Point point = GetCenter(item.OriginalRectangle);
+            System.Drawing.Point point = GetCenter(item.OriginalRectangle);
 
             ItemReferencePoint refpoint = new ItemReferencePoint(
                 point.X - 2,
                 point.Y - 2,
                 4, 4, Zoomlevel, this);
             refpoint.Pointsize = 4;
-            refpoint.LocationofRect = new Point((int)refpoint.Rectangle.X, (int)refpoint.Rectangle.Y);
+            refpoint.LocationofRect = new System.Drawing.Point((int)refpoint.Rectangle.X, (int)refpoint.Rectangle.Y);
             refpoint.ItemId = item.ItemId;
             refpoint.KareX = refpoint.Rectangle.X;
             refpoint.KareY = refpoint.Rectangle.Y;
@@ -3664,13 +3684,13 @@ namespace Balya_Yerleştirme
         private void RemoveCenterPoint(Balya_Yerleştirme.Models.Item item)
         {
             List<ItemReferencePoint> templist = new List<ItemReferencePoint>();
-            Point point = GetCenter(item.OriginalRectangle);
+            System.Drawing.Point point = GetCenter(item.OriginalRectangle);
 
             using (var context = new DBContext())
             {
                 foreach (var reff in item.ItemReferencePoints)
                 {
-                    if (reff.OriginalRectangle.Location == new Point(point.X - 2, point.Y - 2))
+                    if (reff.OriginalRectangle.Location == new System.Drawing.Point(point.X - 2, point.Y - 2))
                     {
                         var reff1 = (from x in context.ItemReferencePoints
                                      where x.OriginalKareX == reff.OriginalKareX && x.OriginalKareY == reff.OriginalKareY
@@ -3694,14 +3714,14 @@ namespace Balya_Yerleştirme
         private void AddBottomEdge(Balya_Yerleştirme.Models.Item item)
         {
             bool isequal = false;
-            Point point = GetMiddleOfBottomEdge(item.OriginalRectangle);
+            System.Drawing.Point point = GetMiddleOfBottomEdge(item.OriginalRectangle);
 
             ItemReferencePoint refpoint = new ItemReferencePoint(
                 point.X - 2,
                 point.Y - 2,
                 4, 4, Zoomlevel, this);
             refpoint.Pointsize = 4;
-            refpoint.LocationofRect = new Point((int)refpoint.Rectangle.X, (int)refpoint.Rectangle.Y);
+            refpoint.LocationofRect = new System.Drawing.Point((int)refpoint.Rectangle.X, (int)refpoint.Rectangle.Y);
             refpoint.ItemId = item.ItemId;
             refpoint.KareX = refpoint.Rectangle.X;
             refpoint.KareY = refpoint.Rectangle.Y;
@@ -3728,13 +3748,13 @@ namespace Balya_Yerleştirme
         private void RemoveBottomEdge(Balya_Yerleştirme.Models.Item item)
         {
             List<ItemReferencePoint> templist = new List<ItemReferencePoint>();
-            Point point = GetMiddleOfBottomEdge(item.OriginalRectangle);
+            System.Drawing.Point point = GetMiddleOfBottomEdge(item.OriginalRectangle);
 
             using (var context = new DBContext())
             {
                 foreach (var reff in item.ItemReferencePoints)
                 {
-                    if (reff.OriginalRectangle.Location == new Point(point.X - 2, point.Y - 2))
+                    if (reff.OriginalRectangle.Location == new System.Drawing.Point(point.X - 2, point.Y - 2))
                     {
                         var reff1 = (from x in context.ItemReferencePoints
                                      where x.OriginalKareX == reff.OriginalKareX && x.OriginalKareY == reff.OriginalKareY
@@ -3758,14 +3778,14 @@ namespace Balya_Yerleştirme
         private void AddLeftEdge(Balya_Yerleştirme.Models.Item item)
         {
             bool isequal = false;
-            Point point = GetMiddleOfLeftEdge(item.OriginalRectangle);
+            System.Drawing.Point point = GetMiddleOfLeftEdge(item.OriginalRectangle);
 
             ItemReferencePoint refpoint = new ItemReferencePoint(
                 point.X - 2,
                 point.Y - 2,
                 4, 4, Zoomlevel, this);
             refpoint.Pointsize = 4;
-            refpoint.LocationofRect = new Point((int)refpoint.Rectangle.X, (int)refpoint.Rectangle.Y);
+            refpoint.LocationofRect = new System.Drawing.Point((int)refpoint.Rectangle.X, (int)refpoint.Rectangle.Y);
             refpoint.ItemId = item.ItemId;
             refpoint.KareX = refpoint.Rectangle.X;
             refpoint.KareY = refpoint.Rectangle.Y;
@@ -3792,13 +3812,13 @@ namespace Balya_Yerleştirme
         private void RemoveLeftEdge(Balya_Yerleştirme.Models.Item item)
         {
             List<ItemReferencePoint> templist = new List<ItemReferencePoint>();
-            Point point = GetMiddleOfLeftEdge(item.OriginalRectangle);
+            System.Drawing.Point point = GetMiddleOfLeftEdge(item.OriginalRectangle);
 
             using (var context = new DBContext())
             {
                 foreach (var reff in item.ItemReferencePoints)
                 {
-                    if (reff.OriginalRectangle.Location == new Point(point.X - 2, point.Y - 2))
+                    if (reff.OriginalRectangle.Location == new System.Drawing.Point(point.X - 2, point.Y - 2))
                     {
                         var reff1 = (from x in context.ItemReferencePoints
                                      where x.OriginalKareX == reff.OriginalKareX && x.OriginalKareY == reff.OriginalKareY
@@ -3822,14 +3842,14 @@ namespace Balya_Yerleştirme
         private void AddRightEdge(Balya_Yerleştirme.Models.Item item)
         {
             bool isequal = false;
-            Point point = GetMiddleOfRightEdge(item.OriginalRectangle);
+            System.Drawing.Point point = GetMiddleOfRightEdge(item.OriginalRectangle);
 
             ItemReferencePoint refpoint = new ItemReferencePoint(
                 point.X - 2,
                 point.Y - 2,
                 4, 4, Zoomlevel, this);
             refpoint.Pointsize = 4;
-            refpoint.LocationofRect = new Point((int)refpoint.Rectangle.X, (int)refpoint.Rectangle.Y);
+            refpoint.LocationofRect = new System.Drawing.Point((int)refpoint.Rectangle.X, (int)refpoint.Rectangle.Y);
             refpoint.ItemId = item.ItemId;
             refpoint.KareX = refpoint.Rectangle.X;
             refpoint.KareY = refpoint.Rectangle.Y;
@@ -3856,13 +3876,13 @@ namespace Balya_Yerleştirme
         private void RemoveRightEdge(Balya_Yerleştirme.Models.Item item)
         {
             List<ItemReferencePoint> templist = new List<ItemReferencePoint>();
-            Point point = GetMiddleOfRightEdge(item.OriginalRectangle);
+            System.Drawing.Point point = GetMiddleOfRightEdge(item.OriginalRectangle);
 
             using (var context = new DBContext())
             {
                 foreach (var reff in item.ItemReferencePoints)
                 {
-                    if (reff.OriginalRectangle.Location == new Point(point.X - 2, point.Y - 2))
+                    if (reff.OriginalRectangle.Location == new System.Drawing.Point(point.X - 2, point.Y - 2))
                     {
                         var reff1 = (from x in context.ItemReferencePoints
                                      where x.OriginalKareX == reff.OriginalKareX && x.OriginalKareY == reff.OriginalKareY
@@ -3886,14 +3906,14 @@ namespace Balya_Yerleştirme
         private void AddTopEdge(Balya_Yerleştirme.Models.Item item)
         {
             bool isequal = false;
-            Point point = GetMiddleOfTopEdge(item.OriginalRectangle);
+            System.Drawing.Point point = GetMiddleOfTopEdge(item.OriginalRectangle);
 
             ItemReferencePoint refpoint = new ItemReferencePoint(
                 point.X - 2,
                 point.Y - 2,
                 4, 4, Zoomlevel, this);
             refpoint.Pointsize = 4;
-            refpoint.LocationofRect = new Point((int)refpoint.Rectangle.X, (int)refpoint.Rectangle.Y);
+            refpoint.LocationofRect = new System.Drawing.Point((int)refpoint.Rectangle.X, (int)refpoint.Rectangle.Y);
             refpoint.ItemId = item.ItemId;
             refpoint.KareX = refpoint.Rectangle.X;
             refpoint.KareY = refpoint.Rectangle.Y;
@@ -3920,13 +3940,13 @@ namespace Balya_Yerleştirme
         private void RemoveTopEdge(Balya_Yerleştirme.Models.Item item)
         {
             List<ItemReferencePoint> templist = new List<ItemReferencePoint>();
-            Point point = GetMiddleOfTopEdge(item.OriginalRectangle);
+            System.Drawing.Point point = GetMiddleOfTopEdge(item.OriginalRectangle);
 
             using (var context = new DBContext())
             {
                 foreach (var reff in item.ItemReferencePoints)
                 {
-                    if (reff.OriginalRectangle.Location == new Point(point.X - 2, point.Y - 2))
+                    if (reff.OriginalRectangle.Location == new System.Drawing.Point(point.X - 2, point.Y - 2))
                     {
                         var reff1 = (from x in context.ItemReferencePoints
                                      where x.OriginalKareX == reff.OriginalKareX && x.OriginalKareY == reff.OriginalKareY

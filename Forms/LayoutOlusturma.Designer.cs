@@ -436,6 +436,7 @@
             panel_Conveyor_SubMenu_Referans.SuspendLayout();
             panel_Conveyor_Submenu.SuspendLayout();
             panel_Conveyor_Menu.SuspendLayout();
+            RightSide_LayoutPanel.SuspendLayout();
             LeftSide_Alan_Boyut_Degistirme_Paneli.SuspendLayout();
             SuspendLayout();
             // 
@@ -3134,7 +3135,7 @@
             Depo_Olusturma_Paneli.BackColor = Color.LightBlue;
             Depo_Olusturma_Paneli.Controls.Add(SubPanel_Depo_Olusturma_Paneli);
             Depo_Olusturma_Paneli.Controls.Add(SubPanel_Depo_Olusturma_Paneli_Controls);
-            Depo_Olusturma_Paneli.Location = new Point(1384, 1022);
+            Depo_Olusturma_Paneli.Location = new Point(1326, 1017);
             Depo_Olusturma_Paneli.Name = "Depo_Olusturma_Paneli";
             Depo_Olusturma_Paneli.Size = new Size(310, 883);
             Depo_Olusturma_Paneli.TabIndex = 33;
@@ -3551,7 +3552,7 @@
             Izgara_Olusturma_Paneli.BackColor = Color.Cyan;
             Izgara_Olusturma_Paneli.Controls.Add(SubPanel_Izgara_Haritasi_Olusturma_Paneli);
             Izgara_Olusturma_Paneli.Controls.Add(SubPanel_Izgara_Haritasi_Olusturma_Paneli_Controls);
-            Izgara_Olusturma_Paneli.Location = new Point(1726, 1022);
+            Izgara_Olusturma_Paneli.Location = new Point(3, 3);
             Izgara_Olusturma_Paneli.Name = "Izgara_Olusturma_Paneli";
             Izgara_Olusturma_Paneli.Size = new Size(310, 883);
             Izgara_Olusturma_Paneli.TabIndex = 10;
@@ -4818,6 +4819,7 @@
             // RightSide_LayoutPanel
             // 
             RightSide_LayoutPanel.AutoScroll = true;
+            RightSide_LayoutPanel.Controls.Add(Izgara_Olusturma_Paneli);
             RightSide_LayoutPanel.Location = new Point(1569, 102);
             RightSide_LayoutPanel.Name = "RightSide_LayoutPanel";
             RightSide_LayoutPanel.Size = new Size(330, 909);
@@ -4987,7 +4989,6 @@
             Controls.Add(Depo_Olusturma_Paneli);
             Controls.Add(Conveyor_Olusturma_Paneli);
             Controls.Add(Alan_Olusturma_Paneli);
-            Controls.Add(Izgara_Olusturma_Paneli);
             Controls.Add(LeftSide_Alan_Boyut_Degistirme_Paneli);
             Controls.Add(LayoutPanel_Alan_Hierarchy);
             Controls.Add(LeftPanel_Izgara_Olusturma);
@@ -5066,6 +5067,7 @@
             panel_Conveyor_SubMenu_Referans.ResumeLayout(false);
             panel_Conveyor_Submenu.ResumeLayout(false);
             panel_Conveyor_Menu.ResumeLayout(false);
+            RightSide_LayoutPanel.ResumeLayout(false);
             LeftSide_Alan_Boyut_Degistirme_Paneli.ResumeLayout(false);
             LeftSide_Alan_Boyut_Degistirme_Paneli.PerformLayout();
             ResumeLayout(false);

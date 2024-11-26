@@ -84,51 +84,51 @@ namespace Balya_Yerleştirme.Models
             {
                 graphics.DrawRectangle(pen, Rectangle);
 
-                if (DrawMeters)
-                {
-                    PointF AmbarBoyuTextLocation;
-                    PointF AmbarEniTextLocation;
-                    PointF UpLinePoint;
-                    PointF DownLinePoint;
-                    PointF LeftLinePoint;
-                    PointF RightLinePoint;
-                    int padding = 6;
+                //if (DrawMeters)
+                //{
+                //    PointF AmbarBoyuTextLocation;
+                //    PointF AmbarEniTextLocation;
+                //    PointF UpLinePoint;
+                //    PointF DownLinePoint;
+                //    PointF LeftLinePoint;
+                //    PointF RightLinePoint;
+                //    int padding = 6;
 
-                    string textAmbarEni = $"{AmbarEni}\nMetre";
-                    string textAmbarBoyu = $"{AmbarBoyu}\nMetre";
+                //    string textAmbarEni = $"{AmbarEni}\nMetre";
+                //    string textAmbarBoyu = $"{AmbarBoyu}\nMetre";
 
-                    Font font = new Font("Arial", 8 * Zoomlevel);
-                    SolidBrush brush = new SolidBrush(Color.Red);
+                //    Font font = new Font("Arial", 8 * Zoomlevel);
+                //    SolidBrush brush = new SolidBrush(Color.Red);
 
-                    SizeF textAmbarEniSize = graphics.MeasureString(textAmbarEni, font);
-                    SizeF textAmbarBoyuSize = graphics.MeasureString(textAmbarBoyu, font);
+                //    SizeF textAmbarEniSize = graphics.MeasureString(textAmbarEni, font);
+                //    SizeF textAmbarBoyuSize = graphics.MeasureString(textAmbarBoyu, font);
 
-                    LeftLinePoint = new PointF(Rectangle.X + Rectangle.Width / 8 + padding * Zoomlevel,
-                        Rectangle.Y + padding * Zoomlevel);
+                //    LeftLinePoint = new PointF(Rectangle.X + Rectangle.Width / 8 + padding * Zoomlevel,
+                //        Rectangle.Y + padding * Zoomlevel);
 
-                    RightLinePoint =
-                        new PointF(Rectangle.X + Rectangle.Width + padding * Zoomlevel - Rectangle.Width / 8,
-                        Rectangle.Y + padding * Zoomlevel);
+                //    RightLinePoint =
+                //        new PointF(Rectangle.X + Rectangle.Width + padding * Zoomlevel - Rectangle.Width / 8,
+                //        Rectangle.Y + padding * Zoomlevel);
 
-                    UpLinePoint =
-                        new PointF(Rectangle.X + Rectangle.Width + padding * Zoomlevel,
-                        Rectangle.Y + Rectangle.Height / 8);
+                //    UpLinePoint =
+                //        new PointF(Rectangle.X + Rectangle.Width + padding * Zoomlevel,
+                //        Rectangle.Y + Rectangle.Height / 8);
 
-                    DownLinePoint = new PointF(Rectangle.X + Rectangle.Width + padding * Zoomlevel,
-                        Rectangle.Y + Rectangle.Height - Rectangle.Height / 8);
+                //    DownLinePoint = new PointF(Rectangle.X + Rectangle.Width + padding * Zoomlevel,
+                //        Rectangle.Y + Rectangle.Height - Rectangle.Height / 8);
 
-                    AmbarEniTextLocation = new PointF(Rectangle.X + Rectangle.Width / 2 - textAmbarEniSize.Width / 2,
-                        RightLinePoint.Y + padding * Zoomlevel);
+                //    AmbarEniTextLocation = new PointF(Rectangle.X + Rectangle.Width / 2 - textAmbarEniSize.Width / 2,
+                //        RightLinePoint.Y + padding * Zoomlevel);
 
-                    AmbarBoyuTextLocation =
-                        new PointF(Rectangle.X + Rectangle.Width + 10 * Zoomlevel,
-                       Rectangle.Y + Rectangle.Height / 2 - textAmbarBoyuSize.Height / 2);
+                //    AmbarBoyuTextLocation =
+                //        new PointF(Rectangle.X + Rectangle.Width + 10 * Zoomlevel,
+                //       Rectangle.Y + Rectangle.Height / 2 - textAmbarBoyuSize.Height / 2);
 
-                    graphics.DrawLine(new Pen(Color.Red), LeftLinePoint, RightLinePoint);
-                    graphics.DrawLine(new Pen(Color.Red), UpLinePoint, DownLinePoint);
-                    graphics.DrawString(textAmbarEni, font, brush, AmbarEniTextLocation);
-                    graphics.DrawString(textAmbarBoyu, font, brush, AmbarBoyuTextLocation);
-                }
+                //    graphics.DrawLine(new Pen(Color.Red), LeftLinePoint, RightLinePoint);
+                //    graphics.DrawLine(new Pen(Color.Red), UpLinePoint, DownLinePoint);
+                //    graphics.DrawString(textAmbarEni, font, brush, AmbarEniTextLocation);
+                //    graphics.DrawString(textAmbarBoyu, font, brush, AmbarBoyuTextLocation);
+                //}
             }
             foreach (var conveyor in conveyors)
             {

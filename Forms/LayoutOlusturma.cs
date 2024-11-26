@@ -4422,6 +4422,8 @@ namespace Balya_Yerleştirme
 
                 if (result == DialogResult.Yes)
                 {
+                    var result1 = DialogResult.None;
+
                     Ambar = null;
                     errorProvider.SetError(txt_Alan_Eni, string.Empty);
                     errorProvider.SetError(txt_Alan_Boyu, string.Empty);
@@ -4432,8 +4434,29 @@ namespace Balya_Yerleştirme
                     float alan_boyu = StrLib.ReplaceDotWithCommaReturnFloat(txt_Alan_Boyu, errorProvider,
                         "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
 
+                    if (alan_boyu < 5 || alan_eni < 5)
+                    {
+                        if (alan_eni < 5 && alan_boyu >= 5)
+                        {
+                            result1 = MessageBox.Show
+                            ("Alanın enini 5 metreden küçük girmek istediğinize emin misiniz?",
+                                "Devam Etmek İstiyor Musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        }
+                        else if (alan_boyu < 5 && alan_eni >= 5)
+                        {
+                            result1 = MessageBox.Show
+                            ("Alanın boyunu 5 metreden küçük girmek istediğinize emin misiniz?",
+                                "Devam Etmek İstiyor Musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        }
+                        else
+                        {
+                            result1 = MessageBox.Show
+                            ("Alanın enini ve boyunu 5 metreden küçük girmek istediğinize emin misiniz?",
+                                "Devam Etmek İstiyor Musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        }
+                    }
 
-                    if (!errorProvider.HasErrors)
+                    if (!errorProvider.HasErrors && (result1 == DialogResult.Yes || result1 == DialogResult.None))
                     {
                         Ambar ambar = new Ambar(0, 0, alan_eni, alan_boyu, Main, this);
 
@@ -4467,6 +4490,8 @@ namespace Balya_Yerleştirme
             }
             else
             {
+                var result1 = DialogResult.None;
+
                 errorProvider.SetError(txt_Alan_Eni, string.Empty);
                 errorProvider.SetError(txt_Alan_Boyu, string.Empty);
                 errorProvider.Clear();
@@ -4476,7 +4501,29 @@ namespace Balya_Yerleştirme
                 float alan_boyu = StrLib.ReplaceDotWithCommaReturnFloat(txt_Alan_Boyu, errorProvider,
                     "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
 
-                if (!errorProvider.HasErrors)
+                if (alan_boyu < 5 || alan_eni < 5)
+                {
+                    if (alan_eni < 5 && alan_boyu >= 5)
+                    {
+                        result1 = MessageBox.Show
+                        ("Alanın enini 5 metreden küçük girmek istediğinize emin misiniz?",
+                            "Devam Etmek İstiyor Musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    }
+                    else if (alan_boyu < 5 && alan_eni >= 5)
+                    {
+                        result1 = MessageBox.Show
+                        ("Alanın boyunu 5 metreden küçük girmek istediğinize emin misiniz?",
+                            "Devam Etmek İstiyor Musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    }
+                    else
+                    {
+                        result1 = MessageBox.Show
+                        ("Alanın enini ve boyunu 5 metreden küçük girmek istediğinize emin misiniz?",
+                            "Devam Etmek İstiyor Musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    }
+                }
+
+                if (!errorProvider.HasErrors && (result1 == DialogResult.Yes || result1 == DialogResult.None))
                 {
                     Ambar ambar = new Ambar(0, 0, alan_eni, alan_boyu, Main, this);
 
@@ -4710,6 +4757,8 @@ namespace Balya_Yerleştirme
             errorProvider.Clear();
             if (Ambar != null)
             {
+                var result = DialogResult.None;
+
                 float conveyor_eni = StrLib.ReplaceDotWithCommaReturnFloat(txt_Conveyor_Eni,
                     errorProvider, "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
 
@@ -4723,11 +4772,46 @@ namespace Balya_Yerleştirme
                 }
                 if (conveyor_boyu > Ambar.AmbarBoyu)
                 {
-                    errorProvider.SetError(txt_Conveyor_Eni,
+                    errorProvider.SetError(txt_Conveyor_Boyu,
                         "Conveyor'un boyu alanın boyundan büyük olamaz.");
+                }
+                if (conveyor_eni < 0.25)
+                {
+                    errorProvider.SetError(txt_Conveyor_Eni,
+                        "Conveyor'un eni 25 cm'den küçük olamaz.");
+                }
+                if (conveyor_boyu < 0.25)
+                {
+                    errorProvider.SetError(txt_Conveyor_Boyu,
+                        "Conveyor'un boyu 25 cm'den küçük olamaz.");
                 }
 
                 if (!errorProvider.HasErrors)
+                {
+                    if (conveyor_eni < 1 || conveyor_boyu < 1)
+                    {
+                        if (conveyor_eni < 1 && conveyor_boyu >= 1)
+                        {
+                            result = MessageBox.Show
+                            ("Conveyor'un enini 1 metreden küçük girmek istediğinize emin misiniz?",
+                                "Devam Etmek İstiyor Musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        }
+                        else if (conveyor_boyu < 1 && conveyor_eni >= 1)
+                        {
+                            result = MessageBox.Show
+                            ("Conveyor'un boyunu 1 metreden küçük girmek istediğinize emin misiniz?",
+                                "Devam Etmek İstiyor Musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        }
+                        else
+                        {
+                            result = MessageBox.Show
+                            ("Conveyor'un enini ve boyunu 1 metreden küçük girmek istediğinize emin misiniz?",
+                                "Devam Etmek İstiyor Musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        }
+                    }
+                }
+
+                if (!errorProvider.HasErrors && (result == DialogResult.Yes || result == DialogResult.None))
                 {
                     Conveyor conveyor = new Conveyor(0, 0, conveyor_eni, conveyor_boyu, null, this, Ambar);
                     conveyor.Rectangle = GVisual.RatioRectangleToParentRectangle(conveyor_eni,
@@ -4786,6 +4870,7 @@ namespace Balya_Yerleştirme
         {
             if (Ambar != null)
             {
+                var result = DialogResult.None;
                 errorProvider.SetError(txt_Depo_Eni, string.Empty);
                 errorProvider.SetError(txt_Depo_Boyu, string.Empty);
                 errorProvider.SetError(txt_Depo_Yuksekligi, string.Empty);
@@ -4812,11 +4897,11 @@ namespace Balya_Yerleştirme
 
                 if (depo_eni > Ambar.AmbarEni)
                 {
-                    errorProvider.SetError(txt_Depo_Eni, "Deponun eni alanın eninden büyük olamaz.");
+                    errorProvider.SetError(txt_Depo_Eni, "Deponun eni, alanın eninden büyük olamaz.");
                 }
                 if (depo_boyu > Ambar.AmbarBoyu)
                 {
-                    errorProvider.SetError(txt_Depo_Boyu, "Deponun boyu alanın boyundan büyük olamaz.");
+                    errorProvider.SetError(txt_Depo_Boyu, "Deponun boyu, alanın boyundan büyük olamaz.");
                 }
                 if (depo_item_kind.Length > 15)
                 {
@@ -4832,7 +4917,43 @@ namespace Balya_Yerleştirme
                     errorProvider.SetError(txt_Depo_Item_Turu, "Eğer ikinci tür kodunu girecekseniz ilkini de girmek zorundasınız");
                 }
 
+                if (depo_eni < 1)
+                {
+                    errorProvider.SetError(txt_Conveyor_Eni,
+                        "Deponun eni, 1 metreden küçük olamaz.");
+                }
+                if (depo_boyu < 1)
+                {
+                    errorProvider.SetError(txt_Conveyor_Boyu,
+                        "Deponun boyu, 1 metreden küçük olamaz.");
+                }
+
                 if (!errorProvider.HasErrors)
+                {
+                    if (depo_eni < 3 || depo_boyu < 3)
+                    {
+                        if (depo_eni < 3 && depo_boyu >= 3)
+                        {
+                            result = MessageBox.Show
+                            ("Deponun enini 3 metreden küçük girmek istediğinize emin misiniz?",
+                                "Devam Etmek İstiyor Musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        }
+                        else if (depo_boyu < 3 && depo_eni >= 3)
+                        {
+                            result = MessageBox.Show
+                            ("Deponun boyunu 3 metreden küçük girmek istediğinize emin misiniz?",
+                                "Devam Etmek İstiyor Musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        }
+                        else
+                        {
+                            result = MessageBox.Show
+                            ("Deponun enini ve boyunu, 3 metreden küçük girmek istediğinize emin misiniz?",
+                                "Devam Etmek İstiyor Musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        }
+                    }
+                }
+
+                if (!errorProvider.HasErrors && (result == DialogResult.Yes || result == DialogResult.None))
                 {
                     Depo depo = new Depo(0, 0, depo_eni, depo_boyu, 1f, Main, this, Ambar);
 
@@ -4850,6 +4971,8 @@ namespace Balya_Yerleştirme
                     depo.DepoAlaniEni = depo_eni;
                     depo.DepoAlaniBoyu = depo_boyu;
                     depo.DepoAlaniYuksekligi = depo_Yuksekligi;
+                    depo.Depo_Alani_Eni_Cm = depo_eni * 100;
+                    depo.Depo_Alani_Boyu_Cm = depo_boyu * 100;
                     depo.OriginalKareX = depo.OriginalRectangle.X;
                     depo.OriginalKareY = depo.OriginalRectangle.Y;
                     depo.OriginalKareEni = depo.OriginalRectangle.Width;
@@ -4958,6 +5081,7 @@ namespace Balya_Yerleştirme
         }
         private void btn_Izgara_Olustur_Click(object sender, EventArgs e)
         {
+            var result = DialogResult.None;
             errorProvider.SetError(txt_Dikey_Kenar_Boslugu, string.Empty);
             errorProvider.SetError(txt_Yatay_Kenar_Boslugu, string.Empty);
             errorProvider.Clear();
@@ -4979,33 +5103,97 @@ namespace Balya_Yerleştirme
             total_Cell_Width = nesne_Eni + hucre_Yatay_Bosluk;
             total_Cell_Height = nesne_Boyu + hucre_Dikey_Bosluk;
 
+            if (nesne_Yuksekligi < 30)
+            {
+                errorProvider.SetError(txt_Nesnenin_Yuksekligi, "Nesne yüksekliği 30 cm'den küçük olamaz.");
+            }
+
+            if (nesne_Eni < 30)
+            {
+                errorProvider.SetError(txt_Nesnenin_Eni, "Nesne eni 30 cm'den küçük olamaz.");
+            }
+
+            if (nesne_Boyu < 30)
+            {
+                errorProvider.SetError(txt_Nesnenin_Boyu, "Nesne boyu 30 cm'den küçük olamaz.");
+            }
+
             if (!errorProvider.HasErrors)
             {
-                if (selectedDepo != null && ToolStripIzgara == false)
+                if (total_Cell_Width < 75 || total_Cell_Height < 75)
                 {
-                    if (selectedDepo.gridmaps.Count > 0)
+                    if (total_Cell_Width < 75 && total_Cell_Height >= 75)
                     {
-                        selectedDepo.gridmaps.Clear();
-
-                        selectedDepo.nesneEni = nesne_Eni;
-                        selectedDepo.nesneBoyu = nesne_Boyu;
-                        selectedDepo.nesneYuksekligi = nesne_Yuksekligi;
-                        selectedDepo.CreateGridMapMenuItem(total_Cell_Width, total_Cell_Height,
-                            hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu, nesne_Yuksekligi);
-                        MainPanelCloseRightSide(RightSide_LayoutPanel, this);
-                        colCount = selectedDepo.ColumnCount;
-                        rowCount = selectedDepo.RowCount;
+                        result = MessageBox.Show
+                        ("Girdiğiniz bilgilere göre hücrelerin eni 75 cm'den küçük olacaktır devam etmek istediğinize emin misiniz?",
+                            "Devam Etmek İstiyor Musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    }
+                    else if (total_Cell_Height < 3 && total_Cell_Width >= 3)
+                    {
+                        result = MessageBox.Show
+                        ("Girdiğiniz bilgilere göre hücrelerin boyu 75 cm'den küçük olacaktır devam etmek istediğinize emin misiniz?",
+                            "Devam Etmek İstiyor Musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     }
                     else
                     {
-                        selectedDepo.nesneEni = nesne_Eni;
-                        selectedDepo.nesneBoyu = nesne_Boyu;
-                        selectedDepo.nesneYuksekligi = nesne_Yuksekligi;
-                        selectedDepo.CreateGridMapMenuItem(total_Cell_Width, total_Cell_Height,
-                            hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu, nesne_Yuksekligi);
-                        MainPanelCloseRightSide(RightSide_LayoutPanel, this);
-                        colCount = selectedDepo.ColumnCount;
-                        rowCount = selectedDepo.RowCount;
+                        result = MessageBox.Show
+                        ("Girdiğiniz bilgilere göre hücrelerin eni ve boyu 75 cm'den küçük olacaktır devam etmek istediğinize emin misiniz?",
+                            "Devam Etmek İstiyor Musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    }
+                }
+            }
+
+            if (total_Cell_Height < 50)
+            {
+                result = DialogResult.OK;
+                MessageBox.Show
+                        ("Hücrelerin boyu 50 cm'den küçük olamaz.",
+                            "Lütfen tekrar deneyin", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            if (total_Cell_Width < 50)
+            {
+                result = DialogResult.OK;
+                MessageBox.Show
+                        ("Hücrelerin eni 50 cm'den küçük olamaz.",
+                            "Lütfen tekrar deneyin", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            if (!errorProvider.HasErrors && (result == DialogResult.Yes || result == DialogResult.None))
+            {
+                if (selectedDepo != null && ToolStripIzgara == false)
+                {
+                    if (total_Cell_Height <= selectedDepo.Depo_Alani_Boyu_Cm && total_Cell_Width <= selectedDepo.Depo_Alani_Eni_Cm)
+                    {
+                        if (selectedDepo.gridmaps.Count > 0)
+                        {
+                            selectedDepo.gridmaps.Clear();
+
+                            selectedDepo.nesneEni = nesne_Eni;
+                            selectedDepo.nesneBoyu = nesne_Boyu;
+                            selectedDepo.nesneYuksekligi = nesne_Yuksekligi;
+                            selectedDepo.CreateGridMapMenuItem(total_Cell_Width, total_Cell_Height,
+                                hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu, nesne_Yuksekligi);
+                            MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+                            colCount = selectedDepo.ColumnCount;
+                            rowCount = selectedDepo.RowCount;
+                        }
+                        else
+                        {
+                            selectedDepo.nesneEni = nesne_Eni;
+                            selectedDepo.nesneBoyu = nesne_Boyu;
+                            selectedDepo.nesneYuksekligi = nesne_Yuksekligi;
+                            selectedDepo.CreateGridMapMenuItem(total_Cell_Width, total_Cell_Height,
+                                hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu, nesne_Yuksekligi);
+                            MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+                            colCount = selectedDepo.ColumnCount;
+                            rowCount = selectedDepo.RowCount;
+                        }
+                    }
+                    else
+                    {
+                        CustomNotifyIcon notify = new CustomNotifyIcon();
+                        notify.showAlert("Oluşturmaya çalıştığınız ızgara haritası seçili depo için çok büyük, bu yüzden oluşturulamadı.", CustomNotifyIcon.enmType.Error);
                     }
                 }
                 else if (ToolStripIzgara)
@@ -5052,6 +5240,7 @@ namespace Balya_Yerleştirme
         }
         private void btn_Left_Izgara_Haritasi_Olustur_Click(object sender, EventArgs e)
         {
+            var result = DialogResult.None;
             errorProvider.SetError(txt_Left_Dikey_Kenar_Boslugu, string.Empty);
             errorProvider.SetError(txt_Left_Yatay_Kenar_Boslugu, string.Empty);
             errorProvider.Clear();
@@ -5073,88 +5262,165 @@ namespace Balya_Yerleştirme
             total_Cell_Width = nesne_Eni + hucre_Yatay_Bosluk;
             total_Cell_Height = nesne_Boyu + hucre_Dikey_Bosluk;
 
+            if (nesne_Yuksekligi < 30)
+            {
+                errorProvider.SetError(txt_Nesnenin_Yuksekligi, "Nesne yüksekliği 30 cm'den küçük olamaz.");
+            }
+
+            if (nesne_Eni < 30)
+            {
+                errorProvider.SetError(txt_Nesnenin_Eni, "Nesne eni 30 cm'den küçük olamaz.");
+            }
+
+            if (nesne_Boyu < 30)
+            {
+                errorProvider.SetError(txt_Nesnenin_Boyu, "Nesne boyu 30 cm'den küçük olamaz.");
+            }
 
             if (!errorProvider.HasErrors)
             {
-                if (selectedDepo != null)
+                if (total_Cell_Width < 75 || total_Cell_Height < 75)
                 {
-                    if (selectedDepo.gridmaps.Count > 0)
+                    if (total_Cell_Width < 75 && total_Cell_Height >= 75)
                     {
-                        selectedDepo.gridmaps.Clear();
-
-                        selectedDepo.nesneEni = nesne_Eni;
-                        selectedDepo.nesneBoyu = nesne_Boyu;
-                        selectedDepo.nesneYuksekligi = nesne_Yuksekligi;
-                        selectedDepo.CreateGridMapMenuItem(total_Cell_Width, total_Cell_Height,
-                            hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu, nesne_Yuksekligi);
-
-
-                        if (menuProcess)
-                        {
-                            SortFlowLayoutPanel(LayoutPanel_SelectedDepo);
-                            Show_DepoMenus("Depo");
-                            menuProcess = false;
-                        }
-                        else
-                        {
-                            MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
-                        }
-
-                        SelectNode(null, null, selectedDepo);
-
-                        colCount = selectedDepo.ColumnCount;
-                        rowCount = selectedDepo.RowCount;
+                        result = MessageBox.Show
+                        ("Girdiğiniz bilgilere göre hücrelerin eni 75 cm'den küçük olacaktır devam etmek istediğinize emin misiniz?",
+                            "Devam Etmek İstiyor Musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    }
+                    else if (total_Cell_Height < 3 && total_Cell_Width >= 3)
+                    {
+                        result = MessageBox.Show
+                        ("Girdiğiniz bilgilere göre hücrelerin boyu 75 cm'den küçük olacaktır devam etmek istediğinize emin misiniz?",
+                            "Devam Etmek İstiyor Musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     }
                     else
                     {
-                        selectedDepo.nesneEni = nesne_Eni;
-                        selectedDepo.nesneBoyu = nesne_Boyu;
-                        selectedDepo.nesneYuksekligi = nesne_Yuksekligi;
-                        selectedDepo.CreateGridMapMenuItem(total_Cell_Width, total_Cell_Height,
-                            hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu, nesne_Yuksekligi);
+                        result = MessageBox.Show
+                        ("Girdiğiniz bilgilere göre hücrelerin eni ve boyu 75 cm'den küçük olacaktır devam etmek istediğinize emin misiniz?",
+                            "Devam Etmek İstiyor Musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    }
+                }
+            }
 
-                        if (menuProcess)
+            if (total_Cell_Height < 50)
+            {
+                result = DialogResult.OK;
+                MessageBox.Show
+                        ("Hücrelerin boyu 50 cm'den küçük olamaz.",
+                            "Lütfen tekrar deneyin", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            if (total_Cell_Width < 50)
+            {
+                result = DialogResult.OK;
+                MessageBox.Show
+                        ("Hücrelerin eni 50 cm'den küçük olamaz.",
+                            "Lütfen tekrar deneyin", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
+            if (!errorProvider.HasErrors && (result == DialogResult.Yes || result == DialogResult.None))
+            {
+                if (selectedDepo != null)
+                {
+                    if (total_Cell_Height <= selectedDepo.Depo_Alani_Boyu_Cm && total_Cell_Width <= selectedDepo.Depo_Alani_Eni_Cm)
+                    {
+                        if (selectedDepo.gridmaps.Count > 0)
                         {
-                            SortFlowLayoutPanel(LayoutPanel_SelectedDepo);
-                            Show_DepoMenus("Depo");
-                            menuProcess = false;
+                            selectedDepo.gridmaps.Clear();
+
+                            selectedDepo.nesneEni = nesne_Eni;
+                            selectedDepo.nesneBoyu = nesne_Boyu;
+                            selectedDepo.nesneYuksekligi = nesne_Yuksekligi;
+                            selectedDepo.CreateGridMapMenuItem(total_Cell_Width, total_Cell_Height,
+                                hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu, nesne_Yuksekligi);
+
+
+                            if (menuProcess)
+                            {
+                                SortFlowLayoutPanel(LayoutPanel_SelectedDepo);
+                                Show_DepoMenus("Depo");
+                                menuProcess = false;
+                            }
+                            else
+                            {
+                                MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
+                            }
+
+                            SelectNode(null, null, selectedDepo);
+
+                            colCount = selectedDepo.ColumnCount;
+                            rowCount = selectedDepo.RowCount;
                         }
                         else
                         {
-                            MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
+                            selectedDepo.nesneEni = nesne_Eni;
+                            selectedDepo.nesneBoyu = nesne_Boyu;
+                            selectedDepo.nesneYuksekligi = nesne_Yuksekligi;
+                            selectedDepo.CreateGridMapMenuItem(total_Cell_Width, total_Cell_Height,
+                                hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu, nesne_Yuksekligi);
+
+                            if (menuProcess)
+                            {
+                                SortFlowLayoutPanel(LayoutPanel_SelectedDepo);
+                                Show_DepoMenus("Depo");
+                                menuProcess = false;
+                            }
+                            else
+                            {
+                                MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
+                            }
+
+                            SelectNode(null, null, selectedDepo);
+
+                            colCount = selectedDepo.ColumnCount;
+                            rowCount = selectedDepo.RowCount;
                         }
-
-                        SelectNode(null, null, selectedDepo);
-
-                        colCount = selectedDepo.ColumnCount;
-                        rowCount = selectedDepo.RowCount;
+                    }
+                    else
+                    {
+                        CustomNotifyIcon notify = new CustomNotifyIcon();
+                        notify.showAlert("Oluşturmaya çalıştığınız ızgara haritası seçili depo için çok büyük, bu yüzden oluşturulamadı.", CustomNotifyIcon.enmType.Error);
                     }
                 }
                 else if (selectedDepo == null && SelectedAmbar != null)
                 {
                     if (menuProcess)
                     {
+                        bool once = true;
                         foreach (var depo in SelectedAmbar.depolar)
                         {
-                            if (depo.gridmaps.Count > 0)
+                            if (total_Cell_Width <= depo.Depo_Alani_Eni_Cm && total_Cell_Height <= depo.Depo_Alani_Boyu_Cm)
                             {
-                                depo.gridmaps.Clear();
+                                if (depo.gridmaps.Count > 0)
+                                {
+                                    depo.gridmaps.Clear();
+                                }
+
+                                depo.nesneEni = nesne_Eni;
+                                depo.nesneBoyu = nesne_Boyu;
+                                depo.nesneYuksekligi = nesne_Yuksekligi;
+                                depo.CreateGridMapMenuItem(total_Cell_Width, total_Cell_Height,
+                                    hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu, nesne_Yuksekligi);
+
+                                SortFlowLayoutPanel(layoutPanel_Ambar);
+                                Show_AreaMenus("Alan");
+                                menuProcess = false;
+
+                                SelectNode(SelectedAmbar, null, null);
+
+                                colCount = depo.ColumnCount;
+                                rowCount = depo.RowCount;
                             }
-
-                            depo.nesneEni = nesne_Eni;
-                            depo.nesneBoyu = nesne_Boyu;
-                            depo.nesneYuksekligi = nesne_Yuksekligi;
-                            depo.CreateGridMapMenuItem(total_Cell_Width, total_Cell_Height,
-                                hucre_Dikey_Bosluk, hucre_Yatay_Bosluk, nesne_Eni, nesne_Boyu, nesne_Yuksekligi);
-
-                            SortFlowLayoutPanel(layoutPanel_Ambar);
-                            Show_AreaMenus("Alan");
-                            menuProcess = false;
-
-                            SelectNode(SelectedAmbar, null, null);
-
-                            colCount = depo.ColumnCount;
-                            rowCount = depo.RowCount;
+                            else
+                            {
+                                if (once)
+                                {
+                                    once = false;
+                                    CustomNotifyIcon notify = new CustomNotifyIcon();
+                                    notify.showAlert("Oluşturmaya çalıştığınız ızgara haritası depolardan birisi için çok büyük, bu yüzden o depoda oluşturulamadı.", CustomNotifyIcon.enmType.Error);
+                                }
+                            }
                         }
                     }
                 }

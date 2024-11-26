@@ -18,9 +18,9 @@ namespace Balya_Yerleştirme.Forms
         #region Ui Operations Variables such as location and sizes
 
 
-        public System.Drawing.Point rightPanelLocation = new System.Drawing.Point(1258, 70);
-        public System.Drawing.Size MainPanelSmallSize { get; set; } = new System.Drawing.Size(1240, 768);
-        public System.Drawing.Size MainPanelLargeSize { get; set; } = new System.Drawing.Size(1560, 768);
+        public System.Drawing.Point rightPanelLocation = new System.Drawing.Point(1258, 90);
+        public System.Drawing.Size MainPanelSmallSize { get; set; } = new System.Drawing.Size(1240, 748);
+        public System.Drawing.Size MainPanelLargeSize { get; set; } = new System.Drawing.Size(1560, 748);
 
         public System.Drawing.Point Btn_ChangeLayoutDescLocation = new System.Drawing.Point(242, 217);
 
@@ -33,8 +33,8 @@ namespace Balya_Yerleştirme.Forms
 
         #endregion
 
-        
-        
+
+
         #region Useful Objects
 
 
@@ -85,7 +85,7 @@ namespace Balya_Yerleştirme.Forms
         {
             GroupBox groupBox = new GroupBox();
             groupBox.Size = new System.Drawing.Size(500, 500);
-            
+
             groupBox.Font = new Font("Arial", 22);
             groupBox.Text = isletme.Name;
             groupBox.ForeColor = System.Drawing.Color.Blue;
@@ -119,8 +119,6 @@ namespace Balya_Yerleştirme.Forms
             layoutListBox.MouseEnter += (sender, e) => groupBox_MouseEnter(sender, e);
             layoutListBox.MouseLeave += (sender, e) => groupBox_MouseLeave(sender, e);
 
-
-
             SelectBusinessPanel.Controls.Add(groupBox);
 
             groupBox.MouseDown += (sender, e) => groupBox_MouseDown(sender, e);
@@ -139,7 +137,7 @@ namespace Balya_Yerleştirme.Forms
         //Button Events for Creating Isletme
         private void btn_CreateIsletme_Click(object sender, EventArgs e)
         {
-            if (SelectBusinessPanel.Size == MainPanelLargeSize)
+            if (!panel_CreateIsletme.Visible && !panel_IsletmeMenu.Visible)
             {
                 OpenRightSide(panel_CreateIsletme);
             }
@@ -165,6 +163,7 @@ namespace Balya_Yerleştirme.Forms
         }
         private void btn_CreateIsletme_Olustur_Click(object sender, EventArgs e)
         {
+            errorProvider.Clear();
             string isletme_name = txt_CreateIsletme_Name.Text;
             string isletme_description = txt_CreateIsletme_Description.Text;
 
@@ -194,7 +193,7 @@ namespace Balya_Yerleştirme.Forms
             txt_CreateIsletme_Name.Clear();
             CloseRightSide(panel_CreateIsletme);
         }
-        
+
 
         #endregion
 
@@ -247,12 +246,26 @@ namespace Balya_Yerleştirme.Forms
 
             if (gB != null)
             {
-                OpenRightSide(panel_IsletmeMenu);
+                if (!panel_IsletmeMenu.Visible && !panel_CreateIsletme.Visible)
+                {
+                    OpenRightSide(panel_IsletmeMenu);
+                }
+                else
+                {
+                    if (panel_CreateIsletme.Visible)
+                    {
+                        CloseRightSide(panel_CreateIsletme);
+                        OpenRightSide(panel_IsletmeMenu);
+                    }
+                }
+
                 gB.ForeColor = System.Drawing.Color.Red;
                 gB.BackColor = System.Drawing.Color.AliceBlue;
                 selectedGroupBox = gB;
                 AdjustOtherGroupboxesColors(selectedGroupBox);
                 Isletme isletme = selectedGroupBox.Tag as Isletme;
+
+                SelectBusinessPanel.ScrollControlIntoView(selectedGroupBox);
 
                 if (isletme != null)
                 {
@@ -265,11 +278,25 @@ namespace Balya_Yerleştirme.Forms
             }
             else if (lB != null)
             {
-                OpenRightSide(panel_IsletmeMenu);
+                if (!panel_IsletmeMenu.Visible && !panel_CreateIsletme.Visible)
+                {
+                    OpenRightSide(panel_IsletmeMenu);
+                }
+                else
+                {
+                    if (panel_CreateIsletme.Visible)
+                    {
+                        CloseRightSide(panel_CreateIsletme);
+                        OpenRightSide(panel_IsletmeMenu);
+                    }
+                }
+
                 selectedGroupBox = FindGroupBox(lB);
                 AdjustOtherGroupboxesColors(selectedGroupBox);
 
                 Isletme isletme = selectedGroupBox.Tag as Isletme;
+
+                SelectBusinessPanel.ScrollControlIntoView(selectedGroupBox);
 
                 if (isletme != null)
                 {
@@ -297,13 +324,14 @@ namespace Balya_Yerleştirme.Forms
                 {
                     selectedGroupBox.ForeColor = System.Drawing.Color.Blue;
                     selectedGroupBox.BackColor = System.Drawing.Color.FromArgb(240, 240, 240);
+                    SelectBusinessPanel.ScrollControlIntoView(selectedGroupBox);
                     selectedGroupBox = null;
 
-                    if (panel_IsletmeMenu.Visible)
+                    if (panel_IsletmeMenu.Visible && !panel_CreateIsletme.Visible)
                     {
                         CloseRightSide(panel_IsletmeMenu);
                     }
-                    else if (panel_CreateIsletme.Visible)
+                    if (panel_CreateIsletme.Visible && !panel_IsletmeMenu.Visible)
                     {
                         CloseRightSide(panel_CreateIsletme);
                     }
@@ -320,25 +348,19 @@ namespace Balya_Yerleştirme.Forms
         //Utility Methods for UI
         private void OpenRightSide(System.Windows.Forms.Control showControl)
         {
-            if (!showControl.Visible)
-            {
-                EnlargeorShrinkInsidePanel(SelectBusinessPanel, null, null, MainPanelLargeSize, MainPanelSmallSize);
-            }
-            
+            EnlargeorShrinkInsidePanel(SelectBusinessPanel, null, null, MainPanelLargeSize, MainPanelSmallSize);
+
             GVisual.ChangeSize_of_Control(SelectBusinessPanel, MainPanelSmallSize);
             GVisual.ShowControl(showControl, this, rightPanelLocation);
         }
         private void CloseRightSide(System.Windows.Forms.Control hideControl)
         {
-            if (hideControl.Visible)
-            {
-                EnlargeorShrinkInsidePanel(SelectBusinessPanel, null, null, MainPanelSmallSize, MainPanelLargeSize);
-            }
+            EnlargeorShrinkInsidePanel(SelectBusinessPanel, null, null, MainPanelSmallSize, MainPanelLargeSize);
 
             GVisual.HideControl(hideControl, this);
             GVisual.ChangeSize_of_Control(SelectBusinessPanel, MainPanelLargeSize);
         }
-        private void EnlargeorShrinkInsidePanel(FlowLayoutPanel panel, GroupBox ?groupbox, ListBox ?listbox, System.Drawing.Size before, System.Drawing.Size after)
+        private void EnlargeorShrinkInsidePanel(FlowLayoutPanel panel, GroupBox? groupbox, ListBox? listbox, System.Drawing.Size before, System.Drawing.Size after)
         {
             if (groupbox == null)
             {
@@ -465,7 +487,7 @@ namespace Balya_Yerleştirme.Forms
                 if (!errorProvider.HasErrors)
                 {
                     Isletme isletme = (Isletme)selectedGroupBox.Tag;
-                    
+
                     if (isletme != null)
                     {
                         using (var context = new DBContext())
@@ -493,7 +515,7 @@ namespace Balya_Yerleştirme.Forms
             if (selectedGroupBox != null)
             {
                 string isletme_description = txt_ChangeIsletmeDescription.Text;
-                
+
                 Isletme isletme = (Isletme)selectedGroupBox.Tag;
 
                 if (isletme != null)
@@ -584,7 +606,7 @@ namespace Balya_Yerleştirme.Forms
                             main.DrawingPanel.Invalidate();
                         }
                     }
-                    
+
                     this.Hide();
                     this.Close();
                 }
@@ -655,5 +677,40 @@ namespace Balya_Yerleştirme.Forms
 
 
         #endregion
+
+        private void SelectBusiness_MouseDown(object sender, MouseEventArgs e)
+        {
+            bool isinside = false;
+            foreach (System.Windows.Forms.Control control in SelectBusinessPanel.Controls)
+            {
+                if (control.ClientRectangle.Contains(e.Location))
+                {
+                    isinside = true;
+                }
+            }
+            if (!isinside)
+            {
+                if (selectedGroupBox != null)
+                {
+                    selectedGroupBox.ForeColor = System.Drawing.Color.Blue;
+                    selectedGroupBox.BackColor = System.Drawing.Color.FromArgb(240, 240, 240);
+                    SelectBusinessPanel.ScrollControlIntoView(selectedGroupBox);
+                    selectedGroupBox = null;
+
+                    if (panel_IsletmeMenu.Visible && !panel_CreateIsletme.Visible)
+                    {
+                        CloseRightSide(panel_IsletmeMenu);
+                    }
+                    if (panel_CreateIsletme.Visible && !panel_IsletmeMenu.Visible)
+                    {
+                        CloseRightSide(panel_CreateIsletme);
+                    }
+                }
+                else if (panel_CreateIsletme.Visible)
+                {
+                    CloseRightSide(panel_CreateIsletme);
+                }
+            }
+        }
     }
 }

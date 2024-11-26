@@ -216,35 +216,53 @@
             // 
             // btn_Layout_Duzenle
             // 
-            btn_Layout_Duzenle.FlatStyle = FlatStyle.Flat;
+            btn_Layout_Duzenle.BackColor = Color.AliceBlue;
+            btn_Layout_Duzenle.Font = new Font("Segoe UI", 16F);
+            btn_Layout_Duzenle.ForeColor = Color.Blue;
+            btn_Layout_Duzenle.Image = Resources.Resource1.Floor_Plan;
+            btn_Layout_Duzenle.ImageAlign = ContentAlignment.MiddleLeft;
             btn_Layout_Duzenle.Location = new Point(3, 3);
             btn_Layout_Duzenle.Name = "btn_Layout_Duzenle";
+            btn_Layout_Duzenle.Padding = new Padding(17, 0, 5, 0);
             btn_Layout_Duzenle.Size = new Size(268, 90);
             btn_Layout_Duzenle.TabIndex = 2;
             btn_Layout_Duzenle.Text = "Layout'u Düzenle";
-            btn_Layout_Duzenle.UseVisualStyleBackColor = true;
+            btn_Layout_Duzenle.TextAlign = ContentAlignment.MiddleRight;
+            btn_Layout_Duzenle.UseVisualStyleBackColor = false;
             btn_Layout_Duzenle.Click += btn_Layout_Duzenle_Click;
             // 
             // btn_Sil
             // 
-            btn_Sil.FlatStyle = FlatStyle.Flat;
+            btn_Sil.BackColor = Color.AliceBlue;
+            btn_Sil.Font = new Font("Segoe UI", 16F);
+            btn_Sil.ForeColor = Color.FromArgb(192, 0, 0);
+            btn_Sil.Image = Resources.Resource1.Trash;
+            btn_Sil.ImageAlign = ContentAlignment.MiddleLeft;
             btn_Sil.Location = new Point(3, 99);
             btn_Sil.Name = "btn_Sil";
+            btn_Sil.Padding = new Padding(17, 0, 86, 0);
             btn_Sil.Size = new Size(268, 90);
             btn_Sil.TabIndex = 3;
             btn_Sil.Text = "Sil";
-            btn_Sil.UseVisualStyleBackColor = true;
+            btn_Sil.TextAlign = ContentAlignment.MiddleRight;
+            btn_Sil.UseVisualStyleBackColor = false;
             btn_Sil.Click += btn_Sil_Click;
             // 
             // btn_Layout_Yukle
             // 
-            btn_Layout_Yukle.FlatStyle = FlatStyle.Flat;
+            btn_Layout_Yukle.BackColor = Color.AliceBlue;
+            btn_Layout_Yukle.Font = new Font("Segoe UI", 16F);
+            btn_Layout_Yukle.ForeColor = Color.Green;
+            btn_Layout_Yukle.Image = Resources.Resource1.Upload;
+            btn_Layout_Yukle.ImageAlign = ContentAlignment.MiddleLeft;
             btn_Layout_Yukle.Location = new Point(3, 195);
             btn_Layout_Yukle.Name = "btn_Layout_Yukle";
+            btn_Layout_Yukle.Padding = new Padding(17, 0, 70, 0);
             btn_Layout_Yukle.Size = new Size(268, 90);
             btn_Layout_Yukle.TabIndex = 4;
             btn_Layout_Yukle.Text = "Yükle";
-            btn_Layout_Yukle.UseVisualStyleBackColor = true;
+            btn_Layout_Yukle.TextAlign = ContentAlignment.MiddleRight;
+            btn_Layout_Yukle.UseVisualStyleBackColor = false;
             btn_Layout_Yukle.Click += btn_Layout_Yukle_Click;
             // 
             // lbl_ChangeLayoutName

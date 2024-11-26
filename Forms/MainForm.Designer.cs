@@ -307,7 +307,7 @@
             Nesne_Yerlestirme_First_Panel.Controls.Add(Line_Mal_2);
             Nesne_Yerlestirme_First_Panel.Controls.Add(txt_Item_Agirligi);
             Nesne_Yerlestirme_First_Panel.Controls.Add(btn_Nesne_Yerlestirme_First_Panel_Kapat);
-            Nesne_Yerlestirme_First_Panel.Location = new Point(404, 1020);
+            Nesne_Yerlestirme_First_Panel.Location = new Point(404, 1019);
             Nesne_Yerlestirme_First_Panel.Name = "Nesne_Yerlestirme_First_Panel";
             Nesne_Yerlestirme_First_Panel.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
             Nesne_Yerlestirme_First_Panel.Size = new Size(358, 903);
@@ -336,7 +336,7 @@
             lbl_Tur_Kodu_2_Etiket.Size = new Size(101, 50);
             lbl_Tur_Kodu_2_Etiket.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
             lbl_Tur_Kodu_2_Etiket.StateCommon.TextColor = Color.FromArgb(0, 0, 64);
-            lbl_Tur_Kodu_2_Etiket.Text = "Tür Kodu:";
+            lbl_Tur_Kodu_2_Etiket.Text = "Tür Kodu 2:";
             lbl_Tur_Kodu_2_Etiket.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // kryptonBorderEdge46
@@ -2150,7 +2150,6 @@
             toolStripBTN_Isletme_Sec.ImageTransparentColor = Color.Magenta;
             toolStripBTN_Isletme_Sec.Name = "toolStripBTN_Isletme_Sec";
             toolStripBTN_Isletme_Sec.Size = new Size(54, 70);
-            toolStripBTN_Isletme_Sec.Text = "toolStripButton2";
             toolStripBTN_Isletme_Sec.Click += toolStripBTN_Isletme_Sec_Click;
             // 
             // toolStripBTN_Layout_Sec
@@ -2177,7 +2176,7 @@
             toolstripBTN_addItemFromOrders.ImageTransparentColor = Color.Magenta;
             toolstripBTN_addItemFromOrders.Name = "toolstripBTN_addItemFromOrders";
             toolstripBTN_addItemFromOrders.Size = new Size(54, 70);
-            toolstripBTN_addItemFromOrders.ToolTipText = "İş emirlerinden nesne ekle";
+            toolstripBTN_addItemFromOrders.ToolTipText = "İş emirlerinden nesne kaldır";
             toolstripBTN_addItemFromOrders.Click += toolstripBTN_addItemFromOrders_Click;
             // 
             // toolStripButtonShowCellTag
@@ -2220,7 +2219,7 @@
             toolStripButton1.Image = (Image)resources.GetObject("toolStripButton1.Image");
             toolStripButton1.ImageTransparentColor = Color.Magenta;
             toolStripButton1.Name = "toolStripButton1";
-            toolStripButton1.Size = new Size(23, 70);
+            toolStripButton1.Size = new Size(23, 4);
             toolStripButton1.Text = "addDepo";
             toolStripButton1.TextImageRelation = TextImageRelation.TextBeforeImage;
             toolStripButton1.Click += toolStripButton1_Click;
@@ -2531,7 +2530,7 @@
             DepoInfoPanel.Controls.Add(kryptonBorderEdge55);
             DepoInfoPanel.Controls.Add(kryptonBorderEdge56);
             DepoInfoPanel.Controls.Add(btn_Close_DepoInfoPanel);
-            DepoInfoPanel.Location = new Point(2, 1019);
+            DepoInfoPanel.Location = new Point(12, 1017);
             DepoInfoPanel.Name = "DepoInfoPanel";
             DepoInfoPanel.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
             DepoInfoPanel.Size = new Size(358, 903);
@@ -3047,9 +3046,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightGray;
             ClientSize = new Size(1904, 1041);
+            Controls.Add(Nesne_Yerlestirme_First_Panel);
             Controls.Add(IsletmeInfoPanel);
             Controls.Add(DepoInfoPanel);
-            Controls.Add(Nesne_Yerlestirme_First_Panel);
             Controls.Add(PLC_Sim_Panel);
             Controls.Add(leftLayoutPanel);
             Controls.Add(Nesne_Al_First_Panel);
