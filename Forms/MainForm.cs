@@ -26,6 +26,12 @@ using System.Net.Security;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Balya_Yerleştirme.Forms;
 using DocumentFormat.OpenXml.Drawing.Diagrams;
+using Cognex.DataMan.SDK;
+using System.Net;
+using System;
+using System.Net.Sockets;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using ClosedXML;
 
 
 
@@ -42,7 +48,7 @@ namespace Balya_Yerleştirme
         public string InputPath { get; set; }
         public string OutputPath { get; set; }
         public string FailedPath { get; set; }
-
+        private static DataManSystem dataManSystem;
 
 
 
@@ -4138,5 +4144,136 @@ namespace Balya_Yerleştirme
         {
             MainPanelCloseLeftSide(leftLayoutPanel, this);
         }
+
+
+
+
+
+
+
+
+
+        private void StartTcpListener()
+        {
+            try
+            {
+                string deviceIp = "169.254.135.200";
+                int port = 23;
+
+                using (var client = new TcpClient(deviceIp, port))
+                {
+                    Debug.WriteLine("Connected to the device.");
+
+                    using (var stream = client.GetStream())
+                    {
+                        using (var reader = new StreamReader(stream))
+                        {
+                            while (true)
+                            {
+                                var data = reader.ReadLine();
+                                Debug.WriteLine("Data received: " + data);
+                                deneme.Text = $"{data}";
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error: " + ex.Message);
+            }
+        }
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            string IP = "169.254.135.200";
+
+            IPAddress deviceIpAddress = IPAddress.Parse(IP);
+
+            var connector = new EthSystemConnector(deviceIpAddress);
+
+            var system = new DataManSystem(connector);
+
+            system.ReadStringArrived += System_ReadStringArrived;
+            system.XmlResultArrived += xml_Arrived;
+
+            Debug.WriteLine("Event binded");
+            Debug.WriteLine($"{system.ResultTypes}");
+            
+            try
+            {
+                system.Connect();
+
+                if (system.State == ConnectionState.Connected)
+                {
+                    Debug.WriteLine("Successfully connected to the DataMan device at IP: " + IP);
+                    Debug.WriteLine("Listening for barcode data...");
+                    
+                }
+                else
+                {
+                    Debug.WriteLine("Failed to connect to the DataMan device.");
+                    return;
+                }
+                system.SendCommand("trigger on");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error during connection or communication:");
+                Debug.WriteLine(ex.Message);
+            }
+        }
+        private void System_ReadStringArrived(object sender, ReadStringArrivedEventArgs e)
+        {
+            string receivedData = e.ReadString;
+
+            if (!string.IsNullOrEmpty(receivedData))
+            {
+                Debug.WriteLine("Data received from scanner: " + receivedData);
+
+                ParseBarcodeData(receivedData);
+            }
+            else
+            {
+                Debug.WriteLine("No data received from scanner.");
+            }
+        }
+        private void xml_Arrived(object sender, XmlResultArrivedEventArgs e)
+        {
+            string receivedData = e.XmlResult;
+
+            if (!string.IsNullOrEmpty(receivedData))
+            {
+                Debug.WriteLine("Data received from scanner: " + receivedData);
+
+                ParseBarcodeData(receivedData);
+            }
+            else
+            {
+                Debug.WriteLine("No data received from scanner.");
+            }
+        }
+        static void ParseBarcodeData(string result)
+        {
+            string[] datafields = result.Split(',');
+
+            if (datafields.Length > 0)
+            {
+                Debug.WriteLine("Parsed Data Fields:");
+                for (int i = 0; i < datafields.Length; i++)
+                {
+                    Debug.WriteLine($"Field {i + 1}: {datafields[i]}");
+                }
+            }
+            else
+            {
+                Debug.WriteLine("No data fields found.");
+            }
+        }
     }
 }
+
+
+
+
+        
+

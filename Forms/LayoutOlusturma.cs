@@ -9,6 +9,8 @@ using System.Globalization;
 using System.Net.Security;
 using System.Windows.Forms;
 using static Balya_Yerleştirme.Utilities.Utils;
+using Cognex.DataMan.SDK;
+using Cognex.DataMan.SDK.Discovery;
 
 namespace Balya_Yerleştirme
 {
@@ -177,9 +179,8 @@ namespace Balya_Yerleştirme
         public TreeNode DepoNode { get; set; }
         public TreeNode ConveyorNode { get; set; }
         #endregion
+
         public bool isOrdering { get; set; }
-
-
         public bool menuProcess { get; set; } = false;
         public Layout? layout { get; set; }
         public Isletme? Isletme { get; set; }

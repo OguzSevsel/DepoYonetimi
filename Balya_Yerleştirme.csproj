@@ -28,6 +28,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Cognex.DataMan.SDK.Discovery.PC">
+      <HintPath>..\..\..\Cognex\DataMan SDK 5.6.3\Binaries\PC\Cognex.DataMan.SDK.Discovery.PC.dll</HintPath>
+    </Reference>
+    <Reference Include="Cognex.DataMan.SDK.PC">
+      <HintPath>..\..\..\Cognex\DataMan SDK 5.6.3\Binaries\PC\Cognex.DataMan.SDK.PC.dll</HintPath>
+    </Reference>
     <Reference Include="CustomNotification">
       <HintPath>..\CustomNotification\bin\Debug\net8.0-windows\CustomNotification.dll</HintPath>
     </Reference>

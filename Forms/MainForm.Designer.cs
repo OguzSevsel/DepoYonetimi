@@ -181,6 +181,7 @@
             toolStripBTN_ExportToExcel = new ToolStripButton();
             btn_PLC_Connection = new ToolStripButton();
             toolStripButton1 = new ToolStripButton();
+            toolStripButton2 = new ToolStripButton();
             Balya_Context_Menu_Strip = new ContextMenuStrip(components);
             depodakiNesneleriGörüntüleToolStripMenuItem = new ToolStripMenuItem();
             ToolStripBTN_OzellikleriGoruntule = new ToolStripMenuItem();
@@ -249,6 +250,7 @@
             lbl_SelectedLayout_Value = new Krypton.Toolkit.KryptonWrapLabel();
             lbl_SelectedLayout = new Krypton.Toolkit.KryptonWrapLabel();
             lbl_SelectedIsletme = new Krypton.Toolkit.KryptonWrapLabel();
+            deneme = new TextBox();
             ((System.ComponentModel.ISupportInitialize)Nesne_Yerlestirme_First_Panel).BeginInit();
             Nesne_Yerlestirme_First_Panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)combo_Tur_Kodu_2_Etiket).BeginInit();
@@ -761,6 +763,7 @@
             // DrawingPanel
             // 
             DrawingPanel.BackColor = Color.Azure;
+            DrawingPanel.Controls.Add(deneme);
             DrawingPanel.Controls.Add(infopanel);
             DrawingPanel.Location = new Point(12, 91);
             DrawingPanel.Name = "DrawingPanel";
@@ -2130,7 +2133,7 @@
             ToolStrip.Dock = DockStyle.None;
             ToolStrip.Font = new Font("Segoe UI", 9F);
             ToolStrip.ImageScalingSize = new Size(30, 30);
-            ToolStrip.Items.AddRange(new ToolStripItem[] { toolStripSeparator, toolStripBTN_Isletme_Sec, toolStripBTN_Layout_Sec, toolStripSeparator1, toolstripBTN_addItemFromOrders, toolStripButtonShowCellTag, toolStripBTN_ExportToExcel, btn_PLC_Connection, toolStripButton1 });
+            ToolStrip.Items.AddRange(new ToolStripItem[] { toolStripSeparator, toolStripBTN_Isletme_Sec, toolStripBTN_Layout_Sec, toolStripSeparator1, toolstripBTN_addItemFromOrders, toolStripButtonShowCellTag, toolStripBTN_ExportToExcel, btn_PLC_Connection, toolStripButton1, toolStripButton2 });
             ToolStrip.Location = new Point(12, 12);
             ToolStrip.Name = "ToolStrip";
             ToolStrip.Size = new Size(363, 73);
@@ -2223,6 +2226,16 @@
             toolStripButton1.Text = "addDepo";
             toolStripButton1.TextImageRelation = TextImageRelation.TextBeforeImage;
             toolStripButton1.Click += toolStripButton1_Click;
+            // 
+            // toolStripButton2
+            // 
+            toolStripButton2.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripButton2.Image = (Image)resources.GetObject("toolStripButton2.Image");
+            toolStripButton2.ImageTransparentColor = Color.Magenta;
+            toolStripButton2.Name = "toolStripButton2";
+            toolStripButton2.Size = new Size(47, 19);
+            toolStripButton2.Text = "Reader";
+            toolStripButton2.Click += toolStripButton2_Click;
             // 
             // Balya_Context_Menu_Strip
             // 
@@ -3040,6 +3053,13 @@
             lbl_SelectedIsletme.Text = "SEÇİLEN İŞLETME:";
             lbl_SelectedIsletme.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // deneme
+            // 
+            deneme.Location = new Point(192, 3);
+            deneme.Name = "deneme";
+            deneme.Size = new Size(100, 23);
+            deneme.TabIndex = 20;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -3073,6 +3093,7 @@
             Nesne_Yerlestirme_Second_Panel.ResumeLayout(false);
             Nesne_Yerlestirme_Second_Panel.PerformLayout();
             DrawingPanel.ResumeLayout(false);
+            DrawingPanel.PerformLayout();
             infopanel.ResumeLayout(false);
             infopanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)PLC_Sim_Panel).EndInit();
@@ -3337,5 +3358,7 @@
         public Krypton.Toolkit.KryptonWrapLabel lbl_SelectedIsletme;
         public Krypton.Toolkit.KryptonWrapLabel lbl_SelectedLayout_Value;
         private Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge60;
+        private ToolStripButton toolStripButton2;
+        private TextBox deneme;
     }
 }
