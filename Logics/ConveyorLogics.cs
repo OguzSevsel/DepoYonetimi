@@ -37,6 +37,10 @@ namespace Balya_Yerleştirme.Models
         public PointF DragStartPoint = new Point();
         [NotMapped]
         public Ambar Parent { get; set; }
+        [NotMapped]
+        public bool isOccupied { get; set; }
+
+
 
         public Conveyor(float x, float y, float width, float height, MainForm ?main, LayoutOlusturma ?Layout, Ambar ambar)
         {

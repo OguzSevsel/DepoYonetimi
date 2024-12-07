@@ -39,6 +39,31 @@ namespace Balya_Yerleştirme
 {
     public partial class MainForm : Form
     {
+        #region Islem Simulasyonu
+
+
+        public bool depo_in { get; set; }
+
+        public bool balya_hazir { get; set; }
+
+        public bool balya_onay { get; set; }
+
+        public bool vinc_balya_al { get; set; }
+
+        public Conveyor hedefConveyor { get; set; }
+
+        public float hedefConveyorX { get; set; }
+
+        public float hedefConveyorY { get; set; }
+
+        public float hedefConveyorZ { get; set; }
+
+        public List<Models.Item> BufferItems { get; set; }
+
+
+        #endregion
+
+
         public Ambar? ambar { get; set; }
         public Depo selectedDepo { get; set; }
         public Isletme? Isletme { get; set; }
@@ -205,15 +230,16 @@ namespace Balya_Yerleştirme
                 }
             }
         }
-        public void PlaceItem(Depo depo, string item_etiketi, string item_aciklamasi, float item_agirligi)
+        public Conveyor PlaceItem(Depo depo, string item_etiketi, string item_aciklamasi, float item_agirligi, Ambar ambar)
         {
             bool isStageChanged = CheckifDepoStageChanged(depo);
             string param = CheckDepoParameters(depo);
+            Conveyor conveyor = new Conveyor();
 
             if (param == "Down Up Right")
             {
                 bool placeOnce = true;
-                SearchForPlace(depo);
+                conveyor = SearchForPlace(depo, ambar);
                 foreach (var cell in depo.gridmaps)
                 {
                     if (cell.Row == depo.currentRow &&
@@ -243,10 +269,10 @@ namespace Balya_Yerleştirme
             else if (param == "Down Up Left")
             {
                 bool placeOnce = true;
-                SearchForPlace(depo);
+                conveyor = SearchForPlace(depo, ambar);
                 foreach (var cell in depo.gridmaps)
                 {
-                    SearchForPlace(depo);
+                    conveyor = SearchForPlace(depo, ambar);
                     if (cell.Row == depo.currentRow &&
                         cell.Column == depo.currentColumn)
                     {
@@ -274,7 +300,7 @@ namespace Balya_Yerleştirme
             else if (param == "Up Down Right")
             {
                 bool placeOnce = true;
-                SearchForPlace(depo);
+                conveyor = SearchForPlace(depo, ambar);
                 foreach (var cell in depo.gridmaps)
                 {
                     if (cell.Row == depo.currentRow &&
@@ -304,7 +330,7 @@ namespace Balya_Yerleştirme
             else if (param == "Up Down Left")
             {
                 bool placeOnce = true;
-                SearchForPlace(depo);
+                conveyor = SearchForPlace(depo, ambar);
                 foreach (var cell in depo.gridmaps)
                 {
                     if (cell.Row == depo.currentRow &&
@@ -334,7 +360,7 @@ namespace Balya_Yerleştirme
             else if (param == "Middle Up Left")
             {
                 bool placeOnce = true;
-                SearchForPlace(depo);
+                conveyor = SearchForPlace(depo, ambar);
                 foreach (var cell in depo.gridmaps)
                 {
                     if (cell.Row == depo.currentRow &&
@@ -364,7 +390,7 @@ namespace Balya_Yerleştirme
             else if (param == "Middle Up Right")
             {
                 bool placeOnce = true;
-                SearchForPlace(depo);
+                conveyor = SearchForPlace(depo, ambar);
                 foreach (var cell in depo.gridmaps)
                 {
                     if (cell.Row == depo.currentRow &&
@@ -394,7 +420,7 @@ namespace Balya_Yerleştirme
             else if (param == "Middle Down Left")
             {
                 bool placeOnce = true;
-                SearchForPlace(depo);
+                conveyor = SearchForPlace(depo, ambar);
                 foreach (var cell in depo.gridmaps)
                 {
                     if (cell.Row == depo.currentRow &&
@@ -424,7 +450,7 @@ namespace Balya_Yerleştirme
             else if (param == "Middle Down Right")
             {
                 bool placeOnce = true;
-                SearchForPlace(depo);
+                conveyor = SearchForPlace(depo, ambar);
                 foreach (var cell in depo.gridmaps)
                 {
                     if (cell.Row == depo.currentRow &&
@@ -451,6 +477,7 @@ namespace Balya_Yerleştirme
                     }
                 }
             }
+            return conveyor;
         }
         public bool CheckifDepoisEmpty(Depo depo)
         {
@@ -1607,6 +1634,7 @@ namespace Balya_Yerleştirme
 
             if (!errorProvider.HasErrors)
             {
+                Conveyor conveyor = new Conveyor();
                 if (ambar != null)
                 {
                     if (ambar.depolar.Count > 0)
@@ -1624,7 +1652,7 @@ namespace Balya_Yerleştirme
                                 //SetRowStartPosition(newDepo);
                             }
                             yerBul = true;
-                            PlaceItem(newDepo, item_etiketi, item_aciklamasi, item_agirligi);
+                            conveyor = PlaceItem(newDepo, item_etiketi, item_aciklamasi, item_agirligi, ambar);
                             System.Drawing.Point location = new System.Drawing.Point(3, 548);
                             GVisual.ShowControl(Nesne_Yerlestirme_Second_Panel, Nesne_Yerlestirme_First_Panel, location);
                             DrawingPanel.Invalidate();
@@ -1848,6 +1876,7 @@ namespace Balya_Yerleştirme
 
                 if (ambar != null)
                 {
+                    Conveyor conveyor = new Conveyor();
                     if (ambar.depolar.Count > 0)
                     {
                         Depo newDepo = GetDepotoPlaceItem(item_turu, item_turu_secondary);
@@ -1863,7 +1892,7 @@ namespace Balya_Yerleştirme
                                 //SetRowStartPosition(newDepo);
                             }
                             yerBul = false;
-                            PlaceItem(newDepo, item_etiketi, item_aciklamasi, item_agirligi);
+                            conveyor = PlaceItem(newDepo, item_etiketi, item_aciklamasi, item_agirligi, ambar);
                         }
                     }
                 }
@@ -3550,6 +3579,7 @@ namespace Balya_Yerleştirme
         {
             if (ambar != null)
             {
+                Conveyor conveyor = new Conveyor();
                 if (ambar.depolar.Count > 0)
                 {
                     Depo newDepo = GetDepotoPlaceItem("depo", "depo");
@@ -3565,7 +3595,7 @@ namespace Balya_Yerleştirme
                             //SetRowStartPosition(newDepo);
                         }
                         yerBul = false;
-                        PlaceItem(newDepo, item_etiketi, item_aciklamasi, item_agirligi);
+                        conveyor = PlaceItem(newDepo, item_etiketi, item_aciklamasi, item_agirligi, ambar);
                     }
                 }
             }
@@ -3634,6 +3664,7 @@ namespace Balya_Yerleştirme
         #endregion
 
         #endregion
+
 
 
 
@@ -4139,7 +4170,6 @@ namespace Balya_Yerleştirme
                 PopulateDepoInfoPanel(selectedDepo);
             }
         }
-
         private void btn_Close_DepoInfoPanel_Click(object sender, EventArgs e)
         {
             MainPanelCloseLeftSide(leftLayoutPanel, this);
@@ -4153,122 +4183,299 @@ namespace Balya_Yerleştirme
 
 
 
-        private void StartTcpListener()
+        private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            try
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+        private void btn_Process_Simulation_Click(object sender, EventArgs e)
+        {
+
+        }
+        public Models.Item? ReturnItem(Ambar ambar, Models.Cell? cell1, string item_etiketi, string item_aciklamasi,
+            float item_agirligi)
+        {
+            if (cell1 != null)
             {
-                string deviceIp = "169.254.135.200";
-                int port = 23;
+                Models.Item newItem = new Models.Item(0, 0, cell1.NesneEni, cell1.NesneBoyu, Zoomlevel, this);
 
-                using (var client = new TcpClient(deviceIp, port))
+                newItem.OriginalRectangle = GVisual.RatioRectangleToParentRectangle(cell1.NesneEni, cell1.NesneBoyu, cell1.CellEni, cell1.CellBoyu, cell1.OriginalRectangle);
+
+                newItem.Rectangle = GVisual.RatioRectangleToParentRectangle(cell1.NesneEni, cell1.NesneBoyu, cell1.CellEni, cell1.CellBoyu, cell1.Rectangle);
+
+                newItem.SelectLayoutRectangle = GVisual.RatioRectangleToParentRectangle(cell1.NesneEni, cell1.NesneBoyu, cell1.CellEni, cell1.CellBoyu, cell1.OriginalRectangle);
+
+                newItem.CellId = cell1.CellId;
+                newItem.ItemAgirligi = item_agirligi;
+                newItem.ItemEtiketi = item_etiketi;
+                newItem.ItemAciklamasi = item_aciklamasi;
+                newItem.ItemEni = cell1.NesneEni;
+                newItem.ItemBoyu = cell1.NesneBoyu;
+                newItem.KareX = newItem.Rectangle.X;
+                newItem.KareY = newItem.Rectangle.Y;
+                newItem.KareEni = newItem.Rectangle.Width;
+                newItem.KareBoyu = newItem.Rectangle.Height;
+                newItem.OriginalKareX = newItem.OriginalRectangle.X;
+                newItem.OriginalKareY = newItem.OriginalRectangle.Y;
+                newItem.OriginalKareEni = newItem.OriginalRectangle.Width;
+                newItem.OriginalKareBoyu = newItem.OriginalRectangle.Height;
+                newItem.ItemYuksekligi = cell1.NesneYuksekligi;
+                newItem.ItemTuru = "Nesne";
+
+
+                var Location = ConvertRectanglesLocationtoCMInsideParentRectangle(newItem.Rectangle,
+                    ambar.Rectangle, ambar.AmbarEni, ambar.AmbarBoyu, true);
+
+                newItem.Cm_X_Axis = Location.Item1;
+                newItem.Cm_Y_Axis = Location.Item2;
+
+                foreach (var item in cell1.items)
                 {
-                    Debug.WriteLine("Connected to the device.");
+                    int first = cell1.items.IndexOf(item);
+                    int index = first + 1;
 
-                    using (var stream = client.GetStream())
+                    item.Cm_Z_Axis = index * item.ItemYuksekligi;
+
+                    if (item == newItem)
                     {
-                        using (var reader = new StreamReader(stream))
-                        {
-                            while (true)
-                            {
-                                var data = reader.ReadLine();
-                                Debug.WriteLine("Data received: " + data);
-                                deneme.Text = $"{data}";
-                            }
-                        }
+                        newItem.Cm_Z_Axis = item.Cm_Z_Axis;
+                    }
+                }
+
+                cell1.toplam_Nesne_Yuksekligi = cell1.NesneYuksekligi * cell1.items.Count;
+
+                using (var context = new DBContext())
+                {
+                    Models.Item Dbitem = new Models.Item(cell1.CellId, newItem.ItemEtiketi,
+                    newItem.ItemTuru, newItem.ItemEni, newItem.ItemBoyu, newItem.ItemYuksekligi,
+                    newItem.Rectangle.X, newItem.Rectangle.Y, newItem.Rectangle.Width, newItem.Rectangle.Height,
+                    newItem.OriginalRectangle.X, newItem.OriginalRectangle.Y, newItem.OriginalRectangle.Width,
+                    newItem.OriginalRectangle.Height, newItem.Zoomlevel, newItem.ItemAgirligi, newItem.ItemAciklamasi,
+                    newItem.Cm_X_Axis, newItem.Cm_Y_Axis, newItem.Cm_Z_Axis);
+
+                    context.Items.Add(Dbitem);
+                    context.SaveChanges();
+                    newItem.ItemId = Dbitem.ItemId;
+                }
+
+                return newItem;
+            }
+            return null;
+        }
+        public (Conveyor,Models.Item) ReturnItemConveyor(Depo depo, string item_etiketi, string item_aciklamasi, float item_agirligi, Ambar ambar)
+        {
+            bool isStageChanged = CheckifDepoStageChanged(depo);
+            string param = CheckDepoParameters(depo);
+            Conveyor conveyor = new Conveyor();
+            Models.Item item = new Models.Item();
+
+            if (param == "Down Up Right")
+            {
+                conveyor = SearchForPlace(depo, ambar);
+                foreach (var cell in depo.gridmaps)
+                {
+                    if (cell.Row == depo.currentRow &&
+                        cell.Column == depo.currentColumn)
+                    {
+                        item = ReturnItem(depo.Parent, cell, item_etiketi, item_aciklamasi, item_agirligi);
+                        return (conveyor, item);
                     }
                 }
             }
-            catch (Exception ex)
+            else if (param == "Down Up Left")
             {
-                Debug.WriteLine("Error: " + ex.Message);
+                conveyor = SearchForPlace(depo, ambar);
+                foreach (var cell in depo.gridmaps)
+                {
+                    conveyor = SearchForPlace(depo, ambar);
+                    if (cell.Row == depo.currentRow &&
+                        cell.Column == depo.currentColumn)
+                    {
+                        item = ReturnItem(depo.Parent, cell, item_etiketi, item_aciklamasi, item_agirligi);
+                        return (conveyor, item);
+                    }
+                }
+            }
+            else if (param == "Up Down Right")
+            {
+                conveyor = SearchForPlace(depo, ambar);
+                foreach (var cell in depo.gridmaps)
+                {
+                    if (cell.Row == depo.currentRow &&
+                        cell.Column == depo.currentColumn)
+                    {
+                        item = ReturnItem(depo.Parent, cell, item_etiketi, item_aciklamasi, item_agirligi);
+                        return (conveyor, item);
+                    }
+                }
+            }
+            else if (param == "Up Down Left")
+            {
+                conveyor = SearchForPlace(depo, ambar);
+                foreach (var cell in depo.gridmaps)
+                {
+                    if (cell.Row == depo.currentRow &&
+                        cell.Column == depo.currentColumn)
+                    {
+                        item = ReturnItem(depo.Parent, cell, item_etiketi, item_aciklamasi, item_agirligi);
+                        return (conveyor, item);
+                    }
+                }
+            }
+            else if (param == "Middle Up Left")
+            {
+                conveyor = SearchForPlace(depo, ambar);
+                foreach (var cell in depo.gridmaps)
+                {
+                    if (cell.Row == depo.currentRow &&
+                        cell.Column == depo.currentColumn)
+                    {
+                        item = ReturnItem(depo.Parent, cell, item_etiketi, item_aciklamasi, item_agirligi);
+                        return (conveyor, item);
+                    }
+                }
+            }
+            else if (param == "Middle Up Right")
+            {
+                conveyor = SearchForPlace(depo, ambar);
+                foreach (var cell in depo.gridmaps)
+                {
+                    if (cell.Row == depo.currentRow &&
+                        cell.Column == depo.currentColumn)
+                    {
+                        item = ReturnItem(depo.Parent, cell, item_etiketi, item_aciklamasi, item_agirligi);
+                        return (conveyor, item);
+                    }
+                }
+            }
+            else if (param == "Middle Down Left")
+            {
+                conveyor = SearchForPlace(depo, ambar);
+                foreach (var cell in depo.gridmaps)
+                {
+                    if (cell.Row == depo.currentRow &&
+                        cell.Column == depo.currentColumn)
+                    {
+                        item = ReturnItem(depo.Parent, cell, item_etiketi, item_aciklamasi, item_agirligi);
+                        return (conveyor, item);
+                    }
+                }
+            }
+            else if (param == "Middle Down Right")
+            {
+                conveyor = SearchForPlace(depo, ambar);
+                foreach (var cell in depo.gridmaps)
+                {
+                    if (cell.Row == depo.currentRow &&
+                        cell.Column == depo.currentColumn)
+                    {
+                        item = ReturnItem(depo.Parent, cell, item_etiketi, item_aciklamasi, item_agirligi);
+                        return (conveyor, item);
+                    }
+                }
+            }
+            return (conveyor, item);
+        }
+
+        private void btn_IslemSim_Barkod_Oku_Click(object sender, EventArgs e)
+        {
+            BalyaOnayUIState();
+            item_turu = "depo";
+            item_turu_secondary = "depo";
+
+            if (ambar != null)
+            {
+                Conveyor conveyor = new Conveyor();
+                Models.Item item = new Models.Item();
+
+                if (ambar.depolar.Count > 0)
+                {
+                    Depo newDepo = GetDepotoPlaceItem(item_turu, item_turu_secondary);
+
+                    if (newDepo != null)
+                    {
+                        var itemconveyor = ReturnItemConveyor(newDepo, item_etiketi, item_aciklamasi, item_agirligi, ambar);
+
+                        conveyor = itemconveyor.Item1;
+                        item = itemconveyor.Item2;
+                        listBox_IslemSim_BufferItems.Items.Add(item.ItemEtiketi);
+                        BufferItems.Add(item);
+                        ChangeConveyorPanelInfo(conveyor);
+                        conveyor.isOccupied = true;
+                    }
+                }
             }
         }
-        private void toolStripButton2_Click(object sender, EventArgs e)
+
+        private void ChangeConveyorPanelInfo(Conveyor conveyor)
         {
-            string IP = "169.254.135.200";
-
-            IPAddress deviceIpAddress = IPAddress.Parse(IP);
-
-            var connector = new EthSystemConnector(deviceIpAddress);
-
-            var system = new DataManSystem(connector);
-
-            system.ReadStringArrived += System_ReadStringArrived;
-            system.XmlResultArrived += xml_Arrived;
-
-            Debug.WriteLine("Event binded");
-            Debug.WriteLine($"{system.ResultTypes}");
-            
-            try
+            if (conveyor.ConveyorReferencePoints.Count == 1)
             {
-                system.Connect();
-
-                if (system.State == ConnectionState.Connected)
+                foreach (var reff in conveyor.ConveyorReferencePoints)
                 {
-                    Debug.WriteLine("Successfully connected to the DataMan device at IP: " + IP);
-                    Debug.WriteLine("Listening for barcode data...");
-                    
+                    hedefConveyor = conveyor;
+                    hedefConveyorX = reff.OriginalLocationInsideParentX;
+                    hedefConveyorY = reff.OriginalLocationInsideParentY;
+                    hedefConveyorZ = 100;
+                    lbl_IslemSim_HedefConveyorX_Value.Text = $"{hedefConveyorX}";
+                    lbl_IslemSim_HedefConveyorY_Value.Text = $"{hedefConveyorY}";
+                    lbl_IslemSim_HedefConveyorZ_Value.Text = $"{hedefConveyorZ}";
+                    lbl_IslemSim_HedefConveyor_Value.Text = $"Conveyor {hedefConveyor.ConveyorId}";
                 }
-                else
-                {
-                    Debug.WriteLine("Failed to connect to the DataMan device.");
-                    return;
-                }
-                system.SendCommand("trigger on");
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Error during connection or communication:");
-                Debug.WriteLine(ex.Message);
             }
         }
-        private void System_ReadStringArrived(object sender, ReadStringArrivedEventArgs e)
+        private void MakePanelBGYelloworRed(Panel panel, bool isYellow)
         {
-            string receivedData = e.ReadString;
-
-            if (!string.IsNullOrEmpty(receivedData))
+            if (isYellow)
             {
-                Debug.WriteLine("Data received from scanner: " + receivedData);
-
-                ParseBarcodeData(receivedData);
+                panel.BackColor = System.Drawing.Color.Lime;
             }
             else
             {
-                Debug.WriteLine("No data received from scanner.");
+                panel.BackColor = System.Drawing.Color.Red;
             }
         }
-        private void xml_Arrived(object sender, XmlResultArrivedEventArgs e)
+
+        private void BalyaOnayUIState()
         {
-            string receivedData = e.XmlResult;
-
-            if (!string.IsNullOrEmpty(receivedData))
-            {
-                Debug.WriteLine("Data received from scanner: " + receivedData);
-
-                ParseBarcodeData(receivedData);
-            }
-            else
-            {
-                Debug.WriteLine("No data received from scanner.");
-            }
+            MakePanelBGYelloworRed(panel_IslemSIm_Balya_Onay, true);
+            MakePanelBGYelloworRed(panel_IslemSim_Balya_Hazir, true);
+            MakePanelBGYelloworRed(panel_IslemSim_Depo_In, true);
+            MakePanelBGYelloworRed(panel_IslemSim_Depo_Out, false);
+            MakePanelBGYelloworRed(panel_IslemSim_Balya_Beklet, false);
+            MakePanelBGYelloworRed(panel_IslemSIm_Vinc_Balya_Al, false);
         }
-        static void ParseBarcodeData(string result)
+
+
+
+
+        private void btn_IslemSIm_Balya_Yerlestir_Click(object sender, EventArgs e)
         {
-            string[] datafields = result.Split(',');
 
-            if (datafields.Length > 0)
-            {
-                Debug.WriteLine("Parsed Data Fields:");
-                for (int i = 0; i < datafields.Length; i++)
-                {
-                    Debug.WriteLine($"Field {i + 1}: {datafields[i]}");
-                }
-            }
-            else
-            {
-                Debug.WriteLine("No data fields found.");
-            }
         }
+
+
+
+
+
+
+
+
+        private void btn_IslemSim_Depo_Out_Click(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
 

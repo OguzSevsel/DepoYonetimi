@@ -843,10 +843,14 @@ namespace Balya_Yerleştirme.Utilities
                 return string.Empty;
             }
         }
-        public static void SearchForPlace(Depo depo)
+
+
+        public static Conveyor SearchForPlace(Depo depo, Ambar ambar)
         {
             string param = CheckDepoParameters(depo);
             string stage = CheckDepoStage(depo);
+            Conveyor conveyor = new Conveyor();
+
             if (stage == "stage1")
             {
                 depo.currentStage = 1;
@@ -858,41 +862,53 @@ namespace Balya_Yerleştirme.Utilities
 
             if (param == "Down Up Right")
             {
-                SearchThroughRight(false, true, depo);
+                conveyor = SearchThroughRight(false, true, depo, ambar);
+                return conveyor;
             }
             else if (param == "Up Down Right")
             {
-                SearchThroughRight(false, false, depo);
+                conveyor = SearchThroughRight(false, false, depo, ambar);
+                return conveyor;
             }
             else if (param == "Middle Up Right")
             {
-                SearchThroughRight(true, true, depo);
+                conveyor = SearchThroughRight(true, true, depo, ambar);
+                return conveyor;
             }
             else if (param == "Middle Down Right")
             {
-                SearchThroughRight(true, false, depo);
+                conveyor = SearchThroughRight(true, false, depo, ambar);
+                return conveyor;
             }
 
             else if (param == "Down Up Left")
             {
-                SearchThroughLeft(false, true, depo);
+                conveyor = SearchThroughLeft(false, true, depo, ambar);
+                return conveyor;
             }
             else if (param == "Middle Down Left")
             {
-                SearchThroughLeft(true, false, depo);
+                conveyor = SearchThroughLeft(true, false, depo, ambar);
+                return conveyor;
             }
             else if (param == "Middle Up Left")
             {
-                SearchThroughLeft(true, true, depo);
+                conveyor = SearchThroughLeft(true, true, depo, ambar);
+                return conveyor;
             }
             else if (param == "Up Down Left")
             {
-                SearchThroughLeft(false, false, depo);
+                conveyor = SearchThroughLeft(false, false, depo, ambar);
+                return conveyor;
             }
+            return conveyor;
         }
-        public static void SearchThroughRight(bool isMiddle, bool toUp, Depo depo)
+
+
+        public static Conveyor SearchThroughRight(bool isMiddle, bool toUp, Depo depo, Ambar ambar)
         {
             List<Models.Cell> cells = new List<Models.Cell>();
+            Conveyor conveyor = new Conveyor();
             int RowCount = 0;
 
             if (depo.RowCount % 2 == 0)
@@ -984,13 +1000,15 @@ namespace Balya_Yerleştirme.Utilities
                     {
                         depo.currentColumn = addedCell.Column;
                         depo.currentRow = addedCell.Row;
-                        break;
+                        conveyor = FindNearestConveyor(ambar, depo);
+                        return conveyor;
                     }
                     else if (addedCell.items.Count == 0)
                     {
                         depo.currentColumn = addedCell.Column;
                         depo.currentRow = addedCell.Row;
-                        break;
+                        conveyor = FindNearestConveyor(ambar, depo);
+                        return conveyor;
                     }
                 }
             }
@@ -1003,14 +1021,18 @@ namespace Balya_Yerleştirme.Utilities
                     {
                         depo.currentColumn = addedCell.Column;
                         depo.currentRow = addedCell.Row;
-                        break;
+                        conveyor = FindNearestConveyor(ambar, depo);
+                        return conveyor;
                     }
                 }
             }
+            conveyor = FindNearestConveyor(ambar, depo);
+            return conveyor;
         }
-        public static void SearchThroughLeft(bool isMiddle, bool toUp, Depo depo)
+        public static Conveyor SearchThroughLeft(bool isMiddle, bool toUp, Depo depo, Ambar ambar)
         {
             List<Models.Cell> cells = new List<Models.Cell>();
+            Conveyor conveyor = new Conveyor();
             int RowCount = 0;
 
             if (depo.RowCount % 2 == 0)
@@ -1102,13 +1124,15 @@ namespace Balya_Yerleştirme.Utilities
                     {
                         depo.currentColumn = addedCell.Column;
                         depo.currentRow = addedCell.Row;
-                        break;
+                        conveyor = FindNearestConveyor(ambar, depo);
+                        return conveyor;
                     }
                     else if (addedCell.items.Count == 0)
                     {
                         depo.currentColumn = addedCell.Column;
                         depo.currentRow = addedCell.Row;
-                        break;
+                        conveyor = FindNearestConveyor(ambar, depo);
+                        return conveyor;
                     }
                 }
             }
@@ -1121,11 +1145,45 @@ namespace Balya_Yerleştirme.Utilities
                     {
                         depo.currentColumn = addedCell.Column;
                         depo.currentRow = addedCell.Row;
-                        break;
+                        conveyor = FindNearestConveyor(ambar, depo);
+                        return conveyor;
                     }
                 }
             }
+            conveyor = FindNearestConveyor(ambar, depo);
+            return conveyor;
         }
+
+
+
+        public static Models.Conveyor FindNearestConveyor(Ambar ambar, Depo depo)
+        {
+            double x = 0;
+            double y = 0;
+            Models.Conveyor conveyor1 = new Conveyor();
+
+            foreach (var depo1 in ambar.depolar)
+            {
+                if (depo1 == depo)
+                {
+                    foreach (var conveyor in ambar.conveyors)
+                    {
+                        if (conveyor.ConveyorReferencePoints.Count > 0)
+                        {
+                            x = GVisual.CalculateDistance(depo1.Rectangle.X, depo.Rectangle.Y, conveyor.Rectangle.X, conveyor.Rectangle.Y);
+
+                            if (x < y || y == 0)
+                            {
+                                y = x;
+                                conveyor1 = conveyor;
+                            }
+                        }
+                    }
+                }
+            }
+            return conveyor1;
+        }
+
 
 
         public static Models.Cell? SearchThroughRightReturnCell(bool isMiddle, bool toUp, Depo depo, Models.Cell CurrentCell)
@@ -1392,6 +1450,5 @@ namespace Balya_Yerleştirme.Utilities
             }
             return null;
         }
-
     }
 }

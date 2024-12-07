@@ -66,6 +66,44 @@
             txt_Item_Agirligi = new Krypton.Toolkit.KryptonTextBox();
             btn_Nesne_Yerlestirme_First_Panel_Kapat = new Krypton.Toolkit.KryptonButton();
             DrawingPanel = new Panel();
+            panel_Islem_Simulasyonu = new Krypton.Toolkit.KryptonPanel();
+            kryptonBorderEdge70 = new Krypton.Toolkit.KryptonBorderEdge();
+            btn_IslemSim_Depo_Out = new Krypton.Toolkit.KryptonButton();
+            kryptonBorderEdge69 = new Krypton.Toolkit.KryptonBorderEdge();
+            listBox_IslemSim_BufferItems = new ListBox();
+            btn_IslemSIm_Balya_Yerlestir = new Krypton.Toolkit.KryptonButton();
+            panel_IslemSIm_Vinc_Balya_Al = new Panel();
+            kryptonWrapLabel11 = new Krypton.Toolkit.KryptonWrapLabel();
+            kryptonBorderEdge68 = new Krypton.Toolkit.KryptonBorderEdge();
+            panel_IslemSim_Conveyor_Info = new Panel();
+            kryptonBorderEdge64 = new Krypton.Toolkit.KryptonBorderEdge();
+            kryptonBorderEdge63 = new Krypton.Toolkit.KryptonBorderEdge();
+            kryptonBorderEdge62 = new Krypton.Toolkit.KryptonBorderEdge();
+            kryptonBorderEdge61 = new Krypton.Toolkit.KryptonBorderEdge();
+            lbl_IslemSim_HedefConveyorZ_Value = new Krypton.Toolkit.KryptonWrapLabel();
+            lbl_IslemSim_HedefConveyorY_Value = new Krypton.Toolkit.KryptonWrapLabel();
+            lbl_IslemSim_HedefConveyorX_Value = new Krypton.Toolkit.KryptonWrapLabel();
+            lbl_IslemSim_HedefConveyorZ = new Krypton.Toolkit.KryptonWrapLabel();
+            lbl_IslemSim_HedefConveyorY = new Krypton.Toolkit.KryptonWrapLabel();
+            lbl_IslemSim_HedefConveyorX = new Krypton.Toolkit.KryptonWrapLabel();
+            lbl_IslemSim_HedefConveyor_Value = new Krypton.Toolkit.KryptonWrapLabel();
+            lbl_IslemSim_HedefConveyor = new Krypton.Toolkit.KryptonWrapLabel();
+            kryptonWrapLabel1 = new Krypton.Toolkit.KryptonWrapLabel();
+            panel_IslemSim_Balya_Beklet = new Panel();
+            kryptonWrapLabel10 = new Krypton.Toolkit.KryptonWrapLabel();
+            btn_IslemSim_Barkod_Oku = new Krypton.Toolkit.KryptonButton();
+            panel_IslemSim_Balya_Hazir = new Panel();
+            kryptonWrapLabel9 = new Krypton.Toolkit.KryptonWrapLabel();
+            btn_IslemSim_Panel_Kapat = new Krypton.Toolkit.KryptonButton();
+            kryptonBorderEdge67 = new Krypton.Toolkit.KryptonBorderEdge();
+            panel_IslemSIm_Balya_Onay = new Panel();
+            kryptonWrapLabel8 = new Krypton.Toolkit.KryptonWrapLabel();
+            panel_IslemSim_Depo_In = new Panel();
+            kryptonWrapLabel5 = new Krypton.Toolkit.KryptonWrapLabel();
+            panel_IslemSim_Depo_Out = new Panel();
+            kryptonWrapLabel7 = new Krypton.Toolkit.KryptonWrapLabel();
+            kryptonBorderEdge65 = new Krypton.Toolkit.KryptonBorderEdge();
+            kryptonBorderEdge66 = new Krypton.Toolkit.KryptonBorderEdge();
             infopanel = new Panel();
             txt_Info_Depo_Value = new Krypton.Toolkit.KryptonWrapLabel();
             kryptonBorderEdge10 = new Krypton.Toolkit.KryptonBorderEdge();
@@ -250,7 +288,7 @@
             lbl_SelectedLayout_Value = new Krypton.Toolkit.KryptonWrapLabel();
             lbl_SelectedLayout = new Krypton.Toolkit.KryptonWrapLabel();
             lbl_SelectedIsletme = new Krypton.Toolkit.KryptonWrapLabel();
-            deneme = new TextBox();
+            btn_Process_Simulation = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)Nesne_Yerlestirme_First_Panel).BeginInit();
             Nesne_Yerlestirme_First_Panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)combo_Tur_Kodu_2_Etiket).BeginInit();
@@ -258,6 +296,15 @@
             ((System.ComponentModel.ISupportInitialize)Nesne_Yerlestirme_Second_Panel).BeginInit();
             Nesne_Yerlestirme_Second_Panel.SuspendLayout();
             DrawingPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)panel_Islem_Simulasyonu).BeginInit();
+            panel_Islem_Simulasyonu.SuspendLayout();
+            panel_IslemSIm_Vinc_Balya_Al.SuspendLayout();
+            panel_IslemSim_Conveyor_Info.SuspendLayout();
+            panel_IslemSim_Balya_Beklet.SuspendLayout();
+            panel_IslemSim_Balya_Hazir.SuspendLayout();
+            panel_IslemSIm_Balya_Onay.SuspendLayout();
+            panel_IslemSim_Depo_In.SuspendLayout();
+            panel_IslemSim_Depo_Out.SuspendLayout();
             infopanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PLC_Sim_Panel).BeginInit();
             PLC_Sim_Panel.SuspendLayout();
@@ -309,7 +356,7 @@
             Nesne_Yerlestirme_First_Panel.Controls.Add(Line_Mal_2);
             Nesne_Yerlestirme_First_Panel.Controls.Add(txt_Item_Agirligi);
             Nesne_Yerlestirme_First_Panel.Controls.Add(btn_Nesne_Yerlestirme_First_Panel_Kapat);
-            Nesne_Yerlestirme_First_Panel.Location = new Point(404, 1019);
+            Nesne_Yerlestirme_First_Panel.Location = new Point(394, 1008);
             Nesne_Yerlestirme_First_Panel.Name = "Nesne_Yerlestirme_First_Panel";
             Nesne_Yerlestirme_First_Panel.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
             Nesne_Yerlestirme_First_Panel.Size = new Size(358, 903);
@@ -763,7 +810,7 @@
             // DrawingPanel
             // 
             DrawingPanel.BackColor = Color.Azure;
-            DrawingPanel.Controls.Add(deneme);
+            DrawingPanel.Controls.Add(panel_Islem_Simulasyonu);
             DrawingPanel.Controls.Add(infopanel);
             DrawingPanel.Location = new Point(12, 91);
             DrawingPanel.Name = "DrawingPanel";
@@ -775,6 +822,480 @@
             DrawingPanel.MouseDown += DrawingPanel_MouseDown;
             DrawingPanel.MouseMove += DrawingPanel_MouseMove;
             DrawingPanel.MouseUp += DrawingPanel_MouseUp;
+            // 
+            // panel_Islem_Simulasyonu
+            // 
+            panel_Islem_Simulasyonu.Controls.Add(kryptonBorderEdge70);
+            panel_Islem_Simulasyonu.Controls.Add(btn_IslemSim_Depo_Out);
+            panel_Islem_Simulasyonu.Controls.Add(kryptonBorderEdge69);
+            panel_Islem_Simulasyonu.Controls.Add(listBox_IslemSim_BufferItems);
+            panel_Islem_Simulasyonu.Controls.Add(btn_IslemSIm_Balya_Yerlestir);
+            panel_Islem_Simulasyonu.Controls.Add(panel_IslemSIm_Vinc_Balya_Al);
+            panel_Islem_Simulasyonu.Controls.Add(kryptonBorderEdge68);
+            panel_Islem_Simulasyonu.Controls.Add(panel_IslemSim_Conveyor_Info);
+            panel_Islem_Simulasyonu.Controls.Add(panel_IslemSim_Balya_Beklet);
+            panel_Islem_Simulasyonu.Controls.Add(btn_IslemSim_Barkod_Oku);
+            panel_Islem_Simulasyonu.Controls.Add(panel_IslemSim_Balya_Hazir);
+            panel_Islem_Simulasyonu.Controls.Add(btn_IslemSim_Panel_Kapat);
+            panel_Islem_Simulasyonu.Controls.Add(kryptonBorderEdge67);
+            panel_Islem_Simulasyonu.Controls.Add(panel_IslemSIm_Balya_Onay);
+            panel_Islem_Simulasyonu.Controls.Add(panel_IslemSim_Depo_In);
+            panel_Islem_Simulasyonu.Controls.Add(panel_IslemSim_Depo_Out);
+            panel_Islem_Simulasyonu.Controls.Add(kryptonBorderEdge65);
+            panel_Islem_Simulasyonu.Controls.Add(kryptonBorderEdge66);
+            panel_Islem_Simulasyonu.Location = new Point(761, 3);
+            panel_Islem_Simulasyonu.Name = "panel_Islem_Simulasyonu";
+            panel_Islem_Simulasyonu.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
+            panel_Islem_Simulasyonu.Size = new Size(358, 903);
+            panel_Islem_Simulasyonu.StateCommon.ColorAlign = Krypton.Toolkit.PaletteRectangleAlign.Local;
+            panel_Islem_Simulasyonu.StateCommon.ColorStyle = Krypton.Toolkit.PaletteColorStyle.SolidInside;
+            panel_Islem_Simulasyonu.TabIndex = 21;
+            // 
+            // kryptonBorderEdge70
+            // 
+            kryptonBorderEdge70.Location = new Point(12, 818);
+            kryptonBorderEdge70.Name = "kryptonBorderEdge70";
+            kryptonBorderEdge70.Size = new Size(334, 1);
+            kryptonBorderEdge70.Text = "kryptonBorderEdge11";
+            // 
+            // btn_IslemSim_Depo_Out
+            // 
+            btn_IslemSim_Depo_Out.CornerRoundingRadius = 20F;
+            btn_IslemSim_Depo_Out.Location = new Point(197, 48);
+            btn_IslemSim_Depo_Out.Name = "btn_IslemSim_Depo_Out";
+            btn_IslemSim_Depo_Out.Size = new Size(134, 58);
+            btn_IslemSim_Depo_Out.StateCommon.Back.ImageStyle = Krypton.Toolkit.PaletteImageStyle.CenterLeft;
+            btn_IslemSim_Depo_Out.StateCommon.Border.Color2 = Color.FromArgb(255, 128, 0);
+            btn_IslemSim_Depo_Out.StateCommon.Border.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
+            btn_IslemSim_Depo_Out.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
+            btn_IslemSim_Depo_Out.StateCommon.Border.Rounding = 20F;
+            btn_IslemSim_Depo_Out.StateCommon.Border.Width = 1;
+            btn_IslemSim_Depo_Out.StateCommon.Content.Image.Effect = Krypton.Toolkit.PaletteImageEffect.Normal;
+            btn_IslemSim_Depo_Out.StateCommon.Content.Image.ImageH = Krypton.Toolkit.PaletteRelativeAlign.Far;
+            btn_IslemSim_Depo_Out.StateCommon.Content.Image.ImageV = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            btn_IslemSim_Depo_Out.StateCommon.Content.Padding = new Padding(-1, -1, -4, -1);
+            btn_IslemSim_Depo_Out.StateCommon.Content.ShortText.Color1 = Color.FromArgb(255, 128, 0);
+            btn_IslemSim_Depo_Out.StateCommon.Content.ShortText.Font = new Font("Sylfaen", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_IslemSim_Depo_Out.StateCommon.Content.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Center;
+            btn_IslemSim_Depo_Out.TabIndex = 62;
+            btn_IslemSim_Depo_Out.Values.Text = "Depo_Out";
+            btn_IslemSim_Depo_Out.Click += btn_IslemSim_Depo_Out_Click;
+            // 
+            // kryptonBorderEdge69
+            // 
+            kryptonBorderEdge69.Location = new Point(12, 576);
+            kryptonBorderEdge69.Name = "kryptonBorderEdge69";
+            kryptonBorderEdge69.Size = new Size(334, 1);
+            kryptonBorderEdge69.Text = "kryptonBorderEdge11";
+            // 
+            // listBox_IslemSim_BufferItems
+            // 
+            listBox_IslemSim_BufferItems.FormattingEnabled = true;
+            listBox_IslemSim_BufferItems.ItemHeight = 15;
+            listBox_IslemSim_BufferItems.Location = new Point(12, 388);
+            listBox_IslemSim_BufferItems.Name = "listBox_IslemSim_BufferItems";
+            listBox_IslemSim_BufferItems.Size = new Size(334, 169);
+            listBox_IslemSim_BufferItems.TabIndex = 62;
+            // 
+            // btn_IslemSIm_Balya_Yerlestir
+            // 
+            btn_IslemSIm_Balya_Yerlestir.CornerRoundingRadius = 20F;
+            btn_IslemSIm_Balya_Yerlestir.Location = new Point(198, 838);
+            btn_IslemSIm_Balya_Yerlestir.Name = "btn_IslemSIm_Balya_Yerlestir";
+            btn_IslemSIm_Balya_Yerlestir.Size = new Size(141, 42);
+            btn_IslemSIm_Balya_Yerlestir.StateCommon.Back.ImageStyle = Krypton.Toolkit.PaletteImageStyle.CenterLeft;
+            btn_IslemSIm_Balya_Yerlestir.StateCommon.Border.Color2 = Color.FromArgb(255, 128, 0);
+            btn_IslemSIm_Balya_Yerlestir.StateCommon.Border.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
+            btn_IslemSIm_Balya_Yerlestir.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
+            btn_IslemSIm_Balya_Yerlestir.StateCommon.Border.Rounding = 20F;
+            btn_IslemSIm_Balya_Yerlestir.StateCommon.Border.Width = 1;
+            btn_IslemSIm_Balya_Yerlestir.StateCommon.Content.Image.Effect = Krypton.Toolkit.PaletteImageEffect.Normal;
+            btn_IslemSIm_Balya_Yerlestir.StateCommon.Content.Image.ImageH = Krypton.Toolkit.PaletteRelativeAlign.Far;
+            btn_IslemSIm_Balya_Yerlestir.StateCommon.Content.Image.ImageV = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            btn_IslemSIm_Balya_Yerlestir.StateCommon.Content.Padding = new Padding(-1, -1, -4, -1);
+            btn_IslemSIm_Balya_Yerlestir.StateCommon.Content.ShortText.Color1 = Color.FromArgb(255, 128, 0);
+            btn_IslemSIm_Balya_Yerlestir.StateCommon.Content.ShortText.Font = new Font("Sylfaen", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_IslemSIm_Balya_Yerlestir.StateCommon.Content.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Center;
+            btn_IslemSIm_Balya_Yerlestir.TabIndex = 73;
+            btn_IslemSIm_Balya_Yerlestir.Values.Text = "Balya \r\nYerlestir";
+            btn_IslemSIm_Balya_Yerlestir.Click += btn_IslemSIm_Balya_Yerlestir_Click;
+            // 
+            // panel_IslemSIm_Vinc_Balya_Al
+            // 
+            panel_IslemSIm_Vinc_Balya_Al.BackColor = SystemColors.GradientInactiveCaption;
+            panel_IslemSIm_Vinc_Balya_Al.Controls.Add(kryptonWrapLabel11);
+            panel_IslemSIm_Vinc_Balya_Al.Location = new Point(20, 838);
+            panel_IslemSIm_Vinc_Balya_Al.Name = "panel_IslemSIm_Vinc_Balya_Al";
+            panel_IslemSIm_Vinc_Balya_Al.Size = new Size(146, 42);
+            panel_IslemSIm_Vinc_Balya_Al.TabIndex = 71;
+            // 
+            // kryptonWrapLabel11
+            // 
+            kryptonWrapLabel11.AutoSize = false;
+            kryptonWrapLabel11.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            kryptonWrapLabel11.ForeColor = Color.FromArgb(0, 0, 64);
+            kryptonWrapLabel11.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            kryptonWrapLabel11.Location = new Point(2, 5);
+            kryptonWrapLabel11.Name = "kryptonWrapLabel11";
+            kryptonWrapLabel11.Size = new Size(143, 33);
+            kryptonWrapLabel11.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            kryptonWrapLabel11.StateCommon.TextColor = Color.FromArgb(0, 0, 64);
+            kryptonWrapLabel11.Text = "Vinc_Balya_Al";
+            kryptonWrapLabel11.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // kryptonBorderEdge68
+            // 
+            kryptonBorderEdge68.Location = new Point(12, 368);
+            kryptonBorderEdge68.Name = "kryptonBorderEdge68";
+            kryptonBorderEdge68.Size = new Size(334, 1);
+            kryptonBorderEdge68.Text = "kryptonBorderEdge11";
+            // 
+            // panel_IslemSim_Conveyor_Info
+            // 
+            panel_IslemSim_Conveyor_Info.Controls.Add(kryptonBorderEdge64);
+            panel_IslemSim_Conveyor_Info.Controls.Add(kryptonBorderEdge63);
+            panel_IslemSim_Conveyor_Info.Controls.Add(kryptonBorderEdge62);
+            panel_IslemSim_Conveyor_Info.Controls.Add(kryptonBorderEdge61);
+            panel_IslemSim_Conveyor_Info.Controls.Add(lbl_IslemSim_HedefConveyorZ_Value);
+            panel_IslemSim_Conveyor_Info.Controls.Add(lbl_IslemSim_HedefConveyorY_Value);
+            panel_IslemSim_Conveyor_Info.Controls.Add(lbl_IslemSim_HedefConveyorX_Value);
+            panel_IslemSim_Conveyor_Info.Controls.Add(lbl_IslemSim_HedefConveyorZ);
+            panel_IslemSim_Conveyor_Info.Controls.Add(lbl_IslemSim_HedefConveyorY);
+            panel_IslemSim_Conveyor_Info.Controls.Add(lbl_IslemSim_HedefConveyorX);
+            panel_IslemSim_Conveyor_Info.Controls.Add(lbl_IslemSim_HedefConveyor_Value);
+            panel_IslemSim_Conveyor_Info.Controls.Add(lbl_IslemSim_HedefConveyor);
+            panel_IslemSim_Conveyor_Info.Controls.Add(kryptonWrapLabel1);
+            panel_IslemSim_Conveyor_Info.Location = new Point(12, 596);
+            panel_IslemSim_Conveyor_Info.Name = "panel_IslemSim_Conveyor_Info";
+            panel_IslemSim_Conveyor_Info.Size = new Size(334, 203);
+            panel_IslemSim_Conveyor_Info.TabIndex = 60;
+            // 
+            // kryptonBorderEdge64
+            // 
+            kryptonBorderEdge64.Location = new Point(39, 160);
+            kryptonBorderEdge64.Name = "kryptonBorderEdge64";
+            kryptonBorderEdge64.Size = new Size(257, 1);
+            kryptonBorderEdge64.Text = "kryptonBorderEdge11";
+            // 
+            // kryptonBorderEdge63
+            // 
+            kryptonBorderEdge63.Location = new Point(39, 120);
+            kryptonBorderEdge63.Name = "kryptonBorderEdge63";
+            kryptonBorderEdge63.Size = new Size(257, 1);
+            kryptonBorderEdge63.Text = "kryptonBorderEdge11";
+            // 
+            // kryptonBorderEdge62
+            // 
+            kryptonBorderEdge62.Location = new Point(39, 80);
+            kryptonBorderEdge62.Name = "kryptonBorderEdge62";
+            kryptonBorderEdge62.Size = new Size(257, 1);
+            kryptonBorderEdge62.Text = "kryptonBorderEdge11";
+            // 
+            // kryptonBorderEdge61
+            // 
+            kryptonBorderEdge61.Location = new Point(39, 40);
+            kryptonBorderEdge61.Name = "kryptonBorderEdge61";
+            kryptonBorderEdge61.Size = new Size(257, 1);
+            kryptonBorderEdge61.Text = "kryptonBorderEdge11";
+            // 
+            // lbl_IslemSim_HedefConveyorZ_Value
+            // 
+            lbl_IslemSim_HedefConveyorZ_Value.AutoSize = false;
+            lbl_IslemSim_HedefConveyorZ_Value.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_IslemSim_HedefConveyorZ_Value.ForeColor = Color.Red;
+            lbl_IslemSim_HedefConveyorZ_Value.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_IslemSim_HedefConveyorZ_Value.Location = new Point(198, 164);
+            lbl_IslemSim_HedefConveyorZ_Value.Name = "lbl_IslemSim_HedefConveyorZ_Value";
+            lbl_IslemSim_HedefConveyorZ_Value.Size = new Size(125, 33);
+            lbl_IslemSim_HedefConveyorZ_Value.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_IslemSim_HedefConveyorZ_Value.StateCommon.TextColor = Color.Red;
+            lbl_IslemSim_HedefConveyorZ_Value.Text = "200";
+            lbl_IslemSim_HedefConveyorZ_Value.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lbl_IslemSim_HedefConveyorY_Value
+            // 
+            lbl_IslemSim_HedefConveyorY_Value.AutoSize = false;
+            lbl_IslemSim_HedefConveyorY_Value.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_IslemSim_HedefConveyorY_Value.ForeColor = Color.Red;
+            lbl_IslemSim_HedefConveyorY_Value.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_IslemSim_HedefConveyorY_Value.Location = new Point(198, 124);
+            lbl_IslemSim_HedefConveyorY_Value.Name = "lbl_IslemSim_HedefConveyorY_Value";
+            lbl_IslemSim_HedefConveyorY_Value.Size = new Size(125, 33);
+            lbl_IslemSim_HedefConveyorY_Value.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_IslemSim_HedefConveyorY_Value.StateCommon.TextColor = Color.Red;
+            lbl_IslemSim_HedefConveyorY_Value.Text = "2000";
+            lbl_IslemSim_HedefConveyorY_Value.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lbl_IslemSim_HedefConveyorX_Value
+            // 
+            lbl_IslemSim_HedefConveyorX_Value.AutoSize = false;
+            lbl_IslemSim_HedefConveyorX_Value.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_IslemSim_HedefConveyorX_Value.ForeColor = Color.Red;
+            lbl_IslemSim_HedefConveyorX_Value.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_IslemSim_HedefConveyorX_Value.Location = new Point(198, 84);
+            lbl_IslemSim_HedefConveyorX_Value.Name = "lbl_IslemSim_HedefConveyorX_Value";
+            lbl_IslemSim_HedefConveyorX_Value.Size = new Size(125, 33);
+            lbl_IslemSim_HedefConveyorX_Value.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_IslemSim_HedefConveyorX_Value.StateCommon.TextColor = Color.Red;
+            lbl_IslemSim_HedefConveyorX_Value.Text = "1500";
+            lbl_IslemSim_HedefConveyorX_Value.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lbl_IslemSim_HedefConveyorZ
+            // 
+            lbl_IslemSim_HedefConveyorZ.AutoSize = false;
+            lbl_IslemSim_HedefConveyorZ.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_IslemSim_HedefConveyorZ.ForeColor = Color.FromArgb(0, 0, 64);
+            lbl_IslemSim_HedefConveyorZ.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_IslemSim_HedefConveyorZ.Location = new Point(12, 164);
+            lbl_IslemSim_HedefConveyorZ.Name = "lbl_IslemSim_HedefConveyorZ";
+            lbl_IslemSim_HedefConveyorZ.Size = new Size(180, 33);
+            lbl_IslemSim_HedefConveyorZ.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_IslemSim_HedefConveyorZ.StateCommon.TextColor = Color.FromArgb(0, 0, 64);
+            lbl_IslemSim_HedefConveyorZ.Text = "Z:";
+            lbl_IslemSim_HedefConveyorZ.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lbl_IslemSim_HedefConveyorY
+            // 
+            lbl_IslemSim_HedefConveyorY.AutoSize = false;
+            lbl_IslemSim_HedefConveyorY.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_IslemSim_HedefConveyorY.ForeColor = Color.FromArgb(0, 0, 64);
+            lbl_IslemSim_HedefConveyorY.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_IslemSim_HedefConveyorY.Location = new Point(12, 124);
+            lbl_IslemSim_HedefConveyorY.Name = "lbl_IslemSim_HedefConveyorY";
+            lbl_IslemSim_HedefConveyorY.Size = new Size(180, 33);
+            lbl_IslemSim_HedefConveyorY.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_IslemSim_HedefConveyorY.StateCommon.TextColor = Color.FromArgb(0, 0, 64);
+            lbl_IslemSim_HedefConveyorY.Text = "Y:";
+            lbl_IslemSim_HedefConveyorY.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lbl_IslemSim_HedefConveyorX
+            // 
+            lbl_IslemSim_HedefConveyorX.AutoSize = false;
+            lbl_IslemSim_HedefConveyorX.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_IslemSim_HedefConveyorX.ForeColor = Color.FromArgb(0, 0, 64);
+            lbl_IslemSim_HedefConveyorX.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_IslemSim_HedefConveyorX.Location = new Point(12, 84);
+            lbl_IslemSim_HedefConveyorX.Name = "lbl_IslemSim_HedefConveyorX";
+            lbl_IslemSim_HedefConveyorX.Size = new Size(180, 33);
+            lbl_IslemSim_HedefConveyorX.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_IslemSim_HedefConveyorX.StateCommon.TextColor = Color.FromArgb(0, 0, 64);
+            lbl_IslemSim_HedefConveyorX.Text = "X:";
+            lbl_IslemSim_HedefConveyorX.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lbl_IslemSim_HedefConveyor_Value
+            // 
+            lbl_IslemSim_HedefConveyor_Value.AutoSize = false;
+            lbl_IslemSim_HedefConveyor_Value.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_IslemSim_HedefConveyor_Value.ForeColor = Color.Red;
+            lbl_IslemSim_HedefConveyor_Value.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_IslemSim_HedefConveyor_Value.Location = new Point(198, 44);
+            lbl_IslemSim_HedefConveyor_Value.Name = "lbl_IslemSim_HedefConveyor_Value";
+            lbl_IslemSim_HedefConveyor_Value.Size = new Size(125, 33);
+            lbl_IslemSim_HedefConveyor_Value.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_IslemSim_HedefConveyor_Value.StateCommon.TextColor = Color.Red;
+            lbl_IslemSim_HedefConveyor_Value.Text = "Konveyor 2";
+            lbl_IslemSim_HedefConveyor_Value.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lbl_IslemSim_HedefConveyor
+            // 
+            lbl_IslemSim_HedefConveyor.AutoSize = false;
+            lbl_IslemSim_HedefConveyor.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_IslemSim_HedefConveyor.ForeColor = Color.FromArgb(0, 0, 64);
+            lbl_IslemSim_HedefConveyor.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_IslemSim_HedefConveyor.Location = new Point(12, 44);
+            lbl_IslemSim_HedefConveyor.Name = "lbl_IslemSim_HedefConveyor";
+            lbl_IslemSim_HedefConveyor.Size = new Size(180, 33);
+            lbl_IslemSim_HedefConveyor.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_IslemSim_HedefConveyor.StateCommon.TextColor = Color.FromArgb(0, 0, 64);
+            lbl_IslemSim_HedefConveyor.Text = "Hedef_Konveyor:";
+            lbl_IslemSim_HedefConveyor.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // kryptonWrapLabel1
+            // 
+            kryptonWrapLabel1.AutoSize = false;
+            kryptonWrapLabel1.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            kryptonWrapLabel1.ForeColor = Color.FromArgb(0, 0, 192);
+            kryptonWrapLabel1.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            kryptonWrapLabel1.Location = new Point(77, 4);
+            kryptonWrapLabel1.Name = "kryptonWrapLabel1";
+            kryptonWrapLabel1.Size = new Size(180, 33);
+            kryptonWrapLabel1.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            kryptonWrapLabel1.StateCommon.TextColor = Color.FromArgb(0, 0, 192);
+            kryptonWrapLabel1.Text = "Konveyor Bilgileri";
+            kryptonWrapLabel1.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // panel_IslemSim_Balya_Beklet
+            // 
+            panel_IslemSim_Balya_Beklet.BackColor = SystemColors.GradientInactiveCaption;
+            panel_IslemSim_Balya_Beklet.Controls.Add(kryptonWrapLabel10);
+            panel_IslemSim_Balya_Beklet.Location = new Point(190, 226);
+            panel_IslemSim_Balya_Beklet.Name = "panel_IslemSim_Balya_Beklet";
+            panel_IslemSim_Balya_Beklet.Size = new Size(140, 42);
+            panel_IslemSim_Balya_Beklet.TabIndex = 72;
+            // 
+            // kryptonWrapLabel10
+            // 
+            kryptonWrapLabel10.AutoSize = false;
+            kryptonWrapLabel10.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            kryptonWrapLabel10.ForeColor = Color.FromArgb(0, 0, 64);
+            kryptonWrapLabel10.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            kryptonWrapLabel10.Location = new Point(3, 5);
+            kryptonWrapLabel10.Name = "kryptonWrapLabel10";
+            kryptonWrapLabel10.Size = new Size(134, 33);
+            kryptonWrapLabel10.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            kryptonWrapLabel10.StateCommon.TextColor = Color.FromArgb(0, 0, 64);
+            kryptonWrapLabel10.Text = "Balya_Beklet";
+            kryptonWrapLabel10.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // btn_IslemSim_Barkod_Oku
+            // 
+            btn_IslemSim_Barkod_Oku.CornerRoundingRadius = 20F;
+            btn_IslemSim_Barkod_Oku.Location = new Point(12, 48);
+            btn_IslemSim_Barkod_Oku.Name = "btn_IslemSim_Barkod_Oku";
+            btn_IslemSim_Barkod_Oku.Size = new Size(134, 58);
+            btn_IslemSim_Barkod_Oku.StateCommon.Back.ImageStyle = Krypton.Toolkit.PaletteImageStyle.CenterLeft;
+            btn_IslemSim_Barkod_Oku.StateCommon.Border.Color2 = Color.FromArgb(255, 128, 0);
+            btn_IslemSim_Barkod_Oku.StateCommon.Border.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
+            btn_IslemSim_Barkod_Oku.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
+            btn_IslemSim_Barkod_Oku.StateCommon.Border.Rounding = 20F;
+            btn_IslemSim_Barkod_Oku.StateCommon.Border.Width = 1;
+            btn_IslemSim_Barkod_Oku.StateCommon.Content.Image.Effect = Krypton.Toolkit.PaletteImageEffect.Normal;
+            btn_IslemSim_Barkod_Oku.StateCommon.Content.Image.ImageH = Krypton.Toolkit.PaletteRelativeAlign.Far;
+            btn_IslemSim_Barkod_Oku.StateCommon.Content.Image.ImageV = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            btn_IslemSim_Barkod_Oku.StateCommon.Content.Padding = new Padding(-1, -1, -4, -1);
+            btn_IslemSim_Barkod_Oku.StateCommon.Content.ShortText.Color1 = Color.FromArgb(255, 128, 0);
+            btn_IslemSim_Barkod_Oku.StateCommon.Content.ShortText.Font = new Font("Sylfaen", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_IslemSim_Barkod_Oku.StateCommon.Content.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Center;
+            btn_IslemSim_Barkod_Oku.TabIndex = 3;
+            btn_IslemSim_Barkod_Oku.Values.Text = "Depo_In";
+            btn_IslemSim_Barkod_Oku.Click += btn_IslemSim_Barkod_Oku_Click;
+            // 
+            // panel_IslemSim_Balya_Hazir
+            // 
+            panel_IslemSim_Balya_Hazir.BackColor = SystemColors.GradientInactiveCaption;
+            panel_IslemSim_Balya_Hazir.Controls.Add(kryptonWrapLabel9);
+            panel_IslemSim_Balya_Hazir.Location = new Point(24, 307);
+            panel_IslemSim_Balya_Hazir.Name = "panel_IslemSim_Balya_Hazir";
+            panel_IslemSim_Balya_Hazir.Size = new Size(140, 42);
+            panel_IslemSim_Balya_Hazir.TabIndex = 70;
+            // 
+            // kryptonWrapLabel9
+            // 
+            kryptonWrapLabel9.AutoSize = false;
+            kryptonWrapLabel9.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            kryptonWrapLabel9.ForeColor = Color.FromArgb(0, 0, 64);
+            kryptonWrapLabel9.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            kryptonWrapLabel9.Location = new Point(3, 5);
+            kryptonWrapLabel9.Name = "kryptonWrapLabel9";
+            kryptonWrapLabel9.Size = new Size(134, 33);
+            kryptonWrapLabel9.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            kryptonWrapLabel9.StateCommon.TextColor = Color.FromArgb(0, 0, 64);
+            kryptonWrapLabel9.Text = "Balya_Hazir";
+            kryptonWrapLabel9.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // btn_IslemSim_Panel_Kapat
+            // 
+            btn_IslemSim_Panel_Kapat.CornerRoundingRadius = 5F;
+            btn_IslemSim_Panel_Kapat.Location = new Point(313, 3);
+            btn_IslemSim_Panel_Kapat.Name = "btn_IslemSim_Panel_Kapat";
+            btn_IslemSim_Panel_Kapat.OverrideFocus.Back.Color1 = Color.FromArgb(128, 255, 255);
+            btn_IslemSim_Panel_Kapat.Size = new Size(42, 39);
+            btn_IslemSim_Panel_Kapat.StateCommon.Back.Image = (Image)resources.GetObject("btn_IslemSim_Panel_Kapat.StateCommon.Back.Image");
+            btn_IslemSim_Panel_Kapat.StateCommon.Back.ImageStyle = Krypton.Toolkit.PaletteImageStyle.Stretch;
+            btn_IslemSim_Panel_Kapat.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
+            btn_IslemSim_Panel_Kapat.StateCommon.Border.Rounding = 5F;
+            btn_IslemSim_Panel_Kapat.TabIndex = 5;
+            btn_IslemSim_Panel_Kapat.Values.Text = "";
+            // 
+            // kryptonBorderEdge67
+            // 
+            kryptonBorderEdge67.Location = new Point(12, 287);
+            kryptonBorderEdge67.Name = "kryptonBorderEdge67";
+            kryptonBorderEdge67.Size = new Size(334, 1);
+            kryptonBorderEdge67.Text = "kryptonBorderEdge11";
+            // 
+            // panel_IslemSIm_Balya_Onay
+            // 
+            panel_IslemSIm_Balya_Onay.BackColor = Color.Lime;
+            panel_IslemSIm_Balya_Onay.Controls.Add(kryptonWrapLabel8);
+            panel_IslemSIm_Balya_Onay.Location = new Point(24, 226);
+            panel_IslemSIm_Balya_Onay.Name = "panel_IslemSIm_Balya_Onay";
+            panel_IslemSIm_Balya_Onay.Size = new Size(140, 42);
+            panel_IslemSIm_Balya_Onay.TabIndex = 69;
+            // 
+            // kryptonWrapLabel8
+            // 
+            kryptonWrapLabel8.AutoSize = false;
+            kryptonWrapLabel8.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            kryptonWrapLabel8.ForeColor = Color.FromArgb(0, 0, 64);
+            kryptonWrapLabel8.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            kryptonWrapLabel8.Location = new Point(3, 5);
+            kryptonWrapLabel8.Name = "kryptonWrapLabel8";
+            kryptonWrapLabel8.Size = new Size(134, 33);
+            kryptonWrapLabel8.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            kryptonWrapLabel8.StateCommon.TextColor = Color.FromArgb(0, 0, 64);
+            kryptonWrapLabel8.Text = "Balya_Onay";
+            kryptonWrapLabel8.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // panel_IslemSim_Depo_In
+            // 
+            panel_IslemSim_Depo_In.BackColor = SystemColors.GradientInactiveCaption;
+            panel_IslemSim_Depo_In.Controls.Add(kryptonWrapLabel5);
+            panel_IslemSim_Depo_In.Location = new Point(24, 145);
+            panel_IslemSim_Depo_In.Name = "panel_IslemSim_Depo_In";
+            panel_IslemSim_Depo_In.Size = new Size(110, 42);
+            panel_IslemSim_Depo_In.TabIndex = 61;
+            // 
+            // kryptonWrapLabel5
+            // 
+            kryptonWrapLabel5.AutoSize = false;
+            kryptonWrapLabel5.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            kryptonWrapLabel5.ForeColor = Color.FromArgb(0, 0, 64);
+            kryptonWrapLabel5.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            kryptonWrapLabel5.Location = new Point(3, 5);
+            kryptonWrapLabel5.Name = "kryptonWrapLabel5";
+            kryptonWrapLabel5.Size = new Size(104, 33);
+            kryptonWrapLabel5.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            kryptonWrapLabel5.StateCommon.TextColor = Color.FromArgb(0, 0, 64);
+            kryptonWrapLabel5.Text = "Depo_In";
+            kryptonWrapLabel5.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // panel_IslemSim_Depo_Out
+            // 
+            panel_IslemSim_Depo_Out.BackColor = SystemColors.GradientInactiveCaption;
+            panel_IslemSim_Depo_Out.Controls.Add(kryptonWrapLabel7);
+            panel_IslemSim_Depo_Out.Location = new Point(220, 145);
+            panel_IslemSim_Depo_Out.Name = "panel_IslemSim_Depo_Out";
+            panel_IslemSim_Depo_Out.Size = new Size(110, 42);
+            panel_IslemSim_Depo_Out.TabIndex = 68;
+            // 
+            // kryptonWrapLabel7
+            // 
+            kryptonWrapLabel7.AutoSize = false;
+            kryptonWrapLabel7.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            kryptonWrapLabel7.ForeColor = Color.FromArgb(0, 0, 64);
+            kryptonWrapLabel7.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            kryptonWrapLabel7.Location = new Point(3, 5);
+            kryptonWrapLabel7.Name = "kryptonWrapLabel7";
+            kryptonWrapLabel7.Size = new Size(104, 33);
+            kryptonWrapLabel7.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            kryptonWrapLabel7.StateCommon.TextColor = Color.FromArgb(0, 0, 64);
+            kryptonWrapLabel7.Text = "Depo_Out";
+            kryptonWrapLabel7.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // kryptonBorderEdge65
+            // 
+            kryptonBorderEdge65.Location = new Point(12, 125);
+            kryptonBorderEdge65.Name = "kryptonBorderEdge65";
+            kryptonBorderEdge65.Size = new Size(334, 1);
+            kryptonBorderEdge65.Text = "kryptonBorderEdge11";
+            // 
+            // kryptonBorderEdge66
+            // 
+            kryptonBorderEdge66.Location = new Point(12, 206);
+            kryptonBorderEdge66.Name = "kryptonBorderEdge66";
+            kryptonBorderEdge66.Size = new Size(334, 1);
+            kryptonBorderEdge66.Text = "kryptonBorderEdge11";
             // 
             // infopanel
             // 
@@ -2385,7 +2906,7 @@
             // 
             ProgressBarPanel.Controls.Add(ProgressBar_Title);
             ProgressBarPanel.Controls.Add(progressBar);
-            ProgressBarPanel.Location = new Point(1423, 8);
+            ProgressBarPanel.Location = new Point(1301, 6);
             ProgressBarPanel.Name = "ProgressBarPanel";
             ProgressBarPanel.Size = new Size(189, 73);
             ProgressBarPanel.TabIndex = 20;
@@ -3053,12 +3574,27 @@
             lbl_SelectedIsletme.Text = "SEÇİLEN İŞLETME:";
             lbl_SelectedIsletme.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // deneme
+            // btn_Process_Simulation
             // 
-            deneme.Location = new Point(192, 3);
-            deneme.Name = "deneme";
-            deneme.Size = new Size(100, 23);
-            deneme.TabIndex = 20;
+            btn_Process_Simulation.CornerRoundingRadius = 20F;
+            btn_Process_Simulation.Location = new Point(1492, 4);
+            btn_Process_Simulation.Name = "btn_Process_Simulation";
+            btn_Process_Simulation.Size = new Size(121, 81);
+            btn_Process_Simulation.StateCommon.Back.ImageStyle = Krypton.Toolkit.PaletteImageStyle.CenterLeft;
+            btn_Process_Simulation.StateCommon.Border.Color2 = Color.FromArgb(128, 128, 255);
+            btn_Process_Simulation.StateCommon.Border.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
+            btn_Process_Simulation.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
+            btn_Process_Simulation.StateCommon.Border.Rounding = 20F;
+            btn_Process_Simulation.StateCommon.Border.Width = 1;
+            btn_Process_Simulation.StateCommon.Content.Image.Effect = Krypton.Toolkit.PaletteImageEffect.Normal;
+            btn_Process_Simulation.StateCommon.Content.Image.ImageH = Krypton.Toolkit.PaletteRelativeAlign.Far;
+            btn_Process_Simulation.StateCommon.Content.Image.ImageV = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            btn_Process_Simulation.StateCommon.Content.ShortText.Color1 = Color.FromArgb(128, 128, 255);
+            btn_Process_Simulation.StateCommon.Content.ShortText.Font = new Font("Sylfaen", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_Process_Simulation.StateCommon.Content.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Center;
+            btn_Process_Simulation.TabIndex = 21;
+            btn_Process_Simulation.Values.Text = "İşlem\r\nSim.";
+            btn_Process_Simulation.Click += btn_Process_Simulation_Click;
             // 
             // MainForm
             // 
@@ -3067,12 +3603,13 @@
             BackColor = Color.LightGray;
             ClientSize = new Size(1904, 1041);
             Controls.Add(Nesne_Yerlestirme_First_Panel);
+            Controls.Add(PLC_DB_AdressPanel);
+            Controls.Add(btn_Process_Simulation);
             Controls.Add(IsletmeInfoPanel);
             Controls.Add(DepoInfoPanel);
             Controls.Add(PLC_Sim_Panel);
             Controls.Add(leftLayoutPanel);
             Controls.Add(Nesne_Al_First_Panel);
-            Controls.Add(PLC_DB_AdressPanel);
             Controls.Add(rightLayoutPanel);
             Controls.Add(btn_PLC_Barkod_Oku);
             Controls.Add(PLC_Connection_Panel);
@@ -3093,7 +3630,17 @@
             Nesne_Yerlestirme_Second_Panel.ResumeLayout(false);
             Nesne_Yerlestirme_Second_Panel.PerformLayout();
             DrawingPanel.ResumeLayout(false);
-            DrawingPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)panel_Islem_Simulasyonu).EndInit();
+            panel_Islem_Simulasyonu.ResumeLayout(false);
+            panel_Islem_Simulasyonu.PerformLayout();
+            panel_IslemSIm_Vinc_Balya_Al.ResumeLayout(false);
+            panel_IslemSim_Conveyor_Info.ResumeLayout(false);
+            panel_IslemSim_Conveyor_Info.PerformLayout();
+            panel_IslemSim_Balya_Beklet.ResumeLayout(false);
+            panel_IslemSim_Balya_Hazir.ResumeLayout(false);
+            panel_IslemSIm_Balya_Onay.ResumeLayout(false);
+            panel_IslemSim_Depo_In.ResumeLayout(false);
+            panel_IslemSim_Depo_Out.ResumeLayout(false);
             infopanel.ResumeLayout(false);
             infopanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)PLC_Sim_Panel).EndInit();
@@ -3227,7 +3774,6 @@
         public Krypton.Toolkit.KryptonWrapLabel lbl_Nesne_Yerlestir_Info_Z;
         public Krypton.Toolkit.KryptonWrapLabel lbl_Nesne_Yerlestir_Info_Y;
         public Krypton.Toolkit.KryptonWrapLabel lbl_Nesne_Yerlestir_Info_X;
-        public Krypton.Toolkit.KryptonTextBox kryptonTextBox4;
         public Krypton.Toolkit.KryptonWrapLabel lbl_DepoInfoMenu_DepoDescription_Value;
         public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge26;
         public Krypton.Toolkit.KryptonWrapLabel lbl_DepoInfoMenu_DepoName_Value;
@@ -3235,10 +3781,8 @@
         public Krypton.Toolkit.KryptonWrapLabel lbl_DepoInfoMenu_DepoItemKindSecondary_Value;
         public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge27;
         public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge28;
-        public Krypton.Toolkit.KryptonTextBox kryptonTextBox5;
         public Krypton.Toolkit.KryptonButton btn_Nesne_Yerlestir_Vazgec;
         public Krypton.Toolkit.KryptonButton btn_Nesne_Yerlestir;
-        public Krypton.Toolkit.KryptonTextBox kryptonTextBox6;
         public Krypton.Toolkit.KryptonWrapLabel lbl_Nesne_Yerlestir_Title;
         public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge29;
         public Krypton.Toolkit.KryptonWrapLabel lbl_Item_Aciklamasi;
@@ -3359,6 +3903,44 @@
         public Krypton.Toolkit.KryptonWrapLabel lbl_SelectedLayout_Value;
         private Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge60;
         private ToolStripButton toolStripButton2;
-        private TextBox deneme;
+        public Krypton.Toolkit.KryptonButton btn_Process_Simulation;
+        public Krypton.Toolkit.KryptonPanel panel_Islem_Simulasyonu;
+        public Krypton.Toolkit.KryptonWrapLabel kryptonWrapLabel5;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge65;
+        public Krypton.Toolkit.KryptonButton btn_IslemSim_Barkod_Oku;
+        public Krypton.Toolkit.KryptonButton btn_IslemSim_Panel_Kapat;
+        private Panel panel_IslemSim_Conveyor_Info;
+        public Krypton.Toolkit.KryptonWrapLabel lbl_IslemSim_HedefConveyorZ_Value;
+        public Krypton.Toolkit.KryptonWrapLabel lbl_IslemSim_HedefConveyorY_Value;
+        public Krypton.Toolkit.KryptonWrapLabel lbl_IslemSim_HedefConveyorX_Value;
+        public Krypton.Toolkit.KryptonWrapLabel lbl_IslemSim_HedefConveyorZ;
+        public Krypton.Toolkit.KryptonWrapLabel lbl_IslemSim_HedefConveyorY;
+        public Krypton.Toolkit.KryptonWrapLabel lbl_IslemSim_HedefConveyorX;
+        public Krypton.Toolkit.KryptonWrapLabel lbl_IslemSim_HedefConveyor_Value;
+        public Krypton.Toolkit.KryptonWrapLabel lbl_IslemSim_HedefConveyor;
+        public Krypton.Toolkit.KryptonWrapLabel kryptonWrapLabel1;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge64;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge63;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge62;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge61;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge66;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge67;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge68;
+        private Panel panel_IslemSim_Depo_Out;
+        public Krypton.Toolkit.KryptonWrapLabel kryptonWrapLabel7;
+        private Panel panel_IslemSim_Depo_In;
+        private Panel panel_IslemSim_Balya_Hazir;
+        public Krypton.Toolkit.KryptonWrapLabel kryptonWrapLabel9;
+        private Panel panel_IslemSIm_Balya_Onay;
+        public Krypton.Toolkit.KryptonWrapLabel kryptonWrapLabel8;
+        private Panel panel_IslemSIm_Vinc_Balya_Al;
+        public Krypton.Toolkit.KryptonWrapLabel kryptonWrapLabel11;
+        private Panel panel_IslemSim_Balya_Beklet;
+        public Krypton.Toolkit.KryptonWrapLabel kryptonWrapLabel10;
+        public Krypton.Toolkit.KryptonButton btn_IslemSIm_Balya_Yerlestir;
+        public Krypton.Toolkit.KryptonButton btn_IslemSim_Depo_Out;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge69;
+        private ListBox listBox_IslemSim_BufferItems;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge70;
     }
 }
