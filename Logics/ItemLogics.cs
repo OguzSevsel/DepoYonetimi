@@ -27,7 +27,8 @@ namespace Balya_Yerleştirme.Models
         MainForm Main { get; set; }
         [NotMapped]
         List<ItemReferencePoint> ReferencePoints { get; set; }
-        
+        [NotMapped]
+        public Models.Cell Parent { get; set; }
 
         public Item(float x, float y, float width, float height, float zoomlevel, MainForm main)
         {

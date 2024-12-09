@@ -1000,14 +1000,14 @@ namespace Balya_Yerleştirme.Utilities
                     {
                         depo.currentColumn = addedCell.Column;
                         depo.currentRow = addedCell.Row;
-                        conveyor = FindNearestConveyor(ambar, depo);
+                        conveyor = FindNearestConveyor(ambar, addedCell);
                         return conveyor;
                     }
                     else if (addedCell.items.Count == 0)
                     {
                         depo.currentColumn = addedCell.Column;
                         depo.currentRow = addedCell.Row;
-                        conveyor = FindNearestConveyor(ambar, depo);
+                        conveyor = FindNearestConveyor(ambar, addedCell);
                         return conveyor;
                     }
                 }
@@ -1021,12 +1021,11 @@ namespace Balya_Yerleştirme.Utilities
                     {
                         depo.currentColumn = addedCell.Column;
                         depo.currentRow = addedCell.Row;
-                        conveyor = FindNearestConveyor(ambar, depo);
+                        conveyor = FindNearestConveyor(ambar, addedCell);
                         return conveyor;
                     }
                 }
             }
-            conveyor = FindNearestConveyor(ambar, depo);
             return conveyor;
         }
         public static Conveyor SearchThroughLeft(bool isMiddle, bool toUp, Depo depo, Ambar ambar)
@@ -1124,14 +1123,14 @@ namespace Balya_Yerleştirme.Utilities
                     {
                         depo.currentColumn = addedCell.Column;
                         depo.currentRow = addedCell.Row;
-                        conveyor = FindNearestConveyor(ambar, depo);
+                        conveyor = FindNearestConveyor(ambar, addedCell);
                         return conveyor;
                     }
                     else if (addedCell.items.Count == 0)
                     {
                         depo.currentColumn = addedCell.Column;
                         depo.currentRow = addedCell.Row;
-                        conveyor = FindNearestConveyor(ambar, depo);
+                        conveyor = FindNearestConveyor(ambar, addedCell);
                         return conveyor;
                     }
                 }
@@ -1145,18 +1144,17 @@ namespace Balya_Yerleştirme.Utilities
                     {
                         depo.currentColumn = addedCell.Column;
                         depo.currentRow = addedCell.Row;
-                        conveyor = FindNearestConveyor(ambar, depo);
+                        conveyor = FindNearestConveyor(ambar, addedCell);
                         return conveyor;
                     }
                 }
             }
-            conveyor = FindNearestConveyor(ambar, depo);
             return conveyor;
         }
 
 
 
-        public static Models.Conveyor FindNearestConveyor(Ambar ambar, Depo depo)
+        public static Models.Conveyor FindNearestConveyor(Ambar ambar, Models.Cell cell)
         {
             double x = 0;
             double y = 0;
@@ -1164,18 +1162,25 @@ namespace Balya_Yerleştirme.Utilities
 
             foreach (var depo1 in ambar.depolar)
             {
-                if (depo1 == depo)
+                foreach (var cell1 in depo1.gridmaps)
                 {
-                    foreach (var conveyor in ambar.conveyors)
+                    if (cell1 == cell)
                     {
-                        if (conveyor.ConveyorReferencePoints.Count > 0)
+                        foreach (var conveyor in ambar.conveyors)
                         {
-                            x = GVisual.CalculateDistance(depo1.Rectangle.X, depo.Rectangle.Y, conveyor.Rectangle.X, conveyor.Rectangle.Y);
-
-                            if (x < y || y == 0)
+                            if (conveyor.ConveyorReferencePoints.Count == 1)
                             {
-                                y = x;
-                                conveyor1 = conveyor;
+                                foreach (var reff in conveyor.ConveyorReferencePoints)
+                                {
+                                    x = GVisual.CalculateDistance(cell1.Rectangle.X + cell1.Rectangle.Width / 2, cell1.Rectangle.Y + cell1.Rectangle.Height / 2, reff.Rectangle.X + reff.Rectangle.Width / 2,
+                                            reff.Rectangle.Y + reff.Rectangle.Height / 2);
+
+                                    if (x < y || y == 0)
+                                    {
+                                        y = x;
+                                        conveyor1 = conveyor;
+                                    }
+                                }
                             }
                         }
                     }

@@ -32,6 +32,9 @@ using System;
 using System.Net.Sockets;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using ClosedXML;
+using Cognex.DataMan.SDK.Utils;
+using Cognex.DataMan.SDK.Discovery;
+using System.Xml;
 
 
 
@@ -62,6 +65,19 @@ namespace Balya_Yerleştirme
 
 
         #endregion
+
+        #region Barcode Reader Variables
+        public DataManSystem? _system { get; set; } = null;
+        public ResultCollector? _resultCollector { get; set; } = null;
+        private EthSystemDiscoverer? _ethSystemDiscoverer { get; set; } = null;
+        private SerSystemDiscoverer? _serSystemDiscoverer { get; set; } = null;
+        private ISystemConnector? _connector { get; set; } = null;
+
+        private SynchronizationContext? _syncContext = null;
+
+        private object _listAddItemLock = new object();
+        #endregion
+
 
 
         public Ambar? ambar { get; set; }
@@ -155,6 +171,8 @@ namespace Balya_Yerleştirme
             DrawingPanel.MouseWheel += DrawingPanel_MouseWheel;
             PanelSize = new Size(DrawingPanel.ClientRectangle.Width, DrawingPanel.ClientRectangle.Height);
             btn_PLC_ConnectionPanel_Kapat_Click(this, EventArgs.Empty);
+            BufferItems = new List<Models.Item>();
+            _syncContext = WindowsFormsSynchronizationContext.Current;
         }
 
 
@@ -522,12 +540,17 @@ namespace Balya_Yerleştirme
         public Depo? GetDepotoPlaceItem(string item_turu, string item_turu_secondary)
         {
             List<int> Q = new List<int>();
+            item_turu = item_turu.TrimEnd();
+            string[] strings = item_turu.Split('/');
+            item_turu = (from x in strings
+                         where !x.Contains('/')
+                         select x).FirstOrDefault();
+
             if (ambar != null)
             {
                 foreach (var depo in ambar.depolar)
                 {
                     string depo_stage = CheckDepoStage(depo);
-
                     if (depo.ItemTuru == item_turu && depo.ItemTuruSecondary == item_turu_secondary && (depo.currentStage == 1 || depo.currentStage == 2))
                     {
                         if (depo_stage != "full")
@@ -3486,6 +3509,7 @@ namespace Balya_Yerleştirme
             GVisual.HideControl(rightLayoutPanel, this);
             GVisual.HideControl(leftLayoutPanel, this);
             GVisual.HideControl(DepoInfoPanel, this);
+            GVisual.HideControl(panel_Islem_Simulasyonu, this);
             GVisual.HideControl(PLC_Sim_Nesne_Buttons_Panel, PLC_Sim_Panel);
             GVisual.HideControl(PLC_Sim_YerSoyle_Panel, PLC_Sim_Panel);
             GVisual.HideControl(PLC_Sim_Yerlestiriliyor_Panel, PLC_Sim_Panel);
@@ -4185,22 +4209,45 @@ namespace Balya_Yerleştirme
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
+            MainPanelOpenLeftSide(leftLayoutPanel, this, leftSidePanelLocation, panel_Barcode);
 
+            _ethSystemDiscoverer = new EthSystemDiscoverer();
+            _serSystemDiscoverer = new SerSystemDiscoverer();
+
+            // Subscribe to the system discoved event.
+            _ethSystemDiscoverer.SystemDiscovered += new EthSystemDiscoverer.SystemDiscoveredHandler(OnEthSystemDiscovered);
+            _serSystemDiscoverer.SystemDiscovered += new SerSystemDiscoverer.SystemDiscoveredHandler(OnSerSystemDiscovered);
+
+            // Ask the discoverers to start discovering systems.
+            _ethSystemDiscoverer.Discover();
+            _serSystemDiscoverer.Discover();
         }
 
+        private void OnSerSystemDiscovered(SerSystemDiscoverer.SystemInfo systemInfo)
+        {
+            _syncContext.Post(
+                new SendOrPostCallback(
+                    delegate
+                    {
+                        listBox_Barcodes.Items.Add(systemInfo);
+                    }),
+                    null);
+        }
 
-
-
-
-
-
-
-
-
+        private void OnEthSystemDiscovered(EthSystemDiscoverer.SystemInfo systemInfo)
+        {
+            _syncContext.Post(
+                new SendOrPostCallback(
+                    delegate
+                    {
+                        listBox_Barcodes.Items.Add(systemInfo);
+                    }),
+                    null);
+        }
 
         private void btn_Process_Simulation_Click(object sender, EventArgs e)
         {
-
+            MainPanelOpenRightSide(rightLayoutPanel, this, rightSidePanelLocation, panel_Islem_Simulasyonu);
         }
         public Models.Item? ReturnItem(Ambar ambar, Models.Cell? cell1, string item_etiketi, string item_aciklamasi,
             float item_agirligi)
@@ -4230,6 +4277,7 @@ namespace Balya_Yerleştirme
                 newItem.OriginalKareEni = newItem.OriginalRectangle.Width;
                 newItem.OriginalKareBoyu = newItem.OriginalRectangle.Height;
                 newItem.ItemYuksekligi = cell1.NesneYuksekligi;
+                newItem.Parent = cell1;
                 newItem.ItemTuru = "Nesne";
 
 
@@ -4254,25 +4302,25 @@ namespace Balya_Yerleştirme
 
                 cell1.toplam_Nesne_Yuksekligi = cell1.NesneYuksekligi * cell1.items.Count;
 
-                using (var context = new DBContext())
-                {
-                    Models.Item Dbitem = new Models.Item(cell1.CellId, newItem.ItemEtiketi,
-                    newItem.ItemTuru, newItem.ItemEni, newItem.ItemBoyu, newItem.ItemYuksekligi,
-                    newItem.Rectangle.X, newItem.Rectangle.Y, newItem.Rectangle.Width, newItem.Rectangle.Height,
-                    newItem.OriginalRectangle.X, newItem.OriginalRectangle.Y, newItem.OriginalRectangle.Width,
-                    newItem.OriginalRectangle.Height, newItem.Zoomlevel, newItem.ItemAgirligi, newItem.ItemAciklamasi,
-                    newItem.Cm_X_Axis, newItem.Cm_Y_Axis, newItem.Cm_Z_Axis);
+                //using (var context = new DBContext())
+                //{
+                //    Models.Item Dbitem = new Models.Item(cell1.CellId, newItem.ItemEtiketi,
+                //    newItem.ItemTuru, newItem.ItemEni, newItem.ItemBoyu, newItem.ItemYuksekligi,
+                //    newItem.Rectangle.X, newItem.Rectangle.Y, newItem.Rectangle.Width, newItem.Rectangle.Height,
+                //    newItem.OriginalRectangle.X, newItem.OriginalRectangle.Y, newItem.OriginalRectangle.Width,
+                //    newItem.OriginalRectangle.Height, newItem.Zoomlevel, newItem.ItemAgirligi, newItem.ItemAciklamasi,
+                //    newItem.Cm_X_Axis, newItem.Cm_Y_Axis, newItem.Cm_Z_Axis);
 
-                    context.Items.Add(Dbitem);
-                    context.SaveChanges();
-                    newItem.ItemId = Dbitem.ItemId;
-                }
+                //    context.Items.Add(Dbitem);
+                //    context.SaveChanges();
+                //    newItem.ItemId = Dbitem.ItemId;
+                //}
 
                 return newItem;
             }
             return null;
         }
-        public (Conveyor,Models.Item) ReturnItemConveyor(Depo depo, string item_etiketi, string item_aciklamasi, float item_agirligi, Ambar ambar)
+        public (Conveyor, Models.Item) ReturnItemConveyor(Depo depo, string item_etiketi, string item_aciklamasi, float item_agirligi, Ambar ambar)
         {
             bool isStageChanged = CheckifDepoStageChanged(depo);
             string param = CheckDepoParameters(depo);
@@ -4389,9 +4437,196 @@ namespace Balya_Yerleştirme
 
         private void btn_IslemSim_Barkod_Oku_Click(object sender, EventArgs e)
         {
+            try
+            {
+                _system.SendCommand("TRIGGER ON");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to send TRIGGER ON command: " + ex.ToString());
+            }
+        }
+
+        private void ChangeConveyorPanelInfo(Conveyor conveyor)
+        {
+            if (conveyor.ConveyorReferencePoints.Count == 1)
+            {
+                foreach (var reff in conveyor.ConveyorReferencePoints)
+                {
+                    hedefConveyor = conveyor;
+                    var reffcm = ConvertRectanglesLocationtoCMInsideParentRectangle(reff.Rectangle, ambar.Rectangle, ambar.AmbarEni, ambar.AmbarBoyu, true);
+                    hedefConveyorX = reffcm.Item1;
+                    hedefConveyorY = reffcm.Item2;
+                    hedefConveyorZ = 100;
+                    lbl_IslemSim_HedefConveyorX_Value.Text = $"{hedefConveyorX}";
+                    lbl_IslemSim_HedefConveyorY_Value.Text = $"{hedefConveyorY}";
+                    lbl_IslemSim_HedefConveyorZ_Value.Text = $"{hedefConveyorZ}";
+                    lbl_IslemSim_HedefConveyor_Value.Text = $"Conveyor {hedefConveyor.ConveyorId}";
+                }
+            }
+        }
+        private void MakePanelBG_Green_Red(Panel panel, bool isYellow)
+        {
+            if (isYellow)
+            {
+                panel.BackColor = System.Drawing.Color.Lime;
+            }
+            else
+            {
+                panel.BackColor = System.Drawing.Color.Red;
+            }
+        }
+
+        private void BalyaOnayUIState()
+        {
+            MakePanelBG_Green_Red(panel_IslemSIm_Balya_Onay, true);
+            MakePanelBG_Green_Red(panel_IslemSim_Balya_Hazir, true);
+            MakePanelBG_Green_Red(panel_IslemSim_Depo_In, true);
+            MakePanelBG_Green_Red(panel_IslemSim_Depo_Out, false);
+            MakePanelBG_Green_Red(panel_IslemSim_Balya_Beklet, false);
+            MakePanelBG_Green_Red(panel_IslemSIm_Vinc_Balya_Al, false);
+        }
+
+        private void BalyaYerlestirUI()
+        {
+            MakePanelBG_Green_Red(panel_IslemSIm_Balya_Onay, false);
+            MakePanelBG_Green_Red(panel_IslemSim_Balya_Hazir, false);
+            MakePanelBG_Green_Red(panel_IslemSim_Depo_In, false);
+            MakePanelBG_Green_Red(panel_IslemSim_Depo_Out, false);
+            MakePanelBG_Green_Red(panel_IslemSim_Balya_Beklet, false);
+            MakePanelBG_Green_Red(panel_IslemSIm_Vinc_Balya_Al, true);
+        }
+
+
+        private void btn_IslemSIm_Balya_Yerlestir_Click(object sender, EventArgs e)
+        {
+            Models.Item deleteItem = new Models.Item();
+            foreach (var item in BufferItems)
+            {
+                if (item == BufferItems.Last())
+                {
+                    deleteItem = item;
+                    item.Parent.items.Add(item);
+                    DrawingPanel.Invalidate();
+                }
+            }
+            BufferItems.Remove(deleteItem);
+            listBox_IslemSim_BufferItems.Items.Remove(deleteItem.ItemEtiketi);
+            BalyaYerlestirUI();
+        }
+
+
+
+
+
+
+
+
+        private void btn_IslemSim_Depo_Out_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_Barcode_Connect_Click(object sender, EventArgs e)
+        {
+            if (listBox_Barcodes.SelectedIndex == -1 || listBox_Barcodes.SelectedIndex >= listBox_Barcodes.Items.Count)
+                return;
+
+            try
+            {
+                var system_info = listBox_Barcodes.Items[listBox_Barcodes.SelectedIndex];
+
+                if (system_info is EthSystemDiscoverer.SystemInfo)
+                {
+                    EthSystemDiscoverer.SystemInfo eth_system_info = system_info as EthSystemDiscoverer.SystemInfo;
+                    EthSystemConnector conn = new EthSystemConnector(eth_system_info.IPAddress, eth_system_info.Port);
+
+                    conn.UserName = "admin";
+                    conn.Password = "";
+
+                    _connector = conn;
+                }
+                else if (system_info is SerSystemDiscoverer.SystemInfo)
+                {
+                    SerSystemDiscoverer.SystemInfo ser_system_info = system_info as SerSystemDiscoverer.SystemInfo;
+                    SerSystemConnector conn = new SerSystemConnector(ser_system_info.PortName, ser_system_info.Baudrate);
+
+                    _connector = conn;
+                }
+
+                //_logger.Enabled = cbLoggingEnabled.Checked;
+                //_connector.Logger = _logger;
+
+                _system = new DataManSystem(_connector);
+                _system.DefaultTimeout = 5000;
+
+                // Subscribe to events that are signalled when the system is connected / disconnected.
+                _system.SystemConnected += new SystemConnectedHandler(OnSystemConnected);
+                _system.SystemDisconnected += new SystemDisconnectedHandler(OnSystemDisconnected);
+                _system.SystemWentOnline += new SystemWentOnlineHandler(OnSystemWentOnline);
+                _system.SystemWentOffline += new SystemWentOfflineHandler(OnSystemWentOffline);
+                _system.KeepAliveResponseMissed += new KeepAliveResponseMissedHandler(OnKeepAliveResponseMissed);
+                _system.BinaryDataTransferProgress += new BinaryDataTransferProgressHandler(OnBinaryDataTransferProgress);
+                _system.OffProtocolByteReceived += new OffProtocolByteReceivedHandler(OffProtocolByteReceived);
+                _system.AutomaticResponseArrived += new AutomaticResponseArrivedHandler(AutomaticResponseArrived);
+
+                // Subscribe to events that are signalled when the device sends auto-responses.
+                ResultTypes requested_result_types = ResultTypes.ReadXml | ResultTypes.Image | ResultTypes.ImageGraphics;
+                _resultCollector = new ResultCollector(_system, requested_result_types);
+                _resultCollector.ComplexResultCompleted += Results_ComplexResultCompleted;
+                _resultCollector.SimpleResultDropped += Results_SimpleResultDropped;
+
+                _system.Connect();
+
+                try
+                {
+                    _system.SetResultTypes(requested_result_types);
+                }
+                catch
+                { }
+
+                
+            }
+            catch (Exception ex)
+            {
+                CleanupConnection();
+
+                //AddListItem("Failed to connect: " + ex.ToString());
+            }
+        }
+
+        private void Results_SimpleResultDropped(object sender, SimpleResult e)
+        {
+            _syncContext.Post(
+                delegate
+                {
+                    ReportDroppedResult(e);
+                },
+                null);
+        }
+        private void Results_ComplexResultCompleted(object sender, ComplexResult e)
+        {
+            _syncContext.Post(
+                delegate
+                {
+                    ReportDroppedComplexResult(e);
+                },
+                null);
+        }
+        private void ReportDroppedResult(SimpleResult result)
+        {
+            AddListItem(string.Format("Partial result dropped: {0}, id={1}", result.Id.Type.ToString(), result.Id.Id));
+
+            string read = GetReadStringFromResultXml(result.GetDataAsString());
+            lbl_Barcode_Connection_Info.Text = $"{read}";
+
             BalyaOnayUIState();
-            item_turu = "depo";
-            item_turu_secondary = "depo";
+
+            string[] strings = read.Split('|');
+            item_turu = strings[0];
+            item_turu_secondary = strings[1];
+            item_etiketi = strings[2];
+            item_agirligi = float.Parse(strings[3]);
 
             if (ambar != null)
             {
@@ -4416,66 +4651,134 @@ namespace Balya_Yerleştirme
                 }
             }
         }
-
-        private void ChangeConveyorPanelInfo(Conveyor conveyor)
+        private void ReportDroppedComplexResult(ComplexResult result)
         {
-            if (conveyor.ConveyorReferencePoints.Count == 1)
+            AddListItem(result.SimpleResults);
+            lbl_Barcode_Connection_Info.Text = $"Complex {result.SimpleResults}";
+        }
+        private void AddListItem(object item)
+        {
+            lock (_listAddItemLock)
             {
-                foreach (var reff in conveyor.ConveyorReferencePoints)
+                listBox1.Items.Add(item);
+
+                if (listBox1.Items.Count > 500)
+                    listBox1.Items.RemoveAt(0);
+
+                if (listBox1.Items.Count > 0)
+                    listBox1.SelectedIndex = listBox1.Items.Count - 1;
+            }
+        }
+
+        private string GetReadStringFromResultXml(string resultXml)
+        {
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+
+                doc.LoadXml(resultXml);
+
+                XmlNode full_string_node = doc.SelectSingleNode("result/general/full_string");
+
+                if (full_string_node != null && _system != null && _system.State == ConnectionState.Connected)
                 {
-                    hedefConveyor = conveyor;
-                    hedefConveyorX = reff.OriginalLocationInsideParentX;
-                    hedefConveyorY = reff.OriginalLocationInsideParentY;
-                    hedefConveyorZ = 100;
-                    lbl_IslemSim_HedefConveyorX_Value.Text = $"{hedefConveyorX}";
-                    lbl_IslemSim_HedefConveyorY_Value.Text = $"{hedefConveyorY}";
-                    lbl_IslemSim_HedefConveyorZ_Value.Text = $"{hedefConveyorZ}";
-                    lbl_IslemSim_HedefConveyor_Value.Text = $"Conveyor {hedefConveyor.ConveyorId}";
+                    XmlAttribute encoding = full_string_node.Attributes["encoding"];
+                    if (encoding != null && encoding.InnerText == "base64")
+                    {
+                        if (!string.IsNullOrEmpty(full_string_node.InnerText))
+                        {
+                            byte[] code = Convert.FromBase64String(full_string_node.InnerText);
+                            return _system.Encoding.GetString(code, 0, code.Length);
+                        }
+                        else
+                        {
+                            return "";
+                        }
+                    }
+
+                    return full_string_node.InnerText;
                 }
             }
-        }
-        private void MakePanelBGYelloworRed(Panel panel, bool isYellow)
-        {
-            if (isYellow)
+            catch
             {
-                panel.BackColor = System.Drawing.Color.Lime;
             }
-            else
+
+            return "";
+        }
+
+
+
+        private void AutomaticResponseArrived(object sender, AutomaticResponseArrivedEventArgs args)
+        {
+            
+        }
+
+        private void OffProtocolByteReceived(object sender, OffProtocolByteReceivedEventArgs args)
+        {
+            
+        }
+
+        private void OnBinaryDataTransferProgress(object sender, BinaryDataTransferProgressEventArgs args)
+        {
+            
+        }
+
+        private void OnKeepAliveResponseMissed(object sender, EventArgs args)
+        {
+            
+        }
+
+        private void OnSystemWentOffline(object sender, EventArgs args)
+        {
+            
+        }
+
+        private void OnSystemWentOnline(object sender, EventArgs args)
+        {
+            
+        }
+
+        private void OnSystemDisconnected(object sender, EventArgs args)
+        {
+            btn_Barcode_Connect.StateCommon.Content.ShortText.Color1 = System.Drawing.Color.Red;
+            btn_Barcode_Connect.StateCommon.Border.Color1 = System.Drawing.Color.Red;
+            btn_Barcode_Connect.StateCommon.Border.Color2 = System.Drawing.Color.Red;
+        }
+
+        private void OnSystemConnected(object sender, EventArgs args)
+        {
+            btn_Barcode_Connect.StateCommon.Content.ShortText.Color1 = System.Drawing.Color.Lime;
+            btn_Barcode_Connect.StateCommon.Border.Color1= System.Drawing.Color.Lime;
+            btn_Barcode_Connect.StateCommon.Border.Color2 = System.Drawing.Color.Lime;
+        }
+
+        private void CleanupConnection()
+        {
+            if (null != _system)
             {
-                panel.BackColor = System.Drawing.Color.Red;
+                _system.SystemConnected -= OnSystemConnected;
+                _system.SystemDisconnected -= OnSystemDisconnected;
+                _system.SystemWentOnline -= OnSystemWentOnline;
+                _system.SystemWentOffline -= OnSystemWentOffline;
+                _system.KeepAliveResponseMissed -= OnKeepAliveResponseMissed;
+                _system.BinaryDataTransferProgress -= OnBinaryDataTransferProgress;
+                _system.OffProtocolByteReceived -= OffProtocolByteReceived;
+                _system.AutomaticResponseArrived -= AutomaticResponseArrived;
             }
+
+            _connector = null;
+            _system = null;
         }
 
-        private void BalyaOnayUIState()
-        {
-            MakePanelBGYelloworRed(panel_IslemSIm_Balya_Onay, true);
-            MakePanelBGYelloworRed(panel_IslemSim_Balya_Hazir, true);
-            MakePanelBGYelloworRed(panel_IslemSim_Depo_In, true);
-            MakePanelBGYelloworRed(panel_IslemSim_Depo_Out, false);
-            MakePanelBGYelloworRed(panel_IslemSim_Balya_Beklet, false);
-            MakePanelBGYelloworRed(panel_IslemSIm_Vinc_Balya_Al, false);
-        }
-
-
-
-
-        private void btn_IslemSIm_Balya_Yerlestir_Click(object sender, EventArgs e)
+        private void btn_Barcode_Disconnect_Click(object sender, EventArgs e)
         {
 
         }
 
-
-
-
-
-
-
-
-        private void btn_IslemSim_Depo_Out_Click(object sender, EventArgs e)
+        private void btn_Barcode_Refresh_Click(object sender, EventArgs e)
         {
 
         }
-
     }
 }
 
