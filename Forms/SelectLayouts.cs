@@ -426,6 +426,7 @@ namespace Balya_Yerleştirme
                                 newItem.Cm_Z_Axis = item.Cm_Z_Axis;
 
                                 newCell.items.Add(newItem);
+                                newCell.drawItems.Add(newItem);
 
                                 var reffPoints = await (from x in context.ItemReferencePoints
                                                         where x.ItemId == newItem.ItemId

@@ -55,7 +55,8 @@ namespace Balya_Yerleştirme.Models
         public Depo Parent { get; set; }
         [NotMapped]
         public LayoutOlusturma ?Layout { get; set; }
-       
+        [NotMapped]
+        public List<Models.Item> drawItems { get; set; }
 
         public Cell(float x, float y, float width, float height, MainForm ?main, Depo parent, LayoutOlusturma ?layout)
         {
@@ -68,6 +69,8 @@ namespace Balya_Yerleştirme.Models
             Parent = parent;
             Layout = layout;
             items = new List<Models.Item>();
+            drawItems = new List<Models.Item>();
+
             ContextMenuItems = new List<ToolStripItem>();
             HoverPen.DashStyle = DashStyle.DashDot;
 
@@ -161,14 +164,14 @@ namespace Balya_Yerleştirme.Models
             }
             else
             {
-                foreach (var item in items)
+                foreach (var item in drawItems)
                 {
                     totalitemyuksekligi += item.ItemYuksekligi;
                     counter++;
                     rect = item.Rectangle;
                 }
 
-                if (items.Count > 0)
+                if (drawItems.Count > 0)
                 {
                     string text = $"{counter}";
                     SizeF textSize = graphics.MeasureString(text, font);
@@ -180,7 +183,7 @@ namespace Balya_Yerleştirme.Models
 
             
 
-            foreach (var x in items)
+            foreach (var x in drawItems)
             {
                 pen = adjustItemRectangleColor(pen, x.ItemYuksekligi, CellYuksekligi);
 
@@ -191,19 +194,19 @@ namespace Balya_Yerleştirme.Models
         {
             int kapasite = Cell_yuksekligi / item_yuksekligi;
             
-            if (items.Count == kapasite)
+            if (drawItems.Count == kapasite)
             {
                 pen.Color = Color.Red;
             }
-            else if (items.Count == kapasite - 1)
+            else if (drawItems.Count == kapasite - 1)
             {
                 pen.Color = AdjustToGrayShade(10);
             }
-            else if (items.Count == kapasite - 2)
+            else if (drawItems.Count == kapasite - 2)
             {
                 pen.Color = AdjustToGrayShade(80);
             }
-            else if (items.Count == kapasite - 3)
+            else if (drawItems.Count == kapasite - 3)
             {
                 pen.Color = AdjustToGrayShade(150);
             }

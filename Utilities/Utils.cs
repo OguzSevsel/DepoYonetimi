@@ -1172,7 +1172,7 @@ namespace Balya_Yerleştirme.Utilities
                             {
                                 foreach (var reff in conveyor.ConveyorReferencePoints)
                                 {
-                                    x = GVisual.CalculateDistance(cell1.Rectangle.X + cell1.Rectangle.Width / 2, cell1.Rectangle.Y + cell1.Rectangle.Height / 2, reff.Rectangle.X + reff.Rectangle.Width / 2,
+                                    x = GVisual.CalculateDistance(depo1.Rectangle.X + depo1.Rectangle.Width / 2, depo1.Rectangle.Y + depo1.Rectangle.Height / 2, reff.Rectangle.X + reff.Rectangle.Width / 2,
                                             reff.Rectangle.Y + reff.Rectangle.Height / 2);
 
                                     if (x < y || y == 0)
