@@ -9,7 +9,7 @@ public partial class Conveyor
 
     public Conveyor(int ambarId, float? conveyorAraligi, float kareX, float kareY, 
         float kareEni, float kareBoyu, float originalKareX, float originalKareY, float originalKareEni, 
-        float originalKareBoyu, float zoomlevel, float conveyor_eni, float conveyor_boyu)
+        float originalKareBoyu, float zoomlevel, float conveyor_eni, float conveyor_boyu, int yerlestirilme_sirasi)
     {
         AmbarId = ambarId;
         ConveyorAraligi = conveyorAraligi;
@@ -24,6 +24,7 @@ public partial class Conveyor
         Zoomlevel = zoomlevel;
         ConveyorEni = conveyor_eni;
         ConveyorBoyu = conveyor_boyu;
+        Yerlestirilme_Sirasi = yerlestirilme_sirasi;
     }
 
     public int ConveyorId { get; set; }
@@ -54,6 +55,7 @@ public partial class Conveyor
 
     public float ConveyorBoyu { get; set; }
 
+    public int Yerlestirilme_Sirasi { get; set; }
 
     public virtual Ambar Ambar { get; set; } = null!;
 

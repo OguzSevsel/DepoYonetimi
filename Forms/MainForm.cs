@@ -608,18 +608,7 @@ namespace Balya_Yerleştirme
             }
             return null;
         }
-        public int GetSmallestNumber(List<int> intList)
-        {
-            int result = 0;
-            foreach (int number in intList)
-            {
-                if (number < result || result == 0)
-                {
-                    result = number;
-                }
-            }
-            return result;
-        }
+
         #endregion
 
 
@@ -1014,7 +1003,7 @@ namespace Balya_Yerleştirme
                                     conveyor.OriginalKareX, conveyor.OriginalKareY,
                                     conveyor.OriginalKareEni, conveyor.OriginalKareBoyu,
                                     conveyor.Zoomlevel, conveyor.ConveyorEni,
-                                    conveyor.ConveyorBoyu);
+                                    conveyor.ConveyorBoyu, conveyor.Yerlestirilme_Sirasi);
 
                                 await context.Conveyors.AddAsync(conv);
                                 await context.SaveChangesAsync();
@@ -1309,7 +1298,7 @@ namespace Balya_Yerleştirme
                                 conveyor.OriginalKareX, conveyor.OriginalKareY,
                                 conveyor.OriginalKareEni, conveyor.OriginalKareBoyu,
                                 conveyor.Zoomlevel, conveyor.ConveyorEni,
-                                conveyor.ConveyorBoyu);
+                                conveyor.ConveyorBoyu, conveyor.Yerlestirilme_Sirasi);
 
                                 await context.Conveyors.AddAsync(conv);
                                 await context.SaveChangesAsync();
@@ -2356,6 +2345,24 @@ namespace Balya_Yerleştirme
                                 context.SaveChanges();
                             }
                         }
+                        foreach (var item in cell.items)
+                        {
+                            using (var context = new DBContext())
+                            {
+                                var item1 = (from x in context.Items
+                                             where x.ItemId == item.ItemId
+                                             select x).FirstOrDefault();
+
+                                if (item1 != null)
+                                {
+                                    item1.KareX = item.Rectangle.X;
+                                    item1.KareY = item.Rectangle.Y;
+                                    item1.OriginalKareX = item.OriginalRectangle.X;
+                                    item1.OriginalKareY = item.OriginalRectangle.Y;
+                                    context.SaveChanges();
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -2562,6 +2569,7 @@ namespace Balya_Yerleştirme
                                 newConveyor.OriginalKareY = conveyor.OriginalKareY;
                                 newConveyor.OriginalKareEni = conveyor.OriginalKareEni;
                                 newConveyor.OriginalKareBoyu = conveyor.OriginalKareBoyu;
+                                newConveyor.Yerlestirilme_Sirasi = conveyor.Yerlestirilme_Sirasi;
 
                                 loadedAmbar.conveyors.Add(newConveyor);
 
@@ -4318,13 +4326,61 @@ namespace Balya_Yerleştirme
                     if (newDepo != null)
                     {
                         var itemconveyor = ReturnItemConveyor(newDepo, item_etiketi, item_aciklamasi, item_agirligi, ambar);
-
                         conveyor = itemconveyor.Item1;
                         item = itemconveyor.Item2;
+
+                        FindifConveyorPathOccupied(conveyor, item);
+
                         listBox_IslemSim_BufferItems.Items.Add(item.ItemEtiketi);
                         BufferItems.Add(item);
+                        item.ParentConveyor = conveyor;
                         ChangeConveyorPanelInfo(conveyor);
-                        conveyor.isOccupied = true;
+                        conveyor.OccupyItem = item;
+                    }
+                }
+            }
+        }
+        private void FindifConveyorPathOccupied(Conveyor conveyor, Models.Item item)
+        {
+            if (ambar != null)
+            {
+                Models.Item deleteItem = new Models.Item();
+
+                foreach (var conveyor1 in ambar.conveyors)
+                {
+                    if (conveyor1.Yerlestirilme_Sirasi <= conveyor.Yerlestirilme_Sirasi)
+                    {
+                        if (conveyor1.OccupyItem != null)
+                        {
+                            foreach (var x in BufferItems)
+                            {
+                                if (conveyor1.OccupyItem == x)
+                                {
+                                    deleteItem = x;
+                                    x.Parent.drawItems.Add(x);
+
+                                    using (var context = new DBContext())
+                                    {
+                                        Models.Item Dbitem = new Models.Item(x.Parent.CellId, x.ItemEtiketi, x.ItemTuru, x.ItemEni, x.ItemBoyu, x.ItemYuksekligi, x.Rectangle.X, x.Rectangle.Y, x.Rectangle.Width, x.Rectangle.Height, x.OriginalRectangle.X, x.OriginalRectangle.Y, x.OriginalRectangle.Width, x.OriginalRectangle.Height, x.Zoomlevel, x.ItemAgirligi, x.ItemAciklamasi, x.Cm_X_Axis, x.Cm_Y_Axis, x.Cm_Z_Axis);
+
+                                        context.Items.Add(Dbitem);
+                                        context.SaveChanges();
+                                        x.ItemId = Dbitem.ItemId;
+                                    }
+
+                                    if (x.ParentConveyor != null)
+                                    {
+                                        x.ParentConveyor.OccupyItem = null;
+                                        x.ParentConveyor = null;
+                                    }
+                                    DrawingPanel.Invalidate();
+                                    conveyor1.OccupyItem = null;
+                                }
+                            }
+                            BufferItems.Remove(deleteItem);
+                            listBox_IslemSim_BufferItems.Items.Remove(deleteItem.ItemEtiketi);
+                            BalyaYerlestirUI();
+                        }
                     }
                 }
             }
@@ -4401,10 +4457,16 @@ namespace Balya_Yerleştirme
 
                                     conveyor = itemconveyor.Item1;
                                     item = itemconveyor.Item2;
+
+
+                                    FindifConveyorPathOccupied(conveyor, item);
+
+
                                     listBox_IslemSim_BufferItems.Items.Add(item.ItemEtiketi);
                                     BufferItems.Add(item);
                                     ChangeConveyorPanelInfo(conveyor);
-                                    conveyor.isOccupied = true;
+                                    conveyor.OccupyItem = item;
+                                    item.ParentConveyor = conveyor;
                                 }
                             }
                         }
@@ -4520,7 +4582,7 @@ namespace Balya_Yerleştirme
             }
         }
 
-        
+
 
         private void btn_Process_Simulation_Click(object sender, EventArgs e)
         {
@@ -4710,9 +4772,44 @@ namespace Balya_Yerleştirme
         {
             try
             {
-                if (_system != null)
+                if (_system != null && ambar != null)
                 {
-                    _system.SendCommand("TRIGGER ON");
+                    if (ambar.conveyors.Count > 0)
+                    {
+                        foreach (var conveyor in ambar.conveyors)
+                        {
+                            if (conveyor.Yerlestirilme_Sirasi == 1 && conveyor.OccupyItem != null)
+                            {
+                                conveyor.OccupyItem.Parent.drawItems.Add(conveyor.OccupyItem);
+
+                                using (var context = new DBContext())
+                                {
+                                    Models.Item Dbitem = new Models.Item(conveyor.OccupyItem.Parent.CellId, conveyor.OccupyItem.ItemEtiketi, conveyor.OccupyItem.ItemTuru, conveyor.OccupyItem.ItemEni, conveyor.OccupyItem.ItemBoyu, conveyor.OccupyItem.ItemYuksekligi, conveyor.OccupyItem.Rectangle.X, conveyor.OccupyItem.Rectangle.Y, conveyor.OccupyItem.Rectangle.Width, conveyor.OccupyItem.Rectangle.Height, conveyor.OccupyItem.OriginalRectangle.X, conveyor.OccupyItem.OriginalRectangle.Y, conveyor.OccupyItem.OriginalRectangle.Width, conveyor.OccupyItem.OriginalRectangle.Height, conveyor.OccupyItem.Zoomlevel, conveyor.OccupyItem.ItemAgirligi, conveyor.OccupyItem.ItemAciklamasi, conveyor.OccupyItem.Cm_X_Axis, conveyor.OccupyItem.Cm_Y_Axis, conveyor.OccupyItem.Cm_Z_Axis);
+
+                                    context.Items.Add(Dbitem);
+                                    context.SaveChanges();
+                                    conveyor.OccupyItem.ItemId = Dbitem.ItemId;
+                                }
+
+                                if (conveyor.OccupyItem.ParentConveyor != null)
+                                {
+                                    conveyor.OccupyItem.ParentConveyor.OccupyItem = null;
+                                    conveyor.OccupyItem.ParentConveyor = null;
+                                }
+
+                                DrawingPanel.Invalidate();
+                                BufferItems.Remove(conveyor.OccupyItem);
+                                listBox_IslemSim_BufferItems.Items.Remove(conveyor.OccupyItem.ItemEtiketi);
+                                BalyaYerlestirUI();
+                                conveyor.OccupyItem = null;
+                                _system.SendCommand("TRIGGER ON");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        _system.SendCommand("TRIGGER ON");
+                    }
                 }
             }
             catch (Exception ex)
@@ -4783,15 +4880,23 @@ namespace Balya_Yerleştirme
                 {
                     deleteItem = item;
                     item.Parent.drawItems.Add(item);
+
+                    if (item.ParentConveyor != null)
+                    {
+                        item.ParentConveyor.OccupyItem = null;
+                        item.ParentConveyor = null;
+                    }
+
                     DrawingPanel.Invalidate();
                     using (var context = new DBContext())
                     {
-                        Models.Item Dbitem = new Models.Item(item.Parent.CellId,item.ItemEtiketi,item.ItemTuru, item.ItemEni, item.ItemBoyu, item.ItemYuksekligi,item.Rectangle.X, item.Rectangle.Y,item.Rectangle.Width,item.Rectangle.Height,item.OriginalRectangle.X, item.OriginalRectangle.Y, item.OriginalRectangle.Width,item.OriginalRectangle.Height, item.Zoomlevel, item.ItemAgirligi, item.ItemAciklamasi,item.Cm_X_Axis, item.Cm_Y_Axis, item.Cm_Z_Axis);
+                        Models.Item Dbitem = new Models.Item(item.Parent.CellId, item.ItemEtiketi, item.ItemTuru, item.ItemEni, item.ItemBoyu, item.ItemYuksekligi, item.Rectangle.X, item.Rectangle.Y, item.Rectangle.Width, item.Rectangle.Height, item.OriginalRectangle.X, item.OriginalRectangle.Y, item.OriginalRectangle.Width, item.OriginalRectangle.Height, item.Zoomlevel, item.ItemAgirligi, item.ItemAciklamasi, item.Cm_X_Axis, item.Cm_Y_Axis, item.Cm_Z_Axis);
 
                         context.Items.Add(Dbitem);
                         context.SaveChanges();
                         item.ItemId = Dbitem.ItemId;
                     }
+                    break;
                 }
             }
             BufferItems.Remove(deleteItem);
@@ -4802,7 +4907,7 @@ namespace Balya_Yerleştirme
         {
 
         }
-        private void btn_Barcode_Connect_Click(object sender, EventArgs e) 
+        private void btn_Barcode_Connect_Click(object sender, EventArgs e)
         {
             if (listBox_Barcodes.SelectedIndex == -1 || listBox_Barcodes.SelectedIndex >= listBox_Barcodes.Items.Count)
                 return;
@@ -4895,6 +5000,16 @@ namespace Balya_Yerleştirme
         private void btn_Barcode_Refresh_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btn_Barcode_Panel_Kapat_Click(object sender, EventArgs e)
+        {
+            MainPanelCloseLeftSide(leftLayoutPanel, this);
+        }
+
+        private void btn_IslemSim_Panel_Kapat_Click(object sender, EventArgs e)
+        {
+            MainPanelCloseRightSide(rightLayoutPanel, this);
         }
     }
 }

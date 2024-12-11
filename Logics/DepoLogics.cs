@@ -314,7 +314,7 @@ namespace Balya_Yerleştirme.Models
                     {
                         bool isDepoEmpty = true;
 
-                        if (!layout.MovingParameter && !layout.Fill_WareHouse && !layout.Manuel_Move)
+                        if (!layout.MovingParameter && !layout.Fill_WareHouse && !layout.Manuel_Move && !layout.ConveyorOrdering)
                         {
                             foreach (var cell in gridmaps)
                             {

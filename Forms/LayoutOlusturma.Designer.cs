@@ -385,6 +385,7 @@
             txt_Left_Alan_Boyu = new Krypton.Toolkit.KryptonTextBox();
             btn_Left_Alan_Boyut_Degistir_Vazgec = new Krypton.Toolkit.KryptonButton();
             btn_Left_Alan_Boyut_Degistir = new Krypton.Toolkit.KryptonButton();
+            btn_Alan_SubMenu_Conveyor_Siralamasi = new Button();
             drawingPanel.SuspendLayout();
             DepoInfoMenu_Panel.SuspendLayout();
             Conveyor_Reference_FixedorManuel_Panel.SuspendLayout();
@@ -985,6 +986,7 @@
             // 
             // panel_Alan_Menu
             // 
+            panel_Alan_Menu.Controls.Add(btn_Alan_SubMenu_Conveyor_Siralamasi);
             panel_Alan_Menu.Controls.Add(btn_Alan_SubMenu);
             panel_Alan_Menu.Controls.Add(btn_Alan_SubMenu_Depo_Siralamasi);
             panel_Alan_Menu.Location = new Point(61, 60);
@@ -999,7 +1001,7 @@
             btn_Alan_SubMenu.ForeColor = Color.Black;
             btn_Alan_SubMenu.Image = Resources.Resource1.Area;
             btn_Alan_SubMenu.ImageAlign = ContentAlignment.MiddleLeft;
-            btn_Alan_SubMenu.Location = new Point(9, 63);
+            btn_Alan_SubMenu.Location = new Point(9, 12);
             btn_Alan_SubMenu.Name = "btn_Alan_SubMenu";
             btn_Alan_SubMenu.Padding = new Padding(0, 0, 30, 0);
             btn_Alan_SubMenu.Size = new Size(179, 97);
@@ -1017,7 +1019,7 @@
             btn_Alan_SubMenu_Depo_Siralamasi.ForeColor = Color.Black;
             btn_Alan_SubMenu_Depo_Siralamasi.Image = Resources.Resource1.Warehouse;
             btn_Alan_SubMenu_Depo_Siralamasi.ImageAlign = ContentAlignment.MiddleLeft;
-            btn_Alan_SubMenu_Depo_Siralamasi.Location = new Point(9, 166);
+            btn_Alan_SubMenu_Depo_Siralamasi.Location = new Point(9, 115);
             btn_Alan_SubMenu_Depo_Siralamasi.Name = "btn_Alan_SubMenu_Depo_Siralamasi";
             btn_Alan_SubMenu_Depo_Siralamasi.Size = new Size(179, 97);
             btn_Alan_SubMenu_Depo_Siralamasi.TabIndex = 34;
@@ -4634,8 +4636,8 @@
             groupBox_SelectedConveyor.BackColor = Color.LightCyan;
             groupBox_SelectedConveyor.Controls.Add(panel_Conveyor_SubMenu_Referans);
             groupBox_SelectedConveyor.Controls.Add(btn_Conveyor_Menu_Go_Back);
-            groupBox_SelectedConveyor.Controls.Add(panel_Conveyor_Submenu);
             groupBox_SelectedConveyor.Controls.Add(panel_Conveyor_Menu);
+            groupBox_SelectedConveyor.Controls.Add(panel_Conveyor_Submenu);
             groupBox_SelectedConveyor.Font = new Font("Sans Serif Collection", 10F, FontStyle.Bold);
             groupBox_SelectedConveyor.ForeColor = Color.Red;
             groupBox_SelectedConveyor.Location = new Point(3, 3);
@@ -4728,7 +4730,7 @@
             // 
             panel_Conveyor_Submenu.Controls.Add(btn_Conveyor_SubMenu_Yerini_Boyutunu_Degistir);
             panel_Conveyor_Submenu.Controls.Add(btn_Conveyor_SubMenu_Conveyor_Sil);
-            panel_Conveyor_Submenu.Location = new Point(205, 375);
+            panel_Conveyor_Submenu.Location = new Point(206, 375);
             panel_Conveyor_Submenu.Name = "panel_Conveyor_Submenu";
             panel_Conveyor_Submenu.Size = new Size(197, 327);
             panel_Conveyor_Submenu.TabIndex = 39;
@@ -4741,7 +4743,7 @@
             btn_Conveyor_SubMenu_Yerini_Boyutunu_Degistir.ForeColor = Color.SlateBlue;
             btn_Conveyor_SubMenu_Yerini_Boyutunu_Degistir.Image = Resources.Resource1.Page_Size;
             btn_Conveyor_SubMenu_Yerini_Boyutunu_Degistir.ImageAlign = ContentAlignment.MiddleLeft;
-            btn_Conveyor_SubMenu_Yerini_Boyutunu_Degistir.Location = new Point(9, 44);
+            btn_Conveyor_SubMenu_Yerini_Boyutunu_Degistir.Location = new Point(9, 63);
             btn_Conveyor_SubMenu_Yerini_Boyutunu_Degistir.Name = "btn_Conveyor_SubMenu_Yerini_Boyutunu_Degistir";
             btn_Conveyor_SubMenu_Yerini_Boyutunu_Degistir.Padding = new Padding(0, 0, 10, 0);
             btn_Conveyor_SubMenu_Yerini_Boyutunu_Degistir.Size = new Size(179, 97);
@@ -4760,7 +4762,7 @@
             btn_Conveyor_SubMenu_Conveyor_Sil.ForeColor = Color.SlateBlue;
             btn_Conveyor_SubMenu_Conveyor_Sil.Image = Resources.Resource1.CancelRed;
             btn_Conveyor_SubMenu_Conveyor_Sil.ImageAlign = ContentAlignment.MiddleLeft;
-            btn_Conveyor_SubMenu_Conveyor_Sil.Location = new Point(9, 185);
+            btn_Conveyor_SubMenu_Conveyor_Sil.Location = new Point(9, 166);
             btn_Conveyor_SubMenu_Conveyor_Sil.Name = "btn_Conveyor_SubMenu_Conveyor_Sil";
             btn_Conveyor_SubMenu_Conveyor_Sil.Padding = new Padding(0, 0, 5, 0);
             btn_Conveyor_SubMenu_Conveyor_Sil.Size = new Size(179, 97);
@@ -4979,6 +4981,23 @@
             btn_Left_Alan_Boyut_Degistir.TabIndex = 2;
             btn_Left_Alan_Boyut_Degistir.Values.Text = "Boyut\r\nDeğiştir";
             btn_Left_Alan_Boyut_Degistir.Click += btn_Left_Alan_Boyut_Degistir_Click;
+            // 
+            // btn_Alan_SubMenu_Conveyor_Siralamasi
+            // 
+            btn_Alan_SubMenu_Conveyor_Siralamasi.FlatStyle = FlatStyle.Flat;
+            btn_Alan_SubMenu_Conveyor_Siralamasi.Font = new Font("Sans Serif Collection", 8F, FontStyle.Bold);
+            btn_Alan_SubMenu_Conveyor_Siralamasi.ForeColor = Color.Black;
+            btn_Alan_SubMenu_Conveyor_Siralamasi.Image = Resources.Resource1.Warehouse;
+            btn_Alan_SubMenu_Conveyor_Siralamasi.ImageAlign = ContentAlignment.MiddleLeft;
+            btn_Alan_SubMenu_Conveyor_Siralamasi.Location = new Point(9, 218);
+            btn_Alan_SubMenu_Conveyor_Siralamasi.Name = "btn_Alan_SubMenu_Conveyor_Siralamasi";
+            btn_Alan_SubMenu_Conveyor_Siralamasi.Size = new Size(179, 97);
+            btn_Alan_SubMenu_Conveyor_Siralamasi.TabIndex = 42;
+            btn_Alan_SubMenu_Conveyor_Siralamasi.TabStop = false;
+            btn_Alan_SubMenu_Conveyor_Siralamasi.Text = "Conveyor\r\nSıralamasını\r\nAyarla";
+            btn_Alan_SubMenu_Conveyor_Siralamasi.TextAlign = ContentAlignment.MiddleRight;
+            btn_Alan_SubMenu_Conveyor_Siralamasi.UseVisualStyleBackColor = true;
+            btn_Alan_SubMenu_Conveyor_Siralamasi.Click += btn_Alan_SubMenu_Conveyor_Siralamasi_Click;
             // 
             // LayoutOlusturma
             // 
@@ -5432,5 +5451,7 @@
         private Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge63;
         public Button btn_Depo_SubMenu_Ozellikleri_Degistir;
         private Krypton.Toolkit.KryptonWrapLabel lbl_DepoInfoMenu_Title;
+        public Button button1;
+        public Button btn_Alan_SubMenu_Conveyor_Siralamasi;
     }
 }

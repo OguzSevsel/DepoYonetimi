@@ -843,7 +843,18 @@ namespace Balya_Yerleştirme.Utilities
                 return string.Empty;
             }
         }
-
+        public static int GetSmallestNumber(List<int> intList)
+        {
+            int result = 0;
+            foreach (int number in intList)
+            {
+                if (number < result || result == 0)
+                {
+                    result = number;
+                }
+            }
+            return result;
+        }
 
         public static Conveyor SearchForPlace(Depo depo, Ambar ambar)
         {

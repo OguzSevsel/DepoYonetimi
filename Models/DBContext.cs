@@ -151,6 +151,7 @@ public partial class DBContext : DbContext
             entity.Property(e => e.Zoomlevel).HasColumnName("zoomlevel");
             entity.Property(e => e.ConveyorEni).HasColumnName("conveyor_Eni");
             entity.Property(e => e.ConveyorBoyu).HasColumnName("conveyor_Boyu");
+            entity.Property(e => e.Yerlestirilme_Sirasi).HasColumnName("Yerlestirilme_Sirasi");
 
             entity.HasOne(d => d.Ambar).WithMany(p => p.Conveyors)
                 .HasForeignKey(d => d.AmbarId)

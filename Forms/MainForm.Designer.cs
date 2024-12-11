@@ -94,14 +94,6 @@
             lbl_Info_Balya_Aciklamasi = new Krypton.Toolkit.KryptonWrapLabel();
             lbl_Info_Title = new Krypton.Toolkit.KryptonWrapLabel();
             lbl_Info_Balya_Etiketi = new Krypton.Toolkit.KryptonWrapLabel();
-            panel_Barcode = new Krypton.Toolkit.KryptonPanel();
-            listBox1 = new ListBox();
-            lbl_Barcode_Connection_Info = new Krypton.Toolkit.KryptonWrapLabel();
-            btn_Barcode_Refresh = new Krypton.Toolkit.KryptonButton();
-            btn_Barcode_Disconnect = new Krypton.Toolkit.KryptonButton();
-            btn_Barcode_Connect = new Krypton.Toolkit.KryptonButton();
-            listBox_Barcodes = new ListBox();
-            btn_Barcode_Panel_Kapat = new Krypton.Toolkit.KryptonButton();
             panel_Islem_Simulasyonu = new Krypton.Toolkit.KryptonPanel();
             kryptonBorderEdge70 = new Krypton.Toolkit.KryptonBorderEdge();
             btn_IslemSim_Depo_Out = new Krypton.Toolkit.KryptonButton();
@@ -140,6 +132,15 @@
             kryptonWrapLabel7 = new Krypton.Toolkit.KryptonWrapLabel();
             kryptonBorderEdge65 = new Krypton.Toolkit.KryptonBorderEdge();
             kryptonBorderEdge66 = new Krypton.Toolkit.KryptonBorderEdge();
+            panel_Barcode = new Krypton.Toolkit.KryptonPanel();
+            picResultImage = new PictureBox();
+            listBox1 = new ListBox();
+            lbl_Barcode_Connection_Info = new Krypton.Toolkit.KryptonWrapLabel();
+            btn_Barcode_Refresh = new Krypton.Toolkit.KryptonButton();
+            btn_Barcode_Disconnect = new Krypton.Toolkit.KryptonButton();
+            btn_Barcode_Connect = new Krypton.Toolkit.KryptonButton();
+            listBox_Barcodes = new ListBox();
+            btn_Barcode_Panel_Kapat = new Krypton.Toolkit.KryptonButton();
             PLC_Sim_Panel = new Krypton.Toolkit.KryptonPanel();
             btn_PLC_Sim_Nesne_Bul = new Krypton.Toolkit.KryptonButton();
             PLC_Sim_Nesne_Buttons_Panel = new Krypton.Toolkit.KryptonPanel();
@@ -297,7 +298,6 @@
             lbl_SelectedLayout = new Krypton.Toolkit.KryptonWrapLabel();
             lbl_SelectedIsletme = new Krypton.Toolkit.KryptonWrapLabel();
             btn_Process_Simulation = new Krypton.Toolkit.KryptonButton();
-            picResultImage = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)Nesne_Yerlestirme_First_Panel).BeginInit();
             Nesne_Yerlestirme_First_Panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)combo_Tur_Kodu_2_Etiket).BeginInit();
@@ -306,8 +306,6 @@
             Nesne_Yerlestirme_Second_Panel.SuspendLayout();
             DrawingPanel.SuspendLayout();
             infopanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)panel_Barcode).BeginInit();
-            panel_Barcode.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)panel_Islem_Simulasyonu).BeginInit();
             panel_Islem_Simulasyonu.SuspendLayout();
             panel_IslemSIm_Vinc_Balya_Al.SuspendLayout();
@@ -317,6 +315,9 @@
             panel_IslemSIm_Balya_Onay.SuspendLayout();
             panel_IslemSim_Depo_In.SuspendLayout();
             panel_IslemSim_Depo_Out.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)panel_Barcode).BeginInit();
+            panel_Barcode.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)picResultImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PLC_Sim_Panel).BeginInit();
             PLC_Sim_Panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PLC_Sim_Nesne_Buttons_Panel).BeginInit();
@@ -342,7 +343,6 @@
             ((System.ComponentModel.ISupportInitialize)Izgara_Nesne_InfoPanel).BeginInit();
             Izgara_Nesne_InfoPanel.SuspendLayout();
             IsletmeInfoPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)picResultImage).BeginInit();
             SuspendLayout();
             // 
             // Nesne_Yerlestirme_First_Panel
@@ -823,7 +823,6 @@
             // 
             DrawingPanel.BackColor = Color.Azure;
             DrawingPanel.Controls.Add(infopanel);
-            DrawingPanel.Controls.Add(panel_Barcode);
             DrawingPanel.Location = new Point(12, 91);
             DrawingPanel.Name = "DrawingPanel";
             DrawingPanel.Size = new Size(1880, 909);
@@ -1146,138 +1145,6 @@
             lbl_Info_Balya_Etiketi.Text = "Nesne Etiketi: ";
             lbl_Info_Balya_Etiketi.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // panel_Barcode
-            // 
-            panel_Barcode.Controls.Add(picResultImage);
-            panel_Barcode.Controls.Add(listBox1);
-            panel_Barcode.Controls.Add(lbl_Barcode_Connection_Info);
-            panel_Barcode.Controls.Add(btn_Barcode_Refresh);
-            panel_Barcode.Controls.Add(btn_Barcode_Disconnect);
-            panel_Barcode.Controls.Add(btn_Barcode_Connect);
-            panel_Barcode.Controls.Add(listBox_Barcodes);
-            panel_Barcode.Controls.Add(btn_Barcode_Panel_Kapat);
-            panel_Barcode.Location = new Point(622, 8);
-            panel_Barcode.Name = "panel_Barcode";
-            panel_Barcode.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
-            panel_Barcode.Size = new Size(358, 903);
-            panel_Barcode.StateCommon.ColorAlign = Krypton.Toolkit.PaletteRectangleAlign.Local;
-            panel_Barcode.StateCommon.ColorStyle = Krypton.Toolkit.PaletteColorStyle.SolidInside;
-            panel_Barcode.TabIndex = 22;
-            // 
-            // listBox1
-            // 
-            listBox1.FormattingEnabled = true;
-            listBox1.ItemHeight = 15;
-            listBox1.Location = new Point(12, 348);
-            listBox1.Name = "listBox1";
-            listBox1.Size = new Size(334, 169);
-            listBox1.TabIndex = 66;
-            // 
-            // lbl_Barcode_Connection_Info
-            // 
-            lbl_Barcode_Connection_Info.AutoSize = false;
-            lbl_Barcode_Connection_Info.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbl_Barcode_Connection_Info.ForeColor = Color.Red;
-            lbl_Barcode_Connection_Info.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Barcode_Connection_Info.Location = new Point(12, 287);
-            lbl_Barcode_Connection_Info.Name = "lbl_Barcode_Connection_Info";
-            lbl_Barcode_Connection_Info.Size = new Size(334, 58);
-            lbl_Barcode_Connection_Info.StateCommon.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbl_Barcode_Connection_Info.StateCommon.TextColor = Color.Red;
-            lbl_Barcode_Connection_Info.Text = "Connected";
-            lbl_Barcode_Connection_Info.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // btn_Barcode_Refresh
-            // 
-            btn_Barcode_Refresh.CornerRoundingRadius = 8F;
-            btn_Barcode_Refresh.Location = new Point(249, 223);
-            btn_Barcode_Refresh.Name = "btn_Barcode_Refresh";
-            btn_Barcode_Refresh.Size = new Size(97, 58);
-            btn_Barcode_Refresh.StateCommon.Back.ImageStyle = Krypton.Toolkit.PaletteImageStyle.CenterLeft;
-            btn_Barcode_Refresh.StateCommon.Border.Color2 = Color.FromArgb(255, 128, 0);
-            btn_Barcode_Refresh.StateCommon.Border.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
-            btn_Barcode_Refresh.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
-            btn_Barcode_Refresh.StateCommon.Border.Rounding = 8F;
-            btn_Barcode_Refresh.StateCommon.Border.Width = 1;
-            btn_Barcode_Refresh.StateCommon.Content.Image.Effect = Krypton.Toolkit.PaletteImageEffect.Normal;
-            btn_Barcode_Refresh.StateCommon.Content.Image.ImageH = Krypton.Toolkit.PaletteRelativeAlign.Far;
-            btn_Barcode_Refresh.StateCommon.Content.Image.ImageV = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            btn_Barcode_Refresh.StateCommon.Content.Padding = new Padding(-1, -1, -4, -1);
-            btn_Barcode_Refresh.StateCommon.Content.ShortText.Color1 = Color.FromArgb(255, 128, 0);
-            btn_Barcode_Refresh.StateCommon.Content.ShortText.Font = new Font("Sylfaen", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Barcode_Refresh.StateCommon.Content.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Center;
-            btn_Barcode_Refresh.TabIndex = 65;
-            btn_Barcode_Refresh.Values.Text = "Refresh";
-            btn_Barcode_Refresh.Click += btn_Barcode_Refresh_Click;
-            // 
-            // btn_Barcode_Disconnect
-            // 
-            btn_Barcode_Disconnect.CornerRoundingRadius = 8F;
-            btn_Barcode_Disconnect.Location = new Point(130, 223);
-            btn_Barcode_Disconnect.Name = "btn_Barcode_Disconnect";
-            btn_Barcode_Disconnect.Size = new Size(97, 58);
-            btn_Barcode_Disconnect.StateCommon.Back.ImageStyle = Krypton.Toolkit.PaletteImageStyle.CenterLeft;
-            btn_Barcode_Disconnect.StateCommon.Border.Color2 = Color.FromArgb(255, 128, 0);
-            btn_Barcode_Disconnect.StateCommon.Border.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
-            btn_Barcode_Disconnect.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
-            btn_Barcode_Disconnect.StateCommon.Border.Rounding = 8F;
-            btn_Barcode_Disconnect.StateCommon.Border.Width = 1;
-            btn_Barcode_Disconnect.StateCommon.Content.Image.Effect = Krypton.Toolkit.PaletteImageEffect.Normal;
-            btn_Barcode_Disconnect.StateCommon.Content.Image.ImageH = Krypton.Toolkit.PaletteRelativeAlign.Far;
-            btn_Barcode_Disconnect.StateCommon.Content.Image.ImageV = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            btn_Barcode_Disconnect.StateCommon.Content.ShortText.Color1 = Color.FromArgb(255, 128, 0);
-            btn_Barcode_Disconnect.StateCommon.Content.ShortText.Font = new Font("Sylfaen", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Barcode_Disconnect.StateCommon.Content.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Center;
-            btn_Barcode_Disconnect.TabIndex = 64;
-            btn_Barcode_Disconnect.Values.Text = "Disconnect";
-            btn_Barcode_Disconnect.Click += btn_Barcode_Disconnect_Click;
-            // 
-            // btn_Barcode_Connect
-            // 
-            btn_Barcode_Connect.CornerRoundingRadius = 8F;
-            btn_Barcode_Connect.Location = new Point(12, 223);
-            btn_Barcode_Connect.Name = "btn_Barcode_Connect";
-            btn_Barcode_Connect.Size = new Size(97, 58);
-            btn_Barcode_Connect.StateCommon.Back.ImageStyle = Krypton.Toolkit.PaletteImageStyle.CenterLeft;
-            btn_Barcode_Connect.StateCommon.Border.Color2 = Color.FromArgb(255, 128, 0);
-            btn_Barcode_Connect.StateCommon.Border.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
-            btn_Barcode_Connect.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
-            btn_Barcode_Connect.StateCommon.Border.Rounding = 8F;
-            btn_Barcode_Connect.StateCommon.Border.Width = 1;
-            btn_Barcode_Connect.StateCommon.Content.Image.Effect = Krypton.Toolkit.PaletteImageEffect.Normal;
-            btn_Barcode_Connect.StateCommon.Content.Image.ImageH = Krypton.Toolkit.PaletteRelativeAlign.Far;
-            btn_Barcode_Connect.StateCommon.Content.Image.ImageV = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            btn_Barcode_Connect.StateCommon.Content.Padding = new Padding(-1, -1, -4, -1);
-            btn_Barcode_Connect.StateCommon.Content.ShortText.Color1 = Color.FromArgb(255, 128, 0);
-            btn_Barcode_Connect.StateCommon.Content.ShortText.Font = new Font("Sylfaen", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Barcode_Connect.StateCommon.Content.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Center;
-            btn_Barcode_Connect.TabIndex = 63;
-            btn_Barcode_Connect.Values.Text = "Connect";
-            btn_Barcode_Connect.Click += btn_Barcode_Connect_Click;
-            // 
-            // listBox_Barcodes
-            // 
-            listBox_Barcodes.FormattingEnabled = true;
-            listBox_Barcodes.ItemHeight = 15;
-            listBox_Barcodes.Location = new Point(12, 48);
-            listBox_Barcodes.Name = "listBox_Barcodes";
-            listBox_Barcodes.Size = new Size(334, 169);
-            listBox_Barcodes.TabIndex = 62;
-            // 
-            // btn_Barcode_Panel_Kapat
-            // 
-            btn_Barcode_Panel_Kapat.CornerRoundingRadius = 5F;
-            btn_Barcode_Panel_Kapat.Location = new Point(313, 3);
-            btn_Barcode_Panel_Kapat.Name = "btn_Barcode_Panel_Kapat";
-            btn_Barcode_Panel_Kapat.OverrideFocus.Back.Color1 = Color.FromArgb(128, 255, 255);
-            btn_Barcode_Panel_Kapat.Size = new Size(42, 39);
-            btn_Barcode_Panel_Kapat.StateCommon.Back.Image = (Image)resources.GetObject("btn_Barcode_Panel_Kapat.StateCommon.Back.Image");
-            btn_Barcode_Panel_Kapat.StateCommon.Back.ImageStyle = Krypton.Toolkit.PaletteImageStyle.Stretch;
-            btn_Barcode_Panel_Kapat.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
-            btn_Barcode_Panel_Kapat.StateCommon.Border.Rounding = 5F;
-            btn_Barcode_Panel_Kapat.TabIndex = 5;
-            btn_Barcode_Panel_Kapat.Values.Text = "";
-            // 
             // panel_Islem_Simulasyonu
             // 
             panel_Islem_Simulasyonu.Controls.Add(kryptonBorderEdge70);
@@ -1298,7 +1165,7 @@
             panel_Islem_Simulasyonu.Controls.Add(panel_IslemSim_Depo_Out);
             panel_Islem_Simulasyonu.Controls.Add(kryptonBorderEdge65);
             panel_Islem_Simulasyonu.Controls.Add(kryptonBorderEdge66);
-            panel_Islem_Simulasyonu.Location = new Point(743, 1008);
+            panel_Islem_Simulasyonu.Location = new Point(749, 1008);
             panel_Islem_Simulasyonu.Name = "panel_Islem_Simulasyonu";
             panel_Islem_Simulasyonu.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
             panel_Islem_Simulasyonu.Size = new Size(358, 903);
@@ -1661,6 +1528,7 @@
             btn_IslemSim_Panel_Kapat.StateCommon.Border.Rounding = 5F;
             btn_IslemSim_Panel_Kapat.TabIndex = 5;
             btn_IslemSim_Panel_Kapat.Values.Text = "";
+            btn_IslemSim_Panel_Kapat.Click += btn_IslemSim_Panel_Kapat_Click;
             // 
             // kryptonBorderEdge67
             // 
@@ -1671,7 +1539,7 @@
             // 
             // panel_IslemSIm_Balya_Onay
             // 
-            panel_IslemSIm_Balya_Onay.BackColor = Color.Lime;
+            panel_IslemSIm_Balya_Onay.BackColor = SystemColors.GradientInactiveCaption;
             panel_IslemSIm_Balya_Onay.Controls.Add(kryptonWrapLabel8);
             panel_IslemSIm_Balya_Onay.Location = new Point(24, 226);
             panel_IslemSIm_Balya_Onay.Name = "panel_IslemSIm_Balya_Onay";
@@ -1751,6 +1619,147 @@
             kryptonBorderEdge66.Name = "kryptonBorderEdge66";
             kryptonBorderEdge66.Size = new Size(334, 1);
             kryptonBorderEdge66.Text = "kryptonBorderEdge11";
+            // 
+            // panel_Barcode
+            // 
+            panel_Barcode.Controls.Add(picResultImage);
+            panel_Barcode.Controls.Add(listBox1);
+            panel_Barcode.Controls.Add(lbl_Barcode_Connection_Info);
+            panel_Barcode.Controls.Add(btn_Barcode_Refresh);
+            panel_Barcode.Controls.Add(btn_Barcode_Disconnect);
+            panel_Barcode.Controls.Add(btn_Barcode_Connect);
+            panel_Barcode.Controls.Add(listBox_Barcodes);
+            panel_Barcode.Controls.Add(btn_Barcode_Panel_Kapat);
+            panel_Barcode.Location = new Point(1199, 1008);
+            panel_Barcode.Name = "panel_Barcode";
+            panel_Barcode.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
+            panel_Barcode.Size = new Size(358, 903);
+            panel_Barcode.StateCommon.ColorAlign = Krypton.Toolkit.PaletteRectangleAlign.Local;
+            panel_Barcode.StateCommon.ColorStyle = Krypton.Toolkit.PaletteColorStyle.SolidInside;
+            panel_Barcode.TabIndex = 22;
+            // 
+            // picResultImage
+            // 
+            picResultImage.Location = new Point(12, 523);
+            picResultImage.Name = "picResultImage";
+            picResultImage.Size = new Size(334, 169);
+            picResultImage.TabIndex = 68;
+            picResultImage.TabStop = false;
+            // 
+            // listBox1
+            // 
+            listBox1.FormattingEnabled = true;
+            listBox1.ItemHeight = 15;
+            listBox1.Location = new Point(12, 348);
+            listBox1.Name = "listBox1";
+            listBox1.Size = new Size(334, 169);
+            listBox1.TabIndex = 66;
+            // 
+            // lbl_Barcode_Connection_Info
+            // 
+            lbl_Barcode_Connection_Info.AutoSize = false;
+            lbl_Barcode_Connection_Info.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbl_Barcode_Connection_Info.ForeColor = Color.Red;
+            lbl_Barcode_Connection_Info.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_Barcode_Connection_Info.Location = new Point(12, 287);
+            lbl_Barcode_Connection_Info.Name = "lbl_Barcode_Connection_Info";
+            lbl_Barcode_Connection_Info.Size = new Size(334, 58);
+            lbl_Barcode_Connection_Info.StateCommon.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbl_Barcode_Connection_Info.StateCommon.TextColor = Color.Red;
+            lbl_Barcode_Connection_Info.Text = "Connected";
+            lbl_Barcode_Connection_Info.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // btn_Barcode_Refresh
+            // 
+            btn_Barcode_Refresh.CornerRoundingRadius = 8F;
+            btn_Barcode_Refresh.Location = new Point(249, 223);
+            btn_Barcode_Refresh.Name = "btn_Barcode_Refresh";
+            btn_Barcode_Refresh.Size = new Size(97, 58);
+            btn_Barcode_Refresh.StateCommon.Back.ImageStyle = Krypton.Toolkit.PaletteImageStyle.CenterLeft;
+            btn_Barcode_Refresh.StateCommon.Border.Color2 = Color.FromArgb(255, 128, 0);
+            btn_Barcode_Refresh.StateCommon.Border.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
+            btn_Barcode_Refresh.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
+            btn_Barcode_Refresh.StateCommon.Border.Rounding = 8F;
+            btn_Barcode_Refresh.StateCommon.Border.Width = 1;
+            btn_Barcode_Refresh.StateCommon.Content.Image.Effect = Krypton.Toolkit.PaletteImageEffect.Normal;
+            btn_Barcode_Refresh.StateCommon.Content.Image.ImageH = Krypton.Toolkit.PaletteRelativeAlign.Far;
+            btn_Barcode_Refresh.StateCommon.Content.Image.ImageV = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            btn_Barcode_Refresh.StateCommon.Content.Padding = new Padding(-1, -1, -4, -1);
+            btn_Barcode_Refresh.StateCommon.Content.ShortText.Color1 = Color.FromArgb(255, 128, 0);
+            btn_Barcode_Refresh.StateCommon.Content.ShortText.Font = new Font("Sylfaen", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_Barcode_Refresh.StateCommon.Content.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Center;
+            btn_Barcode_Refresh.TabIndex = 65;
+            btn_Barcode_Refresh.Values.Text = "Refresh";
+            btn_Barcode_Refresh.Click += btn_Barcode_Refresh_Click;
+            // 
+            // btn_Barcode_Disconnect
+            // 
+            btn_Barcode_Disconnect.CornerRoundingRadius = 8F;
+            btn_Barcode_Disconnect.Location = new Point(130, 223);
+            btn_Barcode_Disconnect.Name = "btn_Barcode_Disconnect";
+            btn_Barcode_Disconnect.Size = new Size(97, 58);
+            btn_Barcode_Disconnect.StateCommon.Back.ImageStyle = Krypton.Toolkit.PaletteImageStyle.CenterLeft;
+            btn_Barcode_Disconnect.StateCommon.Border.Color2 = Color.FromArgb(255, 128, 0);
+            btn_Barcode_Disconnect.StateCommon.Border.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
+            btn_Barcode_Disconnect.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
+            btn_Barcode_Disconnect.StateCommon.Border.Rounding = 8F;
+            btn_Barcode_Disconnect.StateCommon.Border.Width = 1;
+            btn_Barcode_Disconnect.StateCommon.Content.Image.Effect = Krypton.Toolkit.PaletteImageEffect.Normal;
+            btn_Barcode_Disconnect.StateCommon.Content.Image.ImageH = Krypton.Toolkit.PaletteRelativeAlign.Far;
+            btn_Barcode_Disconnect.StateCommon.Content.Image.ImageV = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            btn_Barcode_Disconnect.StateCommon.Content.ShortText.Color1 = Color.FromArgb(255, 128, 0);
+            btn_Barcode_Disconnect.StateCommon.Content.ShortText.Font = new Font("Sylfaen", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_Barcode_Disconnect.StateCommon.Content.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Center;
+            btn_Barcode_Disconnect.TabIndex = 64;
+            btn_Barcode_Disconnect.Values.Text = "Disconnect";
+            btn_Barcode_Disconnect.Click += btn_Barcode_Disconnect_Click;
+            // 
+            // btn_Barcode_Connect
+            // 
+            btn_Barcode_Connect.CornerRoundingRadius = 8F;
+            btn_Barcode_Connect.Location = new Point(12, 223);
+            btn_Barcode_Connect.Name = "btn_Barcode_Connect";
+            btn_Barcode_Connect.Size = new Size(97, 58);
+            btn_Barcode_Connect.StateCommon.Back.ImageStyle = Krypton.Toolkit.PaletteImageStyle.CenterLeft;
+            btn_Barcode_Connect.StateCommon.Border.Color2 = Color.FromArgb(255, 128, 0);
+            btn_Barcode_Connect.StateCommon.Border.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
+            btn_Barcode_Connect.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
+            btn_Barcode_Connect.StateCommon.Border.Rounding = 8F;
+            btn_Barcode_Connect.StateCommon.Border.Width = 1;
+            btn_Barcode_Connect.StateCommon.Content.Image.Effect = Krypton.Toolkit.PaletteImageEffect.Normal;
+            btn_Barcode_Connect.StateCommon.Content.Image.ImageH = Krypton.Toolkit.PaletteRelativeAlign.Far;
+            btn_Barcode_Connect.StateCommon.Content.Image.ImageV = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            btn_Barcode_Connect.StateCommon.Content.Padding = new Padding(-1, -1, -4, -1);
+            btn_Barcode_Connect.StateCommon.Content.ShortText.Color1 = Color.FromArgb(255, 128, 0);
+            btn_Barcode_Connect.StateCommon.Content.ShortText.Font = new Font("Sylfaen", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_Barcode_Connect.StateCommon.Content.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Center;
+            btn_Barcode_Connect.TabIndex = 63;
+            btn_Barcode_Connect.Values.Text = "Connect";
+            btn_Barcode_Connect.Click += btn_Barcode_Connect_Click;
+            // 
+            // listBox_Barcodes
+            // 
+            listBox_Barcodes.FormattingEnabled = true;
+            listBox_Barcodes.ItemHeight = 15;
+            listBox_Barcodes.Location = new Point(12, 48);
+            listBox_Barcodes.Name = "listBox_Barcodes";
+            listBox_Barcodes.Size = new Size(334, 169);
+            listBox_Barcodes.TabIndex = 62;
+            // 
+            // btn_Barcode_Panel_Kapat
+            // 
+            btn_Barcode_Panel_Kapat.CornerRoundingRadius = 5F;
+            btn_Barcode_Panel_Kapat.Location = new Point(313, 3);
+            btn_Barcode_Panel_Kapat.Name = "btn_Barcode_Panel_Kapat";
+            btn_Barcode_Panel_Kapat.OverrideFocus.Back.Color1 = Color.FromArgb(128, 255, 255);
+            btn_Barcode_Panel_Kapat.Size = new Size(42, 39);
+            btn_Barcode_Panel_Kapat.StateCommon.Back.Image = (Image)resources.GetObject("btn_Barcode_Panel_Kapat.StateCommon.Back.Image");
+            btn_Barcode_Panel_Kapat.StateCommon.Back.ImageStyle = Krypton.Toolkit.PaletteImageStyle.Stretch;
+            btn_Barcode_Panel_Kapat.StateCommon.Border.DrawBorders = Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom | Krypton.Toolkit.PaletteDrawBorders.Left | Krypton.Toolkit.PaletteDrawBorders.Right;
+            btn_Barcode_Panel_Kapat.StateCommon.Border.Rounding = 5F;
+            btn_Barcode_Panel_Kapat.TabIndex = 5;
+            btn_Barcode_Panel_Kapat.Values.Text = "";
+            btn_Barcode_Panel_Kapat.Click += btn_Barcode_Panel_Kapat_Click;
             // 
             // PLC_Sim_Panel
             // 
@@ -3741,14 +3750,6 @@
             btn_Process_Simulation.Values.Text = "İşlem\r\nSim.";
             btn_Process_Simulation.Click += btn_Process_Simulation_Click;
             // 
-            // picResultImage
-            // 
-            picResultImage.Location = new Point(12, 523);
-            picResultImage.Name = "picResultImage";
-            picResultImage.Size = new Size(334, 169);
-            picResultImage.TabIndex = 68;
-            picResultImage.TabStop = false;
-            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -3756,6 +3757,7 @@
             BackColor = Color.LightGray;
             ClientSize = new Size(1904, 1041);
             Controls.Add(panel_Islem_Simulasyonu);
+            Controls.Add(panel_Barcode);
             Controls.Add(Nesne_Yerlestirme_First_Panel);
             Controls.Add(PLC_DB_AdressPanel);
             Controls.Add(btn_Process_Simulation);
@@ -3786,8 +3788,6 @@
             DrawingPanel.ResumeLayout(false);
             infopanel.ResumeLayout(false);
             infopanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)panel_Barcode).EndInit();
-            panel_Barcode.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)panel_Islem_Simulasyonu).EndInit();
             panel_Islem_Simulasyonu.ResumeLayout(false);
             panel_Islem_Simulasyonu.PerformLayout();
@@ -3799,6 +3799,9 @@
             panel_IslemSIm_Balya_Onay.ResumeLayout(false);
             panel_IslemSim_Depo_In.ResumeLayout(false);
             panel_IslemSim_Depo_Out.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)panel_Barcode).EndInit();
+            panel_Barcode.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)picResultImage).EndInit();
             ((System.ComponentModel.ISupportInitialize)PLC_Sim_Panel).EndInit();
             PLC_Sim_Panel.ResumeLayout(false);
             PLC_Sim_Panel.PerformLayout();
@@ -3835,7 +3838,6 @@
             Izgara_Nesne_InfoPanel.PerformLayout();
             IsletmeInfoPanel.ResumeLayout(false);
             IsletmeInfoPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)picResultImage).EndInit();
             ResumeLayout(false);
         }
 

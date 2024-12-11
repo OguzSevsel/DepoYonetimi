@@ -38,7 +38,7 @@ namespace Balya_Yerleştirme.Models
         [NotMapped]
         public Ambar Parent { get; set; }
         [NotMapped]
-        public bool isOccupied { get; set; }
+        public Models.Item? OccupyItem { get; set; }
 
 
 
@@ -105,6 +105,20 @@ namespace Balya_Yerleştirme.Models
                 //{
                 //    DrawVerticalStringRepeated(graphics, "Conveyor", Rectangle, font, brush, 60);
                 //}
+
+                System.Drawing.Font font = new System.Drawing.Font("Arial", 10);
+                System.Drawing.Brush brush = new SolidBrush(System.Drawing.Color.Red);
+                string text = string.Empty;
+
+                if (OccupyItem != null)
+                {
+                    text = $"{OccupyItem.ItemEtiketi}";
+                }
+
+                SizeF textsize = graphics.MeasureString(text, font);
+
+                graphics.DrawString($"{text}", font, brush, new PointF(Rectangle.X + textsize.Width / 2, Rectangle.Y + Rectangle.Height / 1.2f - textsize.Height / 2));
+
                 foreach (var reff in ConveyorReferencePoints)
                 {
                     reff.Draw(graphics);
@@ -196,7 +210,7 @@ namespace Balya_Yerleştirme.Models
                 {
                     if (Rectangle.Contains(scaledPoint))
                     {
-                        if (!layout.Fill_WareHouse && !layout.AddReferencePoint)
+                        if (!layout.Fill_WareHouse && !layout.AddReferencePoint && !layout.ConveyorOrdering)
                         {
                             layout.menuProcess = false;
                             layout.selectedConveyor = this;

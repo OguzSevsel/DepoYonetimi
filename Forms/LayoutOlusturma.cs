@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using static Balya_Yerleştirme.Utilities.Utils;
 using Cognex.DataMan.SDK;
 using Cognex.DataMan.SDK.Discovery;
+using Microsoft.Data.SqlClient;
 
 namespace Balya_Yerleştirme
 {
@@ -29,7 +30,7 @@ namespace Balya_Yerleştirme
 
 
 
-        //Variables for creation of depo, conveyor, gridmaps, reference points
+        //Variables for creation of conveyor, conveyor, gridmaps, reference points
         #region Creation Variables
 
         public float cell_eni { get; set; } = 0f;
@@ -184,9 +185,13 @@ namespace Balya_Yerleştirme
         public bool menuProcess { get; set; } = false;
         public Layout? layout { get; set; }
         public Isletme? Isletme { get; set; }
+        public bool ConveyorOrdering { get; set; }
+        public List<int> ConveyorCountList { get; set; } = new List<int>();
 
 
-        public LayoutOlusturma(MainForm main, Ambar? ambar, Layout? layout, Isletme ?isletme)
+
+
+        public LayoutOlusturma(MainForm main, Ambar? ambar, Layout? layout, Isletme? isletme)
         {
             InitializeComponent();
             System.Windows.Forms.ToolTip toolTip = new System.Windows.Forms.ToolTip();
@@ -487,7 +492,7 @@ namespace Balya_Yerleştirme
 
 
 
-        //Delete, Copy, Paste depo's and conveyor's with shortcuts 
+        //Delete, Copy, Paste conveyor's and conveyor's with shortcuts 
         #region Delete, Copy, Paste
 
         //Delete, Copy, Paste
@@ -631,6 +636,8 @@ namespace Balya_Yerleştirme
                                 newReff.FixedPointLocation = reff.FixedPointLocation;
                                 newReff.Info = reff.Info;
                                 newReff.Pointsize = 4;
+                                newReff.LocationX = reff.LocationX;
+                                newReff.LocationY = reff.LocationY;
 
                                 float X = newReff.Rectangle.X - CopyConveyor.Rectangle.X;
                                 float Y = newReff.Rectangle.Y - CopyConveyor.Rectangle.Y;
@@ -785,7 +792,7 @@ namespace Balya_Yerleştirme
                                         CopiedDepo.gridmaps.Add(CopiedCell);
                                     }
                                 }
-                                
+
 
                                 bool ifintersects = CheckifIntersects(CopiedDepo.Rectangle, RectangleF.Empty, CopiedDepo, null);
 
@@ -917,6 +924,8 @@ namespace Balya_Yerleştirme
                                     newReff.FixedPointLocation = reff.FixedPointLocation;
                                     newReff.Info = reff.Info;
                                     newReff.Pointsize = 4;
+                                    newReff.LocationX = reff.LocationX;
+                                    newReff.LocationY = reff.LocationY;
 
                                     float X = newReff.Rectangle.X - conveyor.Rectangle.X;
                                     float Y = newReff.Rectangle.Y - conveyor.Rectangle.Y;
@@ -1084,7 +1093,7 @@ namespace Balya_Yerleştirme
                 }
                 else if (toplam_nesne_yuksekligi > depo_alani_yuksekligi / 2 && toplam_nesne_yuksekligi <= depo_alani_yuksekligi && askOnce)
                 {
-                    var result = MessageBox.Show("Nesne yüksekliğinin toplamı depo alanının yüksekliğinin yarısından fazla devam etmek istediğinize emin misiniz? ", "Devam etmek istiyor musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    var result = MessageBox.Show("Nesne yüksekliğinin toplamı conveyor alanının yüksekliğinin yarısından fazla devam etmek istediğinize emin misiniz? ", "Devam etmek istiyor musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                     if (result == DialogResult.Yes)
                     {
@@ -1198,7 +1207,7 @@ namespace Balya_Yerleştirme
                     {
                         var result =
                             MessageBox.Show("Depoda yükseklik açısından yer var. " +
-                            "Eğer bunu onaylarsanız, depo alanını dolduracak kadar nesne koyulmayacak. " +
+                            "Eğer bunu onaylarsanız, conveyor alanını dolduracak kadar nesne koyulmayacak. " +
                             "Devam etmek istiyor musunuz?", "Emin misiniz?",
                             MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
@@ -1278,7 +1287,7 @@ namespace Balya_Yerleştirme
                         {
                             var result =
                                 MessageBox.Show("Depoda yükseklik açısından yer var. " +
-                                "Eğer bunu onaylarsanız, depo alanını dolduracak kadar nesne koyulmayacak. " +
+                                "Eğer bunu onaylarsanız, conveyor alanını dolduracak kadar nesne koyulmayacak. " +
                                 "Devam etmek istiyor musunuz?", "Emin misiniz?",
                                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
@@ -2068,6 +2077,26 @@ namespace Balya_Yerleştirme
                                depo.Rectangle.Y + (depo.Rectangle.Height / 2 - textsize.Height / 2)));
                     }
                 }
+
+                if (ConveyorOrdering)
+                {
+                    foreach (var conveyor in Ambar.conveyors)
+                    {
+                        System.Drawing.Font font = new System.Drawing.Font("Arial", 12, System.Drawing.FontStyle.Bold);
+
+                        string queue = $"{conveyor.Yerlestirilme_Sirasi}";
+
+                        if (conveyor.Yerlestirilme_Sirasi == 0)
+                        {
+                            queue = string.Empty;
+                        }
+
+                        System.Drawing.SizeF textsize = g.MeasureString(queue, font);
+
+                        g.DrawString(queue, font, new SolidBrush(System.Drawing.Color.Red),
+                               new PointF(conveyor.Rectangle.X + conveyor.Rectangle.Width + textsize.Width, conveyor.Rectangle.Y + conveyor.Rectangle.Height / 2 - textsize.Height / 2));
+                    }
+                }
             }
         }
         private static RectangleF GetSimulationRectangle(Models.Cell cell)
@@ -2129,7 +2158,7 @@ namespace Balya_Yerleştirme
                         if (!iszero)
                         {
                             CustomNotifyIcon notify = new CustomNotifyIcon();
-                            notify.showAlert("Çıkmak için depo olmayan bir yere tıklamanız yeterli", CustomNotifyIcon.enmType.Warning);
+                            notify.showAlert("Çıkmak için conveyor olmayan bir yere tıklamanız yeterli", CustomNotifyIcon.enmType.Warning);
                         }
                     }
                 }
@@ -2146,6 +2175,41 @@ namespace Balya_Yerleştirme
                             {
                                 CountList.Add(depo.Yerlestirilme_Sirasi);
                                 depo.Yerlestirilme_Sirasi = 0;
+                            }
+                        }
+                    }
+                }
+            }
+            if (ConveyorOrdering)
+            {
+                if (Ambar != null)
+                {
+                    System.Drawing.Point scaledPoint =
+                            new System.Drawing.Point((int)((e.X - drawingPanel.AutoScrollPosition.X)),
+                            (int)((e.Y - drawingPanel.AutoScrollPosition.Y)));
+
+                    foreach (var conveyor in Ambar.conveyors)
+                    {
+                        if (conveyor.Rectangle.Contains(scaledPoint))
+                        {
+                            if (conveyor.ConveyorReferencePoints.Count > 0)
+                            {
+                                if (e.Button == MouseButtons.Left)
+                                {
+                                    int x = GetSmallestNumber(ConveyorCountList);
+                                    conveyor.Yerlestirilme_Sirasi = x;
+                                    ConveyorCountList.Remove(x);
+                                }
+                                else if (e.Button == MouseButtons.Right)
+                                {
+                                    ConveyorCountList.Add(conveyor.Yerlestirilme_Sirasi);
+                                    conveyor.Yerlestirilme_Sirasi = 0;
+                                }
+                            }
+                            else
+                            {
+                                CustomNotifyIcon notify = new CustomNotifyIcon();
+                                notify.showAlert("Sadece referans noktası olan conveyorlara sıralama verebilirsiniz.\nAyrıca referans noktalarını lütfen o conveyordan depoya yerleştirme olacaksa kullanın.", CustomNotifyIcon.enmType.Warning);
                             }
                         }
                     }
@@ -2208,7 +2272,6 @@ namespace Balya_Yerleştirme
                                     {
                                         int num = CountList.FirstOrDefault();
                                         depo.Yerlestirilme_Sirasi = num;
-
                                         CountList.Remove(num);
                                     }
                                 }
@@ -2235,6 +2298,15 @@ namespace Balya_Yerleştirme
                         SelectedConveyorEdgePen.Width = 2;
                         SelectedConveyorPen.Width = 2;
                         SelectedConveyorPen.Color = System.Drawing.Color.Black;
+
+                        if (ConveyorOrdering)
+                        {
+                            CustomNotifyIcon notify = new CustomNotifyIcon();
+                            notify.showAlert("Sıralama Kaydedildi.", CustomNotifyIcon.enmType.Success);
+                            TransparentPen.Color = System.Drawing.Color.FromArgb(255, System.Drawing.Color.Black);
+                            ConveyorOrdering = false;
+                            ConveyorCountList.Clear();
+                        }
                     }
 
                     Ambar.OnMouseDown(e);
@@ -4892,7 +4964,7 @@ namespace Balya_Yerleştirme
                 {
                     if (depo.DepoName == depo_name)
                     {
-                        errorProvider.SetError(txt_Depo_Adi, "Aynı isimli bir depo zaten bulunuyor, lütfen değiştirip tekrar deneyin.");
+                        errorProvider.SetError(txt_Depo_Adi, "Aynı isimli bir conveyor zaten bulunuyor, lütfen değiştirip tekrar deneyin.");
                     }
                 }
 
@@ -4994,7 +5066,7 @@ namespace Balya_Yerleştirme
                     MainPanelCloseRightSide(RightSide_LayoutPanel, this);
                     Ware_Counter++;
                     drawingPanel.Invalidate();
-                    //AdjustTextboxesText($"{depo.DepoAlaniEni}", $"{depo.DepoAlaniBoyu}",
+                    //AdjustTextboxesText($"{conveyor.DepoAlaniEni}", $"{conveyor.DepoAlaniBoyu}",
                     //    null, null, null, null);
                     AddDepoNode(depo);
                 }
@@ -5020,7 +5092,7 @@ namespace Balya_Yerleştirme
             {
                 bool isOK = false;
                 bool isDepoEmpty = true;
-                
+
                 foreach (var depo in Ambar.depolar)
                 {
                     isOK = CheckifDepoEmpty(depo);
@@ -5061,7 +5133,7 @@ namespace Balya_Yerleştirme
                     else
                     {
                         CustomNotifyIcon notify = new CustomNotifyIcon();
-                        notify.showAlert("Izgara haritası oluşturmak için öncelikle depo alanı oluşturmalısınız", CustomNotifyIcon.enmType.Error);
+                        notify.showAlert("Izgara haritası oluşturmak için öncelikle conveyor alanı oluşturmalısınız", CustomNotifyIcon.enmType.Error);
                     }
                 }
                 else
@@ -5194,7 +5266,7 @@ namespace Balya_Yerleştirme
                     else
                     {
                         CustomNotifyIcon notify = new CustomNotifyIcon();
-                        notify.showAlert("Oluşturmaya çalıştığınız ızgara haritası seçili depo için çok büyük, bu yüzden oluşturulamadı.", CustomNotifyIcon.enmType.Error);
+                        notify.showAlert("Oluşturmaya çalıştığınız ızgara haritası seçili conveyor için çok büyük, bu yüzden oluşturulamadı.", CustomNotifyIcon.enmType.Error);
                     }
                 }
                 else if (ToolStripIzgara)
@@ -5381,7 +5453,7 @@ namespace Balya_Yerleştirme
                     else
                     {
                         CustomNotifyIcon notify = new CustomNotifyIcon();
-                        notify.showAlert("Oluşturmaya çalıştığınız ızgara haritası seçili depo için çok büyük, bu yüzden oluşturulamadı.", CustomNotifyIcon.enmType.Error);
+                        notify.showAlert("Oluşturmaya çalıştığınız ızgara haritası seçili conveyor için çok büyük, bu yüzden oluşturulamadı.", CustomNotifyIcon.enmType.Error);
                     }
                 }
                 else if (selectedDepo == null && SelectedAmbar != null)
@@ -5719,7 +5791,7 @@ namespace Balya_Yerleştirme
                     else
                     {
                         CustomNotifyIcon notify = new CustomNotifyIcon();
-                        notify.showAlert("Lütfen önce depo oluşturun.", CustomNotifyIcon.enmType.Warning);
+                        notify.showAlert("Lütfen önce conveyor oluşturun.", CustomNotifyIcon.enmType.Warning);
                     }
                 }
                 else
@@ -5852,7 +5924,7 @@ namespace Balya_Yerleştirme
                     else
                     {
                         CustomNotifyIcon notify = new CustomNotifyIcon();
-                        notify.showAlert("Lütfen önce depo oluşturun.", CustomNotifyIcon.enmType.Warning);
+                        notify.showAlert("Lütfen önce conveyor oluşturun.", CustomNotifyIcon.enmType.Warning);
                     }
                 }
                 else
@@ -6274,7 +6346,7 @@ namespace Balya_Yerleştirme
             float Y = point.Rectangle.Y - selectedConveyor.Rectangle.Y;
 
             point.OriginalLocationInsideParent = new PointF(X, Y);
-            
+
             point.OriginalLocationInsideParentX = cm.Item1;
             point.OriginalLocationInsideParentY = cm.Item2;
 
@@ -6300,7 +6372,7 @@ namespace Balya_Yerleştirme
                 bool istop = false;
 
                 PointF Top = GVisual.GetMiddleOfTopEdgeF(selectedConveyor.Rectangle);
-                
+
                 if (tempRef.Count > 0)
                 {
                     foreach (var reff in tempRef)
@@ -7717,68 +7789,194 @@ namespace Balya_Yerleştirme
         {
             List<string> depos = new List<string>();
             bool isContinue = false;
+            bool isConveyorDone = false;
+            
 
             if (Ambar != null)
             {
-                foreach (var depo in Ambar.depolar)
+                foreach (var conveyor in Ambar.conveyors)
                 {
-                    if (depo.isYerlestirilme == 0)
+                    if (conveyor.Yerlestirilme_Sirasi != 0)
                     {
-                        depos.Add(depo.DepoName);
+                        isConveyorDone = true;
+                        break;
                     }
                 }
             }
 
-            if (depos.Count > 0)
+            if (isConveyorDone)
             {
-                string deponames = string.Join(", ", depos);
+                if (Ambar != null)
+                {
+                    foreach (var depo in Ambar.depolar)
+                    {
+                        if (depo.isYerlestirilme == 0)
+                        {
+                            depos.Add(depo.DepoName);
+                        }
+                    }
+                }
 
-                var result = MessageBox.Show($"---{deponames}--- depolarının yerleştirilme sıralaması ayarlanmamıştır, varsayılan sıralama ile devam etmek istiyor musunuz?", "Devam etmek istiyor musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (depos.Count > 0)
+                {
+                    string deponames = string.Join(", ", depos);
 
-                if (result == DialogResult.Yes)
+                    var result = MessageBox.Show($"---{deponames}--- depolarının yerleştirilme sıralaması ayarlanmamıştır, varsayılan sıralama ile devam etmek istiyor musunuz?", "Devam etmek istiyor musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        isContinue = true;
+                    }
+                }
+                else
                 {
                     isContinue = true;
                 }
-            }
-            else
-            {
-                isContinue = true;
-            }
-        
 
-            if (isContinue && !isOrdering)
-            {
-                if (RightSide_LayoutPanel.Visible && !LeftSide_LayoutPanel.Visible)
-                {
-                    MainPanelCloseRightSide(RightSide_LayoutPanel, this);
-                }
-                else if (!RightSide_LayoutPanel.Visible && LeftSide_LayoutPanel.Visible)
-                {
-                    MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
-                }
-                else if (RightSide_LayoutPanel.Visible && LeftSide_LayoutPanel.Visible)
-                {
-                    MainPanelCloseBothSides(LeftSide_LayoutPanel, RightSide_LayoutPanel, this);
-                }
 
-                if (Ambar != null)
+                if (isContinue && !isOrdering)
                 {
-                    using (var dialog = new LayoutNaming(Ambar, Isletme))
+                    if (RightSide_LayoutPanel.Visible && !LeftSide_LayoutPanel.Visible)
                     {
-                        if (dialog.ShowDialog() == DialogResult.OK)
+                        MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+                    }
+                    else if (!RightSide_LayoutPanel.Visible && LeftSide_LayoutPanel.Visible)
+                    {
+                        MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
+                    }
+                    else if (RightSide_LayoutPanel.Visible && LeftSide_LayoutPanel.Visible)
+                    {
+                        MainPanelCloseBothSides(LeftSide_LayoutPanel, RightSide_LayoutPanel, this);
+                    }
+
+                    if (Ambar != null)
+                    {
+                        using (var dialog = new LayoutNaming(Ambar, Isletme))
                         {
-                            LayoutDescription = dialog.txt_Layout_Aciklama.Text;
-                            LayoutName = dialog.txt_Layout_Isim.Text;
-
-                            if (Ambar != null)
+                            if (dialog.ShowDialog() == DialogResult.OK)
                             {
-                                if (Main.ambar != null)
+                                LayoutDescription = dialog.txt_Layout_Aciklama.Text;
+                                LayoutName = dialog.txt_Layout_Isim.Text;
+
+                                if (Ambar != null)
                                 {
-                                    Main.ambar = null;
+                                    if (Main.ambar != null)
+                                    {
+                                        Main.ambar = null;
+                                    }
+
+                                    Main.ambar = Ambar;
+
+                                    Main.ambar.KareX = Ambar.Rectangle.X;
+                                    Main.ambar.KareY = Ambar.Rectangle.Y;
+                                    Main.ambar.KareEni = Ambar.Rectangle.Width;
+                                    Main.ambar.KareBoyu = Ambar.Rectangle.Height;
+                                    Main.ambar.OriginalKareX = Ambar.OriginalRectangle.X;
+                                    Main.ambar.OriginalKareY = Ambar.OriginalRectangle.Y;
+                                    Main.ambar.OriginalKareEni = Ambar.OriginalRectangle.Width;
+                                    Main.ambar.OriginalKareBoyu = Ambar.OriginalRectangle.Height;
+                                    Main.ambar.Zoomlevel = Main.Zoomlevel;
+
+                                    foreach (var conveyor in Main.ambar.conveyors)
+                                    {
+                                        conveyor.layout = null;
+
+                                        conveyor.KareX = conveyor.Rectangle.X;
+                                        conveyor.KareY = conveyor.Rectangle.Y;
+                                        conveyor.KareEni = conveyor.Rectangle.Width;
+                                        conveyor.KareBoyu = conveyor.Rectangle.Height;
+                                        conveyor.OriginalKareX = conveyor.OriginalRectangle.X;
+                                        conveyor.OriginalKareY = conveyor.OriginalRectangle.Y;
+                                        conveyor.OriginalKareEni = conveyor.OriginalRectangle.Width;
+                                        conveyor.OriginalKareBoyu = conveyor.OriginalRectangle.Height;
+                                        conveyor.Zoomlevel = Main.Zoomlevel;
+
+                                        foreach (var reff in conveyor.ConveyorReferencePoints)
+                                        {
+
+                                            reff.KareX = reff.Rectangle.X;
+                                            reff.KareY = reff.Rectangle.Y;
+                                            reff.KareEni = reff.Rectangle.Width;
+                                            reff.KareBoyu = reff.Rectangle.Height;
+                                            reff.OriginalKareX = reff.OriginalRectangle.X;
+                                            reff.OriginalKareY = reff.OriginalRectangle.Y;
+                                            reff.OriginalKareEni = reff.OriginalRectangle.Width;
+                                            reff.OriginalKareBoyu = reff.OriginalRectangle.Height;
+                                            reff.Zoomlevel = Main.Zoomlevel;
+                                            reff.Layout = null;
+                                        }
+                                    }
+                                    foreach (var depo in Main.ambar.depolar)
+                                    {
+
+                                        depo.OriginalDepoSizeWidth = depo.OriginalRectangle.Width;
+                                        depo.OriginalDepoSizeHeight = depo.OriginalRectangle.Height;
+                                        depo.KareX = depo.Rectangle.X;
+                                        depo.KareY = depo.Rectangle.Y;
+                                        depo.KareEni = depo.Rectangle.Width;
+                                        depo.KareBoyu = depo.Rectangle.Height;
+                                        depo.OriginalKareX = depo.OriginalRectangle.X;
+                                        depo.OriginalKareY = depo.OriginalRectangle.Y;
+                                        depo.OriginalKareEni = depo.OriginalRectangle.Width;
+                                        depo.OriginalKareBoyu = depo.OriginalRectangle.Height;
+                                        depo.Zoomlevel = Main.Zoomlevel;
+                                        depo.layout = null;
+
+                                        foreach (var cell in depo.gridmaps)
+                                        {
+                                            cell.KareX = cell.Rectangle.X;
+                                            cell.KareY = cell.Rectangle.Y;
+                                            cell.KareEni = cell.Rectangle.Width;
+                                            cell.KareBoyu = cell.Rectangle.Height;
+                                            cell.OriginalKareX = cell.OriginalRectangle.X;
+                                            cell.OriginalKareY = cell.OriginalRectangle.Y;
+                                            cell.OriginalKareEni = cell.OriginalRectangle.Width;
+                                            cell.OriginalKareBoyu = cell.OriginalRectangle.Height;
+                                            cell.Zoomlevel = Main.Zoomlevel;
+                                            cell.Layout = null;
+                                        }
+                                    }
+
+                                    await Task.Run(() => Main.LayoutOlusturSecondDatabaseOperation(LayoutName, LayoutDescription, layout, Main.ambar));
+                                    Main.DrawingPanel.Invalidate();
+                                    Main.lbl_SelectedLayout_Value.Text = LayoutName;
+                                    this.Hide();
+                                    this.Close();
                                 }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        this.DialogResult = DialogResult.Cancel;
+                    }
+                }
+                else if (isOrdering && isContinue)
+                {
+                    if (RightSide_LayoutPanel.Visible && !LeftSide_LayoutPanel.Visible)
+                    {
+                        MainPanelCloseRightSide(RightSide_LayoutPanel, this);
+                    }
+                    else if (!RightSide_LayoutPanel.Visible && LeftSide_LayoutPanel.Visible)
+                    {
+                        MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
+                    }
+                    else if (RightSide_LayoutPanel.Visible && LeftSide_LayoutPanel.Visible)
+                    {
+                        MainPanelCloseBothSides(LeftSide_LayoutPanel, RightSide_LayoutPanel, this);
+                    }
 
+
+                    if (Ambar != null && layout != null)
+                    {
+                        LayoutDescription = layout.Description;
+                        LayoutName = layout.Name;
+
+                        if (Ambar != null)
+                        {
+                            if (Main.ambar != null && Main.Isletme != null && Isletme != null && Main.Isletme.Name == Isletme.Name && Main.lbl_SelectedLayout_Value.Text == layout.Name)
+                            {
                                 Main.ambar = Ambar;
-
                                 Main.ambar.KareX = Ambar.Rectangle.X;
                                 Main.ambar.KareY = Ambar.Rectangle.Y;
                                 Main.ambar.KareEni = Ambar.Rectangle.Width;
@@ -7792,7 +7990,6 @@ namespace Balya_Yerleştirme
                                 foreach (var conveyor in Main.ambar.conveyors)
                                 {
                                     conveyor.layout = null;
-
                                     conveyor.KareX = conveyor.Rectangle.X;
                                     conveyor.KareY = conveyor.Rectangle.Y;
                                     conveyor.KareEni = conveyor.Rectangle.Width;
@@ -7805,7 +8002,6 @@ namespace Balya_Yerleştirme
 
                                     foreach (var reff in conveyor.ConveyorReferencePoints)
                                     {
-
                                         reff.KareX = reff.Rectangle.X;
                                         reff.KareY = reff.Rectangle.Y;
                                         reff.KareEni = reff.Rectangle.Width;
@@ -7820,7 +8016,6 @@ namespace Balya_Yerleştirme
                                 }
                                 foreach (var depo in Main.ambar.depolar)
                                 {
-
                                     depo.OriginalDepoSizeWidth = depo.OriginalRectangle.Width;
                                     depo.OriginalDepoSizeHeight = depo.OriginalRectangle.Height;
                                     depo.KareX = depo.Rectangle.X;
@@ -7848,125 +8043,23 @@ namespace Balya_Yerleştirme
                                         cell.Layout = null;
                                     }
                                 }
-
-                                await Task.Run(() => Main.LayoutOlusturSecondDatabaseOperation(LayoutName, LayoutDescription, layout, Main.ambar));
-                                Main.DrawingPanel.Invalidate();
-                                Main.lbl_SelectedLayout_Value.Text = LayoutName;
-                                this.Hide();
-                                this.Close();
                             }
+                            Main.DrawingPanel.Invalidate();
+                            this.DialogResult = DialogResult.OK;
+                            this.Hide();
+                            Main.Show();
+                            this.Close();
                         }
                     }
-                }
-                else
-                {
-                    this.DialogResult = DialogResult.Cancel;
+                    else
+                    {
+                        this.DialogResult = DialogResult.Cancel;
+                    }
                 }
             }
-            else if (isOrdering && isContinue)
+            else
             {
-                if (RightSide_LayoutPanel.Visible && !LeftSide_LayoutPanel.Visible)
-                {
-                    MainPanelCloseRightSide(RightSide_LayoutPanel, this);
-                }
-                else if (!RightSide_LayoutPanel.Visible && LeftSide_LayoutPanel.Visible)
-                {
-                    MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
-                }
-                else if (RightSide_LayoutPanel.Visible && LeftSide_LayoutPanel.Visible)
-                {
-                    MainPanelCloseBothSides(LeftSide_LayoutPanel, RightSide_LayoutPanel, this);
-                }
-
-
-                if (Ambar != null && layout != null)
-                {
-                    LayoutDescription = layout.Description;
-                    LayoutName = layout.Name;
-
-                    if (Ambar != null)
-                    {
-                        if (Main.ambar != null && Main.Isletme != null && Isletme != null &&  Main.Isletme.Name == Isletme.Name && Main.lbl_SelectedLayout_Value.Text == layout.Name)
-                        {
-                            Main.ambar = Ambar;
-                            Main.ambar.KareX = Ambar.Rectangle.X;
-                            Main.ambar.KareY = Ambar.Rectangle.Y;
-                            Main.ambar.KareEni = Ambar.Rectangle.Width;
-                            Main.ambar.KareBoyu = Ambar.Rectangle.Height;
-                            Main.ambar.OriginalKareX = Ambar.OriginalRectangle.X;
-                            Main.ambar.OriginalKareY = Ambar.OriginalRectangle.Y;
-                            Main.ambar.OriginalKareEni = Ambar.OriginalRectangle.Width;
-                            Main.ambar.OriginalKareBoyu = Ambar.OriginalRectangle.Height;
-                            Main.ambar.Zoomlevel = Main.Zoomlevel;
-
-                            foreach (var conveyor in Main.ambar.conveyors)
-                            {
-                                conveyor.layout = null;
-                                conveyor.KareX = conveyor.Rectangle.X;
-                                conveyor.KareY = conveyor.Rectangle.Y;
-                                conveyor.KareEni = conveyor.Rectangle.Width;
-                                conveyor.KareBoyu = conveyor.Rectangle.Height;
-                                conveyor.OriginalKareX = conveyor.OriginalRectangle.X;
-                                conveyor.OriginalKareY = conveyor.OriginalRectangle.Y;
-                                conveyor.OriginalKareEni = conveyor.OriginalRectangle.Width;
-                                conveyor.OriginalKareBoyu = conveyor.OriginalRectangle.Height;
-                                conveyor.Zoomlevel = Main.Zoomlevel;
-
-                                foreach (var reff in conveyor.ConveyorReferencePoints)
-                                {
-                                    reff.KareX = reff.Rectangle.X;
-                                    reff.KareY = reff.Rectangle.Y;
-                                    reff.KareEni = reff.Rectangle.Width;
-                                    reff.KareBoyu = reff.Rectangle.Height;
-                                    reff.OriginalKareX = reff.OriginalRectangle.X;
-                                    reff.OriginalKareY = reff.OriginalRectangle.Y;
-                                    reff.OriginalKareEni = reff.OriginalRectangle.Width;
-                                    reff.OriginalKareBoyu = reff.OriginalRectangle.Height;
-                                    reff.Zoomlevel = Main.Zoomlevel;
-                                    reff.Layout = null;
-                                }
-                            }
-                            foreach (var depo in Main.ambar.depolar)
-                            {
-                                depo.OriginalDepoSizeWidth = depo.OriginalRectangle.Width;
-                                depo.OriginalDepoSizeHeight = depo.OriginalRectangle.Height;
-                                depo.KareX = depo.Rectangle.X;
-                                depo.KareY = depo.Rectangle.Y;
-                                depo.KareEni = depo.Rectangle.Width;
-                                depo.KareBoyu = depo.Rectangle.Height;
-                                depo.OriginalKareX = depo.OriginalRectangle.X;
-                                depo.OriginalKareY = depo.OriginalRectangle.Y;
-                                depo.OriginalKareEni = depo.OriginalRectangle.Width;
-                                depo.OriginalKareBoyu = depo.OriginalRectangle.Height;
-                                depo.Zoomlevel = Main.Zoomlevel;
-                                depo.layout = null;
-
-                                foreach (var cell in depo.gridmaps)
-                                {
-                                    cell.KareX = cell.Rectangle.X;
-                                    cell.KareY = cell.Rectangle.Y;
-                                    cell.KareEni = cell.Rectangle.Width;
-                                    cell.KareBoyu = cell.Rectangle.Height;
-                                    cell.OriginalKareX = cell.OriginalRectangle.X;
-                                    cell.OriginalKareY = cell.OriginalRectangle.Y;
-                                    cell.OriginalKareEni = cell.OriginalRectangle.Width;
-                                    cell.OriginalKareBoyu = cell.OriginalRectangle.Height;
-                                    cell.Zoomlevel = Main.Zoomlevel;
-                                    cell.Layout = null;
-                                }
-                            }
-                        }
-                        Main.DrawingPanel.Invalidate();
-                        this.DialogResult = DialogResult.OK;
-                        this.Hide();
-                        Main.Show();
-                        this.Close();
-                    }
-                }
-                else
-                {
-                    this.DialogResult = DialogResult.Cancel;
-                }
+                MessageBox.Show("Conveyor sıralamasını ayarlamadan layout'u kaydedemezsiniz. Lütfen ayarlayıp tekrar deneyin.", "Conveyor sıralaması ayarlanmamış", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
         private bool CheckifDepoEmpty(Depo depo)
@@ -8075,6 +8168,23 @@ namespace Balya_Yerleştirme
                             selectedDepo.ItemTuruSecondary,
                             selectedDepo.isYerlestirilme
                         );
+            }
+        }
+
+        private void btn_Alan_SubMenu_Conveyor_Siralamasi_Click(object sender, EventArgs e)
+        {
+            if (Ambar != null)
+            {
+                ConveyorOrdering = true;
+
+                for (int i = 1; i <= Ambar.conveyors.Count; i++)
+                {
+                    ConveyorCountList.Add(i);
+                }
+                foreach (var conveyor in Ambar.conveyors)
+                {
+                    conveyor.Yerlestirilme_Sirasi = 0;
+                }
             }
         }
 

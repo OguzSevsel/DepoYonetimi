@@ -233,6 +233,7 @@ namespace Balya_Yerleştirme
                         newConveyor.ConveyorId = conveyor.ConveyorId;
                         newConveyor.AmbarId = conveyor.AmbarId;
                         newConveyor.Zoomlevel = conveyor.Zoomlevel;
+                        newConveyor.Yerlestirilme_Sirasi = conveyor.Yerlestirilme_Sirasi;
 
                         newAmbar.conveyors.Add(newConveyor);
 
