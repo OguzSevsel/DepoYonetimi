@@ -208,7 +208,7 @@ namespace Balya_Yerleştirme.Migrations
                     b.ToTable("Cell", (string)null);
                 });
 
-            modelBuilder.Entity("Balya_Yerleştirme.Models.Conveyor", b =>
+            modelBuilder.Entity("Balya_Yerleştirme.Models.PLC", b =>
                 {
                     b.Property<int>("ConveyorId")
                         .ValueGeneratedOnAdd()
@@ -271,7 +271,7 @@ namespace Balya_Yerleştirme.Migrations
 
                     b.HasIndex("AmbarId");
 
-                    b.ToTable("Conveyor", (string)null);
+                    b.ToTable("PLC", (string)null);
                 });
 
             modelBuilder.Entity("Balya_Yerleştirme.Models.ConveyorReferencePoint", b =>
@@ -685,7 +685,7 @@ namespace Balya_Yerleştirme.Migrations
                     b.Navigation("Depo");
                 });
 
-            modelBuilder.Entity("Balya_Yerleştirme.Models.Conveyor", b =>
+            modelBuilder.Entity("Balya_Yerleştirme.Models.PLC", b =>
                 {
                     b.HasOne("Balya_Yerleştirme.Models.Ambar", "Ambar")
                         .WithMany("Conveyors")
@@ -699,14 +699,14 @@ namespace Balya_Yerleştirme.Migrations
 
             modelBuilder.Entity("Balya_Yerleştirme.Models.ConveyorReferencePoint", b =>
                 {
-                    b.HasOne("Balya_Yerleştirme.Models.Conveyor", "Conveyor")
+                    b.HasOne("Balya_Yerleştirme.Models.PLC", "PLC")
                         .WithMany("ConveyorReferencePoints")
                         .HasForeignKey("ConveyorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_ConveyorReferencePoint_Conveyor");
 
-                    b.Navigation("Conveyor");
+                    b.Navigation("PLC");
                 });
 
             modelBuilder.Entity("Balya_Yerleştirme.Models.Depo", b =>
@@ -757,7 +757,7 @@ namespace Balya_Yerleştirme.Migrations
                     b.Navigation("Items");
                 });
 
-            modelBuilder.Entity("Balya_Yerleştirme.Models.Conveyor", b =>
+            modelBuilder.Entity("Balya_Yerleştirme.Models.PLC", b =>
                 {
                     b.Navigation("ConveyorReferencePoints");
                 });

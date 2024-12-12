@@ -145,7 +145,7 @@
             lbl_Conveyor_Ref_Title.Size = new Size(564, 33);
             lbl_Conveyor_Ref_Title.StateCommon.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Bold, GraphicsUnit.Point, 162);
             lbl_Conveyor_Ref_Title.StateCommon.TextColor = Color.Red;
-            lbl_Conveyor_Ref_Title.Text = "Conveyor";
+            lbl_Conveyor_Ref_Title.Text = "PLC";
             lbl_Conveyor_Ref_Title.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // ConveyorReferansNoktasıEkleme
@@ -162,7 +162,7 @@
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "ConveyorReferansNoktasıEkleme";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Conveyor'a Referans Noktası Ekleme";
+            Text = "PLC'a Referans Noktası Ekleme";
             ResumeLayout(false);
         }
 

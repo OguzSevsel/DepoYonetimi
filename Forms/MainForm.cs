@@ -79,7 +79,6 @@ namespace Balya_Yerleştirme
         #endregion
 
 
-
         public Ambar? ambar { get; set; }
         public Depo selectedDepo { get; set; }
         public Isletme? Isletme { get; set; }
@@ -89,8 +88,6 @@ namespace Balya_Yerleştirme
         public string InputPath { get; set; }
         public string OutputPath { get; set; }
         public string FailedPath { get; set; }
-        private static DataManSystem dataManSystem;
-
 
 
         #region PLC Operations
@@ -1407,44 +1404,48 @@ namespace Balya_Yerleştirme
         //Connecting to the PLC
         private void btn_PLC_ConnectionPanel_Kapat_Click(object sender, EventArgs e)
         {
-            if (PLC_Connection_Panel.Controls.Contains(txt_PLC_IP_Address))
-            {
-                GVisual.HideControl(txt_PLC_IP_Address, PLC_Connection_Panel);
-                GVisual.HideControl(lbl_PLC_IP_Address, PLC_Connection_Panel);
-                GVisual.HideControl(btn_Connect_to_PLC, PLC_Connection_Panel);
-                GVisual.ChangeSize_of_Control(PLC_Connection_Panel, new Size(btn_PLC_ConnectionPanel_Kapat.Width + 5, btn_PLC_ConnectionPanel_Kapat.Height + 5));
-                GVisual.Move_RightSide_of_AnotherControl(PLC_Connection_Panel, ToolStrip, 3);
-                GVisual.Control_Center(btn_PLC_ConnectionPanel_Kapat, PLC_Connection_Panel);
-                btn_PLC_ConnectionPanel_Kapat.Image = Resources.Resource1.Chevron_Right;
-                IsletmeInfoPanel.Location = new System.Drawing.Point(730, 4);
-            }
-            else
-            {
-                GVisual.ShowControl(txt_PLC_IP_Address, PLC_Connection_Panel, txt_PLC_IP_Address.Location);
-                GVisual.ShowControl(lbl_PLC_IP_Address, PLC_Connection_Panel, lbl_PLC_IP_Address.Location);
-                GVisual.ShowControl(btn_Connect_to_PLC, PLC_Connection_Panel, btn_Connect_to_PLC.Location);
-                GVisual.ChangeSize_of_Control(PLC_Connection_Panel, new Size(312, 73));
-                GVisual.Move_RightSide_of_AnotherControl(PLC_Connection_Panel, ToolStrip, 3);
-                GVisual.Control_CenterRightEdge(btn_PLC_ConnectionPanel_Kapat, PLC_Connection_Panel, 3);
-                btn_PLC_ConnectionPanel_Kapat.Image = Resources.Resource1.Chevron_Left;
-                IsletmeInfoPanel.Location = new System.Drawing.Point(886, 4);
-            }
+            //if (PLC_Connection_Panel.Controls.Contains(txt_PLC_IP_Address))
+            //{
+            //    GVisual.HideControl(txt_PLC_IP_Address, PLC_Connection_Panel);
+            //    GVisual.HideControl(lbl_PLC_IP_Address, PLC_Connection_Panel);
+            //    GVisual.HideControl(btn_Connect_to_PLC, PLC_Connection_Panel);
+            //    GVisual.ChangeSize_of_Control(PLC_Connection_Panel, new Size(btn_PLC_ConnectionPanel_Kapat.Width + 5, btn_PLC_ConnectionPanel_Kapat.Height + 5));
+            //    GVisual.Move_RightSide_of_AnotherControl(PLC_Connection_Panel, ToolStrip, 3);
+            //    GVisual.Control_Center(btn_PLC_ConnectionPanel_Kapat, PLC_Connection_Panel);
+            //    btn_PLC_ConnectionPanel_Kapat.Image = Resources.Resource1.Chevron_Right;
+            //    IsletmeInfoPanel.Location = new System.Drawing.Point(730, 4);
+            //}
+            //else
+            //{
+            //    GVisual.ShowControl(txt_PLC_IP_Address, PLC_Connection_Panel, txt_PLC_IP_Address.Location);
+            //    GVisual.ShowControl(lbl_PLC_IP_Address, PLC_Connection_Panel, lbl_PLC_IP_Address.Location);
+            //    GVisual.ShowControl(btn_Connect_to_PLC, PLC_Connection_Panel, btn_Connect_to_PLC.Location);
+            //    GVisual.ChangeSize_of_Control(PLC_Connection_Panel, new Size(312, 73));
+            //    GVisual.Move_RightSide_of_AnotherControl(PLC_Connection_Panel, ToolStrip, 3);
+            //    GVisual.Control_CenterRightEdge(btn_PLC_ConnectionPanel_Kapat, PLC_Connection_Panel, 3);
+            //    btn_PLC_ConnectionPanel_Kapat.Image = Resources.Resource1.Chevron_Left;
+            //    IsletmeInfoPanel.Location = new System.Drawing.Point(886, 4);
+            //}
         }
-        private void btn_PLC_Connection_Click(object sender, EventArgs e)
+        private void btn_PLC_Settings_Click(object sender, EventArgs e)
         {
-            MainPanelOpenLeftSide(leftLayoutPanel, this, leftSidePanelLocation, PLC_DB_AdressPanel);
-            GVisual.ShowControl(PLC_DB_AdressPanel, leftLayoutPanel);
-            DrawingPanel.Invalidate();
+            //MainPanelOpenLeftSide(leftLayoutPanel, this, leftSidePanelLocation, PLC_DB_AdressPanel);
+            //GVisual.ShowControl(PLC_DB_AdressPanel, leftLayoutPanel);
+
+            using (var dialog = new PLCPassword())
+            {
+                dialog.ShowDialog();
+            }
         }
         private void btn_PLC_DB_AddressPanel_Kapat_Click(object sender, EventArgs e)
         {
             MainPanelCloseLeftSide(leftLayoutPanel, this);
             GVisual.HideControl(PLC_DB_AdressPanel, leftLayoutPanel);
 
-            if (PLC_Connection_Panel.Controls.Contains(txt_PLC_IP_Address))
-            {
-                btn_PLC_ConnectionPanel_Kapat_Click(this, EventArgs.Empty);
-            }
+            //if (PLC_Connection_Panel.Controls.Contains(txt_PLC_IP_Address))
+            //{
+            //    btn_PLC_ConnectionPanel_Kapat_Click(this, EventArgs.Empty);
+            //}
             DrawingPanel.Invalidate();
         }
         private void btn_DB_Onayla_Click(object sender, EventArgs e)
@@ -1452,10 +1453,10 @@ namespace Balya_Yerleştirme
             MainPanelCloseLeftSide(leftLayoutPanel, this);
             GVisual.HideControl(PLC_DB_AdressPanel, leftLayoutPanel);
 
-            if (PLC_Connection_Panel.Controls.Contains(txt_PLC_IP_Address))
-            {
-                btn_PLC_ConnectionPanel_Kapat_Click(this, EventArgs.Empty);
-            }
+            //if (PLC_Connection_Panel.Controls.Contains(txt_PLC_IP_Address))
+            //{
+            //    btn_PLC_ConnectionPanel_Kapat_Click(this, EventArgs.Empty);
+            //}
             DrawingPanel.Invalidate();
         }
         private void btn_DB_Vazgec_Click(object sender, EventArgs e)
@@ -1463,19 +1464,32 @@ namespace Balya_Yerleştirme
             MainPanelCloseLeftSide(leftLayoutPanel, this);
             GVisual.HideControl(PLC_DB_AdressPanel, leftLayoutPanel);
 
-            if (PLC_Connection_Panel.Controls.Contains(txt_PLC_IP_Address))
-            {
-                btn_PLC_ConnectionPanel_Kapat_Click(this, EventArgs.Empty);
-            }
+            //if (PLC_Connection_Panel.Controls.Contains(txt_PLC_IP_Address))
+            //{
+            //    btn_PLC_ConnectionPanel_Kapat_Click(this, EventArgs.Empty);
+            //}
             DrawingPanel.Invalidate();
         }
         private void btn_Connect_to_PLC_Click(object sender, EventArgs e)
         {
             try
             {
-                PLC = new Plc(CpuType.S71200, txt_PLC_IP_Address.Text, 0, 1);
-                PLC.Open();
-                StatusBarConnectionSuccess();
+                using (var context = new DBContext())
+                {
+                    var plc = (from x in context.LogicControllers
+                               select x).FirstOrDefault();
+
+                    if (plc != null)
+                    {
+                        PLC = new Plc(CpuType.S71200, plc.PLC_IPAddress, 0, 1);
+                        PLC.Open();
+                        StatusBarConnectionSuccess();
+                    }
+                    else
+                    {
+                        MessageBox.Show("PLC bulunamadı, lütfen ayarlar kısmına gidin.", "PLC Bulunamadı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -1504,8 +1518,6 @@ namespace Balya_Yerleştirme
                 {
                     MessageBox.Show("PLC Simülasyonunun açılması için bir layout'un yüklü olması gerekiyor.", "Layout Yüklü Değil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-
-
                 StatusBarConnectionFailed();
             }
         }
@@ -1513,13 +1525,12 @@ namespace Balya_Yerleştirme
         {
             btn_Connect_to_PLC.ForeColor = System.Drawing.Color.Green;
             btn_Connect_to_PLC.Text = "Bağlandı";
-            btn_PLC_ConnectionPanel_Kapat.BackColor = System.Drawing.Color.Lime;
         }
         private void StatusBarConnectionFailed()
         {
             btn_Connect_to_PLC.ForeColor = System.Drawing.Color.Red;
             btn_Connect_to_PLC.Text = "Bağlanılamadı";
-            btn_PLC_ConnectionPanel_Kapat.BackColor = System.Drawing.Color.Red;
+            //btn_PLC_ConnectionPanel_Kapat.BackColor = System.Drawing.Color.Red;
         }
 
         #endregion
@@ -3580,7 +3591,6 @@ namespace Balya_Yerleştirme
                     Panel newPanel = (Panel)panel1;
 
                     if (newPanel != DrawingPanel &&
-                        newPanel != PLC_Connection_Panel &&
                         newPanel != infopanel &&
                         newPanel != panel)
                     {
@@ -4209,9 +4219,6 @@ namespace Balya_Yerleştirme
         }
 
 
-
-
-
         #region Barcode Device Events
 
         private void OnSerSystemDiscovered(SerSystemDiscoverer.SystemInfo systemInfo)
@@ -4558,30 +4565,7 @@ namespace Balya_Yerleştirme
         #endregion
 
 
-
-        private void toolStripButton2_Click(object sender, EventArgs e)
-        {
-            if (ambar != null)
-            {
-                MainPanelOpenLeftSide(leftLayoutPanel, this, leftSidePanelLocation, panel_Barcode);
-
-                _ethSystemDiscoverer = new EthSystemDiscoverer();
-                _serSystemDiscoverer = new SerSystemDiscoverer();
-
-                // Subscribe to the system discoved event.
-                _ethSystemDiscoverer.SystemDiscovered += new EthSystemDiscoverer.SystemDiscoveredHandler(OnEthSystemDiscovered);
-                _serSystemDiscoverer.SystemDiscovered += new SerSystemDiscoverer.SystemDiscoveredHandler(OnSerSystemDiscovered);
-
-                // Ask the discoverers to start discovering systems.
-                _ethSystemDiscoverer.Discover();
-                _serSystemDiscoverer.Discover();
-            }
-            else
-            {
-                MessageBox.Show("Lütfen bir layout yükleyin ve tekrar deneyin.", "Layout yüklü değil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
+        
 
 
         private void btn_Process_Simulation_Click(object sender, EventArgs e)
@@ -4767,7 +4751,6 @@ namespace Balya_Yerleştirme
             }
             return (conveyor, item);
         }
-
         private void btn_IslemSim_Barkod_Oku_Click(object sender, EventArgs e)
         {
             try
@@ -4817,9 +4800,6 @@ namespace Balya_Yerleştirme
                 MessageBox.Show("Failed to send TRIGGER ON command: " + ex.ToString());
             }
         }
-
-
-
 
 
         private void ChangeConveyorPanelInfo(Conveyor conveyor)
@@ -5010,6 +4990,32 @@ namespace Balya_Yerleştirme
         private void btn_IslemSim_Panel_Kapat_Click(object sender, EventArgs e)
         {
             MainPanelCloseRightSide(rightLayoutPanel, this);
+        }
+
+        private void btn_BarcodeReader_Connect_Click(object sender, EventArgs e)
+        {
+            if (ambar != null)
+            {
+                MainPanelOpenLeftSide(leftLayoutPanel, this, leftSidePanelLocation, panel_Barcode);
+
+                if (_system == null)
+                {
+                    _ethSystemDiscoverer = new EthSystemDiscoverer();
+                    _serSystemDiscoverer = new SerSystemDiscoverer();
+
+                    // Subscribe to the system discoved event.
+                    _ethSystemDiscoverer.SystemDiscovered += new EthSystemDiscoverer.SystemDiscoveredHandler(OnEthSystemDiscovered);
+                    _serSystemDiscoverer.SystemDiscovered += new SerSystemDiscoverer.SystemDiscoveredHandler(OnSerSystemDiscovered);
+
+                    // Ask the discoverers to start discovering systems.
+                    _ethSystemDiscoverer.Discover();
+                    _serSystemDiscoverer.Discover();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Lütfen bir layout yükleyin ve tekrar deneyin.", "Layout yüklü değil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }

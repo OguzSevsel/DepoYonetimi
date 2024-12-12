@@ -31,6 +31,8 @@ public partial class DBContext : DbContext
 
     public virtual DbSet<Item> Items { get; set; }
 
+    public virtual DbSet<LogicController> LogicControllers { get; set; }
+
     public virtual DbSet<ItemReferencePoint> ItemReferencePoints { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -294,6 +296,23 @@ public partial class DBContext : DbContext
             entity.HasOne(d => d.Item).WithMany(p => p.ItemReferencePoints)
                 .HasForeignKey(d => d.ItemId)
                 .HasConstraintName("FK_ItemReferencePoint_Item");
+        });
+
+        modelBuilder.Entity<LogicController>(entity =>
+        {
+            entity.HasKey(e => e.PLC_id);
+
+            entity.ToTable("PLC");
+
+            entity.Property(e => e.PLC_id).HasColumnName("PLC_id");
+            entity.Property(e => e.PLC_IPAddress).HasColumnName("PLC_IPAddress");
+            entity.Property(e => e.DepoIn_DBAddress).HasColumnName("DepoIn_DBAddress");
+            entity.Property(e => e.DepoOut_DBAddress).HasColumnName("DepoOut_DBAddress");
+            entity.Property(e => e.BalyaOnay_DBAddress).HasColumnName("BalyaOnay_DBAddress");
+            entity.Property(e => e.BalyaBeklet_DBAddress).HasColumnName("BalyaBeklet_DBAddress");
+            entity.Property(e => e.BalyaHazir_DBAddress).HasColumnName("BalyaHazir_DBAddress");
+            entity.Property(e => e.VincBalyaAl_DBAddress).HasColumnName("VincBalyaAl_DBAddress");
+            entity.Property(e => e.PLC_Password).HasColumnName("PLC_Password");
         });
 
         OnModelCreatingPartial(modelBuilder);

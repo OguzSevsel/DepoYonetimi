@@ -215,7 +215,7 @@ namespace Balya_Yerleştirme.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap Conveyor {
             get {
-                object obj = ResourceManager.GetObject("Conveyor", resourceCulture);
+                object obj = ResourceManager.GetObject("PLC", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
