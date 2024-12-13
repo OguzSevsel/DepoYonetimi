@@ -1524,12 +1524,12 @@ namespace Balya_Yerleştirme
         private void StatusBarConnectionSuccess()
         {
             btn_Connect_to_PLC.ForeColor = System.Drawing.Color.Green;
-            btn_Connect_to_PLC.Text = "Bağlandı";
+            btn_Connect_to_PLC.Text = "PLC'ye\nBağlandı";
         }
         private void StatusBarConnectionFailed()
         {
             btn_Connect_to_PLC.ForeColor = System.Drawing.Color.Red;
-            btn_Connect_to_PLC.Text = "Bağlanılamadı";
+            btn_Connect_to_PLC.Text = "PLC'ye\nBağlanılamadı";
             //btn_PLC_ConnectionPanel_Kapat.BackColor = System.Drawing.Color.Red;
         }
 

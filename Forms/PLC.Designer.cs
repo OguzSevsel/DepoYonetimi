@@ -459,6 +459,7 @@
             Controls.Add(btn_PLC_Sifre_Degistir);
             Controls.Add(panel1);
             Name = "PLC";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Ayarlar";
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);

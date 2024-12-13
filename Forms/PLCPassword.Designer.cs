@@ -99,6 +99,7 @@
             Controls.Add(btn_PLC_Password_Vazgec);
             Controls.Add(btn_PLC_Password_Onayla);
             Name = "PLCPassword";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Şifre";
             ResumeLayout(false);
             PerformLayout();
