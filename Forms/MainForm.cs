@@ -836,10 +836,30 @@ namespace Balya_Yerleştirme
         //Button event that opens dialog for Creating Layouts
         private void btn_Layout_Olustur_Click(object sender, EventArgs e)
         {
+            bool isConveyorEmpty = true;
+
             if (Isletme != null)
             {
-                LayoutOlusturma dia = new LayoutOlusturma(this, null, null, Isletme);
-                dia.Show();
+                if (ambar != null)
+                {
+                    foreach (var conveyor in ambar.conveyors)
+                    {
+                        if (conveyor.OccupyItem != null)
+                        {
+                            isConveyorEmpty = false;
+                            break;
+                        }
+                    }
+                }
+                if (isConveyorEmpty)
+                {
+                    LayoutOlusturma dia = new LayoutOlusturma(this, null, null, Isletme);
+                    dia.Show();
+                }
+                else
+                {
+                    MessageBox.Show("Conveyorlardan biri dolu lütfen önce conveyorları boşaltın", "Conveyorlardan biri dolu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
             else
             {
@@ -852,37 +872,58 @@ namespace Balya_Yerleştirme
         //Button event that opens the dialog for Selecting Layouts
         private void toolStripBTN_Layout_Sec_Click(object sender, EventArgs e)
         {
+            bool isConveyorEmpty = true;
+
             if (ambar != null)
             {
-                Zoomlevel = 1f;
-                ambar.ApplyZoom(Zoomlevel);
-                foreach (var depo in ambar.depolar)
-                {
-                    depo.ApplyZoom(Zoomlevel);
-                    foreach (var cell in depo.gridmaps)
-                    {
-                        cell.ApplyZoom(Zoomlevel);
-                        foreach (var item in cell.items)
-                        {
-                            item.ApplyZoom(Zoomlevel);
-                        }
-                    }
-                }
-
                 foreach (var conveyor in ambar.conveyors)
                 {
-                    conveyor.ApplyZoom(Zoomlevel);
-                    foreach (var reff in conveyor.ConveyorReferencePoints)
+                    if (conveyor.OccupyItem != null)
                     {
-                        reff.ApplyZoom(Zoomlevel);
+                        isConveyorEmpty = false;
+                        break;
                     }
                 }
-                DrawingPanel.AutoScrollMinSize = new Size(0, 0);
+                if (isConveyorEmpty)
+                {
+                    Zoomlevel = 1f;
+                    ambar.ApplyZoom(Zoomlevel);
+                    foreach (var depo in ambar.depolar)
+                    {
+                        depo.ApplyZoom(Zoomlevel);
+                        foreach (var cell in depo.gridmaps)
+                        {
+                            cell.ApplyZoom(Zoomlevel);
+                            foreach (var item in cell.items)
+                            {
+                                item.ApplyZoom(Zoomlevel);
+                            }
+                        }
+                    }
+
+                    foreach (var conveyor in ambar.conveyors)
+                    {
+                        conveyor.ApplyZoom(Zoomlevel);
+                        foreach (var reff in conveyor.ConveyorReferencePoints)
+                        {
+                            reff.ApplyZoom(Zoomlevel);
+                        }
+                    }
+                    DrawingPanel.AutoScrollMinSize = new Size(0, 0);
+                }
             }
-            SelectLayouts dialog = new SelectLayouts(DrawingPanel, this, Isletme);
-            if (dialog.DialogResult != DialogResult.Cancel)
+
+            if (isConveyorEmpty)
             {
-                dialog.Show();
+                SelectLayouts dialog = new SelectLayouts(DrawingPanel, this, Isletme);
+                if (dialog.DialogResult != DialogResult.Cancel)
+                {
+                    dialog.Show();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Conveyorlardan biri dolu lütfen önce conveyorları boşaltın", "Conveyorlardan biri dolu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -1000,7 +1041,7 @@ namespace Balya_Yerleştirme
                                     conveyor.OriginalKareX, conveyor.OriginalKareY,
                                     conveyor.OriginalKareEni, conveyor.OriginalKareBoyu,
                                     conveyor.Zoomlevel, conveyor.ConveyorEni,
-                                    conveyor.ConveyorBoyu, conveyor.Yerlestirilme_Sirasi);
+                                    conveyor.ConveyorBoyu, conveyor.Yerlestirilme_Sirasi, conveyor.Conveyor_No);
 
                                 await context.Conveyors.AddAsync(conv);
                                 await context.SaveChangesAsync();
@@ -1295,7 +1336,7 @@ namespace Balya_Yerleştirme
                                 conveyor.OriginalKareX, conveyor.OriginalKareY,
                                 conveyor.OriginalKareEni, conveyor.OriginalKareBoyu,
                                 conveyor.Zoomlevel, conveyor.ConveyorEni,
-                                conveyor.ConveyorBoyu, conveyor.Yerlestirilme_Sirasi);
+                                conveyor.ConveyorBoyu, conveyor.Yerlestirilme_Sirasi, conveyor.Conveyor_No);
 
                                 await context.Conveyors.AddAsync(conv);
                                 await context.SaveChangesAsync();
@@ -1429,12 +1470,30 @@ namespace Balya_Yerleştirme
         }
         private void btn_PLC_Settings_Click(object sender, EventArgs e)
         {
-            //MainPanelOpenLeftSide(leftLayoutPanel, this, leftSidePanelLocation, PLC_DB_AdressPanel);
-            //GVisual.ShowControl(PLC_DB_AdressPanel, leftLayoutPanel);
+            bool isConveyorEmpty = true;
 
-            using (var dialog = new PLCPassword())
+            if (ambar != null)
             {
-                dialog.ShowDialog();
+                foreach (var conveyor in ambar.conveyors)
+                {
+                    if (conveyor.OccupyItem != null)
+                    {
+                        isConveyorEmpty = false;
+                        break;
+                    }
+                }
+            }
+
+            if (isConveyorEmpty)
+            {
+                using (var dialog = new PLCPassword())
+                {
+                    dialog.ShowDialog();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Conveyorlardan biri dolu lütfen önce conveyorları boşaltın", "Conveyorlardan biri dolu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
         private void btn_PLC_DB_AddressPanel_Kapat_Click(object sender, EventArgs e)
@@ -2249,133 +2308,156 @@ namespace Balya_Yerleştirme
         //Save to Database When Closing Form
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            bool isconveyorsEmpty = false;
+
             if (ambar != null)
             {
-                Zoomlevel = 1f;
-                ambar.ApplyZoom(Zoomlevel);
-            }
 
-            if (rightLayoutPanel.Visible && leftLayoutPanel.Visible)
-            {
-                MainPanelCloseLeftSide(leftLayoutPanel, this);
-                MainPanelCloseRightSide(rightLayoutPanel, this);
-            }
-            else if (rightLayoutPanel.Visible && !leftLayoutPanel.Visible)
-            {
-                MainPanelCloseRightSide(rightLayoutPanel, this);
-            }
-            else if (leftLayoutPanel.Visible && !rightLayoutPanel.Visible)
-            {
-                MainPanelCloseLeftSide(leftLayoutPanel, this);
-            }
-
-            using (var context = new DBContext())
-            {
-                if (Isletme != null)
+                foreach (var conveyor in ambar.conveyors)
                 {
-                    var notlastClosedIsletme = (from x in context.Isletme
-                                                where x.IsletmeID != Isletme.IsletmeID
-                                                select x).ToList();
-
-                    foreach (var isletme1 in notlastClosedIsletme)
+                    if (conveyor.OccupyItem != null)
                     {
-                        isletme1.LastClosedIsletme = 0;
-                        context.SaveChanges();
+                        isconveyorsEmpty = true;
+                        break;
                     }
                 }
+            }
 
-
+            if (!isconveyorsEmpty)
+            {
                 if (ambar != null)
                 {
-                    var notlastClosedLayouts = (from x in context.Layout
-                                                where x.LayoutId != ambar.LayoutId && x.IsletmeID == Isletme.IsletmeID
-                                                select x).ToList();
-
-                    foreach (var layout in notlastClosedLayouts)
-                    {
-                        layout.LastClosedLayout = 0;
-                        context.SaveChanges();
-                    }
+                    Zoomlevel = 1f;
+                    ambar.ApplyZoom(Zoomlevel);
                 }
 
-                if (Isletme != null)
+                if (rightLayoutPanel.Visible && leftLayoutPanel.Visible)
                 {
-                    var isletme = (from x in context.Isletme
-                                   where x.IsletmeID == Isletme.IsletmeID
-                                   select x).FirstOrDefault();
-
-                    if (isletme != null)
-                    {
-                        isletme.LastClosedIsletme = 1;
-                        context.SaveChanges();
-
-                        if (ambar != null)
-                        {
-                            var lastClosedLayout = (from x in context.Layout
-                                                    where x.LayoutId == ambar.LayoutId && isletme.IsletmeID == x.IsletmeID
-                                                    select x).FirstOrDefault();
-
-                            if (lastClosedLayout != null)
-                            {
-                                lastClosedLayout.LastClosedLayout = 1;
-                                context.SaveChanges();
-                            }
-                        }
-                    }
+                    MainPanelCloseLeftSide(leftLayoutPanel, this);
+                    MainPanelCloseRightSide(rightLayoutPanel, this);
                 }
-            }
-
-            if (ambar != null)
-            {
-                foreach (var depo in ambar.depolar)
+                else if (rightLayoutPanel.Visible && !leftLayoutPanel.Visible)
                 {
-                    using (var context = new DBContext())
-                    {
-                        var depo1 = (from x in context.Depos
-                                     where x.DepoId == depo.DepoId
-                                     select x).FirstOrDefault();
+                    MainPanelCloseRightSide(rightLayoutPanel, this);
+                }
+                else if (leftLayoutPanel.Visible && !rightLayoutPanel.Visible)
+                {
+                    MainPanelCloseLeftSide(leftLayoutPanel, this);
+                }
 
-                        if (depo1 != null)
+                using (var context = new DBContext())
+                {
+                    if (Isletme != null)
+                    {
+                        var notlastClosedIsletme = (from x in context.Isletme
+                                                    where x.IsletmeID != Isletme.IsletmeID
+                                                    select x).ToList();
+
+                        foreach (var isletme1 in notlastClosedIsletme)
                         {
-                            depo1.currentColumn = depo.currentColumn;
-                            depo1.currentRow = depo.currentRow;
+                            isletme1.LastClosedIsletme = 0;
                             context.SaveChanges();
                         }
                     }
-                    foreach (var cell in depo.gridmaps)
+
+
+                    if (ambar != null)
                     {
-                        using (var context = new DBContext())
-                        {
-                            var cell1 = (from x in context.Cells
-                                         where x.CellId == cell.CellId
-                                         select x).FirstOrDefault();
+                        var notlastClosedLayouts = (from x in context.Layout
+                                                    where x.LayoutId != ambar.LayoutId && x.IsletmeID == Isletme.IsletmeID
+                                                    select x).ToList();
 
-                            if (cell1 != null)
-                            {
-                                cell1.toplam_Nesne_Yuksekligi = cell.toplam_Nesne_Yuksekligi;
-                                context.SaveChanges();
-                            }
+                        foreach (var layout in notlastClosedLayouts)
+                        {
+                            layout.LastClosedLayout = 0;
+                            context.SaveChanges();
                         }
-                        foreach (var item in cell.items)
-                        {
-                            using (var context = new DBContext())
-                            {
-                                var item1 = (from x in context.Items
-                                             where x.ItemId == item.ItemId
-                                             select x).FirstOrDefault();
+                    }
 
-                                if (item1 != null)
+                    if (Isletme != null)
+                    {
+                        var isletme = (from x in context.Isletme
+                                       where x.IsletmeID == Isletme.IsletmeID
+                                       select x).FirstOrDefault();
+
+                        if (isletme != null)
+                        {
+                            isletme.LastClosedIsletme = 1;
+                            context.SaveChanges();
+
+                            if (ambar != null)
+                            {
+                                var lastClosedLayout = (from x in context.Layout
+                                                        where x.LayoutId == ambar.LayoutId && isletme.IsletmeID == x.IsletmeID
+                                                        select x).FirstOrDefault();
+
+                                if (lastClosedLayout != null)
                                 {
-                                    item1.KareX = item.Rectangle.X;
-                                    item1.KareY = item.Rectangle.Y;
-                                    item1.OriginalKareX = item.OriginalRectangle.X;
-                                    item1.OriginalKareY = item.OriginalRectangle.Y;
+                                    lastClosedLayout.LastClosedLayout = 1;
                                     context.SaveChanges();
                                 }
                             }
                         }
                     }
                 }
+
+                if (ambar != null)
+                {
+                    foreach (var depo in ambar.depolar)
+                    {
+                        using (var context = new DBContext())
+                        {
+                            var depo1 = (from x in context.Depos
+                                         where x.DepoId == depo.DepoId
+                                         select x).FirstOrDefault();
+
+                            if (depo1 != null)
+                            {
+                                depo1.currentColumn = depo.currentColumn;
+                                depo1.currentRow = depo.currentRow;
+                                context.SaveChanges();
+                            }
+                        }
+                        foreach (var cell in depo.gridmaps)
+                        {
+                            using (var context = new DBContext())
+                            {
+                                var cell1 = (from x in context.Cells
+                                             where x.CellId == cell.CellId
+                                             select x).FirstOrDefault();
+
+                                if (cell1 != null)
+                                {
+                                    cell1.toplam_Nesne_Yuksekligi = cell.toplam_Nesne_Yuksekligi;
+                                    context.SaveChanges();
+                                }
+                            }
+                            foreach (var item in cell.items)
+                            {
+                                using (var context = new DBContext())
+                                {
+                                    var item1 = (from x in context.Items
+                                                 where x.ItemId == item.ItemId
+                                                 select x).FirstOrDefault();
+
+                                    if (item1 != null)
+                                    {
+                                        item1.KareX = item.Rectangle.X;
+                                        item1.KareY = item.Rectangle.Y;
+                                        item1.OriginalKareX = item.OriginalRectangle.X;
+                                        item1.OriginalKareY = item.OriginalRectangle.Y;
+                                        context.SaveChanges();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                e.Cancel = true;
+                MessageBox.Show("Conveyorların birinde nesne bulunuyor lütfen nesneyi depoya yerleştirin ve çıkış yapın.");
             }
         }
         //Load Last Closed Layout when opening the Program
@@ -2581,6 +2663,7 @@ namespace Balya_Yerleştirme
                                 newConveyor.OriginalKareEni = conveyor.OriginalKareEni;
                                 newConveyor.OriginalKareBoyu = conveyor.OriginalKareBoyu;
                                 newConveyor.Yerlestirilme_Sirasi = conveyor.Yerlestirilme_Sirasi;
+                                newConveyor.Conveyor_No = conveyor.Conveyor_No;
 
                                 loadedAmbar.conveyors.Add(newConveyor);
 
@@ -2682,7 +2765,27 @@ namespace Balya_Yerleştirme
 
         private void toolstripBTN_addItemFromOrders_Click(object sender, EventArgs e)
         {
-            ProcessCsvFiles(InputPath, OutputPath, FailedPath);
+            bool isConveyorEmpty = true;
+
+            if (ambar != null)
+            {
+                foreach (var conveyor in ambar.conveyors)
+                {
+                    if (conveyor.OccupyItem != null)
+                    {
+                        isConveyorEmpty = false;
+                        break;
+                    }
+                }
+            }
+            if (isConveyorEmpty)
+            {
+                ProcessCsvFiles(InputPath, OutputPath, FailedPath);
+            }
+            else
+            {
+                MessageBox.Show("Conveyorlardan biri dolu lütfen önce conveyorları boşaltın", "Conveyorlardan biri dolu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         public void ProcessCsvFiles(string inputFolderPath, string outputFolderPath, string failedFolderPath)
@@ -3108,38 +3211,59 @@ namespace Balya_Yerleştirme
         //Save to Excel Methods
         private void toolStripBTN_ExportToExcel_Click(object sender, EventArgs e)
         {
-            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            bool isConveyorEmpty = true;
+
+            if (ambar != null)
             {
-                // Set filters to include Excel files, text files, and all files
-                saveFileDialog.Filter =
-                    "Excel Files (*.xlsx)|*.xlsx|Excel 97-2003 Files (*.xls)|*.xls|Text files (*.txt)|*.txt|All files (*.*)|*.*";
-
-                saveFileDialog.Title = "Save a File";
-                saveFileDialog.DefaultExt = "xlsx"; // Set default file extension to .xlsx
-                saveFileDialog.AddExtension = true; // Automatically add the extension
-
-                // Show the dialog and check if the user clicked "Save"
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                foreach (var conveyor in ambar.conveyors)
                 {
-                    // Get the selected file path
-                    string filePath = saveFileDialog.FileName;
-                    string fileName = Path.GetFileName(filePath);
-
-                    WriteStateToExcel(filePath, fileName);
+                    if (conveyor.OccupyItem != null)
+                    {
+                        isConveyorEmpty = false;
+                        break;
+                    }
                 }
             }
-            if (leftLayoutPanel.Visible && rightLayoutPanel.Visible)
+
+            if (isConveyorEmpty)
             {
-                MainPanelCloseLeftSide(leftLayoutPanel, this);
-                MainPanelCloseRightSide(rightLayoutPanel, this);
+                using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+                {
+                    // Set filters to include Excel files, text files, and all files
+                    saveFileDialog.Filter =
+                        "Excel Files (*.xlsx)|*.xlsx|Excel 97-2003 Files (*.xls)|*.xls|Text files (*.txt)|*.txt|All files (*.*)|*.*";
+
+                    saveFileDialog.Title = "Save a File";
+                    saveFileDialog.DefaultExt = "xlsx"; // Set default file extension to .xlsx
+                    saveFileDialog.AddExtension = true; // Automatically add the extension
+
+                    // Show the dialog and check if the user clicked "Save"
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        // Get the selected file path
+                        string filePath = saveFileDialog.FileName;
+                        string fileName = Path.GetFileName(filePath);
+
+                        WriteStateToExcel(filePath, fileName);
+                    }
+                }
+                if (leftLayoutPanel.Visible && rightLayoutPanel.Visible)
+                {
+                    MainPanelCloseLeftSide(leftLayoutPanel, this);
+                    MainPanelCloseRightSide(rightLayoutPanel, this);
+                }
+                else if (leftLayoutPanel.Visible && !rightLayoutPanel.Visible)
+                {
+                    MainPanelCloseLeftSide(leftLayoutPanel, this);
+                }
+                else if (!leftLayoutPanel.Visible && rightLayoutPanel.Visible)
+                {
+                    MainPanelCloseRightSide(rightLayoutPanel, this);
+                }
             }
-            else if (leftLayoutPanel.Visible && !rightLayoutPanel.Visible)
+            else
             {
-                MainPanelCloseLeftSide(leftLayoutPanel, this);
-            }
-            else if (!leftLayoutPanel.Visible && rightLayoutPanel.Visible)
-            {
-                MainPanelCloseRightSide(rightLayoutPanel, this);
+                MessageBox.Show("Conveyorlardan biri dolu lütfen önce conveyorları boşaltın", "Conveyorlardan biri dolu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
         public bool IsFileOpen(string filePath)
@@ -3530,6 +3654,7 @@ namespace Balya_Yerleştirme
             GVisual.HideControl(leftLayoutPanel, this);
             GVisual.HideControl(DepoInfoPanel, this);
             GVisual.HideControl(panel_Islem_Simulasyonu, this);
+            GVisual.HideControl(panel_Barcode, this);
             GVisual.HideControl(PLC_Sim_Nesne_Buttons_Panel, PLC_Sim_Panel);
             GVisual.HideControl(PLC_Sim_YerSoyle_Panel, PLC_Sim_Panel);
             GVisual.HideControl(PLC_Sim_Yerlestiriliyor_Panel, PLC_Sim_Panel);
@@ -4141,11 +4266,30 @@ namespace Balya_Yerleştirme
 
         private void toolStripBTN_Isletme_Sec_Click(object sender, EventArgs e)
         {
-            SelectBusiness business = new SelectBusiness(this);
-            business.Show();
+            bool isConveyorEmpty = true;
+
+            if (ambar != null)
+            {
+                foreach (var conveyor in ambar.conveyors)
+                {
+                    if (conveyor.OccupyItem != null)
+                    {
+                        isConveyorEmpty = false;
+                        break;
+                    }
+                }
+            }
+
+            if (isConveyorEmpty)
+            {
+                SelectBusiness business = new SelectBusiness(this);
+                business.Show();
+            }
+            else
+            {
+                MessageBox.Show("Conveyorlardan biri dolu lütfen önce conveyorları boşaltın", "Conveyorlardan biri dolu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
-
-
         private void PopulateDepoInfoPanel(Depo depo)
         {
             string izgara_eni = string.Empty;
@@ -4217,6 +4361,8 @@ namespace Balya_Yerleştirme
         {
             MainPanelCloseLeftSide(leftLayoutPanel, this);
         }
+
+
 
 
         #region Barcode Device Events
@@ -4487,26 +4633,6 @@ namespace Balya_Yerleştirme
             }
 
             AddListItem(string.Format("Complex result arrived: resultId = {0}, read result = {1}", result_id, read_result));
-
-            if (images.Count > 0)
-            {
-                Image first_image = images[0];
-
-                Size image_size = Gui.FitImageInControl(first_image.Size, picResultImage.Size);
-                Image fitted_image = Gui.ResizeImageToBitmap(first_image, image_size);
-
-                if (image_graphics.Count > 0)
-                {
-                    using (Graphics g = Graphics.FromImage(fitted_image))
-                    {
-                        foreach (var graphics in image_graphics)
-                        {
-                            ResultGraphics rg = GraphicsResultParser.Parse(graphics, new Rectangle(0, 0, image_size.Width, image_size.Height));
-                            ResultGraphicsRenderer.PaintResults(g, rg);
-                        }
-                    }
-                }
-            }
         }
         private string GetReadStringFromResultXml(string resultXml)
         {
@@ -4787,11 +4913,11 @@ namespace Balya_Yerleştirme
                                 conveyor.OccupyItem = null;
                                 _system.SendCommand("TRIGGER ON");
                             }
+                            else
+                            {
+                                _system.SendCommand("TRIGGER ON");
+                            }
                         }
-                    }
-                    else
-                    {
-                        _system.SendCommand("TRIGGER ON");
                     }
                 }
             }
@@ -4816,7 +4942,7 @@ namespace Balya_Yerleştirme
                     lbl_IslemSim_HedefConveyorX_Value.Text = $"{hedefConveyorX}";
                     lbl_IslemSim_HedefConveyorY_Value.Text = $"{hedefConveyorY}";
                     lbl_IslemSim_HedefConveyorZ_Value.Text = $"{hedefConveyorZ}";
-                    lbl_IslemSim_HedefConveyor_Value.Text = $"Conveyor {hedefConveyor.ConveyorId}";
+                    lbl_IslemSim_HedefConveyor_Value.Text = $"Conveyor {hedefConveyor.Conveyor_No}";
                 }
             }
         }
@@ -4887,6 +5013,10 @@ namespace Balya_Yerleştirme
         {
 
         }
+
+
+
+
         private void btn_Barcode_Connect_Click(object sender, EventArgs e)
         {
             if (listBox_Barcodes.SelectedIndex == -1 || listBox_Barcodes.SelectedIndex >= listBox_Barcodes.Items.Count)
@@ -4981,16 +5111,22 @@ namespace Balya_Yerleştirme
         {
 
         }
-
         private void btn_Barcode_Panel_Kapat_Click(object sender, EventArgs e)
         {
             MainPanelCloseLeftSide(leftLayoutPanel, this);
         }
 
+
+
+
         private void btn_IslemSim_Panel_Kapat_Click(object sender, EventArgs e)
         {
             MainPanelCloseRightSide(rightLayoutPanel, this);
         }
+
+
+
+
 
         private void btn_BarcodeReader_Connect_Click(object sender, EventArgs e)
         {
@@ -5000,6 +5136,7 @@ namespace Balya_Yerleştirme
 
                 if (_system == null)
                 {
+                    listBox_Barcodes.Items.Clear();
                     _ethSystemDiscoverer = new EthSystemDiscoverer();
                     _serSystemDiscoverer = new SerSystemDiscoverer();
 

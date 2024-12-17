@@ -85,11 +85,11 @@ namespace Balya_Yerleştirme.Models
         {
             graphics.DrawRectangle(pen, Rectangle);
             //graphics.FillRectangle(new SolidBrush(Color.AliceBlue), Rectangle);
-            System.Drawing.Font font = new System.Drawing.Font("Arial", 12 * Zoomlevel);
-            SolidBrush brush = new SolidBrush(System.Drawing.Color.Red);
-            string text = $"{Rectangle.X}";
+            //System.Drawing.Font font = new System.Drawing.Font("Arial", 12 * Zoomlevel);
+            //SolidBrush brush = new SolidBrush(System.Drawing.Color.Red);
+            //string text = $"{Rectangle.X}";
 
-            graphics.DrawString(text, font, brush, new PointF(Rectangle.X + Rectangle.Width, Rectangle.Y + (Rectangle.Height / 2)));
+            //graphics.DrawString(text, font, brush, new PointF(Rectangle.X + Rectangle.Width, Rectangle.Y + (Rectangle.Height / 2)));
 
             //sizeofQmark = graphics.MeasureString("?", font);
             //graphics.DrawString("?", font, brush, new PointF(Rectangle.Location.X + (Rectangle.Width / 2 - sizeofQmark.Width / 2), Rectangle.Location.Y + (Rectangle.Height / 2 - sizeofQmark.Height / 2)));

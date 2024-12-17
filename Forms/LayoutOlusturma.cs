@@ -30,7 +30,7 @@ namespace Balya_Yerleştirme
 
 
 
-        //Variables for creation of conveyor, conveyor, gridmaps, reference points
+        //Variables for creation of conveyor1, conveyor1, gridmaps, reference points
         #region Creation Variables
 
         public float cell_eni { get; set; } = 0f;
@@ -492,7 +492,7 @@ namespace Balya_Yerleştirme
 
 
 
-        //Delete, Copy, Paste conveyor's and conveyor's with shortcuts 
+        //Delete, Copy, Paste conveyor1's and conveyor1's with shortcuts 
         #region Delete, Copy, Paste
 
         //Delete, Copy, Paste
@@ -614,6 +614,7 @@ namespace Balya_Yerleştirme
                             CopyConveyor.ConveyorEni = selectedConveyor.ConveyorEni;
                             CopyConveyor.ConveyorBoyu = selectedConveyor.ConveyorBoyu;
                             CopyConveyor.Zoomlevel = selectedConveyor.Zoomlevel;
+                            CopyConveyor.Conveyor_No = selectedConveyor.Conveyor_No;
 
                             foreach (var reff in selectedConveyor.ConveyorReferencePoints)
                             {
@@ -901,6 +902,9 @@ namespace Balya_Yerleştirme
                                 conveyor.OriginalKareBoyu = conveyor.OriginalRectangle.Height;
                                 conveyor.ConveyorEni = CopyConveyor.ConveyorEni;
                                 conveyor.ConveyorBoyu = CopyConveyor.ConveyorBoyu;
+                                conveyor.Conveyor_No = CopyConveyor.Conveyor_No;
+
+                                string conveyor_no = conveyor.Conveyor_No;
 
                                 foreach (var reff in CopyConveyor.ConveyorReferencePoints)
                                 {
@@ -946,6 +950,41 @@ namespace Balya_Yerleştirme
                                 else
                                 {
                                     Ambar.conveyors.Add(conveyor);
+                                    foreach (var conveyor1 in Ambar.conveyors)
+                                    {
+                                        if (conveyor1.Conveyor_No.Contains('('))
+                                        {
+                                            int startIndex = conveyor_no.IndexOf('(');
+                                            int endIndex = conveyor_no.IndexOf(')');
+
+                                            if (startIndex != -1 && endIndex != -1 && endIndex > startIndex + 1)
+                                            {
+                                                if (conveyor1.Conveyor_No == conveyor_no)
+                                                {
+                                                    string beforeParentheses = conveyor_no.Substring(0, startIndex + 1);
+                                                    string afterParentheses = conveyor_no.Substring(endIndex);
+
+                                                    string numberinsideParentheses = conveyor1.Conveyor_No.Substring(startIndex + 1, (endIndex - (startIndex + 1)));
+
+                                                    int resultNumber = Convert.ToInt32(numberinsideParentheses);
+
+                                                    resultNumber++;
+
+                                                    string result = beforeParentheses + $"{resultNumber}" + afterParentheses;
+                                                    conveyor_no = result;
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (conveyor1.Conveyor_No == conveyor_no)
+                                            {
+                                                conveyor_no = $"{conveyor_no} (1)";
+                                            }
+                                        }
+                                    }
+                                    conveyor.Conveyor_No = conveyor_no;
+
                                     AddConveyorNode(conveyor);
                                     SelectNode(null, conveyor, null);
                                     drawingPanel.Invalidate();
@@ -1093,7 +1132,7 @@ namespace Balya_Yerleştirme
                 }
                 else if (toplam_nesne_yuksekligi > depo_alani_yuksekligi / 2 && toplam_nesne_yuksekligi <= depo_alani_yuksekligi && askOnce)
                 {
-                    var result = MessageBox.Show("Nesne yüksekliğinin toplamı conveyor alanının yüksekliğinin yarısından fazla devam etmek istediğinize emin misiniz? ", "Devam etmek istiyor musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    var result = MessageBox.Show("Nesne yüksekliğinin toplamı conveyor1 alanının yüksekliğinin yarısından fazla devam etmek istediğinize emin misiniz? ", "Devam etmek istiyor musunuz?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                     if (result == DialogResult.Yes)
                     {
@@ -1207,7 +1246,7 @@ namespace Balya_Yerleştirme
                     {
                         var result =
                             MessageBox.Show("Depoda yükseklik açısından yer var. " +
-                            "Eğer bunu onaylarsanız, conveyor alanını dolduracak kadar nesne koyulmayacak. " +
+                            "Eğer bunu onaylarsanız, conveyor1 alanını dolduracak kadar nesne koyulmayacak. " +
                             "Devam etmek istiyor musunuz?", "Emin misiniz?",
                             MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
@@ -1287,7 +1326,7 @@ namespace Balya_Yerleştirme
                         {
                             var result =
                                 MessageBox.Show("Depoda yükseklik açısından yer var. " +
-                                "Eğer bunu onaylarsanız, conveyor alanını dolduracak kadar nesne koyulmayacak. " +
+                                "Eğer bunu onaylarsanız, conveyor1 alanını dolduracak kadar nesne koyulmayacak. " +
                                 "Devam etmek istiyor musunuz?", "Emin misiniz?",
                                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
@@ -1887,6 +1926,8 @@ namespace Balya_Yerleştirme
         {
             Graphics g = e.Graphics;
             List<RectangleF> rects = new List<RectangleF>();
+            //System.Drawing.Font font = new System.Drawing.Font("Arial", 8);
+            //System.Drawing.SolidBrush brush = new System.Drawing.SolidBrush(System.Drawing.Color.Red);
 
             if (Ambar != null)
             {
@@ -1923,6 +1964,7 @@ namespace Balya_Yerleştirme
                 foreach (var conv in Ambar.conveyors)
                 {
                     g.DrawRectangle(TransparentPen, conv.Rectangle);
+                    //g.DrawString(conv.Conveyor_No, font, brush, new PointF(conv.Rectangle.X, conv.Rectangle.Y));
 
                     if (selectedConveyor != null && selectedConveyor == conv &&
                         Fill_WareHouse == false)
@@ -2062,7 +2104,7 @@ namespace Balya_Yerleştirme
                 {
                     foreach (var depo in Ambar.depolar)
                     {
-                        System.Drawing.Font font = new System.Drawing.Font("Arial", 12, System.Drawing.FontStyle.Bold);
+                        System.Drawing.Font font1 = new System.Drawing.Font("Arial", 12, System.Drawing.FontStyle.Bold);
 
                         string queue = $"{depo.Yerlestirilme_Sirasi}";
 
@@ -2070,9 +2112,9 @@ namespace Balya_Yerleştirme
                         {
                             queue = string.Empty;
                         }
-                        System.Drawing.SizeF textsize = g.MeasureString(queue, font);
+                        System.Drawing.SizeF textsize = g.MeasureString(queue, font1);
 
-                        g.DrawString(queue, font, new SolidBrush(System.Drawing.Color.Red),
+                        g.DrawString(queue, font1, new SolidBrush(System.Drawing.Color.Red),
                                new PointF(depo.Rectangle.X + (depo.Rectangle.Width / 2 - textsize.Width / 2),
                                depo.Rectangle.Y + (depo.Rectangle.Height / 2 - textsize.Height / 2)));
                     }
@@ -2082,7 +2124,7 @@ namespace Balya_Yerleştirme
                 {
                     foreach (var conveyor in Ambar.conveyors)
                     {
-                        System.Drawing.Font font = new System.Drawing.Font("Arial", 12, System.Drawing.FontStyle.Bold);
+                        System.Drawing.Font font1 = new System.Drawing.Font("Arial", 12, System.Drawing.FontStyle.Bold);
 
                         string queue = $"{conveyor.Yerlestirilme_Sirasi}";
 
@@ -2091,9 +2133,9 @@ namespace Balya_Yerleştirme
                             queue = string.Empty;
                         }
 
-                        System.Drawing.SizeF textsize = g.MeasureString(queue, font);
+                        System.Drawing.SizeF textsize = g.MeasureString(queue, font1);
 
-                        g.DrawString(queue, font, new SolidBrush(System.Drawing.Color.Red),
+                        g.DrawString(queue, font1, new SolidBrush(System.Drawing.Color.Red),
                                new PointF(conveyor.Rectangle.X + conveyor.Rectangle.Width + textsize.Width, conveyor.Rectangle.Y + conveyor.Rectangle.Height / 2 - textsize.Height / 2));
                     }
                 }
@@ -2158,7 +2200,7 @@ namespace Balya_Yerleştirme
                         if (!iszero)
                         {
                             CustomNotifyIcon notify = new CustomNotifyIcon();
-                            notify.showAlert("Çıkmak için conveyor olmayan bir yere tıklamanız yeterli", CustomNotifyIcon.enmType.Warning);
+                            notify.showAlert("Çıkmak için conveyor1 olmayan bir yere tıklamanız yeterli", CustomNotifyIcon.enmType.Warning);
                         }
                     }
                 }
@@ -4838,6 +4880,18 @@ namespace Balya_Yerleştirme
                 float conveyor_boyu = StrLib.ReplaceDotWithCommaReturnFloat(txt_Conveyor_Boyu,
                     errorProvider, "Bu alan boş bırakılamaz.", "Lütfen buraya bir sayı giriniz.", "Buraya 0 ya da daha küçük bir değer giremezsiniz.");
 
+                string conveyor_no = txt_ConveyorNo.Text;
+
+
+                foreach (var conveyor in Ambar.conveyors)
+                {
+                    if (conveyor.Conveyor_No == conveyor_no)
+                    {
+                        errorProvider.SetError(txt_ConveyorNo, "Aynı numaraya sahip bir conveyor1 zaten var, lütfen numarayı değiştirip tekrar deneyin.");
+                    }
+                }
+
+
                 if (conveyor_eni > Ambar.AmbarEni)
                 {
                     errorProvider.SetError(txt_Conveyor_Eni,
@@ -4858,6 +4912,8 @@ namespace Balya_Yerleştirme
                     errorProvider.SetError(txt_Conveyor_Boyu,
                         "Conveyor'un boyu 25 cm'den küçük olamaz.");
                 }
+
+
 
                 if (!errorProvider.HasErrors)
                 {
@@ -4891,6 +4947,7 @@ namespace Balya_Yerleştirme
                         conveyor_boyu, Ambar.AmbarEni, Ambar.AmbarBoyu, Ambar.Rectangle);
                     conveyor.ConveyorEni = conveyor_eni;
                     conveyor.ConveyorBoyu = conveyor_boyu;
+                    conveyor.Conveyor_No = conveyor_no;
 
                     SearchForLocationtoPlace(conveyor.Rectangle, conveyor, null, Ambar);
                     MainPanelCloseRightSide(RightSide_LayoutPanel, this);
@@ -4964,7 +5021,7 @@ namespace Balya_Yerleştirme
                 {
                     if (depo.DepoName == depo_name)
                     {
-                        errorProvider.SetError(txt_Depo_Adi, "Aynı isimli bir conveyor zaten bulunuyor, lütfen değiştirip tekrar deneyin.");
+                        errorProvider.SetError(txt_Depo_Adi, "Aynı isimli bir conveyor1 zaten bulunuyor, lütfen değiştirip tekrar deneyin.");
                     }
                 }
 
@@ -5066,7 +5123,7 @@ namespace Balya_Yerleştirme
                     MainPanelCloseRightSide(RightSide_LayoutPanel, this);
                     Ware_Counter++;
                     drawingPanel.Invalidate();
-                    //AdjustTextboxesText($"{conveyor.DepoAlaniEni}", $"{conveyor.DepoAlaniBoyu}",
+                    //AdjustTextboxesText($"{conveyor1.DepoAlaniEni}", $"{conveyor1.DepoAlaniBoyu}",
                     //    null, null, null, null);
                     AddDepoNode(depo);
                 }
@@ -5133,7 +5190,7 @@ namespace Balya_Yerleştirme
                     else
                     {
                         CustomNotifyIcon notify = new CustomNotifyIcon();
-                        notify.showAlert("Izgara haritası oluşturmak için öncelikle conveyor alanı oluşturmalısınız", CustomNotifyIcon.enmType.Error);
+                        notify.showAlert("Izgara haritası oluşturmak için öncelikle conveyor1 alanı oluşturmalısınız", CustomNotifyIcon.enmType.Error);
                     }
                 }
                 else
@@ -5266,7 +5323,7 @@ namespace Balya_Yerleştirme
                     else
                     {
                         CustomNotifyIcon notify = new CustomNotifyIcon();
-                        notify.showAlert("Oluşturmaya çalıştığınız ızgara haritası seçili conveyor için çok büyük, bu yüzden oluşturulamadı.", CustomNotifyIcon.enmType.Error);
+                        notify.showAlert("Oluşturmaya çalıştığınız ızgara haritası seçili conveyor1 için çok büyük, bu yüzden oluşturulamadı.", CustomNotifyIcon.enmType.Error);
                     }
                 }
                 else if (ToolStripIzgara)
@@ -5453,7 +5510,7 @@ namespace Balya_Yerleştirme
                     else
                     {
                         CustomNotifyIcon notify = new CustomNotifyIcon();
-                        notify.showAlert("Oluşturmaya çalıştığınız ızgara haritası seçili conveyor için çok büyük, bu yüzden oluşturulamadı.", CustomNotifyIcon.enmType.Error);
+                        notify.showAlert("Oluşturmaya çalıştığınız ızgara haritası seçili conveyor1 için çok büyük, bu yüzden oluşturulamadı.", CustomNotifyIcon.enmType.Error);
                     }
                 }
                 else if (selectedDepo == null && SelectedAmbar != null)
@@ -5791,7 +5848,7 @@ namespace Balya_Yerleştirme
                     else
                     {
                         CustomNotifyIcon notify = new CustomNotifyIcon();
-                        notify.showAlert("Lütfen önce conveyor oluşturun.", CustomNotifyIcon.enmType.Warning);
+                        notify.showAlert("Lütfen önce conveyor1 oluşturun.", CustomNotifyIcon.enmType.Warning);
                     }
                 }
                 else
@@ -5924,7 +5981,7 @@ namespace Balya_Yerleştirme
                     else
                     {
                         CustomNotifyIcon notify = new CustomNotifyIcon();
-                        notify.showAlert("Lütfen önce conveyor oluşturun.", CustomNotifyIcon.enmType.Warning);
+                        notify.showAlert("Lütfen önce conveyor1 oluşturun.", CustomNotifyIcon.enmType.Warning);
                     }
                 }
                 else
@@ -6568,12 +6625,12 @@ namespace Balya_Yerleştirme
                 if (Conveyor_X > selectedConveyor.ConveyorEni * 100)
                 {
                     errorProvider.SetError(txt_Conveyor_Reference_X,
-                        "Girdiğiniz değer conveyor'un eninden küçük olmalı.");
+                        "Girdiğiniz değer conveyor1'un eninden küçük olmalı.");
                 }
                 if (Conveyor_Y > selectedConveyor.ConveyorBoyu * 100)
                 {
                     errorProvider.SetError(txt_Conveyor_Reference_Y,
-                        "Girdiğiniz değer conveyor'un eninden küçük olmalı.");
+                        "Girdiğiniz değer conveyor1'un eninden küçük olmalı.");
                 }
 
                 if (Conveyor_X <= 0)
@@ -7764,7 +7821,7 @@ namespace Balya_Yerleştirme
         {
             if (Conveyor_Olusturma_Paneli.Size == SmallPanelSize)
             {
-                GVisual.ChangeSize_of_Control(Conveyor_Olusturma_Paneli, new Size(310, 420));
+                GVisual.ChangeSize_of_Control(Conveyor_Olusturma_Paneli, new Size(310, 484));
                 RightSide_LayoutPanel.ScrollControlIntoView(Conveyor_Olusturma_Paneli);
                 GVisual.HideControl(lbl_Small_Conveyor_Title, SubPanel_Conveyor_Olusturma_Paneli_Controls);
                 btn_OpenClose_Conveyor_Olusturma_Paneli.Image = Resources.Resource1.Chevron_Up;
@@ -7790,7 +7847,7 @@ namespace Balya_Yerleştirme
             List<string> depos = new List<string>();
             bool isContinue = false;
             bool isConveyorDone = false;
-            
+
 
             if (Ambar != null)
             {
@@ -8188,6 +8245,23 @@ namespace Balya_Yerleştirme
             }
         }
 
+        private void conveyorSıralamasınıAyarlaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Ambar != null)
+            {
+                ConveyorOrdering = true;
+
+                for (int i = 1; i <= Ambar.conveyors.Count; i++)
+                {
+                    ConveyorCountList.Add(i);
+                }
+                foreach (var conveyor in Ambar.conveyors)
+                {
+                    conveyor.Yerlestirilme_Sirasi = 0;
+                }
+            }
+        }
+
 
         #endregion
 
@@ -8210,14 +8284,14 @@ namespace Balya_Yerleştirme
         //    if (selectedDepo != null)
         //    {
         //        Brush brush = new SolidBrush(System.Drawing.Color.Black);
-        //        System.Drawing.Font font = new System.Drawing.Font("Arial", 8);
-        //        g.DrawString(selectedDepo.itemDrop_StartLocation, font, brush, new Point(drawingPanel.Left, drawingPanel.Top));
-        //        g.DrawString(selectedDepo.itemDrop_Stage1, font, brush, new Point(drawingPanel.Left, drawingPanel.Top + 20));
-        //        g.DrawString(selectedDepo.itemDrop_Stage2, font, brush, new Point(drawingPanel.Left, drawingPanel.Top + 40));
-        //        g.DrawString(selectedDepo.itemDrop_UpDown, font, brush, new Point(drawingPanel.Left, drawingPanel.Top + 60));
-        //        g.DrawString(selectedDepo.itemDrop_LeftRight, font, brush, new Point(drawingPanel.Left, drawingPanel.Top + 80));
-        //        g.DrawString(selectedDepo.asama1_Yuksekligi.ToString(), font, brush, new Point(drawingPanel.Left, drawingPanel.Top + 100));
-        //        g.DrawString(selectedDepo.asama2_Yuksekligi.ToString(), font, brush, new Point(drawingPanel.Left, drawingPanel.Top + 120));
+        //        System.Drawing.Font font1 = new System.Drawing.Font("Arial", 8);
+        //        g.DrawString(selectedDepo.itemDrop_StartLocation, font1, brush, new Point(drawingPanel.Left, drawingPanel.Top));
+        //        g.DrawString(selectedDepo.itemDrop_Stage1, font1, brush, new Point(drawingPanel.Left, drawingPanel.Top + 20));
+        //        g.DrawString(selectedDepo.itemDrop_Stage2, font1, brush, new Point(drawingPanel.Left, drawingPanel.Top + 40));
+        //        g.DrawString(selectedDepo.itemDrop_UpDown, font1, brush, new Point(drawingPanel.Left, drawingPanel.Top + 60));
+        //        g.DrawString(selectedDepo.itemDrop_LeftRight, font1, brush, new Point(drawingPanel.Left, drawingPanel.Top + 80));
+        //        g.DrawString(selectedDepo.asama1_Yuksekligi.ToString(), font1, brush, new Point(drawingPanel.Left, drawingPanel.Top + 100));
+        //        g.DrawString(selectedDepo.asama2_Yuksekligi.ToString(), font1, brush, new Point(drawingPanel.Left, drawingPanel.Top + 120));
         //    }
         //}
         /*//public void AdjustTextBoxLocations(RectangleF rectangle, RectangleF parentRectangle,

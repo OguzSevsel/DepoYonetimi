@@ -215,7 +215,7 @@ namespace Balya_Yerleştirme.Resources {
         /// </summary>
         internal static System.Drawing.Bitmap Conveyor {
             get {
-                object obj = ResourceManager.GetObject("PLC", resourceCulture);
+                object obj = ResourceManager.GetObject("Conveyor", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -246,6 +246,16 @@ namespace Balya_Yerleştirme.Resources {
         internal static System.Drawing.Bitmap Database {
             get {
                 object obj = ResourceManager.GetObject("Database", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Deployment {
+            get {
+                object obj = ResourceManager.GetObject("Deployment", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

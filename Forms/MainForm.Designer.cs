@@ -132,9 +132,7 @@
             lbl_Info_Balya_Aciklamasi = new Krypton.Toolkit.KryptonWrapLabel();
             lbl_Info_Title = new Krypton.Toolkit.KryptonWrapLabel();
             lbl_Info_Balya_Etiketi = new Krypton.Toolkit.KryptonWrapLabel();
-            btn_Connect_to_PLC = new Button();
             panel_Barcode = new Krypton.Toolkit.KryptonPanel();
-            picResultImage = new PictureBox();
             listBox1 = new ListBox();
             lbl_Barcode_Connection_Info = new Krypton.Toolkit.KryptonWrapLabel();
             btn_Barcode_Refresh = new Krypton.Toolkit.KryptonButton();
@@ -142,6 +140,7 @@
             btn_Barcode_Connect = new Krypton.Toolkit.KryptonButton();
             listBox_Barcodes = new ListBox();
             btn_Barcode_Panel_Kapat = new Krypton.Toolkit.KryptonButton();
+            btn_Connect_to_PLC = new Button();
             PLC_Sim_Panel = new Krypton.Toolkit.KryptonPanel();
             btn_PLC_Sim_Nesne_Bul = new Krypton.Toolkit.KryptonButton();
             PLC_Sim_Nesne_Buttons_Panel = new Krypton.Toolkit.KryptonPanel();
@@ -313,7 +312,6 @@
             infopanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)panel_Barcode).BeginInit();
             panel_Barcode.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)picResultImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PLC_Sim_Panel).BeginInit();
             PLC_Sim_Panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PLC_Sim_Nesne_Buttons_Panel).BeginInit();
@@ -1615,25 +1613,8 @@
             lbl_Info_Balya_Etiketi.Text = "Nesne Etiketi: ";
             lbl_Info_Balya_Etiketi.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // btn_Connect_to_PLC
-            // 
-            btn_Connect_to_PLC.BackColor = Color.Transparent;
-            btn_Connect_to_PLC.FlatAppearance.BorderColor = Color.FromArgb(255, 128, 0);
-            btn_Connect_to_PLC.FlatAppearance.MouseDownBackColor = Color.Silver;
-            btn_Connect_to_PLC.FlatAppearance.MouseOverBackColor = Color.FromArgb(192, 192, 255);
-            btn_Connect_to_PLC.FlatStyle = FlatStyle.Popup;
-            btn_Connect_to_PLC.ForeColor = Color.Blue;
-            btn_Connect_to_PLC.Location = new Point(378, 12);
-            btn_Connect_to_PLC.Name = "btn_Connect_to_PLC";
-            btn_Connect_to_PLC.Size = new Size(109, 73);
-            btn_Connect_to_PLC.TabIndex = 8;
-            btn_Connect_to_PLC.Text = "PLC'ye Bağlan";
-            btn_Connect_to_PLC.UseVisualStyleBackColor = false;
-            btn_Connect_to_PLC.Click += btn_Connect_to_PLC_Click;
-            // 
             // panel_Barcode
             // 
-            panel_Barcode.Controls.Add(picResultImage);
             panel_Barcode.Controls.Add(listBox1);
             panel_Barcode.Controls.Add(lbl_Barcode_Connection_Info);
             panel_Barcode.Controls.Add(btn_Barcode_Refresh);
@@ -1641,7 +1622,7 @@
             panel_Barcode.Controls.Add(btn_Barcode_Connect);
             panel_Barcode.Controls.Add(listBox_Barcodes);
             panel_Barcode.Controls.Add(btn_Barcode_Panel_Kapat);
-            panel_Barcode.Location = new Point(1199, 1008);
+            panel_Barcode.Location = new Point(1135, 1005);
             panel_Barcode.Name = "panel_Barcode";
             panel_Barcode.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.ButtonStandalone;
             panel_Barcode.Size = new Size(358, 903);
@@ -1649,21 +1630,13 @@
             panel_Barcode.StateCommon.ColorStyle = Krypton.Toolkit.PaletteColorStyle.SolidInside;
             panel_Barcode.TabIndex = 22;
             // 
-            // picResultImage
-            // 
-            picResultImage.Location = new Point(12, 523);
-            picResultImage.Name = "picResultImage";
-            picResultImage.Size = new Size(334, 169);
-            picResultImage.TabIndex = 68;
-            picResultImage.TabStop = false;
-            // 
             // listBox1
             // 
             listBox1.FormattingEnabled = true;
             listBox1.ItemHeight = 15;
-            listBox1.Location = new Point(12, 348);
+            listBox1.Location = new Point(12, 542);
             listBox1.Name = "listBox1";
-            listBox1.Size = new Size(334, 169);
+            listBox1.Size = new Size(334, 334);
             listBox1.TabIndex = 66;
             // 
             // lbl_Barcode_Connection_Info
@@ -1672,7 +1645,7 @@
             lbl_Barcode_Connection_Info.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Barcode_Connection_Info.ForeColor = Color.Red;
             lbl_Barcode_Connection_Info.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Barcode_Connection_Info.Location = new Point(12, 287);
+            lbl_Barcode_Connection_Info.Location = new Point(12, 459);
             lbl_Barcode_Connection_Info.Name = "lbl_Barcode_Connection_Info";
             lbl_Barcode_Connection_Info.Size = new Size(334, 58);
             lbl_Barcode_Connection_Info.StateCommon.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -1683,7 +1656,7 @@
             // btn_Barcode_Refresh
             // 
             btn_Barcode_Refresh.CornerRoundingRadius = 8F;
-            btn_Barcode_Refresh.Location = new Point(249, 223);
+            btn_Barcode_Refresh.Location = new Point(249, 378);
             btn_Barcode_Refresh.Name = "btn_Barcode_Refresh";
             btn_Barcode_Refresh.Size = new Size(97, 58);
             btn_Barcode_Refresh.StateCommon.Back.ImageStyle = Krypton.Toolkit.PaletteImageStyle.CenterLeft;
@@ -1706,7 +1679,7 @@
             // btn_Barcode_Disconnect
             // 
             btn_Barcode_Disconnect.CornerRoundingRadius = 8F;
-            btn_Barcode_Disconnect.Location = new Point(130, 223);
+            btn_Barcode_Disconnect.Location = new Point(130, 378);
             btn_Barcode_Disconnect.Name = "btn_Barcode_Disconnect";
             btn_Barcode_Disconnect.Size = new Size(97, 58);
             btn_Barcode_Disconnect.StateCommon.Back.ImageStyle = Krypton.Toolkit.PaletteImageStyle.CenterLeft;
@@ -1728,7 +1701,7 @@
             // btn_Barcode_Connect
             // 
             btn_Barcode_Connect.CornerRoundingRadius = 8F;
-            btn_Barcode_Connect.Location = new Point(12, 223);
+            btn_Barcode_Connect.Location = new Point(12, 378);
             btn_Barcode_Connect.Name = "btn_Barcode_Connect";
             btn_Barcode_Connect.Size = new Size(97, 58);
             btn_Barcode_Connect.StateCommon.Back.ImageStyle = Krypton.Toolkit.PaletteImageStyle.CenterLeft;
@@ -1754,7 +1727,7 @@
             listBox_Barcodes.ItemHeight = 15;
             listBox_Barcodes.Location = new Point(12, 48);
             listBox_Barcodes.Name = "listBox_Barcodes";
-            listBox_Barcodes.Size = new Size(334, 169);
+            listBox_Barcodes.Size = new Size(334, 319);
             listBox_Barcodes.TabIndex = 62;
             // 
             // btn_Barcode_Panel_Kapat
@@ -1771,6 +1744,22 @@
             btn_Barcode_Panel_Kapat.TabIndex = 5;
             btn_Barcode_Panel_Kapat.Values.Text = "";
             btn_Barcode_Panel_Kapat.Click += btn_Barcode_Panel_Kapat_Click;
+            // 
+            // btn_Connect_to_PLC
+            // 
+            btn_Connect_to_PLC.BackColor = Color.Transparent;
+            btn_Connect_to_PLC.FlatAppearance.BorderColor = Color.FromArgb(255, 128, 0);
+            btn_Connect_to_PLC.FlatAppearance.MouseDownBackColor = Color.Silver;
+            btn_Connect_to_PLC.FlatAppearance.MouseOverBackColor = Color.FromArgb(192, 192, 255);
+            btn_Connect_to_PLC.FlatStyle = FlatStyle.Popup;
+            btn_Connect_to_PLC.ForeColor = Color.Blue;
+            btn_Connect_to_PLC.Location = new Point(378, 12);
+            btn_Connect_to_PLC.Name = "btn_Connect_to_PLC";
+            btn_Connect_to_PLC.Size = new Size(109, 73);
+            btn_Connect_to_PLC.TabIndex = 8;
+            btn_Connect_to_PLC.Text = "PLC'ye Bağlan";
+            btn_Connect_to_PLC.UseVisualStyleBackColor = false;
+            btn_Connect_to_PLC.Click += btn_Connect_to_PLC_Click;
             // 
             // PLC_Sim_Panel
             // 
@@ -3703,8 +3692,8 @@
             BackColor = Color.LightGray;
             ClientSize = new Size(1904, 1041);
             Controls.Add(btn_BarcodeReader_Connect);
-            Controls.Add(btn_Connect_to_PLC);
             Controls.Add(panel_Barcode);
+            Controls.Add(btn_Connect_to_PLC);
             Controls.Add(Nesne_Yerlestirme_First_Panel);
             Controls.Add(PLC_DB_AdressPanel);
             Controls.Add(btn_Process_Simulation);
@@ -3747,7 +3736,6 @@
             infopanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)panel_Barcode).EndInit();
             panel_Barcode.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)picResultImage).EndInit();
             ((System.ComponentModel.ISupportInitialize)PLC_Sim_Panel).EndInit();
             PLC_Sim_Panel.ResumeLayout(false);
             PLC_Sim_Panel.PerformLayout();
@@ -4047,7 +4035,6 @@
         public Krypton.Toolkit.KryptonButton btn_Barcode_Refresh;
         public Krypton.Toolkit.KryptonButton btn_Barcode_Disconnect;
         private ListBox listBox1;
-        private PictureBox picResultImage;
         private Button btn_BarcodeReader_Connect;
     }
 }

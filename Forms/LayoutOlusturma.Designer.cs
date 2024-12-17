@@ -73,6 +73,7 @@
             btn_Alan_SubMenu_Bosalt = new Button();
             btn_Alan_Menu_Go_Back = new Button();
             panel_Alan_Menu = new Panel();
+            btn_Alan_SubMenu_Conveyor_Siralamasi = new Button();
             btn_Alan_SubMenu = new Button();
             btn_Alan_SubMenu_Depo_Siralamasi = new Button();
             Conveyor_Reference_Sayisi_Paneli = new Panel();
@@ -153,6 +154,9 @@
             btn_Depo_SubMenu_Sil = new Button();
             Conveyor_Olusturma_Paneli = new Panel();
             SubPanel_Conveyor_Olusturma_Paneli = new Panel();
+            txt_ConveyorNo = new Krypton.Toolkit.KryptonTextBox();
+            lbl_ConveyorNo = new Krypton.Toolkit.KryptonWrapLabel();
+            kryptonBorderEdge59 = new Krypton.Toolkit.KryptonBorderEdge();
             lbl_Conveyor_Title = new Krypton.Toolkit.KryptonWrapLabel();
             kryptonBorderEdge50 = new Krypton.Toolkit.KryptonBorderEdge();
             btn_Conveyor_Olustur = new Krypton.Toolkit.KryptonButton();
@@ -367,12 +371,12 @@
             btn_Conveyor_SubMenu_Referans_Ekle = new Button();
             btn_Conveyor_SubMenu_Referans_Yerlerini_Degistir = new Button();
             btn_Conveyor_Menu_Go_Back = new Button();
-            panel_Conveyor_Submenu = new Panel();
-            btn_Conveyor_SubMenu_Yerini_Boyutunu_Degistir = new Button();
-            btn_Conveyor_SubMenu_Conveyor_Sil = new Button();
             panel_Conveyor_Menu = new Panel();
             btn_Conveyor_SubMenu_Referans = new Button();
             btn_Conveyor_SubMenu = new Button();
+            panel_Conveyor_Submenu = new Panel();
+            btn_Conveyor_SubMenu_Yerini_Boyutunu_Degistir = new Button();
+            btn_Conveyor_SubMenu_Conveyor_Sil = new Button();
             RightSide_LayoutPanel = new FlowLayoutPanel();
             LeftSide_Alan_Boyut_Degistirme_Paneli = new Panel();
             kryptonBorderEdge56 = new Krypton.Toolkit.KryptonBorderEdge();
@@ -385,7 +389,7 @@
             txt_Left_Alan_Boyu = new Krypton.Toolkit.KryptonTextBox();
             btn_Left_Alan_Boyut_Degistir_Vazgec = new Krypton.Toolkit.KryptonButton();
             btn_Left_Alan_Boyut_Degistir = new Krypton.Toolkit.KryptonButton();
-            btn_Alan_SubMenu_Conveyor_Siralamasi = new Button();
+            conveyorSıralamasınıAyarlaToolStripMenuItem = new ToolStripMenuItem();
             drawingPanel.SuspendLayout();
             DepoInfoMenu_Panel.SuspendLayout();
             Conveyor_Reference_FixedorManuel_Panel.SuspendLayout();
@@ -435,8 +439,8 @@
             layoutPanel_SelectedConveyor.SuspendLayout();
             groupBox_SelectedConveyor.SuspendLayout();
             panel_Conveyor_SubMenu_Referans.SuspendLayout();
-            panel_Conveyor_Submenu.SuspendLayout();
             panel_Conveyor_Menu.SuspendLayout();
+            panel_Conveyor_Submenu.SuspendLayout();
             RightSide_LayoutPanel.SuspendLayout();
             LeftSide_Alan_Boyut_Degistirme_Paneli.SuspendLayout();
             SuspendLayout();
@@ -871,7 +875,7 @@
             // 
             layoutPanel_Ambar.AutoScroll = true;
             layoutPanel_Ambar.Controls.Add(groupBox_Ambar);
-            layoutPanel_Ambar.Location = new Point(51, 3);
+            layoutPanel_Ambar.Location = new Point(51, 4);
             layoutPanel_Ambar.Margin = new Padding(1);
             layoutPanel_Ambar.Name = "layoutPanel_Ambar";
             layoutPanel_Ambar.Size = new Size(324, 450);
@@ -993,6 +997,23 @@
             panel_Alan_Menu.Name = "panel_Alan_Menu";
             panel_Alan_Menu.Size = new Size(197, 327);
             panel_Alan_Menu.TabIndex = 40;
+            // 
+            // btn_Alan_SubMenu_Conveyor_Siralamasi
+            // 
+            btn_Alan_SubMenu_Conveyor_Siralamasi.FlatStyle = FlatStyle.Flat;
+            btn_Alan_SubMenu_Conveyor_Siralamasi.Font = new Font("Sans Serif Collection", 8F, FontStyle.Bold);
+            btn_Alan_SubMenu_Conveyor_Siralamasi.ForeColor = Color.Black;
+            btn_Alan_SubMenu_Conveyor_Siralamasi.Image = Resources.Resource1.Warehouse;
+            btn_Alan_SubMenu_Conveyor_Siralamasi.ImageAlign = ContentAlignment.MiddleLeft;
+            btn_Alan_SubMenu_Conveyor_Siralamasi.Location = new Point(9, 218);
+            btn_Alan_SubMenu_Conveyor_Siralamasi.Name = "btn_Alan_SubMenu_Conveyor_Siralamasi";
+            btn_Alan_SubMenu_Conveyor_Siralamasi.Size = new Size(179, 97);
+            btn_Alan_SubMenu_Conveyor_Siralamasi.TabIndex = 42;
+            btn_Alan_SubMenu_Conveyor_Siralamasi.TabStop = false;
+            btn_Alan_SubMenu_Conveyor_Siralamasi.Text = "Conveyor\r\nSıralamasını\r\nAyarla";
+            btn_Alan_SubMenu_Conveyor_Siralamasi.TextAlign = ContentAlignment.MiddleRight;
+            btn_Alan_SubMenu_Conveyor_Siralamasi.UseVisualStyleBackColor = true;
+            btn_Alan_SubMenu_Conveyor_Siralamasi.Click += btn_Alan_SubMenu_Conveyor_Siralamasi_Click;
             // 
             // btn_Alan_SubMenu
             // 
@@ -1966,14 +1987,17 @@
             Conveyor_Olusturma_Paneli.BackColor = Color.Turquoise;
             Conveyor_Olusturma_Paneli.Controls.Add(SubPanel_Conveyor_Olusturma_Paneli);
             Conveyor_Olusturma_Paneli.Controls.Add(SubPanel_Conveyor_Olusturma_Paneli_Controls);
-            Conveyor_Olusturma_Paneli.Location = new Point(1851, 1017);
+            Conveyor_Olusturma_Paneli.Location = new Point(1746, 1017);
             Conveyor_Olusturma_Paneli.Name = "Conveyor_Olusturma_Paneli";
-            Conveyor_Olusturma_Paneli.Size = new Size(310, 420);
+            Conveyor_Olusturma_Paneli.Size = new Size(310, 484);
             Conveyor_Olusturma_Paneli.TabIndex = 8;
             // 
             // SubPanel_Conveyor_Olusturma_Paneli
             // 
             SubPanel_Conveyor_Olusturma_Paneli.BackColor = Color.Turquoise;
+            SubPanel_Conveyor_Olusturma_Paneli.Controls.Add(txt_ConveyorNo);
+            SubPanel_Conveyor_Olusturma_Paneli.Controls.Add(lbl_ConveyorNo);
+            SubPanel_Conveyor_Olusturma_Paneli.Controls.Add(kryptonBorderEdge59);
             SubPanel_Conveyor_Olusturma_Paneli.Controls.Add(lbl_Conveyor_Title);
             SubPanel_Conveyor_Olusturma_Paneli.Controls.Add(kryptonBorderEdge50);
             SubPanel_Conveyor_Olusturma_Paneli.Controls.Add(btn_Conveyor_Olustur);
@@ -1985,8 +2009,39 @@
             SubPanel_Conveyor_Olusturma_Paneli.Controls.Add(lbl_Conveyor_Eni);
             SubPanel_Conveyor_Olusturma_Paneli.Location = new Point(2, 61);
             SubPanel_Conveyor_Olusturma_Paneli.Name = "SubPanel_Conveyor_Olusturma_Paneli";
-            SubPanel_Conveyor_Olusturma_Paneli.Size = new Size(306, 356);
+            SubPanel_Conveyor_Olusturma_Paneli.Size = new Size(306, 418);
             SubPanel_Conveyor_Olusturma_Paneli.TabIndex = 39;
+            // 
+            // txt_ConveyorNo
+            // 
+            txt_ConveyorNo.Location = new Point(149, 109);
+            txt_ConveyorNo.Name = "txt_ConveyorNo";
+            txt_ConveyorNo.Size = new Size(123, 26);
+            txt_ConveyorNo.StateCommon.Content.Color1 = SystemColors.GrayText;
+            txt_ConveyorNo.StateCommon.Content.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            txt_ConveyorNo.StateNormal.Content.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            txt_ConveyorNo.TabIndex = 41;
+            // 
+            // lbl_ConveyorNo
+            // 
+            lbl_ConveyorNo.AutoSize = false;
+            lbl_ConveyorNo.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_ConveyorNo.ForeColor = Color.Black;
+            lbl_ConveyorNo.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            lbl_ConveyorNo.Location = new Point(9, 91);
+            lbl_ConveyorNo.Name = "lbl_ConveyorNo";
+            lbl_ConveyorNo.Size = new Size(134, 63);
+            lbl_ConveyorNo.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            lbl_ConveyorNo.StateCommon.TextColor = Color.Black;
+            lbl_ConveyorNo.Text = "Conveyor No:";
+            lbl_ConveyorNo.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // kryptonBorderEdge59
+            // 
+            kryptonBorderEdge59.Location = new Point(63, 157);
+            kryptonBorderEdge59.Name = "kryptonBorderEdge59";
+            kryptonBorderEdge59.Size = new Size(175, 1);
+            kryptonBorderEdge59.Text = "kryptonBorderEdge59";
             // 
             // lbl_Conveyor_Title
             // 
@@ -1999,12 +2054,12 @@
             lbl_Conveyor_Title.Size = new Size(300, 81);
             lbl_Conveyor_Title.StateCommon.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Bold, GraphicsUnit.Point, 162);
             lbl_Conveyor_Title.StateCommon.TextColor = Color.Red;
-            lbl_Conveyor_Title.Text = "Lütfen Conveyor'un Boyutlarını Giriniz";
+            lbl_Conveyor_Title.Text = "Lütfen Conveyor Bilgilerini Giriniz";
             lbl_Conveyor_Title.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // kryptonBorderEdge50
             // 
-            kryptonBorderEdge50.Location = new Point(66, 165);
+            kryptonBorderEdge50.Location = new Point(63, 227);
             kryptonBorderEdge50.Name = "kryptonBorderEdge50";
             kryptonBorderEdge50.Size = new Size(175, 1);
             kryptonBorderEdge50.Text = "kryptonBorderEdge50";
@@ -2012,10 +2067,10 @@
             // btn_Conveyor_Olustur
             // 
             btn_Conveyor_Olustur.CornerRoundingRadius = 20F;
-            btn_Conveyor_Olustur.Location = new Point(12, 259);
+            btn_Conveyor_Olustur.Location = new Point(9, 320);
             btn_Conveyor_Olustur.Name = "btn_Conveyor_Olustur";
             btn_Conveyor_Olustur.Size = new Size(134, 89);
-            btn_Conveyor_Olustur.StateCommon.Back.Image = Resources.Resource1.Conveyor;
+            btn_Conveyor_Olustur.StateCommon.Back.Image = Resources.Resource1.Deployment;
             btn_Conveyor_Olustur.StateCommon.Back.ImageStyle = Krypton.Toolkit.PaletteImageStyle.CenterLeft;
             btn_Conveyor_Olustur.StateCommon.Border.Color2 = Color.Lime;
             btn_Conveyor_Olustur.StateCommon.Border.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
@@ -2043,7 +2098,7 @@
             // btn_Conveyor_Olustur_Vazgec
             // 
             btn_Conveyor_Olustur_Vazgec.CornerRoundingRadius = 20F;
-            btn_Conveyor_Olustur_Vazgec.Location = new Point(151, 259);
+            btn_Conveyor_Olustur_Vazgec.Location = new Point(148, 320);
             btn_Conveyor_Olustur_Vazgec.Name = "btn_Conveyor_Olustur_Vazgec";
             btn_Conveyor_Olustur_Vazgec.Size = new Size(143, 89);
             btn_Conveyor_Olustur_Vazgec.StateCommon.Back.Image = (Image)resources.GetObject("btn_Conveyor_Olustur_Vazgec.StateCommon.Back.Image");
@@ -2067,7 +2122,7 @@
             // 
             // txt_Conveyor_Boyu
             // 
-            txt_Conveyor_Boyu.Location = new Point(152, 196);
+            txt_Conveyor_Boyu.Location = new Point(149, 258);
             txt_Conveyor_Boyu.Name = "txt_Conveyor_Boyu";
             txt_Conveyor_Boyu.Size = new Size(123, 27);
             txt_Conveyor_Boyu.StateCommon.Content.Color1 = SystemColors.GrayText;
@@ -2085,7 +2140,7 @@
             lbl_Conveyor_Boyu.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
             lbl_Conveyor_Boyu.ForeColor = Color.Black;
             lbl_Conveyor_Boyu.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Conveyor_Boyu.Location = new Point(12, 169);
+            lbl_Conveyor_Boyu.Location = new Point(9, 231);
             lbl_Conveyor_Boyu.Name = "lbl_Conveyor_Boyu";
             lbl_Conveyor_Boyu.Size = new Size(134, 80);
             lbl_Conveyor_Boyu.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
@@ -2095,7 +2150,7 @@
             // 
             // txt_Conveyor_Eni
             // 
-            txt_Conveyor_Eni.Location = new Point(152, 117);
+            txt_Conveyor_Eni.Location = new Point(149, 179);
             txt_Conveyor_Eni.Name = "txt_Conveyor_Eni";
             txt_Conveyor_Eni.Size = new Size(123, 27);
             txt_Conveyor_Eni.StateCommon.Content.Color1 = SystemColors.GrayText;
@@ -2113,7 +2168,7 @@
             lbl_Conveyor_Eni.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
             lbl_Conveyor_Eni.ForeColor = Color.Black;
             lbl_Conveyor_Eni.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            lbl_Conveyor_Eni.Location = new Point(12, 99);
+            lbl_Conveyor_Eni.Location = new Point(9, 161);
             lbl_Conveyor_Eni.Name = "lbl_Conveyor_Eni";
             lbl_Conveyor_Eni.Size = new Size(134, 63);
             lbl_Conveyor_Eni.StateCommon.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point, 162);
@@ -4005,7 +4060,7 @@
             btn_Conveyor.FlatAppearance.BorderSize = 0;
             btn_Conveyor.FlatStyle = FlatStyle.Flat;
             btn_Conveyor.Font = new Font("Segoe UI", 10F);
-            btn_Conveyor.Image = Resources.Resource1.Conveyor;
+            btn_Conveyor.Image = Resources.Resource1.Deployment;
             btn_Conveyor.Location = new Point(178, 12);
             btn_Conveyor.Name = "btn_Conveyor";
             btn_Conveyor.Size = new Size(60, 60);
@@ -4451,9 +4506,9 @@
             // ambarMenuStrip
             // 
             ambarMenuStrip.Font = new Font("Segoe UI", 9F);
-            ambarMenuStrip.Items.AddRange(new ToolStripItem[] { alanMenuAcBTN, depolarınDoldurulmaSirasiniAyarla, alanToolStripMenuItem });
+            ambarMenuStrip.Items.AddRange(new ToolStripItem[] { alanMenuAcBTN, conveyorSıralamasınıAyarlaToolStripMenuItem, depolarınDoldurulmaSirasiniAyarla, alanToolStripMenuItem });
             ambarMenuStrip.Name = "MenuStrip";
-            ambarMenuStrip.Size = new Size(268, 70);
+            ambarMenuStrip.Size = new Size(268, 114);
             // 
             // alanMenuAcBTN
             // 
@@ -4479,21 +4534,21 @@
             // boyutunuDeğiştirToolStripMenuItem1
             // 
             boyutunuDeğiştirToolStripMenuItem1.Name = "boyutunuDeğiştirToolStripMenuItem1";
-            boyutunuDeğiştirToolStripMenuItem1.Size = new Size(169, 22);
+            boyutunuDeğiştirToolStripMenuItem1.Size = new Size(180, 22);
             boyutunuDeğiştirToolStripMenuItem1.Text = "Boyutunu Değiştir";
             boyutunuDeğiştirToolStripMenuItem1.Click += boyutunuDeğiştirToolStripMenuItem1_Click;
             // 
             // boşaltToolStripMenuItem
             // 
             boşaltToolStripMenuItem.Name = "boşaltToolStripMenuItem";
-            boşaltToolStripMenuItem.Size = new Size(169, 22);
+            boşaltToolStripMenuItem.Size = new Size(180, 22);
             boşaltToolStripMenuItem.Text = "Boşalt";
             boşaltToolStripMenuItem.Click += boşaltToolStripMenuItem_Click;
             // 
             // silToolStripMenuItem
             // 
             silToolStripMenuItem.Name = "silToolStripMenuItem";
-            silToolStripMenuItem.Size = new Size(169, 22);
+            silToolStripMenuItem.Size = new Size(180, 22);
             silToolStripMenuItem.Text = "Sil";
             silToolStripMenuItem.Click += silToolStripMenuItem_Click;
             // 
@@ -4726,6 +4781,51 @@
             btn_Conveyor_Menu_Go_Back.UseVisualStyleBackColor = true;
             btn_Conveyor_Menu_Go_Back.Click += btn_Conveyor_Menu_Go_Back_Click;
             // 
+            // panel_Conveyor_Menu
+            // 
+            panel_Conveyor_Menu.Controls.Add(btn_Conveyor_SubMenu_Referans);
+            panel_Conveyor_Menu.Controls.Add(btn_Conveyor_SubMenu);
+            panel_Conveyor_Menu.Location = new Point(61, 42);
+            panel_Conveyor_Menu.Name = "panel_Conveyor_Menu";
+            panel_Conveyor_Menu.Size = new Size(197, 327);
+            panel_Conveyor_Menu.TabIndex = 40;
+            // 
+            // btn_Conveyor_SubMenu_Referans
+            // 
+            btn_Conveyor_SubMenu_Referans.FlatStyle = FlatStyle.Flat;
+            btn_Conveyor_SubMenu_Referans.Font = new Font("Sans Serif Collection", 8F, FontStyle.Bold);
+            btn_Conveyor_SubMenu_Referans.ForeColor = Color.Black;
+            btn_Conveyor_SubMenu_Referans.Image = Resources.Resource1.Pain_Point;
+            btn_Conveyor_SubMenu_Referans.ImageAlign = ContentAlignment.MiddleLeft;
+            btn_Conveyor_SubMenu_Referans.Location = new Point(9, 166);
+            btn_Conveyor_SubMenu_Referans.Name = "btn_Conveyor_SubMenu_Referans";
+            btn_Conveyor_SubMenu_Referans.Padding = new Padding(0, 0, 12, 0);
+            btn_Conveyor_SubMenu_Referans.Size = new Size(179, 97);
+            btn_Conveyor_SubMenu_Referans.TabIndex = 37;
+            btn_Conveyor_SubMenu_Referans.TabStop = false;
+            btn_Conveyor_SubMenu_Referans.Text = "Referans Noktası";
+            btn_Conveyor_SubMenu_Referans.TextAlign = ContentAlignment.MiddleRight;
+            btn_Conveyor_SubMenu_Referans.UseVisualStyleBackColor = true;
+            btn_Conveyor_SubMenu_Referans.Click += btn_Conveyor_SubMenu_Referans_Click;
+            // 
+            // btn_Conveyor_SubMenu
+            // 
+            btn_Conveyor_SubMenu.FlatStyle = FlatStyle.Flat;
+            btn_Conveyor_SubMenu.Font = new Font("Sans Serif Collection", 8F, FontStyle.Bold);
+            btn_Conveyor_SubMenu.ForeColor = Color.Black;
+            btn_Conveyor_SubMenu.Image = Resources.Resource1.Conveyor;
+            btn_Conveyor_SubMenu.ImageAlign = ContentAlignment.MiddleLeft;
+            btn_Conveyor_SubMenu.Location = new Point(9, 63);
+            btn_Conveyor_SubMenu.Name = "btn_Conveyor_SubMenu";
+            btn_Conveyor_SubMenu.Padding = new Padding(0, 0, 10, 0);
+            btn_Conveyor_SubMenu.Size = new Size(179, 97);
+            btn_Conveyor_SubMenu.TabIndex = 38;
+            btn_Conveyor_SubMenu.TabStop = false;
+            btn_Conveyor_SubMenu.Text = "Conveyor";
+            btn_Conveyor_SubMenu.TextAlign = ContentAlignment.MiddleRight;
+            btn_Conveyor_SubMenu.UseVisualStyleBackColor = true;
+            btn_Conveyor_SubMenu.Click += btn_Conveyor_SubMenu_Click;
+            // 
             // panel_Conveyor_Submenu
             // 
             panel_Conveyor_Submenu.Controls.Add(btn_Conveyor_SubMenu_Yerini_Boyutunu_Degistir);
@@ -4772,51 +4872,6 @@
             btn_Conveyor_SubMenu_Conveyor_Sil.TextAlign = ContentAlignment.MiddleRight;
             btn_Conveyor_SubMenu_Conveyor_Sil.UseVisualStyleBackColor = true;
             btn_Conveyor_SubMenu_Conveyor_Sil.Click += btn_Conveyor_SubMenu_Conveyor_Sil_Click;
-            // 
-            // panel_Conveyor_Menu
-            // 
-            panel_Conveyor_Menu.Controls.Add(btn_Conveyor_SubMenu_Referans);
-            panel_Conveyor_Menu.Controls.Add(btn_Conveyor_SubMenu);
-            panel_Conveyor_Menu.Location = new Point(61, 42);
-            panel_Conveyor_Menu.Name = "panel_Conveyor_Menu";
-            panel_Conveyor_Menu.Size = new Size(197, 327);
-            panel_Conveyor_Menu.TabIndex = 40;
-            // 
-            // btn_Conveyor_SubMenu_Referans
-            // 
-            btn_Conveyor_SubMenu_Referans.FlatStyle = FlatStyle.Flat;
-            btn_Conveyor_SubMenu_Referans.Font = new Font("Sans Serif Collection", 8F, FontStyle.Bold);
-            btn_Conveyor_SubMenu_Referans.ForeColor = Color.Black;
-            btn_Conveyor_SubMenu_Referans.Image = Resources.Resource1.Pain_Point;
-            btn_Conveyor_SubMenu_Referans.ImageAlign = ContentAlignment.MiddleLeft;
-            btn_Conveyor_SubMenu_Referans.Location = new Point(9, 166);
-            btn_Conveyor_SubMenu_Referans.Name = "btn_Conveyor_SubMenu_Referans";
-            btn_Conveyor_SubMenu_Referans.Padding = new Padding(0, 0, 12, 0);
-            btn_Conveyor_SubMenu_Referans.Size = new Size(179, 97);
-            btn_Conveyor_SubMenu_Referans.TabIndex = 37;
-            btn_Conveyor_SubMenu_Referans.TabStop = false;
-            btn_Conveyor_SubMenu_Referans.Text = "Referans Noktası";
-            btn_Conveyor_SubMenu_Referans.TextAlign = ContentAlignment.MiddleRight;
-            btn_Conveyor_SubMenu_Referans.UseVisualStyleBackColor = true;
-            btn_Conveyor_SubMenu_Referans.Click += btn_Conveyor_SubMenu_Referans_Click;
-            // 
-            // btn_Conveyor_SubMenu
-            // 
-            btn_Conveyor_SubMenu.FlatStyle = FlatStyle.Flat;
-            btn_Conveyor_SubMenu.Font = new Font("Sans Serif Collection", 8F, FontStyle.Bold);
-            btn_Conveyor_SubMenu.ForeColor = Color.Black;
-            btn_Conveyor_SubMenu.Image = Resources.Resource1.Conveyor;
-            btn_Conveyor_SubMenu.ImageAlign = ContentAlignment.MiddleLeft;
-            btn_Conveyor_SubMenu.Location = new Point(9, 63);
-            btn_Conveyor_SubMenu.Name = "btn_Conveyor_SubMenu";
-            btn_Conveyor_SubMenu.Padding = new Padding(0, 0, 10, 0);
-            btn_Conveyor_SubMenu.Size = new Size(179, 97);
-            btn_Conveyor_SubMenu.TabIndex = 38;
-            btn_Conveyor_SubMenu.TabStop = false;
-            btn_Conveyor_SubMenu.Text = "Conveyor";
-            btn_Conveyor_SubMenu.TextAlign = ContentAlignment.MiddleRight;
-            btn_Conveyor_SubMenu.UseVisualStyleBackColor = true;
-            btn_Conveyor_SubMenu.Click += btn_Conveyor_SubMenu_Click;
             // 
             // RightSide_LayoutPanel
             // 
@@ -4982,22 +5037,12 @@
             btn_Left_Alan_Boyut_Degistir.Values.Text = "Boyut\r\nDeğiştir";
             btn_Left_Alan_Boyut_Degistir.Click += btn_Left_Alan_Boyut_Degistir_Click;
             // 
-            // btn_Alan_SubMenu_Conveyor_Siralamasi
+            // conveyorSıralamasınıAyarlaToolStripMenuItem
             // 
-            btn_Alan_SubMenu_Conveyor_Siralamasi.FlatStyle = FlatStyle.Flat;
-            btn_Alan_SubMenu_Conveyor_Siralamasi.Font = new Font("Sans Serif Collection", 8F, FontStyle.Bold);
-            btn_Alan_SubMenu_Conveyor_Siralamasi.ForeColor = Color.Black;
-            btn_Alan_SubMenu_Conveyor_Siralamasi.Image = Resources.Resource1.Warehouse;
-            btn_Alan_SubMenu_Conveyor_Siralamasi.ImageAlign = ContentAlignment.MiddleLeft;
-            btn_Alan_SubMenu_Conveyor_Siralamasi.Location = new Point(9, 218);
-            btn_Alan_SubMenu_Conveyor_Siralamasi.Name = "btn_Alan_SubMenu_Conveyor_Siralamasi";
-            btn_Alan_SubMenu_Conveyor_Siralamasi.Size = new Size(179, 97);
-            btn_Alan_SubMenu_Conveyor_Siralamasi.TabIndex = 42;
-            btn_Alan_SubMenu_Conveyor_Siralamasi.TabStop = false;
-            btn_Alan_SubMenu_Conveyor_Siralamasi.Text = "Conveyor\r\nSıralamasını\r\nAyarla";
-            btn_Alan_SubMenu_Conveyor_Siralamasi.TextAlign = ContentAlignment.MiddleRight;
-            btn_Alan_SubMenu_Conveyor_Siralamasi.UseVisualStyleBackColor = true;
-            btn_Alan_SubMenu_Conveyor_Siralamasi.Click += btn_Alan_SubMenu_Conveyor_Siralamasi_Click;
+            conveyorSıralamasınıAyarlaToolStripMenuItem.Name = "conveyorSıralamasınıAyarlaToolStripMenuItem";
+            conveyorSıralamasınıAyarlaToolStripMenuItem.Size = new Size(267, 22);
+            conveyorSıralamasınıAyarlaToolStripMenuItem.Text = "Conveyor Sıralamasını Ayarla";
+            conveyorSıralamasınıAyarlaToolStripMenuItem.Click += conveyorSıralamasınıAyarlaToolStripMenuItem_Click;
             // 
             // LayoutOlusturma
             // 
@@ -5084,8 +5129,8 @@
             layoutPanel_SelectedConveyor.ResumeLayout(false);
             groupBox_SelectedConveyor.ResumeLayout(false);
             panel_Conveyor_SubMenu_Referans.ResumeLayout(false);
-            panel_Conveyor_Submenu.ResumeLayout(false);
             panel_Conveyor_Menu.ResumeLayout(false);
+            panel_Conveyor_Submenu.ResumeLayout(false);
             RightSide_LayoutPanel.ResumeLayout(false);
             LeftSide_Alan_Boyut_Degistirme_Paneli.ResumeLayout(false);
             LeftSide_Alan_Boyut_Degistirme_Paneli.PerformLayout();
@@ -5453,5 +5498,9 @@
         private Krypton.Toolkit.KryptonWrapLabel lbl_DepoInfoMenu_Title;
         public Button button1;
         public Button btn_Alan_SubMenu_Conveyor_Siralamasi;
+        public Krypton.Toolkit.KryptonTextBox txt_ConveyorNo;
+        public Krypton.Toolkit.KryptonWrapLabel lbl_ConveyorNo;
+        public Krypton.Toolkit.KryptonBorderEdge kryptonBorderEdge59;
+        private ToolStripMenuItem conveyorSıralamasınıAyarlaToolStripMenuItem;
     }
 }
