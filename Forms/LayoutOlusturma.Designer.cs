@@ -351,6 +351,7 @@
             Conveyor_silToolStripMenuItem = new ToolStripMenuItem();
             ambarMenuStrip = new ContextMenuStrip(components);
             alanMenuAcBTN = new ToolStripMenuItem();
+            conveyorSıralamasınıAyarlaToolStripMenuItem = new ToolStripMenuItem();
             depolarınDoldurulmaSirasiniAyarla = new ToolStripMenuItem();
             alanToolStripMenuItem = new ToolStripMenuItem();
             boyutunuDeğiştirToolStripMenuItem1 = new ToolStripMenuItem();
@@ -389,7 +390,6 @@
             txt_Left_Alan_Boyu = new Krypton.Toolkit.KryptonTextBox();
             btn_Left_Alan_Boyut_Degistir_Vazgec = new Krypton.Toolkit.KryptonButton();
             btn_Left_Alan_Boyut_Degistir = new Krypton.Toolkit.KryptonButton();
-            conveyorSıralamasınıAyarlaToolStripMenuItem = new ToolStripMenuItem();
             drawingPanel.SuspendLayout();
             DepoInfoMenu_Panel.SuspendLayout();
             Conveyor_Reference_FixedorManuel_Panel.SuspendLayout();
@@ -793,6 +793,7 @@
             chk_Conveyor_Reference_Left.TabIndex = 4;
             chk_Conveyor_Reference_Left.Text = "Sol Kenarın Ortasına";
             chk_Conveyor_Reference_Left.UseVisualStyleBackColor = true;
+            chk_Conveyor_Reference_Left.CheckedChanged += chk_Conveyor_Reference_Center_CheckedChanged;
             // 
             // chk_Conveyor_Reference_Right
             // 
@@ -805,6 +806,7 @@
             chk_Conveyor_Reference_Right.TabIndex = 3;
             chk_Conveyor_Reference_Right.Text = "Sağ Kenarın Ortasına";
             chk_Conveyor_Reference_Right.UseVisualStyleBackColor = true;
+            chk_Conveyor_Reference_Right.CheckedChanged += chk_Conveyor_Reference_Center_CheckedChanged;
             // 
             // chk_Conveyor_Reference_Center
             // 
@@ -817,6 +819,7 @@
             chk_Conveyor_Reference_Center.TabIndex = 2;
             chk_Conveyor_Reference_Center.Text = "Merkeze";
             chk_Conveyor_Reference_Center.UseVisualStyleBackColor = true;
+            chk_Conveyor_Reference_Center.CheckedChanged += chk_Conveyor_Reference_Center_CheckedChanged;
             // 
             // chk_Conveyor_Reference_Bottom
             // 
@@ -829,6 +832,7 @@
             chk_Conveyor_Reference_Bottom.TabIndex = 1;
             chk_Conveyor_Reference_Bottom.Text = "Alt Kenarın Ortasına";
             chk_Conveyor_Reference_Bottom.UseVisualStyleBackColor = true;
+            chk_Conveyor_Reference_Bottom.CheckedChanged += chk_Conveyor_Reference_Center_CheckedChanged;
             // 
             // chk_Conveyor_Reference_Top
             // 
@@ -841,6 +845,7 @@
             chk_Conveyor_Reference_Top.TabIndex = 0;
             chk_Conveyor_Reference_Top.Text = "Üst Kenarın Ortasına";
             chk_Conveyor_Reference_Top.UseVisualStyleBackColor = true;
+            chk_Conveyor_Reference_Top.CheckedChanged += chk_Conveyor_Reference_Center_CheckedChanged;
             // 
             // lbl_Conveyor_Reference_Fixed_Title
             // 
@@ -4508,7 +4513,7 @@
             ambarMenuStrip.Font = new Font("Segoe UI", 9F);
             ambarMenuStrip.Items.AddRange(new ToolStripItem[] { alanMenuAcBTN, conveyorSıralamasınıAyarlaToolStripMenuItem, depolarınDoldurulmaSirasiniAyarla, alanToolStripMenuItem });
             ambarMenuStrip.Name = "MenuStrip";
-            ambarMenuStrip.Size = new Size(268, 114);
+            ambarMenuStrip.Size = new Size(268, 92);
             // 
             // alanMenuAcBTN
             // 
@@ -4516,6 +4521,13 @@
             alanMenuAcBTN.Size = new Size(267, 22);
             alanMenuAcBTN.Text = "Menüyü Aç";
             alanMenuAcBTN.Click += alanMenuAcBTN_Click;
+            // 
+            // conveyorSıralamasınıAyarlaToolStripMenuItem
+            // 
+            conveyorSıralamasınıAyarlaToolStripMenuItem.Name = "conveyorSıralamasınıAyarlaToolStripMenuItem";
+            conveyorSıralamasınıAyarlaToolStripMenuItem.Size = new Size(267, 22);
+            conveyorSıralamasınıAyarlaToolStripMenuItem.Text = "Conveyor Sıralamasını Ayarla";
+            conveyorSıralamasınıAyarlaToolStripMenuItem.Click += conveyorSıralamasınıAyarlaToolStripMenuItem_Click;
             // 
             // depolarınDoldurulmaSirasiniAyarla
             // 
@@ -4534,21 +4546,21 @@
             // boyutunuDeğiştirToolStripMenuItem1
             // 
             boyutunuDeğiştirToolStripMenuItem1.Name = "boyutunuDeğiştirToolStripMenuItem1";
-            boyutunuDeğiştirToolStripMenuItem1.Size = new Size(180, 22);
+            boyutunuDeğiştirToolStripMenuItem1.Size = new Size(169, 22);
             boyutunuDeğiştirToolStripMenuItem1.Text = "Boyutunu Değiştir";
             boyutunuDeğiştirToolStripMenuItem1.Click += boyutunuDeğiştirToolStripMenuItem1_Click;
             // 
             // boşaltToolStripMenuItem
             // 
             boşaltToolStripMenuItem.Name = "boşaltToolStripMenuItem";
-            boşaltToolStripMenuItem.Size = new Size(180, 22);
+            boşaltToolStripMenuItem.Size = new Size(169, 22);
             boşaltToolStripMenuItem.Text = "Boşalt";
             boşaltToolStripMenuItem.Click += boşaltToolStripMenuItem_Click;
             // 
             // silToolStripMenuItem
             // 
             silToolStripMenuItem.Name = "silToolStripMenuItem";
-            silToolStripMenuItem.Size = new Size(180, 22);
+            silToolStripMenuItem.Size = new Size(169, 22);
             silToolStripMenuItem.Text = "Sil";
             silToolStripMenuItem.Click += silToolStripMenuItem_Click;
             // 
@@ -5036,13 +5048,6 @@
             btn_Left_Alan_Boyut_Degistir.TabIndex = 2;
             btn_Left_Alan_Boyut_Degistir.Values.Text = "Boyut\r\nDeğiştir";
             btn_Left_Alan_Boyut_Degistir.Click += btn_Left_Alan_Boyut_Degistir_Click;
-            // 
-            // conveyorSıralamasınıAyarlaToolStripMenuItem
-            // 
-            conveyorSıralamasınıAyarlaToolStripMenuItem.Name = "conveyorSıralamasınıAyarlaToolStripMenuItem";
-            conveyorSıralamasınıAyarlaToolStripMenuItem.Size = new Size(267, 22);
-            conveyorSıralamasınıAyarlaToolStripMenuItem.Text = "Conveyor Sıralamasını Ayarla";
-            conveyorSıralamasınıAyarlaToolStripMenuItem.Click += conveyorSıralamasınıAyarlaToolStripMenuItem_Click;
             // 
             // LayoutOlusturma
             // 

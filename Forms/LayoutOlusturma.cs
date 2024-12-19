@@ -2349,6 +2349,7 @@ namespace Balya_Yerleştirme
                             ConveyorOrdering = false;
                             ConveyorCountList.Clear();
                         }
+
                     }
 
                     Ambar.OnMouseDown(e);
@@ -2369,6 +2370,43 @@ namespace Balya_Yerleştirme
                             MainPanelCloseLeftSide(LeftSide_LayoutPanel, this);
                             SortFlowLayoutPanel(LayoutPanel_Alan_Hierarchy);
                             UnselectNodes();
+                        }
+                    }
+                }
+                else if (AddReferencePoint)
+                {
+
+                    foreach (var conveyor in Ambar.conveyors)
+                    {
+                        if (conveyor.Rectangle.Contains(scaledPoint))
+                        {
+                            conveyornull = true;
+                        }
+                    }
+
+                    if (!conveyornull)
+                    {
+                        selectedConveyor = null;
+                        SelectedConveyorEdgePen.Width = 2;
+                        SelectedConveyorPen.Width = 2;
+                        SelectedConveyorPen.Color = System.Drawing.Color.Black;
+
+                        if (drawingPanel.Controls.Contains(Conveyor_Reference_Fixed_Panel) && AddReferencePoint)
+                        {
+                            GVisual.HideControl(Conveyor_Reference_Fixed_Panel, drawingPanel);
+                            AddReferencePoint = false;
+                        }
+
+                        if (drawingPanel.Controls.Contains(Conveyor_Reference_FixedorManuel_Panel))
+                        {
+                            GVisual.HideControl(Conveyor_Reference_FixedorManuel_Panel, drawingPanel);
+                            AddReferencePoint = false;
+                        }
+
+                        if (drawingPanel.Controls.Contains(Conveyor_Reference_Sayisi_Paneli))
+                        {
+                            GVisual.HideControl(Conveyor_Reference_Sayisi_Paneli, drawingPanel);
+                            AddReferencePoint = false;
                         }
                     }
                 }
@@ -6424,6 +6462,15 @@ namespace Balya_Yerleştirme
                 tempRef.Add(reff);
             }
 
+            foreach (var refff in tempRef)
+            {
+                if (refff.FixedPointLocation == string.Empty)
+                {
+                    selectedConveyor.ConveyorReferencePoints.Remove(refff);
+                }
+            }
+            ClearReferencePointsFromDB(selectedConveyor);
+
             if (chk_Conveyor_Reference_Top.Checked)
             {
                 bool istop = false;
@@ -6647,6 +6694,10 @@ namespace Balya_Yerleştirme
 
                 if (!errorProvider.HasErrors)
                 {
+                    selectedConveyor.ConveyorReferencePoints.Clear();
+
+                    ClearReferencePointsFromDB(selectedConveyor);
+
                     ConveyorReferencePoint point = new ConveyorReferencePoint(10, 10, 6, 6, 1f, null, selectedConveyor, this);
 
                     PointF newpoint = ResizeandMoveChildRectangleInsideParent(selectedConveyor.Rectangle,
@@ -6691,7 +6742,23 @@ namespace Balya_Yerleştirme
             }
         }
 
-
+        private void ClearReferencePointsFromDB(Conveyor conveyor)
+        {
+            using (var context = new DBContext())
+            {
+                var reffs = (from x in context.ConveyorReferencePoints
+                             where x.ConveyorId == conveyor.ConveyorId
+                             select x).ToList();
+                if (reffs.Count > 0)
+                {
+                    foreach (var reff in reffs)
+                    {
+                        context.ConveyorReferencePoints.Remove(reff);
+                        context.SaveChanges();
+                    }
+                }
+            }
+        }
 
         //Select if Manual or Fixed Reference Points
         private void btn_Select_Fixed_Conveyor_Reference_Point_Click(object sender, EventArgs e)
@@ -8262,6 +8329,49 @@ namespace Balya_Yerleştirme
             }
         }
 
+        private void chk_Conveyor_Reference_Center_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chk_Conveyor_Reference_Center.Checked && sender == chk_Conveyor_Reference_Center)
+            {
+                UncheckConveyorRefBoxes(chk_Conveyor_Reference_Center);
+            }
+            if (chk_Conveyor_Reference_Top.Checked && sender == chk_Conveyor_Reference_Top)
+            {
+                UncheckConveyorRefBoxes(chk_Conveyor_Reference_Top);
+            }
+            if (chk_Conveyor_Reference_Left.Checked && sender == chk_Conveyor_Reference_Left)
+            {
+                UncheckConveyorRefBoxes(chk_Conveyor_Reference_Left);
+            }
+            if (chk_Conveyor_Reference_Bottom.Checked && sender == chk_Conveyor_Reference_Bottom)
+            {
+                UncheckConveyorRefBoxes(chk_Conveyor_Reference_Bottom);
+            }
+            if (chk_Conveyor_Reference_Right.Checked && sender == chk_Conveyor_Reference_Right)
+            {
+                UncheckConveyorRefBoxes(chk_Conveyor_Reference_Right);
+            }
+        }
+
+        private void UncheckConveyorRefBoxes(CheckBox checkbox)
+        {
+            List<CheckBox> checkBoxes = new List<CheckBox>();
+
+            checkBoxes.Add(chk_Conveyor_Reference_Top);
+            checkBoxes.Add(chk_Conveyor_Reference_Left);
+            checkBoxes.Add(chk_Conveyor_Reference_Bottom);
+            checkBoxes.Add(chk_Conveyor_Reference_Center);
+            checkBoxes.Add(chk_Conveyor_Reference_Right);
+
+            foreach (var chk in checkBoxes)
+            {
+                if (chk != checkbox)
+                {
+                    chk.Checked = false;
+                }
+            }
+
+        }
 
         #endregion
 
