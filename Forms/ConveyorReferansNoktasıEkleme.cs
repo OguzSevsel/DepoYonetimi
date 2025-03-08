@@ -16,14 +16,14 @@ namespace Balya_Yerleştirme
 {
     public partial class ConveyorReferansNoktasıEkleme : Form
     {
-        public Conveyor conveyor {  get; set; }
+        public Conveyor conveyor { get; set; }
         public Panel panel { get; set; }
         public RectangleF Rectangle { get; set; }
         public RectangleF OriginalRectangle { get; set; }
         public Pen Pen { get; set; } = new Pen(Color.Blue, 2);
         public PointF LocationofRect { get; set; }
         public int drawingPanelMoveConst = 346 / 2;
-        public RectangleF PointRectangle {  get; set; }
+        public RectangleF PointRectangle { get; set; }
         public List<RectangleF> PointRectangles { get; set; }
         public List<Models.ConveyorReferencePoint> ConveyorReffs { get; set; } = new List<Models.ConveyorReferencePoint>();
 
@@ -36,7 +36,7 @@ namespace Balya_Yerleştirme
             this.MaximizeBox = false;
             conveyor = Conveyor;
             panel = Panel;
-            PointRectangle = new RectangleF(0,0,4,4);
+            PointRectangle = new RectangleF(0, 0, 4, 4);
             PointRectangles = new List<RectangleF>();
             Rectangle = conveyor.OriginalRectangle;
             Rectangle = ResizetoNewPanel(Rectangle);
@@ -69,7 +69,7 @@ namespace Balya_Yerleştirme
                 return rectangle;
             }
         }
-        
+
         private void drawingPanel_MouseClick(object sender, MouseEventArgs e)
         {
             if (isEkle)
@@ -133,7 +133,7 @@ namespace Balya_Yerleştirme
                 btn_Ref_Vazgec.StateCommon.Content.ShortText.Color1 = Color.LightGray;
             }
         }
-        
+
         private void Hide_Onayla_Button()
         {
             btn_Ref_Onayla.Enabled = false;
